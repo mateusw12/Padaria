@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { GridModule } from '@syncfusion/ej2-angular-grids';
-import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import {
-  ContextMenuModule,
   SidebarModule,
-  TreeViewModule,
+  TreeViewModule
 } from '@syncfusion/ej2-angular-navigations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,15 +23,7 @@ import { SuppliersComponent } from './module/pages/suppliers/src/suppliers.compo
     ManufacturersComponent,
     EmployeesComponent,
   ],
-  imports: [
-    BrowserModule,
-    ContextMenuModule,
-    TreeViewModule,
-    SidebarModule,
-    GridModule,
-    TextBoxModule,
-    AppRoutingModule,
-  ],
+  imports: [BrowserModule, TreeViewModule, SidebarModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent],
 })
