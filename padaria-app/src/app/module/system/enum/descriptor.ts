@@ -1,4 +1,4 @@
-import { Enum } from '../../src';
+import { Enum } from "../internal/interfaces";
 
 declare type EnumDescription<T> = {
   [key in keyof T]: string;

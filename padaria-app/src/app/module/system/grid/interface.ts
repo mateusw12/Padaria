@@ -4,7 +4,7 @@ import {
   ColumnModel,
   TextAlign
 } from '@syncfusion/ej2-angular-grids';
-import { Nilable } from '../../internal/src';
+import { Nilable } from '../internal/interfaces';
 export declare type SfGridColumnType =
   | 'string'
   | 'number'

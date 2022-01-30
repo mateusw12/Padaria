@@ -1,7 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  ToastUtility
-} from '@syncfusion/ej2-angular-notifications';
+import { ToastUtility } from '@syncfusion/ej2-angular-notifications';
 
 @Component({
   selector: 'app-toast-service',
@@ -10,8 +8,7 @@ import {
 export class ToastServiceComponent implements OnInit, OnDestroy {
   constructor() {}
 
-  toastObj: any;
-  position = { X: 'Right' };
+  private toastObj: any;
 
   ngOnInit(): void {}
 
@@ -23,9 +20,17 @@ export class ToastServiceComponent implements OnInit, OnDestroy {
     );
   }
 
-  async warningFormToast(message?: string): Promise<void> {
+  async updateToast(message?: string): Promise<void> {
     this.toastObj = ToastUtility.show(
-      message ? message : 'Formulário inválido!',
+      message ? message : 'Alterado com sucesso!',
+      'Success',
+      1000
+    );
+  }
+
+  async alertToast(message?: string): Promise<void> {
+    this.toastObj = ToastUtility.show(
+      message ? message : 'Erro ao realizar a tarefa!',
       'Warning',
       1000
     );
@@ -39,9 +44,9 @@ export class ToastServiceComponent implements OnInit, OnDestroy {
     );
   }
 
-  async dangerToast(message?: string): Promise<void> {
+  async errorToast(message?: string): Promise<void> {
     this.toastObj = ToastUtility.show(
-      message ? message : 'Erro, ocorreu um problema',
+      `Erro, ocorreu um problema ${message}`,
       'Error',
       1000
     );

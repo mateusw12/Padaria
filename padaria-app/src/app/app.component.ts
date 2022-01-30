@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   SidebarComponent,
-  TreeViewComponent
+  TreeViewComponent,
 } from '@syncfusion/ej2-angular-navigations';
 import { MenuSideBar, MenuSideBarNode } from './module/models';
 
@@ -63,10 +63,10 @@ export class AppComponent {
     const id = data.nodeData.id;
     if (id === '02') {
       this.employeeLoad = false;
+      this.employeeLoad = false;
       this.manufacturerLoad = false;
       this.jobsLoad = false;
       this.productsLoad = false;
-      this.router.navigateByUrl('departaments');
       this.departamentsLoad = true;
     }
     if (id === '03') {
@@ -76,7 +76,6 @@ export class AppComponent {
       this.manufacturerLoad = false;
       this.jobsLoad = false;
       this.productsLoad = false;
-      this.router.navigateByUrl('suppliers');
       this.suppliersLoad = true;
     }
     if (id === '04') {
@@ -86,7 +85,6 @@ export class AppComponent {
       this.manufacturerLoad = false;
       this.jobsLoad = false;
       this.productsLoad = false;
-      this.router.navigateByUrl('employee');
       this.employeeLoad = true;
     }
     if (id === '05') {
@@ -97,7 +95,6 @@ export class AppComponent {
       this.employeeLoad = false;
       this.jobsLoad = false;
       this.productsLoad = false;
-      this.router.navigateByUrl('manufacturers');
       this.manufacturerLoad = true;
     }
     if (id === '06') {
@@ -108,7 +105,6 @@ export class AppComponent {
       this.employeeLoad = false;
       this.jobsLoad = false;
       this.manufacturerLoad = false;
-      this.router.navigateByUrl('products');
       this.productsLoad = true;
     }
     if (id === '07') {
@@ -119,7 +115,6 @@ export class AppComponent {
       this.employeeLoad = false;
       this.productsLoad = false;
       this.manufacturerLoad = false;
-      this.router.navigateByUrl('jobs');
       this.jobsLoad = true;
     }
   }

@@ -1,4 +1,4 @@
-import { Enum, Nilable } from '../../src';
+import { Enum, Nilable } from "../internal/interfaces";
 
 export declare function getDescription<T>(
   enumeration: Enum<T>,

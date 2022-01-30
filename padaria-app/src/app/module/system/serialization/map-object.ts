@@ -1,5 +1,5 @@
-import { Class } from '../../src';
 import { OperatorFunction } from 'rxjs';
+import { Class } from '../internal/interfaces';
 
 export declare function mapObject<T>(
   type: Class<T>

@@ -5,7 +5,7 @@ import {
   TextAlign
 } from '@syncfusion/ej2-angular-grids';
 import { DateFormatOptions, NumberFormatOptions } from '@syncfusion/ej2-base';
-import { Enum, Key } from '../../internal/src';
+import { Enum, Key } from '../internal/interfaces';
 import {
   SfGridAggregateType, SfGridCalculateFn, SfGridColumnEditType, SfGridColumnModel,
   SfGridColumnType, SfGridCustomAggregateFn,
