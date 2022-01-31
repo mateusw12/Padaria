@@ -13,11 +13,12 @@ import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DepartamentsComponent } from './module/pages/departaments/src/departaments.component';
+import { ManufacturersComponent } from './module/pages/manufacturers/src/manufacturers.component';
 
 @NgModule({
-  declarations: [AppComponent, DepartamentsComponent],
+  declarations: [AppComponent, DepartamentsComponent, ManufacturersComponent],
   imports: [
-    BrowserModule,
+  BrowserModule,
     TreeViewModule,
     ButtonModule,
     TextBoxModule,
@@ -34,3 +35,4 @@ import { DepartamentsComponent } from './module/pages/departaments/src/departame
   providers: [],
 })
 export class AppModule {}
+

@@ -65,10 +65,16 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
 
   async onRemove(model: GridRow): Promise<void> {
     if (!model.id) return;
-    const index = this.dataSource.indexOf(model, model.id);
-    this.dataSource.splice(index, 1);
-    await this.toastService.removeToast('Removido');
-    this.gridComponent.dataSource = this.dataSource.slice();
+    this.departametService
+      .deleteById(model.id)
+      .pipe()
+      .subscribe(
+        async () => {
+          await this.toastService.removeToast('Removido');
+        },
+        (error) => this.toastService.errorToast(error)
+      );
+    this.loadData();
   }
 
   async onSaveClick(): Promise<void> {

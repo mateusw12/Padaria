@@ -1,5 +1,9 @@
 import { Observable, Subscribable } from 'rxjs';
 
+
+export class untilDestroy {
+
+}
 /**
  * implementa o subscribe se cancelável
  * @param instance
@@ -20,3 +24,4 @@ export declare function untilDestroyedAsync<T>(
   instance: object,
   destroyMethodName?: string
 ): Promise<T>;
+

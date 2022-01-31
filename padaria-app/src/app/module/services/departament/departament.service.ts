@@ -32,4 +32,8 @@ export class DepartamentService implements AfterViewInit {
       departament
     );
   }
+
+  deleteById(id: number) {
+    return this.httpCliente.delete(`${departament_Url}/${id}`).pipe();
+  }
 }
