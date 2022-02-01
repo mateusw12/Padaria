@@ -3,7 +3,7 @@ import { AfterViewInit, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Manufacturer } from 'src/app/module/models';
 
-const manufacturer_Url = '/api/manufacturer';
+const manufacturer_Url = '/api/fabricante';
 
 @Injectable({
   providedIn: 'root',
