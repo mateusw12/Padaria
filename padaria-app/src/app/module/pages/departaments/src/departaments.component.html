@@ -10,12 +10,13 @@
           [rowHeight]="40"
           [allowSorting]="true"
           [dataSource]="dataSource"
+          [enableColumnVirtualization]="true "
           class="align-grid">
   <e-columns>
     <e-column headerTextAlign="left" width="50">
       <ng-template #template let-data>
         <div class='e-btn-group align-button-icon'>
-          <button ejs-button class="e-info" iconCss='e-icons e-edit' (click)="onEdit(data)"></button>
+          <button ejs-button class="e-info" iconCss='e-icons e-edit' (click)="onEdit(data)" ></button>
           <button ejs-button class="e-danger align" iconCss='e-icons e-cancel' (click)="onRemove(data)"></button>
         </div>
       </ng-template>
@@ -34,7 +35,6 @@
             showCloseIcon="true"
             (close)="onModalClose()"
             width="50%"
-            height="30%"
             [content]="body"
             [footerTemplate]="footer">
 </ejs-dialog>

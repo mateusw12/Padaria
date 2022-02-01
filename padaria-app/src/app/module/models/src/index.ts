@@ -5,3 +5,4 @@ export * from './job/job';
 export * from './level-schooling/level-schooling';
 export * from './zip-code-addresses/zip-code-addresses';
 export * from './state/state';
+export * from './supplier/supplier'

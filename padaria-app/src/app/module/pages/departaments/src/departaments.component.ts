@@ -40,7 +40,15 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
   constructor(private toastService: ToastServiceComponent) {}
 
   ngOnInit(): void {
-    this.loadData();
+    // this.loadData();
+      this.dataSource = [
+        { id: 1, name: 'mateus' },
+        { id: 1, name: 'asd' },
+        { id: 1, name: 'fasfas' },
+        { id: 1, name: 'matfdsfeus' },
+        { id: 1, name: 'matesdffdus' },
+      ];
+
   }
 
   async onOpen(id?: number): Promise<void> {
@@ -116,7 +124,6 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
       .findAll()
       .pipe()
       .subscribe(async (departaments) => {
-        this.dataSource = departaments;
       });
   }
 

@@ -1,1 +1,117 @@
-<p>suppliers works!</p>
+<div class="align-button">
+  <button ejs-button content="Adicionar" class="e-success" iconCss="e-icons e-plus" (click)="onOpen()">
+  </button>
+</div>
+
+<ejs-grid [height]="450"
+          [rowHeight]="40"
+          [allowSorting]="true"
+          [dataSource]="dataSource"
+          class="align-grid">
+  <e-columns>
+    <e-column headerTextAlign="left" width="50">
+      <ng-template #template let-data>
+        <div class='e-btn-group align-button-icon'>
+          <button ejs-button class="e-info" iconCss='e-icons e-edit' (click)="onEdit(data)"></button>
+          <button ejs-button class="e-danger align" iconCss='e-icons e-cancel' (click)="onRemove(data)"></button>
+        </div>
+      </ng-template>
+    </e-column>
+    <e-column field="id" headerText="Código" headerTextAlign="center" textAlign="center" width="50" isPrimaryKey="true">
+    </e-column>
+    <e-column field="name" headerText="Nome" headerTextAlign="left" textAlign="left" width="100"></e-column>
+    <e-column field="cnpj" headerText="CNPJ" headerTextAlign="left" textAlign="left" width="50"></e-column>
+    <e-column field="state" headerText="Estado" headerTextAlign="left" textAlign="left" width="100"></e-column>
+    <e-column field="city" headerText="Cidade" headerTextAlign="left" textAlign="left" width="100"></e-column>
+    <e-column field="email" headerText="E-mail" headerTextAlign="left" textAlign="left" width="100"></e-column>
+  </e-columns>
+</ejs-grid>
+
+<div *ngIf="isModalOpen">
+  <ejs-dialog id='dialog' #modal
+  header="Cadastro de Fornecedor"
+  isModal='true' showCloseIcon="true"
+    (close)="onModalClose()" width="40%" [content]="body" [footerTemplate]="footer">
+  </ejs-dialog>
+</div>
+
+<ng-template #body>
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="form-group">
+        <ejs-textbox  formControlName="id"
+                      placeholder="Código"
+                      width="10%">
+        </ejs-textbox>
+        <ejs-textbox  formControlName="name"
+                      placeholder="Nome"
+                      width="56%"
+                      class="align-text-box-name">
+        </ejs-textbox>
+
+        <ejs-textbox  formControlName="cnpj"
+                      placeholder="CNPJ"
+                      width="30%"
+                      class="align-text-box-name">
+        </ejs-textbox>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group">
+        <ejs-textbox  formControlName="comercialName"
+                      placeholder="Nome Fantasia"
+                      width="40%">
+        </ejs-textbox>
+        <ejs-textbox  formControlName="email"
+                      placeholder="E-mail"
+                      width="36%"
+                      class="align-text-box-name">
+        </ejs-textbox>
+        <ejs-textbox  formControlName="phone"
+                      placeholder="Telefone"
+                      width="20%"
+                      class="align-text-box-name">
+        </ejs-textbox>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group">
+        <ejs-textbox  formControlName="zipCodeAddresses"
+                      placeholder="CEP"
+                      width="20%">
+        </ejs-textbox>
+        <ejs-textbox  formControlName="state"
+                      placeholder="Estado"
+                      width="35%"
+                      class="align-text-box-name">
+        </ejs-textbox>
+        <ejs-textbox  formControlName="city"
+                      placeholder="Cidade"
+                      width="41%"
+                      class="align-text-box-name">
+        </ejs-textbox>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group">
+        <ejs-textbox  formControlName="district"
+                      placeholder="Bairro"
+                      width="48%">
+        </ejs-textbox>
+        <ejs-textbox  formControlName="street"
+                      placeholder="Endereço"
+                      width="50%"
+                      class="align-text-box-name">
+        </ejs-textbox>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #footer>
+  <div class="custon-button">
+    <button ejs-button content="Salvar" iconCss="e-icons e-check" class="e-success" [disabled]="!this.form.valid"
+      (click)="onSaveClick()"></button>
+    <button ejs-button content="Cancelar" iconCss="e-icons e-close" class="e-danger" (click)="onModalClose()"></button>
+  </div>
+</ng-template>
