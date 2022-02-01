@@ -4,7 +4,7 @@ import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { Manufacturer } from 'src/app/module/models';
-import { ManufacturerService } from 'src/app/module/services';
+import { ManufacturerService } from 'src/app/module/services/src';
 import { ToastServiceComponent } from 'src/app/module/shared/toast-service/toast-service.component';
 
 const NEW_ID = 'NOVO';
