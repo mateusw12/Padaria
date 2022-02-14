@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   SidebarComponent,
-  TreeViewComponent,
+  TreeViewComponent
 } from '@syncfusion/ej2-angular-navigations';
 import { MenuSideBar, MenuSideBarNode } from './module/models';
 
@@ -56,6 +56,7 @@ export class AppComponent {
   jobsLoad = false;
   productsLoad = false;
   suppliersLoad = false;
+  noteTypesLoad = false;
 
   constructor(private router: Router) {}
 
@@ -67,6 +68,7 @@ export class AppComponent {
       this.manufacturerLoad = false;
       this.jobsLoad = false;
       this.productsLoad = false;
+      this.noteTypesLoad = false;
       this.departamentsLoad = true;
     }
     if (id === '03') {
@@ -76,6 +78,7 @@ export class AppComponent {
       this.manufacturerLoad = false;
       this.jobsLoad = false;
       this.productsLoad = false;
+      this.noteTypesLoad = false;
       this.suppliersLoad = true;
     }
     if (id === '04') {
@@ -85,6 +88,7 @@ export class AppComponent {
       this.manufacturerLoad = false;
       this.jobsLoad = false;
       this.productsLoad = false;
+      this.noteTypesLoad = false;
       this.employeeLoad = true;
     }
     if (id === '05') {
@@ -95,6 +99,7 @@ export class AppComponent {
       this.employeeLoad = false;
       this.jobsLoad = false;
       this.productsLoad = false;
+      this.noteTypesLoad = false;
       this.manufacturerLoad = true;
     }
     if (id === '06') {
@@ -105,6 +110,7 @@ export class AppComponent {
       this.employeeLoad = false;
       this.jobsLoad = false;
       this.manufacturerLoad = false;
+      this.noteTypesLoad = false;
       this.productsLoad = true;
     }
     if (id === '07') {
@@ -115,7 +121,20 @@ export class AppComponent {
       this.employeeLoad = false;
       this.productsLoad = false;
       this.manufacturerLoad = false;
+      this.noteTypesLoad = false;
       this.jobsLoad = true;
+    }
+    if (id === '08') {
+      this.departamentsLoad = false;
+      this.employeeLoad = false;
+      this.departamentsLoad = false;
+      this.suppliersLoad = false;
+      this.employeeLoad = false;
+      this.productsLoad = false;
+      this.manufacturerLoad = false;
+      this.jobsLoad = false;
+      this.jobsLoad = false;
+      this.noteTypesLoad = true;
     }
   }
 

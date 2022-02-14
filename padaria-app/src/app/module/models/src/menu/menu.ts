@@ -36,6 +36,10 @@ export class MenuSideBar {
           nodeId: '07',
           nodeText: 'Função',
         },
+        {
+          nodeId: '08',
+          nodeText: 'Tipo Nota',
+        },
       ],
     },
     {
@@ -44,11 +48,11 @@ export class MenuSideBar {
       iconCss: 'icon-thumbs-up-alt icon',
       nodeChild: [
         {
-          nodeId: '08',
+          nodeId: '09',
           nodeText: 'Funcionário',
         },
         {
-          nodeId: '09',
+          nodeId: '10',
           nodeText: 'Produto',
         },
       ],

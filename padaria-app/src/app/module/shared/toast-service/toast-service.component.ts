@@ -1,15 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToastUtility } from '@syncfusion/ej2-angular-notifications';
 
-type EnumDescription<T> = {
-  [key in keyof T]: string;
-};
-
-interface EnumDescriptor<T> {
-  readonly description: EnumDescription<T>;
-  readonly flags: boolean;
-}
-
 @Component({
   selector: 'app-toast-service',
   templateUrl: './toast-service.component.html',

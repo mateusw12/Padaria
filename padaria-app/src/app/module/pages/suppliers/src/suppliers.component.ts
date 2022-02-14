@@ -10,6 +10,7 @@ import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { cnpj } from 'cpf-cnpj-validator';
+import { debounceTime } from 'rxjs/operators';
 import { Supplier } from 'src/app/module/models';
 import {
   SupplierService,
@@ -38,7 +39,6 @@ interface GridRow {
   providers: [
     SortService,
     SupplierService,
-    ZipCodeAddressesService,
     DialogComponent,
     ToastServiceComponent,
   ],
@@ -50,12 +50,10 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   dataSource: GridRow[] = [];
   form: FormGroup = this.createForm();
   isModalOpen = false;
+  private supplierService!: SupplierService;
+  private zipCodeAddresses!: ZipCodeAddressesService;
 
-  constructor(
-    private toastService: ToastServiceComponent,
-    private supplierService: SupplierService,
-    private zipCodeAddresses: ZipCodeAddressesService
-  ) {}
+  constructor(private toastService: ToastServiceComponent) {}
 
   ngOnInit(): void {
     this.registerEvents();
@@ -63,7 +61,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   }
 
   async onOpen(id?: number): Promise<void> {
-    this.reset(false);
+    this.resetForm();
     try {
       if (id) {
         this.findSupplier(id);
@@ -111,7 +109,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
             .subscribe(
               async () => {
                 await this.toastService.updateToast();
-                this.reset(false);
+                this.resetForm();
               },
               (error) => this.toastService.errorToast(error)
             )
@@ -132,27 +130,26 @@ export class SuppliersComponent implements OnInit, OnDestroy {
 
   private registerEvents(): void {
     this.form.controls.zipCodeAddresses.valueChanges
-      .pipe()
+      .pipe(debounceTime(500))
       .subscribe((value) => {
         if (value as string) this.getZipCodeAddresses(value);
       });
   }
 
   private getZipCodeAddresses(zipCode: string): void {
-    if (zipCodeRegex.test(zipCode)) {
-      this.zipCodeAddresses
-        .getZipCodeAddresses(zipCode)
-        .pipe()
-        .subscribe(async (zipCodeAddresses) => {
-          this.reset(true);
-          this.form.patchValue({
-            city: zipCodeAddresses.localidade,
-            street: zipCodeAddresses.logradouro,
-            district: zipCodeAddresses.bairro,
-            state: this.getReplaceState(zipCodeAddresses.uf),
-          });
+    this.resetZipCodeAddressesField();
+    if (!zipCodeRegex.test(zipCode)) return;
+    this.zipCodeAddresses.getZipCodeAddresses(zipCode).subscribe(
+      async (zipCodeAddresses) => {
+        this.form.patchValue({
+          city: zipCodeAddresses.localidade,
+          street: zipCodeAddresses.logradouro,
+          district: zipCodeAddresses.bairro,
+          state: this.getReplaceState(zipCodeAddresses.uf),
         });
-    }
+      },
+      (error) => this.toastService.errorToast(error)
+    );
   }
 
   private getReplaceState(state: string): string {
@@ -179,7 +176,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
           }
           this.dataSource = dataSouce;
         },
-        (error) => this.toastService.errorToast()
+        (error) => this.toastService.errorToast(error)
       );
   }
 
@@ -233,18 +230,18 @@ export class SuppliersComponent implements OnInit, OnDestroy {
     return model;
   }
 
-  private reset(resetZipCode: boolean): void {
-    if (resetZipCode) {
-      this.form.reset({
-        state: null,
-        district: null,
-        city: null,
-        street: null,
-      });
-      return;
-    }
+  private resetForm(): void {
     this.form.reset({
       id: NEW_ID,
+    });
+  }
+
+  private resetZipCodeAddressesField(): void {
+    this.form.patchValue({
+      state: null,
+      district: null,
+      city: null,
+      street: null,
     });
   }
 
@@ -256,7 +253,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
         Validators.maxLength(200),
       ]),
       comercialName: new FormControl(null, [
-        Validators.required,
+        FormValidators.required,
         Validators.maxLength(200),
       ]),
       cnpj: new FormControl(null, [
@@ -265,8 +262,8 @@ export class SuppliersComponent implements OnInit, OnDestroy {
       ]),
       phone: new FormControl(null, [Validators.maxLength(15)]),
       zipCodeAddresses: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(8),
+        FormValidators.required,
+        Validators.maxLength(11),
       ]),
       state: new FormControl({ value: null, disabled: true }),
       district: new FormControl({ value: null, disabled: true }),

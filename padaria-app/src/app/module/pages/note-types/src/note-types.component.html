@@ -1,0 +1,64 @@
+<div class="align-button">
+  <button ejs-button content="Adicionar" class="e-success" iconCss="e-icons e-plus" (click)="onOpen()">
+  </button>
+</div>
+
+<ejs-grid class="align-grid"
+          [height]="450"
+          [rowHeight]="40"
+          [allowSorting]="true"
+          [dataSource]="dataSource">
+  <e-columns>
+    <e-column headerTextAlign="left" width="50">
+      <ng-template #template let-data>
+        <div class='e-btn-group align-button-icon'>
+          <button ejs-button class="e-info" iconCss='e-icons e-edit' (click)="onEdit(data)"></button>
+          <button ejs-button class="e-danger align" iconCss='e-icons e-cancel' (click)="onRemove(data)"></button>
+        </div>
+      </ng-template>
+    </e-column>
+    <e-column field="id" headerText="Código" headerTextAlign="center" textAlign="center" width="50" isPrimaryKey="true">
+    </e-column>
+    <e-column field="name" headerText="Fabricante" headerTextAlign="left" textAlign="left" width="100"></e-column>
+  </e-columns>
+</ejs-grid>
+
+<div *ngIf="isModalOpen">
+  <ejs-dialog id='dialog' #modal header="Cadastro de Fabricante" isModal='true' showCloseIcon="true"
+    (close)="onModalClose()" width="50%" [content]="body" [footerTemplate]="footer">
+  </ejs-dialog>
+</div>
+
+<ng-template #body>
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="form-group">
+        <ejs-textbox  formControlName="id"
+                      placeholder="Código"
+                      width="10%">
+        </ejs-textbox>
+        <ejs-textbox  formControlName="abbreviation"
+                      placeholder="Abreviação"
+                      width="20%"
+                      class="align-text-box-name required">
+          <app-field-error [displayError]="isFieldValid('abbreviation')" errorMsg="* Please Enter your name">
+          </app-field-error>
+        </ejs-textbox>
+        <ejs-textbox  id="name"
+                      formControlName="name"
+                      placeholder="Nome"
+                      width="60%"
+                      class="align-text-box-name">
+        </ejs-textbox>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #footer>
+  <div class="custon-button">
+    <button ejs-button content="Salvar" iconCss="e-icons e-check" class="e-success" [disabled]="!this.form.valid"
+      (click)="onSaveClick()"></button>
+    <button ejs-button content="Cancelar" iconCss="e-icons e-close" class="e-danger" (click)="onModalClose()"></button>
+  </div>
+</ng-template>

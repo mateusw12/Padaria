@@ -57,6 +57,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./module/pages/inventory').then((m) => m.InventoryModule),
   },
+  {
+    path: 'note-type',
+    loadChildren: () =>
+      import('./module/pages/note-types').then((m) => m.NoteTypesModule),
+  },
 ];
 
 @NgModule({
