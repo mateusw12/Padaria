@@ -12,7 +12,7 @@ export class ToastServiceComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {}
 
-  async saveToast(message?: string): Promise<void> {
+  async showSucess(message?: string): Promise<void> {
     this.toastObj = ToastUtility.show(
       message ? message : 'Salvo com sucesso!',
       'Success',
@@ -20,7 +20,7 @@ export class ToastServiceComponent implements OnInit, OnDestroy {
     );
   }
 
-  async updateToast(message?: string): Promise<void> {
+  async showUpdate(message?: string): Promise<void> {
     this.toastObj = ToastUtility.show(
       message ? message : 'Alterado com sucesso!',
       'Success',
@@ -28,7 +28,7 @@ export class ToastServiceComponent implements OnInit, OnDestroy {
     );
   }
 
-  async alertToast(message?: string): Promise<void> {
+  async showAlert(message?: string): Promise<void> {
     this.toastObj = ToastUtility.show(
       message ? message : 'Erro ao realizar a tarefa!',
       'Warning',
@@ -36,7 +36,7 @@ export class ToastServiceComponent implements OnInit, OnDestroy {
     );
   }
 
-  async removeToast(message?: string): Promise<void> {
+  async showRemove(message?: string): Promise<void> {
     this.toastObj = ToastUtility.show(
       message ? message : 'Excluído com sucesso!',
       'Error',
@@ -44,7 +44,7 @@ export class ToastServiceComponent implements OnInit, OnDestroy {
     );
   }
 
-  async errorToast(message?: string): Promise<void> {
+  async showError(message?: string): Promise<void> {
     this.toastObj = ToastUtility.show(
       `Erro, ocorreu um problema ${message}`,
       'Error',

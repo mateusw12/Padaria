@@ -86,9 +86,9 @@ export class SuppliersComponent implements OnInit, OnDestroy {
       .pipe()
       .subscribe(
         async () => {
-          await this.toastService.removeToast('Removido');
+          await this.toastService.showRemove('Removido');
         },
-        (error) => this.toastService.errorToast(error)
+        (error) => this.toastService.showError(error)
       );
     this.loadData();
   }
@@ -96,7 +96,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   async onSaveClick(): Promise<void> {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
-      this.toastService.alertToast('Formulário Inválido');
+      this.toastService.showAlert('Formulário Inválido');
       return;
     }
     const model = this.getModel();
@@ -108,19 +108,19 @@ export class SuppliersComponent implements OnInit, OnDestroy {
             .pipe()
             .subscribe(
               async () => {
-                await this.toastService.updateToast();
+                await this.toastService.showUpdate();
                 this.resetForm();
               },
-              (error) => this.toastService.errorToast(error)
+              (error) => this.toastService.showError(error)
             )
         : this.supplierService
             .add(model)
             .pipe()
             .subscribe(
               async () => {
-                await this.toastService.saveToast();
+                await this.toastService.showSucess();
               },
-              (error) => this.toastService.errorToast(error)
+              (error) => this.toastService.showError(error)
             )
     )
       return;
@@ -148,7 +148,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
           state: this.getReplaceState(zipCodeAddresses.uf),
         });
       },
-      (error) => this.toastService.errorToast(error)
+      (error) => this.toastService.showError(error)
     );
   }
 
@@ -176,7 +176,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
           }
           this.dataSource = dataSouce;
         },
-        (error) => this.toastService.errorToast(error)
+        (error) => this.toastService.showError(error)
       );
   }
 
@@ -193,7 +193,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
         async (departament) => {
           this.populateForm(departament);
         },
-        (error) => this.toastService.errorToast(error)
+        (error) => this.toastService.showError(error)
       );
   }
 
@@ -281,8 +281,8 @@ export class SuppliersComponent implements OnInit, OnDestroy {
     if (cnpj.isValid(value)) {
       return null;
     } else {
-      this.toastService.alertToast('Cnpj Inválido');
-      return this.toastService.alertToast('Cnpj Inválido');
+      this.toastService.showAlert('Cnpj Inválido');
+      return this.toastService.showAlert('Cnpj Inválido');
     }
   }
 }

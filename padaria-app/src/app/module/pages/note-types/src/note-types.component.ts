@@ -77,17 +77,17 @@ export class NoteTypesComponent implements OnInit {
       .pipe()
       .subscribe(
         async () => {
-          await this.toastService.removeToast();
+          await this.toastService.showRemove();
           this.loadData();
         },
-        (error) => this.toastService.removeToast(error)
+        (error) => this.toastService.showRemove(error)
       );
   }
 
   async onSaveClick(): Promise<void> {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
-      this.toastService.errorToast('Formulário Inválido');
+      this.toastService.showError('Formulário Inválido');
       return;
     }
     const model = this.getModel();
@@ -99,19 +99,19 @@ export class NoteTypesComponent implements OnInit {
             .pipe()
             .subscribe(
               async () => {
-                await this.toastService.updateToast();
+                await this.toastService.showUpdate();
                 this.reset();
               },
-              (error) => this.toastService.errorToast(error)
+              (error) => this.toastService.showError(error)
             )
         : this.noteTypeService
             .add(model)
             .pipe()
             .subscribe(
               async () => {
-                await this.toastService.saveToast();
+                await this.toastService.showSucess();
               },
-              (error) => this.toastService.errorToast(error)
+              (error) => this.toastService.showError(error)
             )
     )
       this.loadData();
@@ -137,7 +137,7 @@ export class NoteTypesComponent implements OnInit {
         async (noteType) => {
           this.populateForm(noteType);
         },
-        (error) => this.toastService.errorToast(error)
+        (error) => this.toastService.showError(error)
       );
   }
 

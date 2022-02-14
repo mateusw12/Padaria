@@ -68,10 +68,10 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
       .pipe()
       .subscribe(
         async () => {
-          await this.toastService.removeToast();
+          await this.toastService.showRemove();
           this.loadData();
         },
-        (error) => this.toastService.removeToast(error)
+        (error) => this.toastService.showRemove(error)
       );
   }
 
@@ -89,19 +89,19 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
             .pipe()
             .subscribe(
               async () => {
-                await this.toastService.updateToast();
+                await this.toastService.showUpdate();
                 this.reset();
               },
-              (error) => this.toastService.errorToast(error)
+              (error) => this.toastService.showError(error)
             )
         : this.manufacturerService
             .add(model)
             .pipe()
             .subscribe(
               async () => {
-                await this.toastService.saveToast();
+                await this.toastService.showSucess();
               },
-              (error) => this.toastService.errorToast(error)
+              (error) => this.toastService.showError(error)
             )
     )
       this.loadData();
@@ -127,7 +127,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
         async (departament) => {
           this.populateForm(departament);
         },
-        (error) => this.toastService.errorToast(error)
+        (error) => this.toastService.showError(error)
       );
   }
 
