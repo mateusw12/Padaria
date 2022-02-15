@@ -13,3 +13,4 @@ export * from './payment-condition/payment-condition';
 export * from './payment-condition/payment-instalment';
 export * from './employee/gender';
 export * from './employee/marital-status';
+export * from './employee//chronic-condition';
