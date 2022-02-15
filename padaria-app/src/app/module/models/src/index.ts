@@ -8,3 +8,4 @@ export * from './state/state';
 export * from './supplier/supplier';
 export * from './note-type/note-type';
 export * from './brand/brand';
+export * from './unit-measure/unit-measure';

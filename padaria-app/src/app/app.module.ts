@@ -20,6 +20,7 @@ import { ManufacturersComponent } from './module/pages/manufacturers/src/manufac
 import { NoteTypesComponent } from './module/pages/note-types/src/note-types.component';
 import { BrandComponent } from './module/pages/products/src/brand/brand.component';
 import { ProductsComponent } from './module/pages/products/src/products.component';
+import { UnitMeasureComponent } from './module/pages/products/src/unit-measure/unit-measure.component';
 import { SuppliersComponent } from './module/pages/suppliers/src/suppliers.component';
 
 @NgModule({
@@ -33,6 +34,7 @@ import { SuppliersComponent } from './module/pages/suppliers/src/suppliers.compo
     FieldErrorDisplayComponent,
     ProductsComponent,
     BrandComponent,
+    UnitMeasureComponent,
   ],
   imports: [
     BrowserModule,

@@ -5,3 +5,4 @@ export * from './zip-code-addresses/zip-code-addresses.service';
 export * from './supplier/supplier.service';
 export * from './note-type/note-type.service';
 export * from './brand/brand.service';
+export * from './unit-measure/unit-measure.service';

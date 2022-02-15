@@ -26,7 +26,7 @@
 
 
 <div *ngIf="isModalOpen">
-  <ejs-dialog id='dialog' #modal header="Cadastro de Marca" isModal='true' showCloseIcon="true"
+  <ejs-dialog id='dialog' #modal header="Cadastro de Unidade de Medida" isModal='true' showCloseIcon="true"
     (close)="onModalClose()" width="50%" [content]="body" [footerTemplate]="footer">
   </ejs-dialog>
 </div>
@@ -39,9 +39,14 @@
                      placeholder="Código"
                      width="10%">
         </ejs-textbox>
+        <ejs-textbox formControlName="abbreviation"
+                     placeholder="Sigla"
+                     width="20%"
+                     class="align-text-box-name">
+        </ejs-textbox>
         <ejs-textbox  formControlName="name"
                       placeholder="Nome"
-                      width="80%"
+                      width="60%"
                       class="align-text-box-name">
         </ejs-textbox>
       </div>
