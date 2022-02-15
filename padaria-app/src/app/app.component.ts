@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   SidebarComponent,
-  TreeViewComponent
+  TreeViewComponent,
 } from '@syncfusion/ej2-angular-navigations';
 import { MenuSideBar, MenuSideBarNode } from './module/models';
 
@@ -136,6 +136,7 @@ export class AppComponent {
       this.jobsLoad = false;
       this.noteTypesLoad = true;
     }
+
   }
 
   ngOnInit(): void {}

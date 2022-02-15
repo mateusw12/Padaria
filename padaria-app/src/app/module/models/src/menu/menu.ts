@@ -40,6 +40,7 @@ export class MenuSideBar {
           nodeId: '08',
           nodeText: 'Tipo Nota',
         },
+
       ],
     },
     {
