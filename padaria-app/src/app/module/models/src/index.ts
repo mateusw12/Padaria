@@ -12,3 +12,4 @@ export * from './unit-measure/unit-measure';
 export * from './payment-condition/payment-condition';
 export * from './payment-condition/payment-instalment';
 export * from './employee/gender';
+export * from './employee/marital-status';
