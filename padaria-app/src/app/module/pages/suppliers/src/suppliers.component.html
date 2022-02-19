@@ -62,6 +62,12 @@
         <ejs-textbox  formControlName="comercialName"
                       placeholder="Nome Fantasia"
                       width="40%">
+                      <div *ngIf="this.form.controls.comercialName.invalid" class="alert- alert-danger">
+                        <div *ngIf="this.form.controls.comercialName.untouched">
+
+                          <p>Campo Inválido</p>
+                        </div>
+                      </div>
         </ejs-textbox>
         <ejs-textbox  formControlName="email"
                       placeholder="E-mail"

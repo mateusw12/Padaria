@@ -24,7 +24,7 @@
 </ejs-grid>
 
 <div *ngIf="isModalOpen">
-  <ejs-dialog id='dialog' #modal header="Cadastro de Fabricante" isModal='true' showCloseIcon="true"
+  <ejs-dialog id='dialog' #modal header="Cadastro de Tipo Notal" isModal='true' showCloseIcon="true"
     (close)="onModalClose()" width="50%" [content]="body" [footerTemplate]="footer">
   </ejs-dialog>
 </div>
@@ -41,8 +41,6 @@
                       placeholder="Abreviação"
                       width="20%"
                       class="align-text-box-name required">
-          <app-field-error [displayError]="isFieldValid('abbreviation')" errorMsg="* Please Enter your name">
-          </app-field-error>
         </ejs-textbox>
         <ejs-textbox  id="name"
                       formControlName="name"

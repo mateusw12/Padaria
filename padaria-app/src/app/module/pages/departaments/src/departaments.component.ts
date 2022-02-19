@@ -51,6 +51,8 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
 
   }
 
+  get name_check(){ return this.form.get('name')}
+
   async onOpen(id?: number): Promise<void> {
     this.reset();
     try {
@@ -162,8 +164,8 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
 
   private createForm(): FormGroup {
     return (this.form = new FormGroup({
-      id: new FormControl({ value: NEW_ID, disabled: true }),
-      name: new FormControl(null, [
+      'id': new FormControl({ value: NEW_ID, disabled: true }),
+      'name': new FormControl(null, [
         FormValidators.required,
         Validators.maxLength(200),
       ]),

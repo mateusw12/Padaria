@@ -1,10 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
-  ValidationErrors,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
@@ -14,7 +12,7 @@ import { debounceTime } from 'rxjs/operators';
 import { Supplier } from 'src/app/module/models';
 import {
   SupplierService,
-  ZipCodeAddressesService,
+  ZipCodeAddressesService
 } from 'src/app/module/services';
 import { ToastServiceComponent } from 'src/app/module/shared/toast-service/toast-service.component';
 import { State } from './../../../models/src/state/state';
@@ -41,6 +39,7 @@ interface GridRow {
     SupplierService,
     DialogComponent,
     ToastServiceComponent,
+    ZipCodeAddressesService,
   ],
 })
 export class SuppliersComponent implements OnInit, OnDestroy {
@@ -50,10 +49,12 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   dataSource: GridRow[] = [];
   form: FormGroup = this.createForm();
   isModalOpen = false;
-  private supplierService!: SupplierService;
-  private zipCodeAddresses!: ZipCodeAddressesService;
 
-  constructor(private toastService: ToastServiceComponent) {}
+  constructor(
+    private toastService: ToastServiceComponent,
+    private supplierService: SupplierService,
+    private zipCodeAddresses: ZipCodeAddressesService
+  ) {}
 
   ngOnInit(): void {
     this.registerEvents();
@@ -129,10 +130,22 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   private registerEvents(): void {
-    this.form.controls.zipCodeAddresses.valueChanges
-      .pipe(debounceTime(500))
+    const controls = this.form.controls;
+    controls.zipCodeAddresses.valueChanges
+      .pipe(debounceTime(200))
       .subscribe((value) => {
         if (value as string) this.getZipCodeAddresses(value);
+      });
+    controls.cnpj.valueChanges
+      .pipe(debounceTime(700))
+      .subscribe(async (value) => {
+        if (!value) return;
+        const valid = await this.isValidCnpj(value);
+        if (!valid) {
+          await this.toastService.showError('CNPJ Inválido!');
+          controls.cnpj.reset();
+          return;
+        }
       });
   }
 
@@ -256,15 +269,13 @@ export class SuppliersComponent implements OnInit, OnDestroy {
         FormValidators.required,
         Validators.maxLength(200),
       ]),
-      cnpj: new FormControl(null, [
-        Validators.maxLength(14),
-        this.customCnpjValidator,
-      ]),
+      cnpj: new FormControl(null, [Validators.maxLength(14)]),
       phone: new FormControl(null, [Validators.maxLength(15)]),
       zipCodeAddresses: new FormControl(null, [
         FormValidators.required,
         Validators.maxLength(11),
       ]),
+
       state: new FormControl({ value: null, disabled: true }),
       district: new FormControl({ value: null, disabled: true }),
       street: new FormControl({ value: null, disabled: true }),
@@ -273,16 +284,12 @@ export class SuppliersComponent implements OnInit, OnDestroy {
     }));
   }
 
-  private customCnpjValidator(
-    control: AbstractControl
-  ): ValidationErrors | null {
-    const value: string = control.value as string;
-    if (!value) return null;
+  private async isValidCnpj(value: string): Promise<boolean> {
+    if (!value) return false;
     if (cnpj.isValid(value)) {
-      return null;
+      return true;
     } else {
-      this.toastService.showAlert('Cnpj Inválido');
-      return this.toastService.showAlert('Cnpj Inválido');
+      return false;
     }
   }
 }

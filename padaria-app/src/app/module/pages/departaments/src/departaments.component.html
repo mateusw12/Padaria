@@ -52,6 +52,11 @@
                       placeholder="Nome"
                       width="80%"
                       class="align-text-box-name">
+                      <div *ngIf="this.form.controls.name.invalid" class="alert- alert-danger">
+                        <div *ngIf="this.form.controls.name.untouched">
+                          Campo Inválido
+                        </div>
+                      </div>
         </ejs-textbox>
       </div>
     </div>

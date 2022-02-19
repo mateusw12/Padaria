@@ -1,8 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { GridModule } from '@syncfusion/ej2-angular-grids';
+import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
+import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { JobsRoutingModule } from './jobs-routing.module';
+import { JobsComponent } from './jobs.component';
 
 @NgModule({
-  imports: [CommonModule, JobsRoutingModule],
+  declarations: [JobsComponent],
+  imports: [
+    CommonModule,
+    GridModule,
+    TextBoxModule,
+    DialogModule,
+    FormsModule,
+    ButtonModule,
+    ReactiveFormsModule,
+    JobsRoutingModule,
+  ],
 })
 export class JobsModule {}
