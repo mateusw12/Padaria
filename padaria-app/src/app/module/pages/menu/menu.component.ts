@@ -26,6 +26,11 @@ interface MenuSideBarFiled {
 
 const registration = 'Cadastro';
 const query = 'Consulta';
+const inventory = 'Estoque';
+const buy = 'Compras';
+const sales = 'Vendas';
+const chart = 'Gráfico';
+
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
@@ -46,17 +51,6 @@ export class MenuComponent implements OnInit {
     child: 'nodeChild',
     iconCss: 'iconCss',
   };
-  width: string = '290px';
-  enableDock: boolean = true;
-  dockSize: string = '44px';
-  mediaQuery: string = '(min-width: 600px)';
-  target: string = '.main-content';
-  departamentsLoad = false;
-  employeeLoad = false;
-  manufacturerLoad = false;
-  jobsLoad = false;
-  productsLoad = false;
-  suppliersLoad = false;
   pageName: string = '';
 
   constructor(private router: Router) {}
@@ -65,33 +59,37 @@ export class MenuComponent implements OnInit {
 
   async onClick(data: SideBarData): Promise<void> {
     const id = data.nodeData.id;
-    if (id === '02') {
-      this.pageName = `${registration} / Departamento`;
-      this.router.navigateByUrl('menu/departaments');
-    }
-    if (id === '03') {
-      this.pageName = `${registration} / Forncedor`;
-      this.router.navigateByUrl('menu/suppliers');
-    }
-    if (id === '04') {
-      this.pageName = `${registration} / Funcionário`;
-      this.router.navigateByUrl('menu/employee');
-    }
-    if (id === '05') {
-      this.pageName = `${registration} / Fabricante`;
-      this.router.navigateByUrl('menu/manufacturers');
-    }
-    if (id === '06') {
-      this.pageName = `${registration} / Produto`;
-      this.router.navigateByUrl('menu/products');
-    }
-    if (id === '07') {
-      this.pageName = `${registration} / Função`;
-      this.router.navigateByUrl('menu/jobs');
-    }
-    if (id === '08') {
-      this.pageName = `${registration} / Tipo Notal`;
-      this.router.navigateByUrl('menu/note-type');
+    switch (id) {
+      case '02':
+        this.pageName = `${registration} / Departamento`;
+        this.router.navigateByUrl('menu/departaments');
+        break;
+      case '03':
+        this.pageName = `${registration} / Forncedor`;
+        this.router.navigateByUrl('menu/suppliers');
+        break;
+      case '04':
+        this.pageName = `${registration} / Funcionário`;
+        this.router.navigateByUrl('menu/employee');
+        break;
+      case '05':
+        this.pageName = `${registration} / Fabricante`;
+        this.router.navigateByUrl('menu/manufacturers');
+        break;
+      case '06':
+        this.pageName = `${registration} / Produto`;
+        this.router.navigateByUrl('menu/products');
+        break;
+      case '07':
+        this.pageName = `${registration} / Função`;
+        this.router.navigateByUrl('menu/jobs');
+        break;
+      case '08':
+        this.pageName = `${registration} / Tipo Notal`;
+        this.router.navigateByUrl('menu/note-type');
+        break;
+      default:
+        break;
     }
   }
 

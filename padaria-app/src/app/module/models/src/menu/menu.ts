@@ -10,7 +10,7 @@ export class MenuSideBar {
     {
       nodeId: '01',
       nodeText: 'Cadastros',
-      iconCss: 'icon-microchip icon',
+      iconCss: 'e-icons e-description',
       nodeChild: [
         {
           nodeId: '02',
@@ -40,33 +40,42 @@ export class MenuSideBar {
           nodeId: '08',
           nodeText: 'Tipo Nota',
         },
-
       ],
     },
     {
-      nodeId: '02',
+      nodeId: '09',
       nodeText: 'Consultas',
-      iconCss: 'icon-thumbs-up-alt icon',
+      iconCss: 'e-icons e-search',
       nodeChild: [
         {
-          nodeId: '09',
+          nodeId: '10',
           nodeText: 'Funcionário',
         },
         {
-          nodeId: '10',
+          nodeId: '11',
           nodeText: 'Produto',
         },
       ],
     },
     {
-      nodeId: '03',
+      nodeId: '12',
       nodeText: 'Estoque',
-      iconCss: 'icon-docs icon',
+      iconCss: 'e-icons e-stroke-width',
     },
     {
-      nodeId: '04',
-      nodeText: 'Configuração',
-      iconCss: 'icon-th icon',
+      nodeId: '13',
+      nodeText: 'Compras',
+      iconCss: 'e-icons e-chevron-right',
+    },
+    {
+      nodeId: '14',
+      nodeText: 'Vendas',
+      iconCss: 'e-icons e-chevron-right',
+    },
+    {
+      nodeId: '15',
+      nodeText: 'Gráfico',
+      iconCss: 'e-icons e-change-chart-type',
     },
   ];
 }

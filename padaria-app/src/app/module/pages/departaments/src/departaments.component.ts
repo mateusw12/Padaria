@@ -119,7 +119,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
         async (departaments) => {
           this.dataSource = departaments;
         },
-        (error) => this.toastService.showError(error)
+        (error) => this.toastService.showError()
       );
   }
 

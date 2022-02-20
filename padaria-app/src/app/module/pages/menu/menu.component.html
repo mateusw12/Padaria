@@ -7,13 +7,25 @@
           <li class="float-left header-style nav-pane"><b>Padaria / {{pageName}}</b></li>
         </ul>
       </div>
-      <ejs-sidebar id="sidebar-treeview" class="dock-menu" #sidebarTreeviewInstance [enableDock]='enableDock'
-        [width]='width' [dockSize]='dockSize' (created)="onCreated($event)" style="visibility: hidden"
-        [mediaQuery]='mediaQuery' [target]='target' (close)="onClose($event)">
+      <ejs-sidebar  id="sidebar-treeview"
+                    class="dock-menu" 
+                    #sidebarTreeviewInstance 
+                    [enableDock]='true'
+                    width="240px" 
+                    dockSize="44px"                    
+                    (created)="onCreated($event)"
+                    style="visibility: hidden"
+                    mediaQuery="(min-width: 600px)"
+                    target=".main-content"
+                    (close)="onClose($event)">
         <div class="main-menu">
           <div>
-            <ejs-treeview id="main-treeview" #treeviewInstance [fields]='field' expandOn='Click'
-              (nodeSelected)="onClick($event)"></ejs-treeview>
+            <ejs-treeview id="main-treeview" 
+                          #treeviewInstance 
+                          [fields]='field' 
+                          expandOn='Click'
+                          (nodeSelected)="onClick($event)">
+            </ejs-treeview>
           </div>
         </div>
       </ejs-sidebar>
