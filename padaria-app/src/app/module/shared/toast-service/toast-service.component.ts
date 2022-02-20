@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ErrorHandler, OnDestroy, OnInit } from '@angular/core';
+import { content } from '@syncfusion/ej2-angular-grids';
 import { ToastUtility } from '@syncfusion/ej2-angular-notifications';
 
 @Component({
@@ -39,14 +40,15 @@ export class ToastServiceComponent implements OnInit, OnDestroy {
   async showRemove(message?: string): Promise<void> {
     this.toastObj = ToastUtility.show(
       message ? message : 'Excluído com sucesso!',
-      'Error',
+      'Success',
       1000
     );
   }
 
   async showError(message?: string): Promise<void> {
     this.toastObj = ToastUtility.show(
-      `Erro, ocorreu um problema ${message}`,
+      message ? message : 'Opss, ocorreu um problema',
+
       'Error',
       1000
     );

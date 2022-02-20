@@ -2,7 +2,15 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": ".",
+    "paths": {
+      "@models/*":["./src/app/module/models/*"],
+      "@pages/*":["./src/app/module/pages/*"],
+      "@services/*":["./src/app/module/services/*"],
+      "@shared/*":["./src/app/module/shared/*"],
+      "@utils/*":["./src/app/module/utils/*"]
+    },
+    "typeRoots": ["./src/app/module/@utils"],
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
