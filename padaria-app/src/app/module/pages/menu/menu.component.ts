@@ -89,6 +89,10 @@ export class MenuComponent implements OnInit {
       this.pageName = `${registration} / Função`;
       this.router.navigateByUrl('menu/jobs');
     }
+    if (id === '08') {
+      this.pageName = `${registration} / Tipo Notal`;
+      this.router.navigateByUrl('menu/note-type');
+    }
   }
 
   async onCreated(args: any): Promise<void> {

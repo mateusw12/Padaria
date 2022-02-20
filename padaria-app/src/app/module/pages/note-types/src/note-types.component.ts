@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NoteType } from '@models/src';
+import { NoteTypeService } from '@services/src';
+import { ToastServiceComponent } from '@shared/toast-service/toast-service.component';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { NoteType } from 'src/app/module/models';
-import { NoteTypeService } from 'src/app/module/services';
 import { FieldErrorDisplayComponent } from 'src/app/module/shared/field-erros/filed-errors.component';
-import { ToastServiceComponent } from 'src/app/module/shared/toast-service/toast-service.component';
 
 const NEW_ID = 'NOVO';
 
@@ -33,22 +33,15 @@ export class NoteTypesComponent implements OnInit {
   dataSource: GridRow[] = [];
   form: FormGroup = this.createForm();
   isModalOpen = false;
-  private noteTypeService!: NoteTypeService;
 
   constructor(
     private toastService: ToastServiceComponent,
+    private noteTypeService: NoteTypeService,
     private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.createForm();
     this.loadData();
-  }
-
-  isFieldValid(field: string) {
-    const value = this.form.get(field);
-    if (!value) return false;
-    return value.invalid || value.untouched;
   }
 
   async onOpen(id?: number): Promise<void> {
@@ -145,6 +138,7 @@ export class NoteTypesComponent implements OnInit {
     this.form.patchValue({
       id: noteType.id,
       name: noteType.name,
+      abbreviation: noteType.abbreviation
     });
   }
 

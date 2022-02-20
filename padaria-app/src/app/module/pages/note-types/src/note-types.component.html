@@ -24,8 +24,15 @@
 </ejs-grid>
 
 <div *ngIf="isModalOpen">
-  <ejs-dialog id='dialog' #modal header="Cadastro de Tipo Notal" isModal='true' showCloseIcon="true"
-    (close)="onModalClose()" width="50%" [content]="body" [footerTemplate]="footer">
+  <ejs-dialog id='dialog' 
+              #modal 
+              header="Cadastro de Tipo Nota" 
+              isModal='true' 
+              showCloseIcon="true"
+              (close)="onModalClose()" 
+              width="50%"
+              [content]="body" 
+              [footerTemplate]="footer">
   </ejs-dialog>
 </div>
 

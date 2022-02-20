@@ -19,9 +19,6 @@ import { NoteTypesComponent } from './note-types.component';
     ButtonModule,
     ReactiveFormsModule,
     NoteTypesRoutingModule,
-  ],
-  exports: [
-    NoteTypesComponent
   ]
 })
 export class NoteTypesModule {}
