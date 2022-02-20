@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { NoteType } from '@models/src';
 import { Observable } from 'rxjs';
-import { NoteType } from 'src/app/module/models';
 
 const noteType_Url = '/api/tipo-nota';
 

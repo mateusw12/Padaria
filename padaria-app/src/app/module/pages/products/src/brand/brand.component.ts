@@ -32,9 +32,11 @@ export class BrandComponent implements OnInit, OnDestroy {
   form: FormGroup = this.createForm();
   isModalOpen = false;
 
-  private departametService!: BrandService;
 
-  constructor(private toastService: ToastServiceComponent) {}
+  constructor(
+    private toastService: ToastServiceComponent,
+    private brandService: BrandService
+      ) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -62,12 +64,12 @@ export class BrandComponent implements OnInit, OnDestroy {
 
   async onRemove(model: GridRow): Promise<void> {
     if (!model.id) return;
-    this.departametService
+    this.brandService
       .deleteById(model.id)
       .pipe()
       .subscribe(
         async () => {
-          await this.toastService.showRemove('Removido');
+          await this.toastService.showRemove();
         },
         (error) => this.toastService.showError(error)
       );
@@ -83,7 +85,7 @@ export class BrandComponent implements OnInit, OnDestroy {
     const exists = model.id > 1;
     if (
       exists
-        ? this.departametService
+        ? this.brandService
             .updateById(model)
             .pipe()
             .subscribe(
@@ -93,7 +95,7 @@ export class BrandComponent implements OnInit, OnDestroy {
               },
               (error) => this.toastService.showError(error)
             )
-        : this.departametService
+        : this.brandService
             .add(model)
             .pipe()
             .subscribe(
@@ -109,7 +111,7 @@ export class BrandComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   private loadData(): void {
-    this.departametService
+    this.brandService
       .findAll()
       .pipe()
       .subscribe(async (brands) => {
@@ -118,7 +120,7 @@ export class BrandComponent implements OnInit, OnDestroy {
   }
 
   private async findBrand(id: number): Promise<void> {
-    this.departametService
+    this.brandService
       .findById(id)
       .pipe()
       .subscribe(

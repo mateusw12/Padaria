@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { GridComponent, SortService } from '@syncfusion/ej2-angular-grids';
+import { Departament } from '@models/src';
+import { DepartamentService } from '@services/src';
+import { ToastServiceComponent } from '@shared/toast-service/toast-service.component';
+import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { Departament } from 'src/app/module/models';
-import { DepartamentService } from 'src/app/module/services/src';
-import { ToastServiceComponent } from 'src/app/module/shared/toast-service/toast-service.component';
 
 const NEW_ID = 'NOVO';
 
@@ -26,8 +26,7 @@ interface GridRow {
   ],
 })
 export class DepartamentsComponent implements OnInit, OnDestroy {
-  @ViewChild(GridComponent, { static: false })
-  private gridComponent!: GridComponent;
+
   @ViewChild('modal', { static: true })
   modal!: DialogComponent;
 
@@ -35,23 +34,14 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
   form: FormGroup = this.createForm();
   isModalOpen = false;
 
-  private departametService!: DepartamentService;
-
-  constructor(private toastService: ToastServiceComponent) {}
+  constructor(
+    private toastService: ToastServiceComponent,
+    private departametService: DepartamentService
+  ) {}
 
   ngOnInit(): void {
-    // this.loadData();
-      this.dataSource = [
-        { id: 1, name: 'mateus' },
-        { id: 1, name: 'asd' },
-        { id: 1, name: 'fasfas' },
-        { id: 1, name: 'matfdsfeus' },
-        { id: 1, name: 'matesdffdus' },
-      ];
-
+    this.loadData();
   }
-
-  get name_check(){ return this.form.get('name')}
 
   async onOpen(id?: number): Promise<void> {
     this.reset();
@@ -125,8 +115,12 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
     this.departametService
       .findAll()
       .pipe()
-      .subscribe(async (departaments) => {
-      });
+      .subscribe(
+        async (departaments) => {
+          this.dataSource = departaments;
+        },
+        (error) => this.toastService.showError(error)
+      );
   }
 
   private async findDepartament(id: number): Promise<void> {
@@ -164,8 +158,8 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
 
   private createForm(): FormGroup {
     return (this.form = new FormGroup({
-      'id': new FormControl({ value: NEW_ID, disabled: true }),
-      'name': new FormControl(null, [
+      id: new FormControl({ value: NEW_ID, disabled: true }),
+      name: new FormControl(null, [
         FormValidators.required,
         Validators.maxLength(200),
       ]),

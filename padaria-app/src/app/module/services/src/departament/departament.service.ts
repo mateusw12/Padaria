@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Injectable } from '@angular/core';
+import { Departament } from '@models/src';
 import { Observable } from 'rxjs';
-import { Departament } from 'src/app/module/models';
 
 const departament_Url = '/api/departamento';
 

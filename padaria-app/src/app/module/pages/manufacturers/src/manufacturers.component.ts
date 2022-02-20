@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Manufacturer } from '@models/src';
+import { ManufacturerService } from '@services/src';
+import { ToastServiceComponent } from '@shared/toast-service/toast-service.component';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { Manufacturer } from 'src/app/module/models';
-import { ManufacturerService } from 'src/app/module/services/src';
-import { ToastServiceComponent } from 'src/app/module/shared/toast-service/toast-service.component';
 
 const NEW_ID = 'NOVO';
 
@@ -26,6 +26,7 @@ interface GridRow {
   ],
 })
 export class ManufacturersComponent implements OnInit, OnDestroy {
+
   @ViewChild('modal', { static: true })
   modal!: DialogComponent;
 
@@ -33,9 +34,10 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
   form: FormGroup = this.createForm();
   isModalOpen = false;
 
-  private manufacturerService!: ManufacturerService;
-
-  constructor(private toastService: ToastServiceComponent) {}
+  constructor(
+    private toastService: ToastServiceComponent,
+    private manufacturerService: ManufacturerService
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -45,7 +47,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
     this.reset();
     try {
       if (id) {
-        this.findDepartament(id);
+        this.findManufacturer(id);
       }
       this.isModalOpen = true;
       this.modal.show();
@@ -57,7 +59,6 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
   }
 
   async onEdit(model: GridRow): Promise<void> {
-    console.log(model);
     await this.onOpen(model.id);
   }
 
@@ -114,12 +115,12 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
     this.manufacturerService
       .findAll()
       .pipe()
-      .subscribe(async (departaments) => {
-        this.dataSource = departaments;
+      .subscribe(async (manufacturer) => {
+        this.dataSource = manufacturer;
       });
   }
 
-  private async findDepartament(id: number): Promise<void> {
+  private async findManufacturer(id: number): Promise<void> {
     this.manufacturerService
       .findById(id)
       .pipe()
@@ -131,10 +132,10 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
       );
   }
 
-  private populateForm(departament: Manufacturer): void {
+  private populateForm(manufacturer: Manufacturer): void {
     this.form.patchValue({
-      id: departament.id,
-      name: departament.name,
+      id: manufacturer.id,
+      name: manufacturer.name,
     });
   }
 

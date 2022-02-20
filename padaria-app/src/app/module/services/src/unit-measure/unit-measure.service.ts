@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Injectable } from '@angular/core';
+import { UnitMeasure } from '@models/src';
 import { Observable } from 'rxjs';
-import { UnitMeasure } from 'src/app/module/models';
 
 const unit_measure_url = '/api/unit-measure';
 

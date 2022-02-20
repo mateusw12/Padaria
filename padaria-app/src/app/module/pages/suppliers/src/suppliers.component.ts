@@ -1,9 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ErrorHandler,
+} from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
@@ -12,7 +14,7 @@ import { debounceTime } from 'rxjs/operators';
 import { Supplier } from 'src/app/module/models';
 import {
   SupplierService,
-  ZipCodeAddressesService
+  ZipCodeAddressesService,
 } from 'src/app/module/services';
 import { ToastServiceComponent } from 'src/app/module/shared/toast-service/toast-service.component';
 import { State } from './../../../models/src/state/state';
@@ -53,7 +55,8 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   constructor(
     private toastService: ToastServiceComponent,
     private supplierService: SupplierService,
-    private zipCodeAddresses: ZipCodeAddressesService
+    private zipCodeAddresses: ZipCodeAddressesService,
+    private errorHandler: ErrorHandler,
   ) {}
 
   ngOnInit(): void {
@@ -189,7 +192,9 @@ export class SuppliersComponent implements OnInit, OnDestroy {
           }
           this.dataSource = dataSouce;
         },
-        (error) => this.toastService.showError(error)
+        (error) => { console.log(this.errorHandler.handleError(error))
+
+        }
       );
   }
 

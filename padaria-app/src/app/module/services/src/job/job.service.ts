@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Injectable } from '@angular/core';
+import { Job } from '@models/src';
 import { Observable } from 'rxjs';
-import { Job } from 'src/app/module/models';
 
 const Job_Url = '/api/cargo';
 

@@ -26,6 +26,7 @@ interface GridRow {
   ],
 })
 export class UnitMeasureComponent implements OnInit, OnDestroy {
+
   @ViewChild('modal', { static: true })
   modal!: DialogComponent;
 
@@ -33,9 +34,10 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
   form: FormGroup = this.createForm();
   isModalOpen = false;
 
-  private departametService!: UnitMeasureService;
-
-  constructor(private toastService: ToastServiceComponent) {}
+  constructor(
+    private toastService: ToastServiceComponent,
+    private departametService: UnitMeasureService
+    ) {}
 
   ngOnInit(): void {
     this.loadData();

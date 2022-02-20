@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Job } from '@models/src';
+import { JobService } from '@services/src';
+import { ToastServiceComponent } from '@shared/toast-service/toast-service.component';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { Job } from 'src/app/module/models';
-import { JobService } from 'src/app/module/services';
-import { ToastServiceComponent } from 'src/app/module/shared/toast-service/toast-service.component';
 
 const NEW_ID = 'NOVO';
 
@@ -18,12 +18,7 @@ interface GridRow {
   selector: 'app-jobs',
   templateUrl: './jobs.component.html',
   styleUrls: ['./jobs.component.scss'],
-  providers: [
-    SortService,
-    JobService,
-    DialogComponent,
-    ToastServiceComponent
-    ],
+  providers: [SortService, JobService, DialogComponent, ToastServiceComponent],
 })
 export class JobsComponent implements OnInit, OnDestroy {
   @ViewChild('modal', { static: true })
@@ -33,9 +28,10 @@ export class JobsComponent implements OnInit, OnDestroy {
   form: FormGroup = this.createForm();
   isModalOpen = false;
 
-  private jobService!: JobService;
-
-  constructor(private toastService: ToastServiceComponent) {}
+  constructor(
+    private toastService: ToastServiceComponent,
+    private jobService: JobService
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -45,7 +41,7 @@ export class JobsComponent implements OnInit, OnDestroy {
     this.reset();
     try {
       if (id) {
-        this.findDepartament(id);
+        this.findJob(id);
       }
       this.isModalOpen = true;
       this.modal.show();
@@ -119,7 +115,7 @@ export class JobsComponent implements OnInit, OnDestroy {
       });
   }
 
-  private async findDepartament(id: number): Promise<void> {
+  private async findJob(id: number): Promise<void> {
     this.jobService
       .findById(id)
       .pipe()
