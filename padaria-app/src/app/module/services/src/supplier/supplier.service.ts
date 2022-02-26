@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Injectable } from '@angular/core';
-import { Supplier } from '@models/src';
+import { Supplier } from '@module/models';
 import { Observable } from 'rxjs';
 
 const supplier_Url = '/api/fornecedor';

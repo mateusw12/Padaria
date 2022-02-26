@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { MenuSideBarNode, MenuSideBar } from '@module/models';
 import {
   SidebarComponent,
   TreeViewComponent,
 } from '@syncfusion/ej2-angular-navigations';
-import { MenuSideBar, MenuSideBarNode } from '../../models';
 
 interface SideBarData {
   nodeData: NodeData;

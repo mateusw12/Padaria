@@ -1,23 +1,17 @@
 import {
-  Component,
-  OnDestroy,
+  Component, ErrorHandler, OnDestroy,
   OnInit,
-  ViewChild,
-  ErrorHandler,
+  ViewChild
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { State, Supplier } from '@module/models';
+import { SupplierService, ZipCodeAddressesService } from '@module/services';
+import { ToastServiceComponent } from '@module/shared/toast-service/toast-service.component';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { cnpj } from 'cpf-cnpj-validator';
 import { debounceTime } from 'rxjs/operators';
-import { Supplier } from 'src/app/module/models';
-import {
-  SupplierService,
-  ZipCodeAddressesService,
-} from 'src/app/module/services';
-import { ToastServiceComponent } from 'src/app/module/shared/toast-service/toast-service.component';
-import { State } from './../../../models/src/state/state';
 
 const NEW_ID = 'NOVO';
 const states: State = new State();

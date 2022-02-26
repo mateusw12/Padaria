@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Injectable } from '@angular/core';
-import { Classification } from '@models/src';
+import { Classification } from '@module/models';
 import { Observable } from 'rxjs';
 
 const classification_Url = '/api/classificacao';
@@ -9,7 +9,7 @@ const classification_Url = '/api/classificacao';
   providedIn: 'root',
 })
 export class ClassificationService implements AfterViewInit {
-  
+
   constructor(private httpCliente: HttpClient) {}
   ngAfterViewInit(): void {}
 

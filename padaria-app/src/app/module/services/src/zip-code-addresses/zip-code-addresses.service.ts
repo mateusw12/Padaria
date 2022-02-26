@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ZipCodeAddresses } from '@models/src';
+import { ZipCodeAddresses } from '@module/models';
 
 @Injectable({
   providedIn: 'root',

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Injectable } from '@angular/core';
-import { Manufacturer } from '@models/src';
+import { Manufacturer } from '@module/models';
 import { Observable } from 'rxjs';
 
 const manufacturer_Url = '/api/fabricante';

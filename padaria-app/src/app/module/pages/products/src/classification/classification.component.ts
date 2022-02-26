@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Classification, Product } from '@models/src';
-import { ClassificationService, ProductService } from '@services/src';
-import { ToastServiceComponent } from '@shared/toast-service/toast-service.component';
+import { Product, Classification } from '@module/models';
+import { ClassificationService, ProductService } from '@module/services';
+import { ToastServiceComponent } from '@module/shared/toast-service/toast-service.component';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';

@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UnitMeasure } from '@module/models';
+import { UnitMeasureService } from '@module/services';
+import { ToastServiceComponent } from '@module/shared/toast-service/toast-service.component';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { UnitMeasure } from 'src/app/module/models';
-import { UnitMeasureService } from 'src/app/module/services';
-import { ToastServiceComponent } from 'src/app/module/shared/toast-service/toast-service.component';
 
 const NEW_ID = 'NOVO';
 
@@ -26,7 +26,6 @@ interface GridRow {
   ],
 })
 export class UnitMeasureComponent implements OnInit, OnDestroy {
-
   @ViewChild('modal', { static: true })
   modal!: DialogComponent;
 
@@ -37,7 +36,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
   constructor(
     private toastService: ToastServiceComponent,
     private departametService: UnitMeasureService
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.loadData();

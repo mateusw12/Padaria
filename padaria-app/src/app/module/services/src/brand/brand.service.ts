@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Injectable } from '@angular/core';
+import { Brand } from '@module/models';
 import { Observable } from 'rxjs';
-import { Brand } from 'src/app/module/models';
 
 const brand_Url = '/api/marca';
 
