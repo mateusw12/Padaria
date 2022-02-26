@@ -1,8 +1,36 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+import {
+  DropDownListModule,
+  MultiSelectModule,
+} from '@syncfusion/ej2-angular-dropdowns';
+import { GridModule } from '@syncfusion/ej2-angular-grids';
+import {
+  NumericTextBoxModule,
+  TextBoxModule,
+} from '@syncfusion/ej2-angular-inputs';
+import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { EmployeesRoutingModule } from './employees-routing.module';
+import { EmployeesComponent } from './employees.component';
 
 @NgModule({
-  imports: [CommonModule, EmployeesRoutingModule],
+  declarations: [EmployeesComponent],
+  imports: [
+    CommonModule,
+    GridModule,
+    TextBoxModule,
+    DialogModule,
+    FormsModule,
+    ButtonModule,
+    ReactiveFormsModule,
+    DropDownListModule,
+    MultiSelectModule,
+    DatePickerModule,
+    NumericTextBoxModule,
+    EmployeesRoutingModule,
+  ],
 })
 export class EmployeesModule {}

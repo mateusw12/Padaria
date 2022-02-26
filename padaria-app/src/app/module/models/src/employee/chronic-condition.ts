@@ -1,4 +1,5 @@
 export enum ChronicCondition {
+  None = 0,
   HighCholesterol = 1,
   Diabetes = 2,
   Hypertension = 3,
@@ -9,6 +10,7 @@ export enum ChronicCondition {
 }
 
 export const chronicCondition = new Map<ChronicCondition, string>([
+  [ChronicCondition.None, 'Nenhum'],
   [ChronicCondition.HighCholesterol, 'Colesterol Alto'],
   [ChronicCondition.Diabetes, 'Diabete'],
   [ChronicCondition.Hypertension, 'Hipertensão'],

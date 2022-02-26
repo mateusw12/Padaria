@@ -1,4 +1,5 @@
 export enum LevelSchooling {
+  None = 0,
   IncompleteHigherEducation = 1,
   CompleteHigherEducation = 2,
   IncompleteSchoolLevel = 3,
@@ -7,6 +8,7 @@ export enum LevelSchooling {
 }
 
 export const levelSchooling = new Map<LevelSchooling, string>([
+  [LevelSchooling.None, 'Nenhum'],
   [LevelSchooling.IncompleteSchoolLevel, 'Enisno Médio Incompleto'],
   [LevelSchooling.CompleteSchoolLevel, 'Enisno Médio Completo'],
   [LevelSchooling.IncompleteHigherEducation, 'Ensino Superior Incompleto'],
