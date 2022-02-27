@@ -1,5 +1,7 @@
 import {
-  Component, ErrorHandler, OnDestroy,
+  Component,
+  ErrorHandler,
+  OnDestroy,
   OnInit,
   ViewChild
 } from '@angular/core';

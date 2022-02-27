@@ -1,9 +1,6 @@
-export interface Enum {
-  value: number;
-  description: string;
-}
+import { Enum } from "../interfaces";
 
-export function enumToArray(enumeration: Map<any, string>): Enum[] {
+export function getEnumArray(enumeration: Map<any, string>): Enum[] {
   const enumItems: Enum[] = [];
   for (const item of enumeration) {
     enumItems.push({
@@ -14,7 +11,7 @@ export function enumToArray(enumeration: Map<any, string>): Enum[] {
   return enumItems.filter((el) => el.value !== 0);
 }
 
-export function EnumDescription(
+export function getEnumDescription(
   enumeration: Map<any, string>,
   value: number
 ): string {

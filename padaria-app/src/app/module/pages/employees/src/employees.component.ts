@@ -14,8 +14,8 @@ import {
   State
 } from '@module/models';
 import { EmployeeService, JobService, ZipCodeAddressesService } from '@module/services';
-import { EnumDescription, enumToArray } from '@module/shared/functions/enum';
 import { ToastServiceComponent } from '@module/shared/toast-service/toast-service.component';
+import { getEnumArray, getEnumDescription } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
@@ -57,10 +57,10 @@ export class EmployeesComponent implements OnInit, OnDestroy {
   dataSource: GridRow[] = [];
   form: FormGroup = this.createForm();
   isModalOpen = false;
-  genders = enumToArray(gender);
-  martialStatus = enumToArray(maritalStatus);
-  chronicConditions = enumToArray(chronicCondition);
-  levelSchoolings = enumToArray(levelSchooling);
+  genders = getEnumArray(gender);
+  martialStatus = getEnumArray(maritalStatus);
+  chronicConditions = getEnumArray(chronicCondition);
+  levelSchoolings = getEnumArray(levelSchooling);
   today: Date = new Date();
   jobs: Job[] = [];
 
@@ -210,7 +210,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
             city: item.city,
             district: item.district,
             name: item.name,
-            gender: EnumDescription(gender, item.gender),
+            gender: getEnumDescription(gender, item.gender),
             id: item.id,
             phone: item.phone,
             street: item.street,
