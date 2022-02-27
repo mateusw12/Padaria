@@ -3,7 +3,7 @@ import { AfterViewInit, Injectable } from '@angular/core';
 import { Employee } from '@module/models';
 import { Observable } from 'rxjs';
 
-const employee_Url = '/api/funcionario';
+const API_URL = '/api/funcionario';
 
 @Injectable({
   providedIn: 'root',
@@ -14,22 +14,22 @@ export class EmployeeService implements AfterViewInit {
   ngAfterViewInit(): void {}
 
   add(employee: Employee): Observable<void> {
-    return this.httpCliente.post<void>(employee_Url, employee);
+    return this.httpCliente.post<void>(API_URL, employee);
   }
 
   findById(codigo: number): Observable<Employee> {
-    return this.httpCliente.get<Employee>(`${employee_Url}/${codigo}`).pipe();
+    return this.httpCliente.get<Employee>(`${API_URL}/${codigo}`);
   }
 
   findAll(): Observable<Employee[]> {
-    return this.httpCliente.get<Employee[]>(`${employee_Url}`).pipe();
+    return this.httpCliente.get<Employee[]>(`${API_URL}`);
   }
 
   updateById(employee: Employee): Observable<void> {
-    return this.httpCliente.put<void>(`${employee_Url}/${employee.id}`, employee);
+    return this.httpCliente.put<void>(`${API_URL}/${employee.id}`, employee);
   }
 
   deleteById(id: number) {
-    return this.httpCliente.delete(`${employee_Url}/${id}`).pipe();
+    return this.httpCliente.delete(`${API_URL}/${id}`);
   }
 }

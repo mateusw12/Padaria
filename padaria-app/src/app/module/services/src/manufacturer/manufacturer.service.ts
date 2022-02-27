@@ -3,7 +3,7 @@ import { AfterViewInit, Injectable } from '@angular/core';
 import { Manufacturer } from '@module/models';
 import { Observable } from 'rxjs';
 
-const manufacturer_Url = '/api/fabricante';
+const API_URL = '/api/fabricante';
 
 @Injectable({
   providedIn: 'root',
@@ -13,27 +13,25 @@ export class ManufacturerService implements AfterViewInit {
   ngAfterViewInit(): void {}
 
   add(manufacturer: Manufacturer): Observable<void> {
-    return this.httpCliente.post<void>(manufacturer_Url, manufacturer);
+    return this.httpCliente.post<void>(API_URL, manufacturer);
   }
 
   findById(codigo: number): Observable<Manufacturer> {
-    return this.httpCliente
-      .get<Manufacturer>(`${manufacturer_Url}/${codigo}`)
-      .pipe();
+    return this.httpCliente.get<Manufacturer>(`${API_URL}/${codigo}`);
   }
 
   findAll(): Observable<Manufacturer[]> {
-    return this.httpCliente.get<Manufacturer[]>(`${manufacturer_Url}`).pipe();
+    return this.httpCliente.get<Manufacturer[]>(`${API_URL}`);
   }
 
   updateById(manufacturer: Manufacturer): Observable<void> {
     return this.httpCliente.put<void>(
-      `${manufacturer_Url}/${manufacturer.id}`,
+      `${API_URL}/${manufacturer.id}`,
       manufacturer
     );
   }
 
   deleteById(id: number) {
-    return this.httpCliente.delete(`${manufacturer_Url}/${id}`).pipe();
+    return this.httpCliente.delete(`${API_URL}/${id}`);
   }
 }

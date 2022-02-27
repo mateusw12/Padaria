@@ -3,7 +3,7 @@ import { AfterViewInit, Injectable } from '@angular/core';
 import { Departament } from '@module/models';
 import { Observable } from 'rxjs';
 
-const departament_Url = '/api/departamento';
+const API_URL = '/api/departamento';
 
 @Injectable({
   providedIn: 'root',
@@ -13,27 +13,27 @@ export class DepartamentService implements AfterViewInit {
   ngAfterViewInit(): void {}
 
   add(departament: Departament): Observable<void> {
-    return this.httpCliente.post<void>(departament_Url, departament);
+    return this.httpCliente.post<void>(API_URL, departament);
   }
 
   findById(codigo: number): Observable<Departament> {
     return this.httpCliente
-      .get<Departament>(`${departament_Url}/${codigo}`)
+      .get<Departament>(`${API_URL}/${codigo}`)
       .pipe();
   }
 
   findAll(): Observable<Departament[]> {
-    return this.httpCliente.get<Departament[]>(`${departament_Url}`).pipe();
+    return this.httpCliente.get<Departament[]>(`${API_URL}`);
   }
 
   updateById(departament: Departament): Observable<void> {
     return this.httpCliente.put<void>(
-      `${departament_Url}/${departament.id}`,
+      `${API_URL}/${departament.id}`,
       departament
     );
   }
 
   deleteById(id: number) {
-    return this.httpCliente.delete(`${departament_Url}/${id}`).pipe();
+    return this.httpCliente.delete(`${API_URL}/${id}`);
   }
 }

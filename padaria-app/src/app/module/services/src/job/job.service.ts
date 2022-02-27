@@ -3,7 +3,7 @@ import { AfterViewInit, Injectable } from '@angular/core';
 import { Job } from '@module/models';
 import { Observable } from 'rxjs';
 
-const Job_Url = '/api/cargo';
+const API_URL = '/api/cargo';
 
 @Injectable({
   providedIn: 'root',
@@ -13,27 +13,22 @@ export class JobService implements AfterViewInit {
   ngAfterViewInit(): void {}
 
   add(Job: Job): Observable<void> {
-    return this.httpCliente.post<void>(Job_Url, Job);
+    return this.httpCliente.post<void>(API_URL, Job);
   }
 
   findById(codigo: number): Observable<Job> {
-    return this.httpCliente
-      .get<Job>(`${Job_Url}/${codigo}`)
-      .pipe();
+    return this.httpCliente.get<Job>(`${API_URL}/${codigo}`);
   }
 
   findAll(): Observable<Job[]> {
-    return this.httpCliente.get<Job[]>(`${Job_Url}`).pipe();
+    return this.httpCliente.get<Job[]>(`${API_URL}`);
   }
 
   updateById(Job: Job): Observable<void> {
-    return this.httpCliente.put<void>(
-      `${Job_Url}/${Job.id}`,
-      Job
-    );
+    return this.httpCliente.put<void>(`${API_URL}/${Job.id}`, Job);
   }
 
   deleteById(id: number) {
-    return this.httpCliente.delete(`${Job_Url}/${id}`).pipe();
+    return this.httpCliente.delete(`${API_URL}/${id}`);
   }
 }

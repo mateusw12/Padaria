@@ -3,7 +3,7 @@ import { AfterViewInit, Injectable } from '@angular/core';
 import { UnitMeasure } from '@module/models';
 import { Observable } from 'rxjs';
 
-const unit_measure_url = '/api/unit-measure';
+const API_URL = '/api/unit-measure';
 
 @Injectable({
   providedIn: 'root',
@@ -13,22 +13,22 @@ export class UnitMeasureService implements AfterViewInit {
   ngAfterViewInit(): void {}
 
   add(brand: UnitMeasure): Observable<void> {
-    return this.httpCliente.post<void>(unit_measure_url, brand);
+    return this.httpCliente.post<void>(API_URL, brand);
   }
 
   findById(codigo: number): Observable<UnitMeasure> {
-    return this.httpCliente.get<UnitMeasure>(`${unit_measure_url}/${codigo}`).pipe();
+    return this.httpCliente.get<UnitMeasure>(`${API_URL}/${codigo}`);
   }
 
   findAll(): Observable<UnitMeasure[]> {
-    return this.httpCliente.get<UnitMeasure[]>(`${unit_measure_url}`).pipe();
+    return this.httpCliente.get<UnitMeasure[]>(`${API_URL}`);
   }
 
   updateById(brand: UnitMeasure): Observable<void> {
-    return this.httpCliente.put<void>(`${unit_measure_url}/${brand.id}`, brand);
+    return this.httpCliente.put<void>(`${API_URL}/${brand.id}`, brand);
   }
 
   deleteById(id: number) {
-    return this.httpCliente.delete(`${unit_measure_url}/${id}`).pipe();
+    return this.httpCliente.delete(`${API_URL}/${id}`);
   }
 }

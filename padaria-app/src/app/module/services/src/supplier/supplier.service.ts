@@ -3,7 +3,7 @@ import { AfterViewInit, Injectable } from '@angular/core';
 import { Supplier } from '@module/models';
 import { Observable } from 'rxjs';
 
-const supplier_Url = '/api/fornecedor';
+const API_URL = '/api/fornecedor';
 
 @Injectable({
   providedIn: 'root',
@@ -13,27 +13,25 @@ export class SupplierService implements AfterViewInit {
   ngAfterViewInit(): void {}
 
   add(supplier: Supplier): Observable<void> {
-    return this.httpCliente.post<void>(supplier_Url, supplier);
+    return this.httpCliente.post<void>(API_URL, supplier);
   }
 
   findById(codigo: number): Observable<Supplier> {
-    return this.httpCliente
-      .get<Supplier>(`${supplier_Url}/${codigo}`)
-      .pipe();
+    return this.httpCliente.get<Supplier>(`${API_URL}/${codigo}`);
   }
 
   findAll(): Observable<Supplier[]> {
-    return this.httpCliente.get<Supplier[]>(`${supplier_Url}`).pipe();
+    return this.httpCliente.get<Supplier[]>(`${API_URL}`);
   }
 
   updateById(supplier: Supplier): Observable<void> {
     return this.httpCliente.put<void>(
-      `${supplier_Url}/${supplier.id}`,
+      `${API_URL}/${supplier.id}`,
       supplier
     );
   }
 
   deleteById(id: number) {
-    return this.httpCliente.delete(`${supplier_Url}/${id}`).pipe();
+    return this.httpCliente.delete(`${API_URL}/${id}`);
   }
 }

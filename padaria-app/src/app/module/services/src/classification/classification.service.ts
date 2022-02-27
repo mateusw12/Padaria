@@ -3,7 +3,7 @@ import { AfterViewInit, Injectable } from '@angular/core';
 import { Classification } from '@module/models';
 import { Observable } from 'rxjs';
 
-const classification_Url = '/api/classificacao';
+const API_URL = '/api/classificacao';
 
 @Injectable({
   providedIn: 'root',
@@ -14,22 +14,22 @@ export class ClassificationService implements AfterViewInit {
   ngAfterViewInit(): void {}
 
   add(classification: Classification): Observable<void> {
-    return this.httpCliente.post<void>(classification_Url, classification);
+    return this.httpCliente.post<void>(API_URL, classification);
   }
 
   findById(codigo: number): Observable<Classification> {
-    return this.httpCliente.get<Classification>(`${classification_Url}/${codigo}`).pipe();
+    return this.httpCliente.get<Classification>(`${API_URL}/${codigo}`);
   }
 
   findAll(): Observable<Classification[]> {
-    return this.httpCliente.get<Classification[]>(`${classification_Url}`).pipe();
+    return this.httpCliente.get<Classification[]>(`${API_URL}`);
   }
 
   updateById(classification: Classification): Observable<void> {
-    return this.httpCliente.put<void>(`${classification_Url}/${classification.id}`, classification);
+    return this.httpCliente.put<void>(`${API_URL}/${classification.id}`, classification);
   }
 
   deleteById(id: number) {
-    return this.httpCliente.delete(`${classification_Url}/${id}`).pipe();
+    return this.httpCliente.delete(`${API_URL}/${id}`).pipe();
   }
 }

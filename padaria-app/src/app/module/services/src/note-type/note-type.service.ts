@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { NoteType } from '@module/models';
 import { Observable } from 'rxjs';
 
-const noteType_Url = '/api/tipo-nota';
+const API_URL = '/api/tipo-nota';
 
 @Injectable({
   providedIn: 'root',
@@ -12,25 +12,25 @@ export class NoteTypeService {
   constructor(private httpCliente: HttpClient) {}
 
   add(noteType: NoteType): Observable<void> {
-    return this.httpCliente.post<void>(noteType_Url, noteType);
+    return this.httpCliente.post<void>(API_URL, noteType);
   }
 
   findById(codigo: number): Observable<NoteType> {
-    return this.httpCliente.get<NoteType>(`${noteType_Url}/${codigo}`).pipe();
+    return this.httpCliente.get<NoteType>(`${API_URL}/${codigo}`);
   }
 
   findAll(): Observable<NoteType[]> {
-    return this.httpCliente.get<NoteType[]>(`${noteType_Url}`).pipe();
+    return this.httpCliente.get<NoteType[]>(`${API_URL}`);
   }
 
   updateById(noteType: NoteType): Observable<void> {
     return this.httpCliente.put<void>(
-      `${noteType_Url}/${noteType.id}`,
+      `${API_URL}/${noteType.id}`,
       noteType
     );
   }
 
   deleteById(id: number) {
-    return this.httpCliente.delete(`${noteType_Url}/${id}`).pipe();
+    return this.httpCliente.delete(`${API_URL}/${id}`);
   }
 }
