@@ -24,8 +24,8 @@ import { forkJoin } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 const NEW_ID = 'NOVO';
-const states: State = new State();
-const zipCodeRegex = /^[0-9]{8}$/;
+const BRAZILIAN_STATES: State = new State();
+const ZIPCODEREGEX = /^[0-9]{8}$/;
 
 interface GridRow {
   id: number;
@@ -169,7 +169,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
 
   private getZipCodeAddresses(zipCode: string): void {
     this.resetZipCodeAddressesField();
-    if (!zipCodeRegex.test(zipCode)) return;
+    if (!ZIPCODEREGEX.test(zipCode)) return;
     this.zipCodeAddressesService.getZipCodeAddresses(zipCode).subscribe(
       async (zipCodeAddresses) => {
         this.form.patchValue({
@@ -184,7 +184,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
   }
 
   private getReplaceState(state: string): string {
-    const stateReplace = states.state.find((el) => el.abbreviation === state);
+    const stateReplace = BRAZILIAN_STATES.state.find((el) => el.abbreviation === state);
     return stateReplace ? stateReplace.displayName : '';
   }
 
