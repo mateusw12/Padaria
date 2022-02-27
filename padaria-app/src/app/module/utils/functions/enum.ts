@@ -1,4 +1,4 @@
-import { Enum } from "../interfaces";
+import { Enum } from '../interfaces';
 
 export function getEnumArray(enumeration: Map<any, string>): Enum[] {
   const enumItems: Enum[] = [];

@@ -3,16 +3,16 @@ import {
   ErrorHandler,
   OnDestroy,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { State, Supplier } from '@module/models';
 import { SupplierService, ZipCodeAddressesService } from '@module/services';
 import { ToastServiceComponent } from '@module/shared';
+import { isValidCNPJ } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { cnpj } from 'cpf-cnpj-validator';
 import { debounceTime } from 'rxjs/operators';
 
 const NEW_ID = 'NOVO';
@@ -52,7 +52,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
     private toastService: ToastServiceComponent,
     private supplierService: SupplierService,
     private zipCodeAddresses: ZipCodeAddressesService,
-    private errorHandler: ErrorHandler,
+    private errorHandler: ErrorHandler
   ) {}
 
   ngOnInit(): void {
@@ -130,21 +130,24 @@ export class SuppliersComponent implements OnInit, OnDestroy {
 
   private registerEvents(): void {
     const controls = this.form.controls;
+
     controls.zipCodeAddresses.valueChanges
       .pipe(debounceTime(200))
       .subscribe((value) => {
         if (value as string) this.getZipCodeAddresses(value);
       });
+
     controls.cnpj.valueChanges
       .pipe(debounceTime(700))
       .subscribe(async (value) => {
         if (!value) return;
-        const valid = await this.isValidCnpj(value);
+        const valid = isValidCNPJ(value);
         if (!valid) {
           await this.toastService.showError('CNPJ Inválido!');
           controls.cnpj.reset();
           return;
         }
+        await this.toastService.showSucess('CNPJ Válido!')
       });
   }
 
@@ -165,7 +168,9 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   }
 
   private getReplaceState(state: string): string {
-    const stateReplace = BRAZILIAN_STATES.state.find((el) => el.abbreviation === state);
+    const stateReplace = BRAZILIAN_STATES.state.find(
+      (el) => el.abbreviation === state
+    );
     return stateReplace ? stateReplace.displayName : '';
   }
 
@@ -188,14 +193,16 @@ export class SuppliersComponent implements OnInit, OnDestroy {
           }
           this.dataSource = dataSouce;
         },
-        (error) => { console.log(this.errorHandler.handleError(error))
-
+        (error) => {
+          console.log(this.errorHandler.handleError(error));
         }
       );
   }
 
   private getStateAbbreviation(state: string): string {
-    const stateProperty = BRAZILIAN_STATES.state.find((el) => el.name === state);
+    const stateProperty = BRAZILIAN_STATES.state.find(
+      (el) => el.name === state
+    );
     return stateProperty ? stateProperty.abbreviation : '';
   }
 
@@ -283,14 +290,5 @@ export class SuppliersComponent implements OnInit, OnDestroy {
       city: new FormControl({ value: null, disabled: true }),
       email: new FormControl(null, [Validators.maxLength(200)]),
     }));
-  }
-
-  private async isValidCnpj(value: string): Promise<boolean> {
-    if (!value) return false;
-    if (cnpj.isValid(value)) {
-      return true;
-    } else {
-      return false;
-    }
   }
 }

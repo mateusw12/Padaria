@@ -13,13 +13,16 @@ import {
   maritalStatus,
   State
 } from '@module/models';
-import { EmployeeService, JobService, ZipCodeAddressesService } from '@module/services';
+import {
+  EmployeeService,
+  JobService,
+  ZipCodeAddressesService
+} from '@module/services';
 import { ToastServiceComponent } from '@module/shared';
-import { getEnumArray, getEnumDescription } from '@module/utils';
+import { getEnumArray, getEnumDescription, isValidCPF } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { cpf } from 'cpf-cnpj-validator';
 import { forkJoin } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -158,12 +161,13 @@ export class EmployeesComponent implements OnInit, OnDestroy {
       .pipe(debounceTime(700))
       .subscribe(async (value) => {
         if (!value) return;
-        const valid = await this.isValidCPF(value);
+        const valid = isValidCPF(value);
         if (!valid) {
           await this.toastService.showError('CPF Inválido!');
           controls.cpf.reset();
           return;
         }
+        await this.toastService.showSucess('CPF Válido!')
       });
   }
 
@@ -184,17 +188,10 @@ export class EmployeesComponent implements OnInit, OnDestroy {
   }
 
   private getReplaceState(state: string): string {
-    const stateReplace = BRAZILIAN_STATES.state.find((el) => el.abbreviation === state);
+    const stateReplace = BRAZILIAN_STATES.state.find(
+      (el) => el.abbreviation === state
+    );
     return stateReplace ? stateReplace.displayName : '';
-  }
-
-  private async isValidCPF(value: string): Promise<boolean> {
-    if (!value) return false;
-    if (cpf.isValid(value)) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   private loadData(): void {
