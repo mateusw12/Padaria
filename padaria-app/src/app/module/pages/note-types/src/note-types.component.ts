@@ -2,10 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NoteType } from '@module/models';
 import { NoteTypeService } from '@module/services';
-import { ToastServiceComponent } from '@module/shared/toast-service/toast-service.component';
+import { ToastServiceComponent, FieldErrorDisplayComponent } from '@module/shared';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { FieldErrorDisplayComponent } from 'src/app/module/shared/field-erros/filed-errors.component';
 
 
 const NEW_ID = 'NOVO';

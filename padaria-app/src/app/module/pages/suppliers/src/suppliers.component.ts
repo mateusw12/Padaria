@@ -8,7 +8,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { State, Supplier } from '@module/models';
 import { SupplierService, ZipCodeAddressesService } from '@module/services';
-import { ToastServiceComponent } from '@module/shared/toast-service/toast-service.component';
+import { ToastServiceComponent } from '@module/shared';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';

@@ -14,7 +14,7 @@ import {
   State
 } from '@module/models';
 import { EmployeeService, JobService, ZipCodeAddressesService } from '@module/services';
-import { ToastServiceComponent } from '@module/shared/toast-service/toast-service.component';
+import { ToastServiceComponent } from '@module/shared';
 import { getEnumArray, getEnumDescription } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
