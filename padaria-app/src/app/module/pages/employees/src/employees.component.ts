@@ -19,7 +19,7 @@ import {
   ZipCodeAddressesService
 } from '@module/services';
 import { ToastServiceComponent } from '@module/shared';
-import { getEnumArray, getEnumDescription, isValidCPF } from '@module/utils';
+import { getEnumArray, getEnumDescription, isValidCPF, untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
@@ -102,7 +102,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
     if (!model.id) return;
     this.employeeService
       .deleteById(model.id)
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(
         async () => {
           await this.toastService.showRemove();
@@ -124,7 +124,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
       exists
         ? this.employeeService
             .updateById(model)
-            .pipe()
+            .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
                 await this.toastService.showUpdate();
@@ -134,7 +134,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
             )
         : this.employeeService
             .add(model)
-            .pipe()
+            .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
                 await this.toastService.showSucess();
@@ -196,7 +196,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
 
   private loadData(): void {
     forkJoin([this.employeeService.findAll(), this.jobService.findAll()])
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(async ([employees, jobs]) => {
         const dataSource: GridRow[] = [];
         for (const item of employees) {
@@ -221,7 +221,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
   private async findEmployee(id: number): Promise<void> {
     this.employeeService
       .findById(id)
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(
         async (employee) => {
           this.populateForm(employee);

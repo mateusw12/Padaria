@@ -9,7 +9,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { State, Supplier } from '@module/models';
 import { SupplierService, ZipCodeAddressesService } from '@module/services';
 import { ToastServiceComponent } from '@module/shared';
-import { isValidCNPJ } from '@module/utils';
+import { isValidCNPJ, untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
@@ -83,7 +83,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
     if (!model.id) return;
     this.supplierService
       .deleteById(model.id)
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(
         async () => {
           await this.toastService.showRemove('Removido');
@@ -105,7 +105,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
       exists
         ? this.supplierService
             .updateById(model)
-            .pipe()
+            .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
                 await this.toastService.showUpdate();
@@ -177,7 +177,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   private loadData(): void {
     this.supplierService
       .findAll()
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(
         async (suppliers) => {
           const dataSouce: GridRow[] = [];
@@ -209,7 +209,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   private async findSupplier(id: number): Promise<void> {
     this.supplierService
       .findById(id)
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(
         async (departament) => {
           this.populateForm(departament);

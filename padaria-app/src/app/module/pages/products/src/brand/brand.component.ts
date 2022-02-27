@@ -3,10 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Brand } from '@module/models';
 import { BrandService } from '@module/services';
 import { ToastServiceComponent } from '@module/shared';
+import { untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-
 
 const NEW_ID = 'NOVO';
 
@@ -59,7 +59,6 @@ export class BrandComponent implements OnInit, OnDestroy {
   }
 
   async onEdit(model: GridRow): Promise<void> {
-    console.log(model);
     await this.onOpen(model.id);
   }
 
@@ -67,7 +66,7 @@ export class BrandComponent implements OnInit, OnDestroy {
     if (!model.id) return;
     this.brandService
       .deleteById(model.id)
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(
         async () => {
           await this.toastService.showRemove();
@@ -88,7 +87,7 @@ export class BrandComponent implements OnInit, OnDestroy {
       exists
         ? this.brandService
             .updateById(model)
-            .pipe()
+            .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
                 await this.toastService.showUpdate();
@@ -98,7 +97,7 @@ export class BrandComponent implements OnInit, OnDestroy {
             )
         : this.brandService
             .add(model)
-            .pipe()
+            .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
                 await this.toastService.showSucess();
@@ -114,7 +113,7 @@ export class BrandComponent implements OnInit, OnDestroy {
   private loadData(): void {
     this.brandService
       .findAll()
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(async (brands) => {
         this.dataSource = brands;
       });
@@ -123,7 +122,7 @@ export class BrandComponent implements OnInit, OnDestroy {
   private async findBrand(id: number): Promise<void> {
     this.brandService
       .findById(id)
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(
         async (brand) => {
           this.populateForm(brand);

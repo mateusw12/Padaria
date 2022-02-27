@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UnitMeasure } from '@module/models';
 import { UnitMeasureService } from '@module/services';
 import { ToastServiceComponent } from '@module/shared';
+import { untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
@@ -58,7 +59,6 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
   }
 
   async onEdit(model: GridRow): Promise<void> {
-    console.log(model);
     await this.onOpen(model.id);
   }
 
@@ -66,7 +66,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
     if (!model.id) return;
     this.departametService
       .deleteById(model.id)
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(
         async () => {
           await this.toastService.showRemove();
@@ -87,7 +87,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
       exists
         ? this.departametService
             .updateById(model)
-            .pipe()
+            .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
                 await this.toastService.showUpdate();
@@ -97,7 +97,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
             )
         : this.departametService
             .add(model)
-            .pipe()
+            .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
                 await this.toastService.showSucess();
@@ -113,7 +113,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
   private loadData(): void {
     this.departametService
       .findAll()
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(async (unitMeasures) => {
         this.dataSource = unitMeasures;
       });
@@ -122,7 +122,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
   private async findUnitMeasure(id: number): Promise<void> {
     this.departametService
       .findById(id)
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(
         async (unitMeasure) => {
           this.populateForm(unitMeasure);

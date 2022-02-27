@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NoteType } from '@module/models';
 import { NoteTypeService } from '@module/services';
 import { ToastServiceComponent, FieldErrorDisplayComponent } from '@module/shared';
+import { untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-
 
 const NEW_ID = 'NOVO';
 
@@ -67,7 +67,7 @@ export class NoteTypesComponent implements OnInit {
     if (!model.id) return;
     this.noteTypeService
       .deleteById(model.id)
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(
         async () => {
           await this.toastService.showRemove();
@@ -89,7 +89,7 @@ export class NoteTypesComponent implements OnInit {
       exists
         ? this.noteTypeService
             .updateById(model)
-            .pipe()
+            .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
                 await this.toastService.showUpdate();
@@ -99,7 +99,7 @@ export class NoteTypesComponent implements OnInit {
             )
         : this.noteTypeService
             .add(model)
-            .pipe()
+            .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
                 await this.toastService.showSucess();
@@ -116,7 +116,7 @@ export class NoteTypesComponent implements OnInit {
   private loadData(): void {
     this.noteTypeService
       .findAll()
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(async (noteTypes) => {
         this.dataSource = noteTypes;
       });
@@ -125,7 +125,7 @@ export class NoteTypesComponent implements OnInit {
   private async findNoteType(id: number): Promise<void> {
     this.noteTypeService
       .findById(id)
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(
         async (noteType) => {
           this.populateForm(noteType);

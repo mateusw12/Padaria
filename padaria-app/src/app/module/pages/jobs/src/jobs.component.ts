@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Job } from '@module/models';
 import { JobService } from '@module/services';
 import { ToastServiceComponent } from '@module/shared';
+import { untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
@@ -53,7 +54,6 @@ export class JobsComponent implements OnInit, OnDestroy {
   }
 
   async onEdit(model: GridRow): Promise<void> {
-    console.log(model);
     await this.onOpen(model.id);
   }
 
@@ -61,7 +61,7 @@ export class JobsComponent implements OnInit, OnDestroy {
     if (!model.id) return;
     this.jobService
       .deleteById(model.id)
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(
         async () => {
           await this.toastService.showRemove();
@@ -82,7 +82,7 @@ export class JobsComponent implements OnInit, OnDestroy {
       exists
         ? this.jobService
             .updateById(model)
-            .pipe()
+            .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
                 await this.toastService.showUpdate();
@@ -92,7 +92,7 @@ export class JobsComponent implements OnInit, OnDestroy {
             )
         : this.jobService
             .add(model)
-            .pipe()
+            .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
                 await this.toastService.showSucess();
@@ -109,7 +109,7 @@ export class JobsComponent implements OnInit, OnDestroy {
   private loadData(): void {
     this.jobService
       .findAll()
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(async (jobs) => {
         this.dataSource = jobs;
       });
@@ -118,7 +118,7 @@ export class JobsComponent implements OnInit, OnDestroy {
   private async findJob(id: number): Promise<void> {
     this.jobService
       .findById(id)
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(
         async (job) => {
           this.populateForm(job);

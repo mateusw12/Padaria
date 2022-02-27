@@ -3,10 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Manufacturer } from '@module/models';
 import { ManufacturerService } from '@module/services';
 import { ToastServiceComponent } from '@module/shared';
+import { untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-
 
 const NEW_ID = 'NOVO';
 
@@ -67,7 +67,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
     if (!model.id) return;
     this.manufacturerService
       .deleteById(model.id)
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(
         async () => {
           await this.toastService.showRemove();
@@ -115,7 +115,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
   private loadData(): void {
     this.manufacturerService
       .findAll()
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(async (manufacturer) => {
         this.dataSource = manufacturer;
       });
@@ -124,7 +124,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
   private async findManufacturer(id: number): Promise<void> {
     this.manufacturerService
       .findById(id)
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(
         async (departament) => {
           this.populateForm(departament);

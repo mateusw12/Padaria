@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Product, Classification } from '@module/models';
 import { ClassificationService, ProductService } from '@module/services';
 import { ToastServiceComponent } from '@module/shared';
+import { untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
@@ -68,7 +69,7 @@ export class ClassificationComponent implements OnInit, OnDestroy {
     if (!model.id) return;
     this.classificationService
       .deleteById(model.id)
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(
         async () => {
           await this.toastService.showRemove();
@@ -90,7 +91,7 @@ export class ClassificationComponent implements OnInit, OnDestroy {
       exists
         ? this.classificationService
             .updateById(model)
-            .pipe()
+            .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
                 await this.toastService.showUpdate();
@@ -100,7 +101,7 @@ export class ClassificationComponent implements OnInit, OnDestroy {
             )
         : this.classificationService
             .add(model)
-            .pipe()
+            .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
                 await this.toastService.showSucess();
@@ -118,7 +119,7 @@ export class ClassificationComponent implements OnInit, OnDestroy {
       this.productService.findAll(),
       this.classificationService.findAll(),
     ])
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(async ([products, classifications]) => {
         const dataSource: GridRow[] = [];
         this.products = products;
@@ -136,7 +137,7 @@ export class ClassificationComponent implements OnInit, OnDestroy {
   private async findClassification(id: number): Promise<void> {
     this.classificationService
       .findById(id)
-      .pipe()
+      .pipe(untilDestroyed(this))
       .subscribe(
         async (classification) => {
           this.populateForm(classification);
