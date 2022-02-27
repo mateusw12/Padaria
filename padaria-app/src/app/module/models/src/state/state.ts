@@ -1,8 +1,4 @@
-export interface StateProperty {
-  abbreviation: string;
-  name: string;
-  displayName: string;
-}
+import { StateProperty } from '@module/utils';
 
 export class State {
   state: StateProperty[] = [
