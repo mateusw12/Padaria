@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Manufacturer } from '@module/models';
 import { ManufacturerService } from '@module/services';
-import { ToastServiceComponent } from '@module/shared';
 import { untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { ToastService } from '@module/shared';
 
 const NEW_ID = 'NOVO';
 
@@ -19,15 +19,9 @@ interface GridRow {
   selector: 'app-manufacturers',
   templateUrl: './manufacturers.component.html',
   styleUrls: ['./manufacturers.component.scss'],
-  providers: [
-    SortService,
-    ManufacturerService,
-    DialogComponent,
-    ToastServiceComponent,
-  ],
+  providers: [SortService, ManufacturerService, DialogComponent],
 })
 export class ManufacturersComponent implements OnInit, OnDestroy {
-
   @ViewChild('modal', { static: true })
   modal!: DialogComponent;
 
@@ -36,7 +30,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
   isModalOpen = false;
 
   constructor(
-    private toastService: ToastServiceComponent,
+    private toastService: ToastService,
     private manufacturerService: ManufacturerService
   ) {}
 
@@ -80,6 +74,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
   async onSaveClick(): Promise<void> {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
+      this.toastService.showWarning('Formulário inválido!');
       return;
     }
     const model = this.getModel();
@@ -101,7 +96,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
             .pipe()
             .subscribe(
               async () => {
-                await this.toastService.showSucess();
+                await this.toastService.showSuccess();
               },
               (error) => this.toastService.showError(error)
             )

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UnitMeasure } from '@module/models';
 import { UnitMeasureService } from '@module/services';
-import { ToastServiceComponent } from '@module/shared';
+import { ToastService } from '@module/shared';
 import { untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
@@ -19,12 +19,7 @@ interface GridRow {
 @Component({
   selector: 'app-unit-measure',
   templateUrl: './unit-measure.component.html',
-  providers: [
-    SortService,
-    UnitMeasureService,
-    DialogComponent,
-    ToastServiceComponent,
-  ],
+  providers: [SortService, UnitMeasureService, DialogComponent],
 })
 export class UnitMeasureComponent implements OnInit, OnDestroy {
   @ViewChild('modal', { static: true })
@@ -35,7 +30,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
   isModalOpen = false;
 
   constructor(
-    private toastService: ToastServiceComponent,
+    private toastService: ToastService,
     private departametService: UnitMeasureService
   ) {}
 
@@ -79,6 +74,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
   async onSaveClick(): Promise<void> {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
+      this.toastService.showWarning('Formulário inválido!');
       return;
     }
     const model = this.getModel();
@@ -100,7 +96,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
             .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
-                await this.toastService.showSucess();
+                await this.toastService.showSuccess();
               },
               (error) => this.toastService.showError(error)
             )

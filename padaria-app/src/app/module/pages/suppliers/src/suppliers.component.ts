@@ -8,7 +8,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { State, Supplier } from '@module/models';
 import { SupplierService, ZipCodeAddressesService } from '@module/services';
-import { ToastServiceComponent } from '@module/shared';
+import { ToastService } from '@module/shared';
 import { isValidCNPJ, untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
@@ -36,7 +36,6 @@ interface GridRow {
     SortService,
     SupplierService,
     DialogComponent,
-    ToastServiceComponent,
     ZipCodeAddressesService,
   ],
 })
@@ -49,7 +48,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   isModalOpen = false;
 
   constructor(
-    private toastService: ToastServiceComponent,
+    private toastService: ToastService,
     private supplierService: SupplierService,
     private zipCodeAddresses: ZipCodeAddressesService,
     private errorHandler: ErrorHandler
@@ -96,7 +95,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   async onSaveClick(): Promise<void> {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
-      this.toastService.showAlert('Formulário Inválido');
+      this.toastService.showWarning('Formulário Inválido');
       return;
     }
     const model = this.getModel();
@@ -118,7 +117,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
             .pipe()
             .subscribe(
               async () => {
-                await this.toastService.showSucess();
+                await this.toastService.showSuccess();
               },
               (error) => this.toastService.showError(error)
             )
@@ -143,11 +142,11 @@ export class SuppliersComponent implements OnInit, OnDestroy {
         if (!value) return;
         const valid = isValidCNPJ(value);
         if (!valid) {
-          await this.toastService.showError('CNPJ Inválido!');
+          await this.toastService.showWarning('CNPJ Inválido!');
           controls.cnpj.reset();
           return;
         }
-        await this.toastService.showSucess('CNPJ Válido!')
+        await this.toastService.showSuccess('CNPJ Válido!');
       });
   }
 

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NoteType } from '@module/models';
 import { NoteTypeService } from '@module/services';
-import { ToastServiceComponent, FieldErrorDisplayComponent } from '@module/shared';
+import { FieldErrorDisplayComponent, ToastService } from '@module/shared';
 import { untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
@@ -22,7 +22,6 @@ interface GridRow {
   providers: [
     SortService,
     DialogComponent,
-    ToastServiceComponent,
     NoteTypeService,
     FieldErrorDisplayComponent,
   ],
@@ -35,7 +34,7 @@ export class NoteTypesComponent implements OnInit {
   isModalOpen = false;
 
   constructor(
-    private toastService: ToastServiceComponent,
+    private toastService: ToastService,
     private noteTypeService: NoteTypeService,
     private formBuilder: FormBuilder
   ) {}
@@ -102,7 +101,7 @@ export class NoteTypesComponent implements OnInit {
             .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
-                await this.toastService.showSucess();
+                await this.toastService.showSuccess();
               },
               (error) => this.toastService.showError(error)
             )
@@ -138,7 +137,7 @@ export class NoteTypesComponent implements OnInit {
     this.form.patchValue({
       id: noteType.id,
       name: noteType.name,
-      abbreviation: noteType.abbreviation
+      abbreviation: noteType.abbreviation,
     });
   }
 

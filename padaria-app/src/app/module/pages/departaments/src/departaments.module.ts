@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@module/utils';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { GridModule } from '@syncfusion/ej2-angular-grids';
 import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
@@ -12,7 +12,6 @@ import { DepartamentsComponent } from './departaments.component';
   declarations: [DepartamentsComponent],
   imports: [
     CommonModule,
-    FormsModule,
     ReactiveFormsModule,
     TextBoxModule,
     DialogModule,

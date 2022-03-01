@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Brand } from '@module/models';
 import { BrandService } from '@module/services';
-import { ToastServiceComponent } from '@module/shared';
+import { ToastService } from '@module/shared';
 import { untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
@@ -22,7 +22,6 @@ interface GridRow {
     SortService,
     BrandService,
     DialogComponent,
-    ToastServiceComponent,
   ],
 })
 export class BrandComponent implements OnInit, OnDestroy {
@@ -35,7 +34,7 @@ export class BrandComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private toastService: ToastServiceComponent,
+    private toastService: ToastService,
     private brandService: BrandService
       ) {}
 
@@ -79,6 +78,7 @@ export class BrandComponent implements OnInit, OnDestroy {
   async onSaveClick(): Promise<void> {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
+      this.toastService.showWarning('Formulário inválido!');
       return;
     }
     const model = this.getModel();
@@ -100,7 +100,7 @@ export class BrandComponent implements OnInit, OnDestroy {
             .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
-                await this.toastService.showSucess();
+                await this.toastService.showSuccess();
               },
               (error) => this.toastService.showError(error)
             )

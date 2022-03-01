@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Job } from '@module/models';
 import { JobService } from '@module/services';
-import { ToastServiceComponent } from '@module/shared';
 import { untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { ToastService } from '@module/shared';
 
 const NEW_ID = 'NOVO';
 
@@ -19,7 +19,7 @@ interface GridRow {
   selector: 'app-jobs',
   templateUrl: './jobs.component.html',
   styleUrls: ['./jobs.component.scss'],
-  providers: [SortService, JobService, DialogComponent, ToastServiceComponent],
+  providers: [SortService, JobService, DialogComponent],
 })
 export class JobsComponent implements OnInit, OnDestroy {
   @ViewChild('modal', { static: true })
@@ -30,7 +30,7 @@ export class JobsComponent implements OnInit, OnDestroy {
   isModalOpen = false;
 
   constructor(
-    private toastService: ToastServiceComponent,
+    private toastService: ToastService,
     private jobService: JobService
   ) {}
 
@@ -74,6 +74,7 @@ export class JobsComponent implements OnInit, OnDestroy {
   async onSaveClick(): Promise<void> {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
+      this.toastService.showWarning('Formulário inválido!');
       return;
     }
     const model = this.getModel();
@@ -95,7 +96,7 @@ export class JobsComponent implements OnInit, OnDestroy {
             .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
-                await this.toastService.showSucess();
+                await this.toastService.showSuccess();
               },
               (error) => this.toastService.showError(error)
             )

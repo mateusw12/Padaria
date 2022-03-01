@@ -2,12 +2,12 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Product, Classification } from '@module/models';
 import { ClassificationService, ProductService } from '@module/services';
-import { ToastServiceComponent } from '@module/shared';
 import { untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { forkJoin } from 'rxjs';
+import { ToastService } from '@module/shared';
 
 const NEW_ID = 'NOVO';
 
@@ -24,7 +24,6 @@ interface GridRow {
     ClassificationService,
     ProductService,
     DialogComponent,
-    ToastServiceComponent,
   ],
 })
 export class ClassificationComponent implements OnInit, OnDestroy {
@@ -37,7 +36,7 @@ export class ClassificationComponent implements OnInit, OnDestroy {
   products: Product[] = [];
 
   constructor(
-    private toastService: ToastServiceComponent,
+    private toastService: ToastService,
     private classificationService: ClassificationService,
     private productService: ProductService
   ) {}
@@ -82,7 +81,7 @@ export class ClassificationComponent implements OnInit, OnDestroy {
   async onSaveClick(): Promise<void> {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
-      this.toastService.showError('Formulário inválido!');
+      this.toastService.showWarning('Formulário inválido!');
       return;
     }
     const model = this.getModel();
@@ -104,7 +103,7 @@ export class ClassificationComponent implements OnInit, OnDestroy {
             .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
-                await this.toastService.showSucess();
+                await this.toastService.showSuccess();
               },
               (error) => this.toastService.showError(error)
             )

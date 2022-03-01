@@ -18,13 +18,13 @@ import {
   JobService,
   ZipCodeAddressesService
 } from '@module/services';
-import { ToastServiceComponent } from '@module/shared';
 import { getEnumArray, getEnumDescription, isValidCPF, untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { forkJoin } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { ToastService } from '@module/shared';
 
 const NEW_ID = 'NOVO';
 const BRAZILIAN_STATES: State = new State();
@@ -50,7 +50,6 @@ interface GridRow {
     SortService,
     EmployeeService,
     DialogComponent,
-    ToastServiceComponent,
   ],
 })
 export class EmployeesComponent implements OnInit, OnDestroy {
@@ -68,7 +67,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
   jobs: Job[] = [];
 
   constructor(
-    private toastService: ToastServiceComponent,
+    private toastService: ToastService,
     private employeeService: EmployeeService,
     private jobService: JobService,
     private zipCodeAddressesService: ZipCodeAddressesService
@@ -115,7 +114,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
   async onSaveClick(): Promise<void> {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
-      this.toastService.showError('Formulário inválido!');
+      this.toastService.showWarning('Formulário inválido!');
       return;
     }
     const model = this.getModel();
@@ -137,7 +136,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
             .pipe(untilDestroyed(this))
             .subscribe(
               async () => {
-                await this.toastService.showSucess();
+                await this.toastService.showSuccess();
               },
               (error) => this.toastService.showError(error)
             )
@@ -163,11 +162,11 @@ export class EmployeesComponent implements OnInit, OnDestroy {
         if (!value) return;
         const valid = isValidCPF(value);
         if (!valid) {
-          await this.toastService.showError('CPF Inválido!');
+          await this.toastService.showWarning('CPF Inválido!');
           controls.cpf.reset();
           return;
         }
-        await this.toastService.showSucess('CPF Válido!')
+        await this.toastService.showSuccess('CPF Válido!')
       });
   }
 
@@ -199,6 +198,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe(async ([employees, jobs]) => {
         const dataSource: GridRow[] = [];
+
         for (const item of employees) {
           const job = jobs.find((el) => el.id === item.jobId);
 
