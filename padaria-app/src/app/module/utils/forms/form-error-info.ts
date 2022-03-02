@@ -38,9 +38,9 @@ export function hasFormError(control: AbstractControl): boolean {
       const errorCodes = Object.keys(current.errors);
       for (const errorCode of errorCodes) {
         const errorInfo = parseErrorInfo(errorCode);
-        if (!errorInfo) { continue; }
+        if (!errorInfo) continue;
         const errorPath = errorInfo.getPath();
-        if (!errorPath.isPath(controlPath)) { continue; }
+        if (!errorPath.isPath(controlPath)) continue;
         return true;
       }
     }

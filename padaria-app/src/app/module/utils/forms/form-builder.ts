@@ -3,9 +3,11 @@ import {
   FormArray as AngularFormArray,
   FormControl as AngularFormControl,
   FormGroup as AngularFormGroup,
-  ValidatorFn,
+  ValidatorFn
 } from '@angular/forms';
+
 import { setErrorMessages } from './form-error-accessor';
+
 import {
   AbstractControl,
   AbstractControlOptions,
@@ -14,16 +16,12 @@ import {
   FormErrorMessages,
   FormGroup,
   FormModel,
-  FormStateOptions,
+  FormStateOptions
 } from './form-interfaces';
 
 export function createFormControl<T>(
   formState?: T | FormStateOptions<T> | null,
-  validatorOrOptions?:
-    | ValidatorFn
-    | ValidatorFn[]
-    | AbstractControlOptions
-    | null,
+  validatorOrOptions?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null,
   asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null,
   errorMessages?: FormErrorMessages
 ): FormControl<T> {
@@ -38,11 +36,7 @@ export function createFormControl<T>(
 
 export function createFormGroup<T extends FormModel<T>>(
   controls: T,
-  validatorOrOptions?:
-    | ValidatorFn
-    | ValidatorFn[]
-    | AbstractControlOptions
-    | null,
+  validatorOrOptions?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null,
   asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null,
   errorMessages?: FormErrorMessages
 ): FormGroup<T> {
@@ -57,11 +51,7 @@ export function createFormGroup<T extends FormModel<T>>(
 
 export function createFormArray<T extends AbstractControl<unknown>[]>(
   controls: T,
-  validatorOrOptions?:
-    | ValidatorFn
-    | ValidatorFn[]
-    | AbstractControlOptions
-    | null,
+  validatorOrOptions?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null,
   asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null,
   errorMessages?: FormErrorMessages
 ): FormArray<T> {

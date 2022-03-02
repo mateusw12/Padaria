@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
-import { isString } from 'lodash';
+import { isString } from '@module/utils/internal';
 
 const URL_PATTERN = new RegExp(
   '^' +
@@ -44,6 +44,6 @@ const URL_PATTERN = new RegExp(
 );
 
 export function urlValidator(control: AbstractControl): ValidationErrors | null {
-  if (isString(control.value) && URL_PATTERN.test(control.value)) { return null; }
+  if (isString(control.value) && URL_PATTERN.test(control.value)) return null;
   return { url: false };
 }

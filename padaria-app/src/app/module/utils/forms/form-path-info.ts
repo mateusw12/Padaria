@@ -1,5 +1,5 @@
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
-import { isString } from 'lodash';
+import { isString } from '../internal';
 
 const PATH_SEPARATOR = '.';
 
@@ -39,7 +39,7 @@ export class FormPathInfo {
 export function getControlPath(control: AbstractControl): FormPathInfo {
   const path: FormPath = [];
   let child: AbstractControl = control;
-  let parent: FormGroup | FormArray | null = child.parent;
+  let parent: FormGroup | FormArray = child.parent!;
   while (parent) {
     let name: string | number | undefined;
     if (parent instanceof FormGroup) {
@@ -54,11 +54,11 @@ export function getControlPath(control: AbstractControl): FormPathInfo {
       name = parent.controls.indexOf(child);
     }
     if (name === undefined) {
-      throw new Error('O caminho do controle não foi encontrado.');
+      return new FormPathInfo(path.reverse())
     }
     path.push(name);
     child = parent;
-    parent = child.parent;
+    parent = child.parent!;
   }
   return new FormPathInfo(path.reverse());
 }
