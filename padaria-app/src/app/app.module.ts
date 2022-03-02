@@ -1,10 +1,10 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ToastService } from '@module/shared';
+import { ExternalNavigationService, ToastService } from '@module/shared';
 import {
   SidebarModule,
-  TreeViewModule
+  TreeViewModule,
 } from '@syncfusion/ej2-angular-navigations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,7 +19,7 @@ import { MenuComponent } from './module/pages/menu/menu.component';
     HttpClientModule,
     AppRoutingModule,
   ],
-  providers: [ToastService],
+  providers: [ToastService, ExternalNavigationService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
