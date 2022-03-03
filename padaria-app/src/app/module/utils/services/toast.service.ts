@@ -1,4 +1,6 @@
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { ButtonModelPropsModel } from '@syncfusion/ej2-angular-notifications';
+import { ToastUtility } from '@syncfusion/ej2-notifications';
 import {
   ERROR_CONTENT,
   ERROR_CSS_CLASS,
@@ -11,10 +13,8 @@ import {
   SUCCESS_TITLE,
   UPDATE_CONTENT,
   WARNING_CSS_CLASS,
-  WARNING_TITLE
-} from '@module/utils';
-import { ButtonModelPropsModel } from '@syncfusion/ej2-angular-notifications';
-import { ToastUtility } from '@syncfusion/ej2-notifications';
+  WARNING_TITLE,
+} from '../constant';
 
 @Injectable({
   providedIn: 'root',
