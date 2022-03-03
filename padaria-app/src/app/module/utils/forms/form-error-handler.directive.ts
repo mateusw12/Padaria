@@ -12,7 +12,6 @@ import {
   Self,
   ViewContainerRef
 } from '@angular/core';
-
 import { AbstractControl, AbstractControlDirective, ControlContainer, NgControl } from '@angular/forms';
 import { merge, Observable, Subject } from 'rxjs';
 import { untilDestroyed } from '../common';
@@ -26,7 +25,7 @@ const SUCCESS = 'e-success';
 const ERROR = 'e-error';
 
 @Directive({
-  selector: '[mnuFormErrorHandler]'
+  selector: '[formErrorHandler]'
 })
 export class FormErrorHandlerDirective implements OnInit, DoCheck, OnDestroy {
 

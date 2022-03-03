@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ExternalNavigationService, ToastService } from '@module/shared';
+import { ToastService, ExternalNavigationService } from '@module/utils/services';
 import {
   SidebarModule,
   TreeViewModule,

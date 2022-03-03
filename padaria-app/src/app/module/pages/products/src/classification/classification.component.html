@@ -25,12 +25,12 @@
 </ejs-grid>
 
 <div *ngIf="isModalOpen">
-  <ejs-dialog #modal 
+  <ejs-dialog #modal
               header="Cadastro de Classificação"
-              isModal='true' 
+              isModal='true'
               showCloseIcon="true"
-              (close)="onModalClose()" 
-              width="50%" 
+              (close)="onModalClose()"
+              width="50%"
               [content]="body"
               [footerTemplate]="footer">
   </ejs-dialog>
@@ -47,15 +47,17 @@
         <ejs-textbox  formControlName="name"
                       placeholder="Nome"
                       width="80%"
+                      formErrorHandler
                       class="align-text-box-name">
         </ejs-textbox>
       </div>
     </div>
     <div class="row">
       <div class="form-group">
-        <ejs-multiselect  formControlName="name" 
-                          placeholder="Produtos" 
-                          width="93%" 
+        <ejs-multiselect  formControlName="name"
+                          placeholder="Produtos"
+                          width="93%"
+                          formErrorHandler
                           [allowFiltering]="true"
                           [dataSource]="products"
                           [fields]=" { value: 'id', text:'name' }">

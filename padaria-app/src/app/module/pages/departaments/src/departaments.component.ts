@@ -1,24 +1,14 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Departament } from '@module/models';
 import { DepartamentService } from '@module/services';
-import { ToastService } from '@module/shared';
-import {
-  createFormControl,
-  createFormGroup,
-  FormControl,
-  FormGroup,
-  untilDestroyed,
-} from '@module/utils';
+import { untilDestroyed } from '@module/utils/common';
+import { ToastService } from '@module/utils/services';
 import { SortService } from '@syncfusion/ej2-angular-grids';
+import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 
 const NEW_ID = 'NOVO';
-
-interface FormModel {
-  id: FormControl<string>;
-  name: FormControl<string>;
-}
 
 interface GridRow {
   id: number;
@@ -36,7 +26,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
   modal!: DialogComponent;
 
   dataSource: GridRow[] = [];
-  form: FormGroup<FormModel> = this.createForm();
+  form: FormGroup = this.createForm();
   isModalOpen = false;
 
   constructor(
@@ -163,15 +153,13 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private createForm(): FormGroup<FormModel> {
-    return createFormGroup<FormModel>({
-      id: createFormControl<string>({ value: NEW_ID, disabled: true }, [
-        Validators.required,
+  private createForm(): FormGroup {
+    return (this.form = new FormGroup({
+      id: new FormControl({ value: NEW_ID, disabled: true }),
+      name: new FormControl(null, [
+        FormValidators.required,
+        Validators.maxLength(200),
       ]),
-      name: createFormControl<string>(null, [
-        Validators.required,
-        Validators.maxLength(100),
-      ]),
-    });
+    }));
   }
 }

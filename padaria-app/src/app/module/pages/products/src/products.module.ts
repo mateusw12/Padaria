@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
 import { GridModule } from '@syncfusion/ej2-angular-grids';
@@ -26,7 +26,6 @@ import { UnitMeasureComponent } from './unit-measure/unit-measure.component';
     GridModule,
     DialogModule,
     ReactiveFormsModule,
-    FormsModule,
     TabModule,
     ButtonModule,
     MultiSelectModule,

@@ -8,8 +8,10 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { State, Supplier } from '@module/models';
 import { SupplierService, ZipCodeAddressesService } from '@module/services';
-import { ToastService } from '@module/shared';
-import { isValidCNPJ, untilDestroyed } from '@module/utils';
+import { untilDestroyed } from '@module/utils/common';
+import { ZIP_CODE_ADDRESSES_REGEX } from '@module/utils/constant';
+import { ToastService } from '@module/utils/services';
+import { isValidCNPJ } from '@module/utils/validations';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
@@ -17,7 +19,6 @@ import { debounceTime } from 'rxjs/operators';
 
 const NEW_ID = 'NOVO';
 const BRAZILIAN_STATES: State = new State();
-const ZIPCODEREGEX = /^[0-9]{8}$/;
 
 interface GridRow {
   id: number;
@@ -152,7 +153,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
 
   private getZipCodeAddresses(zipCode: string): void {
     this.resetZipCodeAddressesField();
-    if (!ZIPCODEREGEX.test(zipCode)) return;
+    if (!ZIP_CODE_ADDRESSES_REGEX.test(zipCode)) return;
     this.zipCodeAddresses.getZipCodeAddresses(zipCode).subscribe(
       async (zipCodeAddresses) => {
         this.form.patchValue({

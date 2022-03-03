@@ -18,13 +18,15 @@ import {
   JobService,
   ZipCodeAddressesService
 } from '@module/services';
-import { getEnumArray, getEnumDescription, isValidCPF, untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { forkJoin } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { ToastService } from '@module/shared';
+import { ToastService } from '@module/utils/services';
+import { untilDestroyed } from '@module/utils/common';
+import { getEnumArray, getEnumDescription } from '@module/utils/functions';
+import { isValidCPF } from '@module/utils/validations';
 
 const NEW_ID = 'NOVO';
 const BRAZILIAN_STATES: State = new State();

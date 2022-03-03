@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Manufacturer } from '@module/models';
 import { ManufacturerService } from '@module/services';
-import { untilDestroyed } from '@module/utils';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { ToastService } from '@module/shared';
+import { ToastService } from '@module/utils/services';
+import { untilDestroyed } from '@module/utils/common';
 
 const NEW_ID = 'NOVO';
 

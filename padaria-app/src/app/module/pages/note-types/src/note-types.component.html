@@ -24,14 +24,14 @@
 </ejs-grid>
 
 <div *ngIf="isModalOpen">
-  <ejs-dialog id='dialog' 
-              #modal 
-              header="Cadastro de Tipo Nota" 
-              isModal='true' 
+  <ejs-dialog id='dialog'
+              #modal
+              header="Cadastro de Tipo Nota"
+              isModal='true'
               showCloseIcon="true"
-              (close)="onModalClose()" 
+              (close)="onModalClose()"
               width="50%"
-              [content]="body" 
+              [content]="body"
               [footerTemplate]="footer">
   </ejs-dialog>
 </div>
@@ -47,12 +47,14 @@
         <ejs-textbox  formControlName="abbreviation"
                       placeholder="Abreviação"
                       width="20%"
+                      formErrorHandler
                       class="align-text-box-name required">
         </ejs-textbox>
         <ejs-textbox  id="name"
                       formControlName="name"
                       placeholder="Nome"
                       width="60%"
+                      formErrorHandler
                       class="align-text-box-name">
         </ejs-textbox>
       </div>

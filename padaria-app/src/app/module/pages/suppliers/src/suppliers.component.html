@@ -47,12 +47,14 @@
         <ejs-textbox  formControlName="name"
                       placeholder="Nome"
                       width="56%"
+                      formErrorHandler
                       class="align-text-box-name">
         </ejs-textbox>
 
         <ejs-textbox  formControlName="cnpj"
                       placeholder="CNPJ"
                       width="30%"
+                      formErrorHandler
                       class="align-text-box-name">
         </ejs-textbox>
       </div>
@@ -61,22 +63,19 @@
       <div class="form-group">
         <ejs-textbox  formControlName="comercialName"
                       placeholder="Nome Fantasia"
+                      formErrorHandler
                       width="40%">
-                      <div *ngIf="this.form.controls.comercialName.invalid" class="alert- alert-danger">
-                        <div *ngIf="this.form.controls.comercialName.untouched">
-
-                          <p>Campo Inválido</p>
-                        </div>
-                      </div>
         </ejs-textbox>
         <ejs-textbox  formControlName="email"
                       placeholder="E-mail"
                       width="36%"
+                      formErrorHandler
                       class="align-text-box-name">
         </ejs-textbox>
         <ejs-textbox  formControlName="phone"
                       placeholder="Telefone"
                       width="20%"
+                      formErrorHandler
                       class="align-text-box-name">
         </ejs-textbox>
       </div>
@@ -85,6 +84,7 @@
       <div class="form-group">
         <ejs-textbox  formControlName="zipCodeAddresses"
                       placeholder="CEP"
+                      formErrorHandler
                       width="20%">
         </ejs-textbox>
         <ejs-textbox  formControlName="state"

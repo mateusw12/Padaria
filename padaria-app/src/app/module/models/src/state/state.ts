@@ -1,4 +1,4 @@
-import { StateProperty } from '@module/utils';
+import { StateProperty } from "@module/utils/interfaces";
 
 export class State {
   state: StateProperty[] = [

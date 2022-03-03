@@ -42,26 +42,30 @@
         </ejs-textbox>
         <ejs-textbox  formControlName="name"
                       placeholder="Nome"
+                      formErrorHandler
                       width="60%"
                       class="align-text-box-name">
         </ejs-textbox>
         <ejs-textbox  formControlName="cpf"
                       placeholder="CPF"
                       width="20%"
+                      formErrorHandler
                       class="align-text-box-name">
         </ejs-textbox>
       </div>
     </div>
-    <div class="row" class="align-drop-down">
+    <div class="row align-row" class="align-drop-down">
       <ejs-dropdownlist formControlName="gender"
                         placeholder="Gênero"
                         [allowFiltering]="true"
+                        formErrorHandler
                         [fields]="{value: 'value', text:'description'}"
                         [dataSource]="genders">
       </ejs-dropdownlist>
       <ejs-dropdownlist formControlName="maritalStatus"
                         placeholder="Estado Cívil"
                         [allowFiltering]="true"
+                        formErrorHandler
                         [fields]="{value: 'value', text:'description'}"
                         [dataSource]="martialStatus"
                         class="align-text-box-name">
@@ -69,6 +73,7 @@
       <ejs-multiselect  formControlName="chronicCondition"
                         placeholder="Doenças Crônicas"
                         [allowFiltering]="true"
+                        formErrorHandler
                         [fields]="{value: 'value', text:'description'}"
                         [dataSource]="chronicConditions"
                         [hideSelectedItem]="true"
@@ -79,17 +84,20 @@
     <div class="row" class="align-drop-down">
       <ejs-textbox  formControlName="phone"
                     placeholder="Telefone"
+                    formErrorHandler
                     width="30%">
       </ejs-textbox>
       <ejs-datepicker formControlName="birthDate"
                       placeholder="Data Nascimento"
                       [max]="today"
+                      formErrorHandler
                       width="20%"
                       class="align-text-box-name">
       </ejs-datepicker>
       <ejs-dropdownlist formControlName="levelSchooling"
                         placeholder="Grau Escolaridade"
                         [allowFiltering]="true"
+                        formErrorHandler
                         [fields]="{value: 'value', text:'description'}"
                         width="175%"
                         [dataSource]="levelSchoolings"
@@ -101,6 +109,7 @@
         <ejs-datepicker formControlName="admissionDate"
                         placeholder="Data Admissão"
                         [max]="today"
+                        formErrorHandler
                         width="20%">
         </ejs-datepicker>
         <ejs-dropdownlist formControlName="jobId"
@@ -108,6 +117,7 @@
                           [allowFiltering]="true"
                           [fields]="{value: 'id', text:'name'}"
                           [dataSource]="jobs"
+                          formErrorHandler
                           class="align-text-box-name">
         </ejs-dropdownlist>
         <ejs-numerictextbox formControlName="workingHours"
@@ -115,6 +125,7 @@
                             width="25%"
                             [decimals]="0"
                             [min]="1"
+                            formErrorHandler
                             [showSpinButton]="false"
                             class="align-text-box-name">
         </ejs-numerictextbox>
@@ -124,6 +135,7 @@
                             [decimals]="2"
                             [min]="1"
                             format="C2"
+                            formErrorHandler
                             [showSpinButton]="false"
                             class="align-text-box-name">
         </ejs-numerictextbox>
@@ -133,6 +145,7 @@
       <div class="form-group">
         <ejs-textbox  formControlName="email"
                       placeholder="E-mail"
+                      formErrorHandler
                       width="94%">
         </ejs-textbox>
       </div>
@@ -141,11 +154,13 @@
       <div class="form-group">
           <ejs-textbox  formControlName="zipCodeAddresses"
                         placeholder="CEP"
+                        formErrorHandler
                         width="20%">
           </ejs-textbox>
           <ejs-textbox  formControlName="state"
                         placeholder="Estado"
                         width="31%"
+                        formErrorHandler
                         class="align-text-box-name">
           </ejs-textbox>
           <ejs-textbox  formControlName="city"

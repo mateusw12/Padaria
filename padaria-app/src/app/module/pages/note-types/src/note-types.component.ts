@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NoteType } from '@module/models';
 import { NoteTypeService } from '@module/services';
-import { FieldErrorDisplayComponent, ToastService } from '@module/shared';
-import { untilDestroyed } from '@module/utils';
+import { untilDestroyed } from '@module/utils/common';
+import { ToastService } from '@module/utils/services';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 
@@ -23,7 +23,6 @@ interface GridRow {
     SortService,
     DialogComponent,
     NoteTypeService,
-    FieldErrorDisplayComponent,
   ],
 })
 export class NoteTypesComponent implements OnInit {

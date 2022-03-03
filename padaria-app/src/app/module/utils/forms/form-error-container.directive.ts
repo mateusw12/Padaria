@@ -3,8 +3,8 @@ import { FormErrorContainer, FormErrorContainerComponent } from './form-error-co
 import { FormErrorControl } from './form-error.component';
 
 @Directive({
-  selector: '[mnuFormErrorContainer]',
-  exportAs: 'mnuFormErrorContainer'
+  selector: '[formErrorContainer]',
+  exportAs: 'formErrorContainer'
 })
 export class FormErrorContainerDirective implements FormErrorContainer {
 
