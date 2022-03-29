@@ -1,3 +1,11 @@
+/**
+ * 
+ * Validação de CPF, recebe um cpf e retorno se está valido ou não
+ * 
+ * @param value 
+ * @returns 
+ */
+
 export function isValidCPF(value: string): boolean {
   if (typeof value !== 'string') return false;
   const cpf = value.replace(/[\s.-]*/gim, '');

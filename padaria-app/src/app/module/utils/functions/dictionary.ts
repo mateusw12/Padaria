@@ -10,6 +10,8 @@
  * Vantagens de se usar dicionário em várias requisições em uma só vez, ele é mais rápido do que um array.find()
  * podendo ganhar milissegundos ou segundos ao completar a função
  *
+ * Função que recebe uma lista do tipo T com um valor de identificador numeral, retornando um dicionario chave valor do tipo T
+ * 
  * @param list
  * @returns
  */

@@ -1,13 +1,21 @@
+/**
+ * 
+ * Função que realiza validação de CNPJ, recebendo um cnpj e retorno se está válido
+ * 
+ * @param value 
+ * @returns 
+ */
+
 export function isValidCNPJ(value: string): boolean {
   if (!value) return false;
 
-  const isString = typeof value === 'string';
+  const cnpj = typeof value === 'string';
   const validTypes =
-    isString || Number.isInteger(value) || Array.isArray(value);
+    cnpj || Number.isInteger(value) || Array.isArray(value);
 
   if (!validTypes) return false;
 
-  if (isString) {
+  if (cnpj) {
     if (value.length > 18) return false;
 
     const digitsOnly = /^\d{14}$/.test(value);

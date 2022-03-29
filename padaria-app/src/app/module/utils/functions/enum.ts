@@ -1,5 +1,13 @@
 import { Enum } from '../interfaces';
 
+/**
+ *  
+ * Função que tranforma uma classe de Enum, retornando em uma lista de Enuns para ser utilizado 
+ * 
+ * @param enumeration 
+ * @returns 
+ */
+
 export function getEnumArray(enumeration: Map<any, string>): Enum[] {
   const enumItems: Enum[] = [];
   for (const item of enumeration) {
@@ -11,6 +19,14 @@ export function getEnumArray(enumeration: Map<any, string>): Enum[] {
   return enumItems.filter((el) => el.value !== 0);
 }
 
+/**
+ * 
+ * Função que transforma um Map de classe Enum, retornando a descrição do mesmo
+ * 
+ * @param enumeration 
+ * @param value 
+ * @returns 
+ */
 export function getEnumDescription(
   enumeration: Map<any, string>,
   value: number
