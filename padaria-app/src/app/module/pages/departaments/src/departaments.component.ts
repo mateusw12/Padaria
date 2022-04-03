@@ -4,7 +4,7 @@ import { Departament } from '@module/models';
 import { DepartamentService } from '@module/services';
 import { untilDestroyed } from '@module/utils/common';
 import { ToastService } from '@module/utils/services';
-import { SortService } from '@syncfusion/ej2-angular-grids';
+import { CommandClickEventArgs, SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 
@@ -25,7 +25,12 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
   @ViewChild('modal', { static: true })
   modal!: DialogComponent;
 
-  dataSource: GridRow[] = [];
+  dataSource: GridRow[] = [
+    {
+      id: 1,
+      name: 'Ola',
+    },
+  ];
   form: FormGroup = this.createForm();
   isModalOpen = false;
 
@@ -53,7 +58,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
     this.isModalOpen = false;
   }
 
-  async onEdit(model: GridRow): Promise<void> {
+  async onEdit(model: any): Promise<void> {
     await this.onOpen(model.id);
   }
 

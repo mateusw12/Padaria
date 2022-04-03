@@ -19,3 +19,4 @@ export * from './is-promise';
 export * from './is-string';
 export * from './is-symbol';
 export * from './is-undefined';
+export * from './exceptions/invalid-operation.exception';

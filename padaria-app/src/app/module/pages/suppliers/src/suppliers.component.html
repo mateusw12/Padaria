@@ -1,5 +1,5 @@
 <div class="align-button">
-  <button ejs-button content="Adicionar" class="e-success" iconCss="e-icons e-plus" (click)="onOpen()">
+  <button ejs-button buttonAdd (click)="onOpen()">
   </button>
 </div>
 
@@ -7,7 +7,7 @@
           [rowHeight]="40"
           [allowSorting]="true"
           [dataSource]="dataSource"
-          [enableColumnVirtualization]="true"
+          [columns]="template"
           class="align-grid">
   <e-columns>
     <e-column headerTextAlign="left" width="50">
@@ -29,10 +29,13 @@
 </ejs-grid>
 
 <div *ngIf="isModalOpen">
-  <ejs-dialog id='dialog' #modal
-  header="Cadastro de Fornecedor"
-  isModal='true' showCloseIcon="true"
-    (close)="onModalClose()" width="40%" [content]="body" [footerTemplate]="footer">
+  <ejs-dialog id='dialog'
+              #modal
+              header="Cadastro de Fornecedor"
+              isModal='true' showCloseIcon="true"
+              (close)="onModalClose()" width="40%"
+              [content]="body"
+              [footerTemplate]="footer">
   </ejs-dialog>
 </div>
 
@@ -117,8 +120,8 @@
 
 <ng-template #footer>
   <div class="custon-button">
-    <button ejs-button content="Salvar" iconCss="e-icons e-check" class="e-success" [disabled]="!this.form.valid"
+    <button ejs-button buttonSave [disabled]="!this.form.valid"
       (click)="onSaveClick()"></button>
-    <button ejs-button content="Cancelar" iconCss="e-icons e-close" class="e-danger" (click)="onModalClose()"></button>
+    <button ejs-button buttonCancel (click)="onModalClose()"></button>
   </div>
 </ng-template>

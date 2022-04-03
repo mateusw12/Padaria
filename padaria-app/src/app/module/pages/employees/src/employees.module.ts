@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ButtonAppModule } from '@module/shared/src';
 import { ReactiveFormsModule } from '@module/utils/forms';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
@@ -29,6 +30,7 @@ import { EmployeesComponent } from './employees.component';
     MultiSelectModule,
     DatePickerModule,
     NumericTextBoxModule,
+    ButtonAppModule,
     EmployeesRoutingModule,
   ],
 })

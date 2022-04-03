@@ -33,7 +33,7 @@ export function Button(selector: string): ClassDecorator {
     host: {
       '[style.width]': 'width',
       '[style.height]': 'height',
-      '[class.mnu-btn-icon]': 'iconOnly'
+      '[class.btn-icon]': 'iconOnly'
     }
   });
 }
@@ -116,7 +116,7 @@ export abstract class ButtonBase
   @OnPropertyChange('iconOnly')
   onIconOnlyChange(): void {
     if (this.iconOnly) {
-      this.content = '';
+      this.content = ''
     }
   }
 }

@@ -1,20 +1,19 @@
 <div class="align-button">
-  <button ejs-button content="Adicionar" class="e-success" iconCss="e-icons e-plus" (click)="onOpen()">
+  <button ejs-button buttonAdd (click)="onOpen()">
   </button>
 </div>
 
 <ejs-grid class="align-grid"
           [height]="450"
           [rowHeight]="40"
+          [columns]="template"
           [allowSorting]="true"
           [dataSource]="dataSource">
   <e-columns>
     <e-column headerTextAlign="left" width="50">
       <ng-template #template let-data>
-        <div class='e-btn-group align-button-icon'>
           <button ejs-button class="e-info" iconCss='e-icons e-edit' (click)="onEdit(data)"></button>
           <button ejs-button class="e-danger align" iconCss='e-icons e-cancel' (click)="onRemove(data)"></button>
-        </div>
       </ng-template>
     </e-column>
     <e-column field="id" headerText="Código" headerTextAlign="center" textAlign="center" width="50" isPrimaryKey="true">
@@ -64,8 +63,8 @@
 
 <ng-template #footer>
   <div class="custon-button">
-    <button ejs-button content="Salvar" iconCss="e-icons e-check" class="e-success" [disabled]="!this.form.valid"
+    <button ejs-button buttonSave [disabled]="!this.form.valid"
       (click)="onSaveClick()"></button>
-    <button ejs-button content="Cancelar" iconCss="e-icons e-close" class="e-danger" (click)="onModalClose()"></button>
+    <button ejs-button buttonCancel (click)="onModalClose()"></button>
   </div>
 </ng-template>

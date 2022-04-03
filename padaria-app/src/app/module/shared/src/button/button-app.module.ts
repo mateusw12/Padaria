@@ -9,11 +9,8 @@ import { ButtonSaveDirective } from './button-save.directive';
 import { ButtonSearchDirective } from './button-search.directive';
 import { ButtonDirective } from './button.directive';
 
-
 @NgModule({
-  imports: [
-    ButtonAllModule
-  ],
+  imports: [ButtonAllModule],
   declarations: [
     ButtonAddDirective,
     ButtonCancelDirective,
@@ -22,7 +19,7 @@ import { ButtonDirective } from './button.directive';
     ButtonResetDirective,
     ButtonSaveDirective,
     ButtonSearchDirective,
-    ButtonDirective
+    ButtonDirective,
   ],
   exports: [
     ButtonAddDirective,
@@ -32,7 +29,7 @@ import { ButtonDirective } from './button.directive';
     ButtonResetDirective,
     ButtonSaveDirective,
     ButtonSearchDirective,
-    ButtonDirective
-  ]
+    ButtonDirective,
+  ],
 })
-export class ButtonAppModule { }
+export class ButtonAppModule {}
