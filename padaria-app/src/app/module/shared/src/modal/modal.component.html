@@ -1,0 +1,25 @@
+<div bsModal (keydown.esc)="onEscKeyDown($event)" class="modal fade" [config]="{ ignoreBackdropClick: true, keyboard: false }" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" [ngClass]="dialogClass">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button *ngIf="closeButton" type="button" class="close" (click)="onCloseClick($event)" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 *ngIf="headerText" class="modal-title">{{ headerText }}</h4>
+      </div>
+
+      <div #body class="modal-body" [ngClass]="bodyClass">
+        <ng-container *ngTemplateOutlet="bodyTemplate">
+        </ng-container>
+      </div>
+
+      <div *ngIf="footerTemplate" class="modal-footer">
+        <ng-container *ngTemplateOutlet="footerTemplate">
+        </ng-container>
+      </div>
+
+      <ng-container *ngTemplateOutlet="contentTemplate">
+      </ng-container>
+    </div>
+  </div>
+</div>
