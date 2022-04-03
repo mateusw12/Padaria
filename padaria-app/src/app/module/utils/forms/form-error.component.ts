@@ -5,7 +5,7 @@ export interface FormErrorControl {
 }
 
 @Component({
-  selector: 'mnu-form-error',
+  selector: 'form-error',
   template: `<label class="e-error" [title]="message">{{ message }}</label>`,
   styles: [`
     label {

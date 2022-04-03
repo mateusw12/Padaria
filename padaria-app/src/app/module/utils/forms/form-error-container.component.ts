@@ -7,7 +7,7 @@ export interface FormErrorContainer {
 }
 
 @Component({
-  selector: 'mnu-form-error-container',
+  selector: 'form-error-container',
   template: '<ng-container #container></ng-container>'
 })
 export class FormErrorContainerComponent implements FormErrorContainer {
