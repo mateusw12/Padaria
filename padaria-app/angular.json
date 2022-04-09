@@ -31,8 +31,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -40,8 +39,7 @@
               ]
             },
             "scripts": [
-              "node_modules/bootstrap/js/dist/modal.js",
-              "node_modules/bootstrap/js/src/modal.js"
+              "node_modules/bootstrap/js/dist/modal.js"
             ]
           },
           "configurations": {
@@ -116,8 +114,7 @@
               ]
             },
             "scripts": [
-                            "node_modules/bootstrap/js/dist/modal.js",
-              "node_modules/bootstrap/js/src/modal.js"
+              "node_modules/bootstrap/js/dist/modal.js"
             ]
           }
         }

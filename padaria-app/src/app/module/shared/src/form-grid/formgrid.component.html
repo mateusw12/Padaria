@@ -1,0 +1,26 @@
+<div fxLayout="column" fxFlex="100">
+  <div fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="30px" fxFlex="50px">
+    <div *ngIf="showSearchButton" fxFlex="120px">
+      <button ejs-button buttonSearch throttleClick (click)="onButtonSearchClick()"></button>
+    </div>
+    <div *ngIf="showAddButton" fxFlex="120px">
+      <button ejs-button buttonAdd throttleClick (click)="onButtonAddClick()"></button>
+    </div>
+    <div fxFlex="2 1 auto">
+      <ng-container *ngTemplateOutlet="toolbarTemplate"></ng-container>
+    </div>
+  </div>
+
+  <div fxFlex="calc(100% - 40px)">
+      <ng-container *ngIf="gridLoaded">
+        <ejs-grid [dataSource]="gridDataSource"
+                  [columns]="gridColumns"
+                  [rowHeight]="40"
+                  [enableAutoFitColumns]="enableAutoFitColumns"
+                  (dataBounded)="dataBounded.emit()"
+                  (commandClick)="onGridCommandClick($event)"
+                  (queryCellInfo)="queryCellInfo.emit($event)">
+        </ejs-grid>
+      </ng-container>
+    </div>
+</div>
