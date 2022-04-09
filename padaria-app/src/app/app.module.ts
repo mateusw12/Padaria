@@ -1,7 +1,11 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ExternalNavigationService, ToastService } from '@module/utils/services';
+import {
+  ExternalNavigationService,
+  MessageService,
+  ToastService
+} from '@module/utils/services';
 import {
   SidebarModule,
   TreeViewModule
@@ -19,7 +23,11 @@ import { MenuComponent } from './module/pages/menu/menu.component';
     HttpClientModule,
     AppRoutingModule,
   ],
-  providers: [ToastService, ExternalNavigationService],
+  providers: [
+    ToastService,
+    ExternalNavigationService,
+    MessageService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
