@@ -8,6 +8,8 @@ import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { forkJoin } from 'rxjs';
 import { ToastService } from '@module/utils/services';
+import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
+import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 
 const NEW_ID = 'NOVO';
 
@@ -34,6 +36,7 @@ export class ClassificationComponent implements OnInit, OnDestroy {
   form: FormGroup = this.createForm();
   isModalOpen = false;
   products: Product[] = [];
+  columns: SfGridColumnModel[] = this.createColumns();
 
   constructor(
     private toastService: ToastService,
@@ -111,7 +114,44 @@ export class ClassificationComponent implements OnInit, OnDestroy {
       return;
   }
 
+  onCommand(event: FormGridCommandEventArgs): void {
+    switch (event.command) {
+      case 'Add':
+        this.onCommandAdd();
+        break;
+      case 'Edit':
+        this.onCommandEdit(event.rowData as GridRow);
+        break;
+      case 'Remove':
+        this.onCommandRemove(event.rowData as GridRow);
+        break;
+      default:
+        break;
+    }
+  }
+
   ngOnDestroy(): void {}
+
+  private onCommandAdd(): void {
+    this.onOpen();
+  }
+
+  private onCommandEdit(model: GridRow): void {
+    this.onOpen(model.id);
+  }
+
+  private async onCommandRemove(model: GridRow): Promise<void> {
+    this.classificationService
+      .deleteById(model.id)
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        () => {
+          this.toastService.showSuccess('Excluído com sucesso!');
+          this.loadData();
+        },
+        (error) => this.toastService.showError()
+      );
+  }
 
   private loadData(): void {
     forkJoin([
@@ -177,5 +217,12 @@ export class ClassificationComponent implements OnInit, OnDestroy {
       ]),
       productIds: new FormControl(null, FormValidators.required),
     }));
+  }
+
+  private createColumns(): SfGridColumnModel[] {
+    return SfGridColumns.build<GridRow>({
+      id: SfGridColumns.text('id', 'Código').minWidth(100).isPrimaryKey(true),
+      name: SfGridColumns.text('name', 'Nome').minWidth(200),
+    });
   }
 }

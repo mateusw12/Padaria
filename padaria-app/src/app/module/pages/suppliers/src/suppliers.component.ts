@@ -8,6 +8,8 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { State, Supplier } from '@module/models';
 import { SupplierService, ZipCodeAddressesService } from '@module/services';
+import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
+import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed } from '@module/utils/common';
 import { ZIP_CODE_ADDRESSES_REGEX } from '@module/utils/constant';
 import { ToastService } from '@module/utils/services';
@@ -47,6 +49,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   dataSource: GridRow[] = [];
   form: FormGroup = this.createForm();
   isModalOpen = false;
+  columns: SfGridColumnModel[] = this.createColumns();
 
   constructor(
     private toastService: ToastService,
@@ -126,7 +129,44 @@ export class SuppliersComponent implements OnInit, OnDestroy {
       return;
   }
 
+  onCommand(event: FormGridCommandEventArgs): void {
+    switch (event.command) {
+      case 'Add':
+        this.onCommandAdd();
+        break;
+      case 'Edit':
+        this.onCommandEdit(event.rowData as GridRow);
+        break;
+      case 'Remove':
+        this.onCommandRemove(event.rowData as GridRow);
+        break;
+      default:
+        break;
+    }
+  }
+
   ngOnDestroy(): void {}
+
+  private onCommandAdd(): void {
+    this.onOpen();
+  }
+
+  private onCommandEdit(model: GridRow): void {
+    this.onOpen(model.id);
+  }
+
+  private async onCommandRemove(model: GridRow): Promise<void> {
+    this.supplierService
+      .deleteById(model.id)
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        () => {
+          this.toastService.showSuccess('Excluído com sucesso!');
+          this.loadData();
+        },
+        (error) => this.toastService.showError()
+      );
+  }
 
   private registerEvents(): void {
     const controls = this.form.controls;
@@ -290,5 +330,16 @@ export class SuppliersComponent implements OnInit, OnDestroy {
       city: new FormControl({ value: null, disabled: true }),
       email: new FormControl(null, [Validators.maxLength(200)]),
     }));
+  }
+
+  private createColumns(): SfGridColumnModel[] {
+    return SfGridColumns.build<GridRow>({
+      id: SfGridColumns.text('id', 'Código').minWidth(100).isPrimaryKey(true),
+      name: SfGridColumns.text('name', 'Nome').minWidth(200),
+      city: SfGridColumns.text('city', 'Cidade').minWidth(200),
+      cnpj: SfGridColumns.text('cnpj', 'CNPJ').minWidth(200),
+      email: SfGridColumns.text('email', 'E-mail').minWidth(200),
+      state: SfGridColumns.text('state', 'Estado').minWidth(200),
+    });
   }
 }

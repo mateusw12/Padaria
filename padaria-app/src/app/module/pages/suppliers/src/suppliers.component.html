@@ -1,32 +1,7 @@
-<div class="align-button">
-  <button ejs-button buttonAdd (click)="onOpen()">
-  </button>
-</div>
-
-<ejs-grid [height]="450"
-          [rowHeight]="40"
-          [allowSorting]="true"
-          [dataSource]="dataSource"
-          [columns]="template"
-          class="align-grid">
-  <e-columns>
-    <e-column headerTextAlign="left" width="50">
-      <ng-template #template let-data>
-        <div class='e-btn-group align-button-icon'>
-          <button ejs-button class="e-info" iconCss='e-icons e-edit' (click)="onEdit(data)"></button>
-          <button ejs-button class="e-danger align" iconCss='e-icons e-cancel' (click)="onRemove(data)"></button>
-        </div>
-      </ng-template>
-    </e-column>
-    <e-column field="id" headerText="Código" headerTextAlign="center" textAlign="center" width="50" isPrimaryKey="true">
-    </e-column>
-    <e-column field="name" headerText="Nome" headerTextAlign="left" textAlign="left" width="100"></e-column>
-    <e-column field="cnpj" headerText="CNPJ" headerTextAlign="left" textAlign="left" width="50"></e-column>
-    <e-column field="state" headerText="Estado" headerTextAlign="left" textAlign="left" width="100"></e-column>
-    <e-column field="city" headerText="Cidade" headerTextAlign="left" textAlign="left" width="100"></e-column>
-    <e-column field="email" headerText="E-mail" headerTextAlign="left" textAlign="left" width="100"></e-column>
-  </e-columns>
-</ejs-grid>
+<ejs-formgrid [dataSource]="dataSource"
+              [columns]="columns"
+              (command)="onCommand($event)">
+</ejs-formgrid>
 
 <div *ngIf="isModalOpen">
   <ejs-dialog id='dialog'
@@ -120,8 +95,7 @@
 
 <ng-template #footer>
   <div class="align-footer-button">
-    <button ejs-button buttonSave [disabled]="!this.form.valid"
-      (click)="onSaveClick()"></button>
+    <button ejs-button buttonSave [disabled]="!this.form.valid" (click)="onSaveClick()"></button>
     <button ejs-button buttonCancel (click)="onModalClose()"></button>
   </div>
 </ng-template>

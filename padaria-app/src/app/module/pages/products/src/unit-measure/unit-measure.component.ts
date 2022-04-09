@@ -7,6 +7,8 @@ import { untilDestroyed } from '@module/utils/common';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
+import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 
 const NEW_ID = 'NOVO';
 
@@ -28,10 +30,11 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
   dataSource: GridRow[] = [];
   form: FormGroup = this.createForm();
   isModalOpen = false;
+  columns: SfGridColumnModel[] = this.createColumns();
 
   constructor(
     private toastService: ToastService,
-    private departametService: UnitMeasureService
+    private unitMeasureService: UnitMeasureService
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +62,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
 
   async onRemove(model: GridRow): Promise<void> {
     if (!model.id) return;
-    this.departametService
+    this.unitMeasureService
       .deleteById(model.id)
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -81,7 +84,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
     const exists = model.id > 1;
     if (
       exists
-        ? this.departametService
+        ? this.unitMeasureService
             .updateById(model)
             .pipe(untilDestroyed(this))
             .subscribe(
@@ -91,7 +94,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
               },
               (error) => this.toastService.showError(error)
             )
-        : this.departametService
+        : this.unitMeasureService
             .add(model)
             .pipe(untilDestroyed(this))
             .subscribe(
@@ -104,10 +107,47 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
       return;
   }
 
+  onCommand(event: FormGridCommandEventArgs): void {
+    switch (event.command) {
+      case 'Add':
+        this.onCommandAdd();
+        break;
+      case 'Edit':
+        this.onCommandEdit(event.rowData as GridRow);
+        break;
+      case 'Remove':
+        this.onCommandRemove(event.rowData as GridRow);
+        break;
+      default:
+        break;
+    }
+  }
+
   ngOnDestroy(): void {}
 
+  private onCommandAdd(): void {
+    this.onOpen();
+  }
+
+  private onCommandEdit(model: GridRow): void {
+    this.onOpen(model.id);
+  }
+
+  private async onCommandRemove(model: GridRow): Promise<void> {
+    this.unitMeasureService
+      .deleteById(model.id)
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        () => {
+          this.toastService.showSuccess('Excluído com sucesso!');
+          this.loadData();
+        },
+        (error) => this.toastService.showError()
+      );
+  }
+
   private loadData(): void {
-    this.departametService
+    this.unitMeasureService
       .findAll()
       .pipe(untilDestroyed(this))
       .subscribe(async (unitMeasures) => {
@@ -116,7 +156,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
   }
 
   private async findUnitMeasure(id: number): Promise<void> {
-    this.departametService
+    this.unitMeasureService
       .findById(id)
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -159,5 +199,13 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
       ]),
       abbreviation: new FormControl(null, Validators.maxLength(5)),
     }));
+  }
+
+  private createColumns(): SfGridColumnModel[] {
+    return SfGridColumns.build<GridRow>({
+      id: SfGridColumns.text('id', 'Código').minWidth(100).isPrimaryKey(true),
+      abbreviation: SfGridColumns.text('abbreviation', 'Sigla').minWidth(200),
+      name: SfGridColumns.text('name', 'Nome').minWidth(200),
+    });
   }
 }

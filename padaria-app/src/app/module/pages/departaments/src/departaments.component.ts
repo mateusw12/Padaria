@@ -3,13 +3,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Departament } from '@module/models';
 import { DepartamentService } from '@module/services';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
+import { SfGridColumnModel } from '@module/shared/src/grid';
 import { SfGridColumns } from '@module/shared/src/grid/columns';
 import { untilDestroyed } from '@module/utils/common';
-import { MessageService, ToastService } from '@module/utils/services';
+import { ToastService } from '@module/utils/services';
 import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { SfGridColumnModel } from './../../../shared/src/grid/interfaces';
 
 const NEW_ID = 'NOVO';
 

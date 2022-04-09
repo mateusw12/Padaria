@@ -1,10 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { NoteType } from '@module/models';
 import { NoteTypeService } from '@module/services';
+import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
+import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed } from '@module/utils/common';
 import { ToastService } from '@module/utils/services';
 import { SortService } from '@syncfusion/ej2-angular-grids';
+import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 
 const NEW_ID = 'NOVO';
@@ -19,23 +27,20 @@ interface GridRow {
   selector: 'app-note-types',
   templateUrl: './note-types.component.html',
   styleUrls: ['./note-types.component.scss'],
-  providers: [
-    SortService,
-    DialogComponent,
-    NoteTypeService,
-  ],
+  providers: [SortService, DialogComponent, NoteTypeService],
 })
 export class NoteTypesComponent implements OnInit {
   @ViewChild('modal', { static: true })
   modal!: DialogComponent;
+
   dataSource: GridRow[] = [];
   form: FormGroup = this.createForm();
   isModalOpen = false;
+  columns: SfGridColumnModel[] = this.createColumns();
 
   constructor(
     private toastService: ToastService,
-    private noteTypeService: NoteTypeService,
-    private formBuilder: FormBuilder
+    private noteTypeService: NoteTypeService
   ) {}
 
   ngOnInit(): void {
@@ -109,7 +114,44 @@ export class NoteTypesComponent implements OnInit {
     return;
   }
 
+  onCommand(event: FormGridCommandEventArgs): void {
+    switch (event.command) {
+      case 'Add':
+        this.onCommandAdd();
+        break;
+      case 'Edit':
+        this.onCommandEdit(event.rowData as GridRow);
+        break;
+      case 'Remove':
+        this.onCommandRemove(event.rowData as GridRow);
+        break;
+      default:
+        break;
+    }
+  }
+
   ngOnDestroy(): void {}
+
+  private onCommandAdd(): void {
+    this.onOpen();
+  }
+
+  private onCommandEdit(model: GridRow): void {
+    this.onOpen(model.id);
+  }
+
+  private async onCommandRemove(model: GridRow): Promise<void> {
+    this.noteTypeService
+      .deleteById(model.id)
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        () => {
+          this.toastService.showSuccess('Excluído com sucesso!');
+          this.loadData();
+        },
+        (error) => this.toastService.showError()
+      );
+  }
 
   private loadData(): void {
     this.noteTypeService
@@ -155,11 +197,22 @@ export class NoteTypesComponent implements OnInit {
     });
   }
 
-  private createForm() {
-    return this.formBuilder.group({
-      id: [{ value: NEW_ID, disabled: true }, [Validators.required]],
-      name: ['', [Validators.required, Validators.maxLength(200)]],
-      abbreviation: ['', Validators.maxLength(5)],
+  private createForm(): FormGroup {
+    return (this.form = new FormGroup({
+      id: new FormControl({ value: NEW_ID, disabled: true }),
+      name: new FormControl(null, [
+        FormValidators.required,
+        Validators.maxLength(200),
+      ]),
+      abbreviation: new FormControl(null, [Validators.maxLength(200)]),
+    }));
+  }
+
+  private createColumns(): SfGridColumnModel[] {
+    return SfGridColumns.build<GridRow>({
+      id: SfGridColumns.text('id', 'Código').minWidth(100).isPrimaryKey(true),
+      abbreviation: SfGridColumns.text('abbreviation', 'Sigla').minWidth(150),
+      name: SfGridColumns.text('name', 'Nome').minWidth(200),
     });
   }
 }

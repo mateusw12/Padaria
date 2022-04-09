@@ -7,6 +7,8 @@ import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { ToastService } from '@module/utils/services';
 import { untilDestroyed } from '@module/utils/common';
+import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
+import { SfGridColumns, SfGridColumnModel } from '@module/shared/src/grid';
 
 const NEW_ID = 'NOVO';
 
@@ -22,12 +24,14 @@ interface GridRow {
   providers: [SortService, ManufacturerService, DialogComponent],
 })
 export class ManufacturersComponent implements OnInit, OnDestroy {
+
   @ViewChild('modal', { static: true })
   modal!: DialogComponent;
 
   dataSource: GridRow[] = [];
   form: FormGroup = this.createForm();
   isModalOpen = false;
+  columns: SfGridColumnModel[] = this.createColumns();
 
   constructor(
     private toastService: ToastService,
@@ -105,7 +109,44 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
     return;
   }
 
+  onCommand(event: FormGridCommandEventArgs): void {
+    switch (event.command) {
+      case 'Add':
+        this.onCommandAdd();
+        break;
+      case 'Edit':
+        this.onCommandEdit(event.rowData as GridRow);
+        break;
+      case 'Remove':
+        this.onCommandRemove(event.rowData as GridRow);
+        break;
+      default:
+        break;
+    }
+  }
+
   ngOnDestroy(): void {}
+
+  private onCommandAdd(): void {
+    this.onOpen();
+  }
+
+  private onCommandEdit(model: GridRow): void {
+    this.onOpen(model.id);
+  }
+
+  private async onCommandRemove(model: GridRow): Promise<void> {
+    this.manufacturerService
+      .deleteById(model.id)
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        () => {
+          this.toastService.showSuccess('Excluído com sucesso!');
+          this.loadData();
+        },
+        (error) => this.toastService.showError()
+      );
+  }
 
   private loadData(): void {
     this.manufacturerService
@@ -157,5 +198,12 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
         Validators.maxLength(200),
       ]),
     }));
+  }
+
+  private createColumns(): SfGridColumnModel[] {
+    return SfGridColumns.build<GridRow>({
+      id: SfGridColumns.text('id', 'Código').minWidth(100).isPrimaryKey(true),
+      name: SfGridColumns.text('name', 'Nome').minWidth(200),
+    });
   }
 }

@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ButtonAppModule } from '@module/shared/src';
+import { ButtonAppModule, FormGridModule } from '@module/shared/src';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
-import { GridModule } from '@syncfusion/ej2-angular-grids';
-import { NumericTextBoxModule, TextBoxModule } from '@syncfusion/ej2-angular-inputs';
+import {
+  NumericTextBoxModule,
+  TextBoxModule,
+} from '@syncfusion/ej2-angular-inputs';
 import { TabModule } from '@syncfusion/ej2-angular-navigations';
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { BrandComponent } from './brand/brand.component';
@@ -24,7 +26,7 @@ import { UnitMeasureComponent } from './unit-measure/unit-measure.component';
   imports: [
     CommonModule,
     TextBoxModule,
-    GridModule,
+    FormGridModule,
     DialogModule,
     ReactiveFormsModule,
     TabModule,
@@ -32,7 +34,7 @@ import { UnitMeasureComponent } from './unit-measure/unit-measure.component';
     MultiSelectModule,
     NumericTextBoxModule,
     ButtonAppModule,
-    ProductsRoutingModule,
+    ProductsRoutingModule
   ],
 })
 export class ProductsModule {}
