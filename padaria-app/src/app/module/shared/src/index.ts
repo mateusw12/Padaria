@@ -3,3 +3,4 @@ export * from './modal/modal.module';
 export * from './button/button-app.module';
 export * from './grid/grid.module';
 export * from './grid/grid.directive';
+export * from './form-grid/formgrid.module';

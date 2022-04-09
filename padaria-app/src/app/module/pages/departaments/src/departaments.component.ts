@@ -2,11 +2,14 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Departament } from '@module/models';
 import { DepartamentService } from '@module/services';
+import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
+import { SfGridColumns } from '@module/shared/src/grid/columns';
 import { untilDestroyed } from '@module/utils/common';
-import { ToastService } from '@module/utils/services';
-import { CommandClickEventArgs, SortService } from '@syncfusion/ej2-angular-grids';
+import { MessageService, ToastService } from '@module/utils/services';
+import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { SfGridColumnModel } from './../../../shared/src/grid/interfaces';
 
 const NEW_ID = 'NOVO';
 
@@ -25,6 +28,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
   @ViewChild('modal', { static: true })
   modal!: DialogComponent;
 
+  columns: SfGridColumnModel[] = this.createColumns();
   dataSource: GridRow[] = [
     {
       id: 1,
@@ -43,6 +47,22 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
+  onCommand(event: FormGridCommandEventArgs): void {
+    switch (event.command) {
+      case 'Add':
+        this.onCommandAdd();
+        break;
+      case 'Edit':
+        this.onCommandEdit(event.rowData as GridRow);
+        break;
+      case 'Remove':
+        this.onCommandRemove(event.rowData as GridRow);
+        break;
+      default:
+        break;
+    }
+  }
+
   async onOpen(id?: number): Promise<void> {
     this.reset();
     try {
@@ -56,6 +76,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
 
   async onModalClose(): Promise<void> {
     this.isModalOpen = false;
+    this.modal.close();
   }
 
   async onEdit(model: any): Promise<void> {
@@ -85,33 +106,46 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
     const model = this.getModel();
     const exists = model.id > 1;
     if (
-      exists
-        ? this.departametService
-            .updateById(model)
-            .pipe(untilDestroyed(this))
-            .subscribe(
-              async () => {
-                await this.toastService.showUpdate();
-                this.reset();
-              },
-              (error) => this.toastService.showError(error)
-            )
-        : this.departametService
-            .add(model)
-            .pipe(untilDestroyed(this))
-            .subscribe(
-              async () => {
-                await this.toastService.showSuccess();
-              },
-              (error) => {
-                this.toastService.showError(error);
-              }
-            )
+      (exists
+        ? this.departametService.updateById(model)
+        : this.departametService.add(model)
+      )
+        .pipe(untilDestroyed(this))
+        .subscribe(
+          async () => {
+            await this.toastService.showSuccess();
+          },
+          async (error) => {
+            this.toastService.showError(error);
+          }
+        )
     )
       return;
   }
 
   ngOnDestroy(): void {}
+
+  private onCommandAdd(): void {
+    console.log('add');
+    this.onOpen();
+  }
+
+  private onCommandEdit(model: GridRow): void {
+    this.onOpen(model.id);
+  }
+
+  private async onCommandRemove(model: GridRow): Promise<void> {
+    this.departametService
+      .deleteById(model.id)
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        () => {
+          this.toastService.showSuccess('Excluído com sucesso!');
+          this.loadData();
+        },
+        (error) => this.toastService.showError()
+      );
+  }
 
   private loadData(): void {
     this.departametService
@@ -166,5 +200,12 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
         Validators.maxLength(200),
       ]),
     }));
+  }
+
+  private createColumns() {
+    return SfGridColumns.build<GridRow>({
+      id: SfGridColumns.text('id', 'Código').minWidth(100).isPrimaryKey(true),
+      name: SfGridColumns.text('name', 'Nome').minWidth(200),
+    });
   }
 }

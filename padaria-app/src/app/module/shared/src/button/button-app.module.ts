@@ -8,6 +8,7 @@ import { ButtonResetDirective } from './button-reset.directive';
 import { ButtonSaveDirective } from './button-save.directive';
 import { ButtonSearchDirective } from './button-search.directive';
 import { ButtonDirective } from './button.directive';
+import { ThrottleClickDirective } from './throttle-click.directive';
 
 @NgModule({
   imports: [ButtonAllModule],
@@ -20,6 +21,7 @@ import { ButtonDirective } from './button.directive';
     ButtonSaveDirective,
     ButtonSearchDirective,
     ButtonDirective,
+    ThrottleClickDirective
   ],
   exports: [
     ButtonAddDirective,
@@ -30,6 +32,7 @@ import { ButtonDirective } from './button.directive';
     ButtonSaveDirective,
     ButtonSearchDirective,
     ButtonDirective,
+    ThrottleClickDirective
   ],
 })
 export class ButtonAppModule {}

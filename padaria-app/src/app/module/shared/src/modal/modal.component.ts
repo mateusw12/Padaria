@@ -9,14 +9,14 @@ import {
   Output,
   Self,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { untilDestroyed } from '@module/utils/common';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { take } from 'rxjs/operators';
 import { ViewRefreshService } from '../view-refresh/view-refresh.service';
-import * as $ from 'jquery';
+
 export type CloseReason = 'UserClosing' | 'ModalClosing';
 
 export interface ModalClosingEventArgs {
@@ -27,6 +27,7 @@ export interface ModalClosingEventArgs {
 @Component({
   selector: 'mnu-modal',
   templateUrl: './modal.component.html',
+  styleUrls: ['./modal.component.scss'],
   providers: [ViewRefreshService],
 })
 export class ModalComponent implements OnInit, OnDestroy {
@@ -37,13 +38,13 @@ export class ModalComponent implements OnInit, OnDestroy {
   private body!: ElementRef<HTMLDivElement>;
 
   @ContentChild('bodyTemplate', { static: true })
-  bodyTemplate!: TemplateRef<any> | null;
+  bodyTemplate!: TemplateRef<unknown>;
 
   @ContentChild('footerTemplate', { static: true })
-  footerTemplate: TemplateRef<unknown> | undefined;
+  footerTemplate!: TemplateRef<unknown>;
 
   @ContentChild('contentTemplate', { static: true })
-  contentTemplate!: TemplateRef<any> | null;
+  contentTemplate!: TemplateRef<unknown>;
 
   @Output()
   beforeClose = new EventEmitter<ModalClosingEventArgs>();
@@ -131,9 +132,8 @@ export class ModalComponent implements OnInit, OnDestroy {
   }
 
   onEscKeyDown(event: any): void {
-    const eventKeyBoard = event as KeyboardEvent;
-    eventKeyBoard.preventDefault();
-    eventKeyBoard.stopPropagation();
+    event.preventDefault();
+    event.stopPropagation();
     if (!this.closeEsc) return;
     this.close('UserClosing');
   }
