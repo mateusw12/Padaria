@@ -1,68 +1,28 @@
 import {
   Component,
   ContentChild,
-  ElementRef,
-  EventEmitter,
+  Injectable,
   Input,
-  OnDestroy,
   OnInit,
-  Output,
   Self,
   TemplateRef,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
-import { untilDestroyed } from '@module/utils/common';
-
-import { ModalDirective } from 'ngx-bootstrap/modal';
-import { take } from 'rxjs/operators';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ViewRefreshService } from '../view-refresh/view-refresh.service';
 
-export type CloseReason = 'UserClosing' | 'ModalClosing';
-
-export interface ModalClosingEventArgs {
-  closeReason: CloseReason;
-  cancel: boolean;
-}
-
 @Component({
-  selector: 'mnu-modal',
+  selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
   providers: [ViewRefreshService],
+  encapsulation: ViewEncapsulation.None,
 })
-export class ModalComponent implements OnInit, OnDestroy {
-  @ViewChild(ModalDirective, { static: true })
-  private modal!: ModalDirective;
-
-  @ViewChild('body', { static: true })
-  private body!: ElementRef<HTMLDivElement>;
-
-  @ContentChild('bodyTemplate', { static: true })
-  bodyTemplate!: TemplateRef<unknown>;
-
-  @ContentChild('footerTemplate', { static: true })
-  footerTemplate!: TemplateRef<unknown>;
-
-  @ContentChild('contentTemplate', { static: true })
-  contentTemplate!: TemplateRef<unknown>;
-
-  @Output()
-  beforeClose = new EventEmitter<ModalClosingEventArgs>();
-
-  @Output()
-  closing = new EventEmitter<ModalComponent>();
-
-  @Output()
-  closed = new EventEmitter<ModalComponent>();
-
-  @Output()
-  opening = new EventEmitter<ModalComponent>();
-
-  @Output()
-  opened = new EventEmitter<ModalComponent>();
-
+@Injectable()
+export class ModalComponent implements OnInit {
   @Input()
-  headerText = '';
+  modalHeader: string = '';
 
   @Input()
   closeButton = true;
@@ -71,83 +31,53 @@ export class ModalComponent implements OnInit, OnDestroy {
   closeEsc = true;
 
   @Input()
-  dialogClass = 'modal-md';
+  dialogClass: string | undefined;
 
   @Input()
-  bodyClass = '';
+  bodyClass: string = '';
 
-  constructor(@Self() private viewRefreshService: ViewRefreshService) {}
+  @ViewChild('modal')
+  private modal!: TemplateRef<ModalComponent>;
 
-  ngOnInit(): void {
-    this.modal.onShow.pipe(untilDestroyed(this)).subscribe(() => {
+  @ContentChild('bodyTemplate', { static: true })
+  bodyTemplate: TemplateRef<any> | undefined | null;
+
+  @ContentChild('footerTemplate', { static: true })
+  footerTemplate: TemplateRef<any> | undefined | null;
+
+  private modalRef!: NgbModalRef;
+
+  constructor(
+    private modalService: NgbModal,
+    @Self() private viewRefreshService: ViewRefreshService
+  ) {}
+
+  ngOnInit(): void {}
+
+  open(): Promise<boolean> {
+    return new Promise<boolean>((resolve) => {
       this.viewRefreshService.refresh(300);
-      this.opening.emit(this);
-    });
-
-    this.modal.onShown
-      .pipe(untilDestroyed(this))
-      .subscribe(() => this.opened.emit(this));
-
-    this.modal.onHide.pipe(untilDestroyed(this)).subscribe(() => {
-      this.scrollTop();
-      this.closing.emit(this);
-    });
-
-    this.modal.onHidden
-      .pipe(untilDestroyed(this))
-      .subscribe(() => this.closed.emit(this));
-  }
-
-  ngOnDestroy(): void {}
-
-  isOpen(): boolean {
-    return this.modal.isShown;
-  }
-
-  open(): Promise<void> {
-    return new Promise<void>((resolve) => {
-      if (this.isOpen()) return;
-      this.modal.onShown
-        .pipe(take(1), untilDestroyed(this))
-        .subscribe(() => resolve());
-      this.modal.show();
+      this.modalRef = this.modalService.open(this.modal, {
+        size: this.dialogClass ? this.dialogClass : 'md',
+        modalDialogClass: this.bodyClass,
+        backdrop: 'static',
+        scrollable: true,
+      });
+      this.modalRef.result.then(resolve, resolve);
     });
   }
 
-  close(closeReason: CloseReason = 'ModalClosing'): Promise<void> {
-    return new Promise<void>((resolve) => {
-      if (!this.isOpen()) return;
-      if (!this.canClose(closeReason)) return;
-      this.modal.onHidden
-        .pipe(take(1), untilDestroyed(this))
-        .subscribe(() => resolve());
-      this.modal.hide();
-    });
-  }
-
-  onCloseClick(event: Event): void {
-    event.preventDefault();
+  onCloseClick(): void {
     if (!this.closeButton) return;
-    this.close('UserClosing');
+    this.close();
   }
 
-  onEscKeyDown(event: any): void {
-    event.preventDefault();
-    event.stopPropagation();
+  onEscKeyDown(): void {
     if (!this.closeEsc) return;
-    this.close('UserClosing');
+    this.close();
   }
 
-  private canClose(closeReason: CloseReason): boolean {
-    const eventArgs: ModalClosingEventArgs = { closeReason, cancel: false };
-    this.beforeClose.emit(eventArgs);
-    return !eventArgs.cancel;
-  }
-
-  private scrollTop(): void {
-    const $body = $(this.body.nativeElement);
-    if ($body.scrollTop()) {
-      $body.scrollTop(0);
-    }
+  private async close(): Promise<void> {
+    this.modalService.dismissAll();
   }
 }

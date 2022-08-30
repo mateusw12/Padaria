@@ -1,0 +1,25 @@
+.modal-header {
+  justify-content: flex-start;
+  border: none;
+  text-align: left;
+  border: none;
+}
+
+.modal-title {
+  color: rgb(95, 92, 92);
+  font-family: sans-serif;
+}
+
+.modal-body {
+  font-size: 0.875rem;
+  border: none;
+}
+
+.modal-footer {
+  border-top: none;
+}
+
+.align-footer-items {
+  display: flex;
+  justify-content: flex-end;
+}

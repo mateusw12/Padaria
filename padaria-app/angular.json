@@ -31,15 +31,19 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "node_modules/@syncfusion"
+                "node_modules/@syncfusion",
+                "node_modules/bootstrap/dist/css/bootstrap.min.scss"
               ]
             },
             "scripts": [
-              "node_modules/bootstrap/js/dist/modal.js"
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js"
             ]
           },
           "configurations": {
@@ -106,15 +110,19 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "node_modules/@syncfusion"
+                "node_modules/@syncfusion",
+                "node_modules/bootstrap/dist/css/bootstrap.min.scss"
               ]
             },
             "scripts": [
-              "node_modules/bootstrap/js/dist/modal.js"
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js"
             ]
           }
         }
