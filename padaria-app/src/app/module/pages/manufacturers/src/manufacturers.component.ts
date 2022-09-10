@@ -2,13 +2,13 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Manufacturer } from '@module/models';
 import { ManufacturerService } from '@module/services';
-import { SortService } from '@syncfusion/ej2-angular-grids';
-import { FormValidators } from '@syncfusion/ej2-angular-inputs';
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { ToastService } from '@module/utils/services';
-import { untilDestroyed } from '@module/utils/common';
+import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
-import { SfGridColumns, SfGridColumnModel } from '@module/shared/src/grid';
+import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
+import { untilDestroyed } from '@module/utils/common';
+import { markAllAsTouched } from '@module/utils/forms';
+import { ToastService } from '@module/utils/services';
+import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 
 const NEW_ID = 'NOVO';
 
@@ -20,17 +20,14 @@ interface GridRow {
 @Component({
   selector: 'app-manufacturers',
   templateUrl: './manufacturers.component.html',
-  styleUrls: ['./manufacturers.component.scss'],
-  providers: [SortService, ManufacturerService, DialogComponent],
 })
 export class ManufacturersComponent implements OnInit, OnDestroy {
 
-  @ViewChild('modal', { static: true })
-  modal!: DialogComponent;
+  @ViewChild(ModalComponent, { static: true })
+  modal!: ModalComponent;
 
   dataSource: GridRow[] = [];
   form: FormGroup = this.createForm();
-  isModalOpen = false;
   columns: SfGridColumnModel[] = this.createColumns();
 
   constructor(
@@ -42,71 +39,34 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  async onOpen(id?: number): Promise<void> {
-    this.reset();
-    try {
-      if (id) {
-        this.findManufacturer(id);
-      }
-      this.isModalOpen = true;
-      this.modal.show();
-    } catch (error) {}
-  }
-
   async onModalClose(): Promise<void> {
-    this.isModalOpen = false;
-  }
-
-  async onEdit(model: GridRow): Promise<void> {
-    await this.onOpen(model.id);
-  }
-
-  async onRemove(model: GridRow): Promise<void> {
-    if (!model.id) return;
-    this.manufacturerService
-      .deleteById(model.id)
-      .pipe(untilDestroyed(this))
-      .subscribe(
-        async () => {
-          await this.toastService.showRemove();
-          this.loadData();
-        },
-        (error) => this.toastService.showRemove(error)
-      );
+    this.modal.onCloseClick();
   }
 
   async onSaveClick(): Promise<void> {
     if (!this.form.valid) {
-      this.form.markAllAsTouched();
-      this.toastService.showWarning('Formulário inválido!');
+      markAllAsTouched(this.form);
       return;
     }
     const model = this.getModel();
     const exists = model.id > 1;
     if (
-      exists
-        ? this.manufacturerService
-            .updateById(model)
-            .pipe()
-            .subscribe(
-              async () => {
-                await this.toastService.showUpdate();
-                this.reset();
-              },
-              (error) => this.toastService.showError(error)
-            )
-        : this.manufacturerService
-            .add(model)
-            .pipe()
-            .subscribe(
-              async () => {
-                await this.toastService.showSuccess();
-              },
-              (error) => this.toastService.showError(error)
-            )
+      (exists
+        ? this.manufacturerService.updateById(model)
+        : this.manufacturerService.add(model)
+      )
+        .pipe(untilDestroyed(this))
+        .subscribe(
+          async () => {
+            await this.toastService.showSuccess();
+            this.loadData();
+          },
+          async (error) => {
+            this.toastService.showError(error);
+          }
+        )
     )
-      this.loadData();
-    return;
+      return;
   }
 
   onCommand(event: FormGridCommandEventArgs): void {
@@ -126,6 +86,16 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
+
+  private async onOpen(id?: number): Promise<void> {
+    this.reset();
+    try {
+      if (id) {
+        this.findManufacturer(id);
+      }
+      this.modal.open();
+    } catch (error) {}
+  }
 
   private onCommandAdd(): void {
     this.onOpen();
@@ -172,7 +142,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
   private populateForm(manufacturer: Manufacturer): void {
     this.form.patchValue({
       id: manufacturer.id,
-      name: manufacturer.name,
+      name: manufacturer.name
     });
   }
 
@@ -195,7 +165,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
       id: new FormControl({ value: NEW_ID, disabled: true }),
       name: new FormControl(null, [
         FormValidators.required,
-        Validators.maxLength(200),
+        Validators.maxLength(200)
       ]),
     }));
   }
@@ -203,7 +173,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
   private createColumns(): SfGridColumnModel[] {
     return SfGridColumns.build<GridRow>({
       id: SfGridColumns.text('id', 'Código').minWidth(100).isPrimaryKey(true),
-      name: SfGridColumns.text('name', 'Nome').minWidth(200),
+      name: SfGridColumns.text('name', 'Nome').minWidth(200)
     });
   }
 }

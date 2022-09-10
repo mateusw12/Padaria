@@ -29,11 +29,6 @@ export const REGISTRATION_ROUTES_PATHS: AppRoutes[] = [
     fatherTitle: REGISTRATION_PATH,
   },
   {
-    path: '/menu/employee',
-    pageTitle: 'Funcionário',
-    fatherTitle: REGISTRATION_PATH,
-  },
-  {
     path: '/menu/suppliers',
     pageTitle: 'Fornecedor',
     fatherTitle: REGISTRATION_PATH,
