@@ -37,6 +37,7 @@
     "@syncfusion/ej2-angular-treegrid": "^19.4.47",
     "@syncfusion/ej2-layouts": "^19.4.47",
     "bootstrap": "^4.0.0",
+    "bootstrap-icons": "^1.9.1",
     "cpf-cnpj-validator": "^1.0.3",
     "jquery": "^3.6.1",
     "ngx-bootstrap": "^8.0.0",

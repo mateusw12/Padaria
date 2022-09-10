@@ -36,7 +36,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./module/pages/suppliers').then((m) => m.SuppliersModule),
       },
-
+      {
+        path: 'note-type',
+        loadChildren: () =>
+          import('./module/pages/note-types').then((m) => m.NoteTypesModule),
+      },
       {
         path: 'manufacturers',
         loadChildren: () =>
@@ -67,9 +71,14 @@ const routes: Routes = [
           import('./module/pages/inventory').then((m) => m.InventoryModule),
       },
       {
-        path: 'note-type',
+        path: 'purchase',
         loadChildren: () =>
-          import('./module/pages/note-types').then((m) => m.NoteTypesModule),
+          import('./module/pages/inventory').then((m) => m.InventoryModule),
+      },
+      {
+        path: 'sales',
+        loadChildren: () =>
+          import('./module/pages/inventory').then((m) => m.InventoryModule),
       },
     ],
   },

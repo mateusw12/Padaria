@@ -1,0 +1,84 @@
+<div class="wrapper overflow">
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <a href="menu">
+        <h3 class="header-title">Padoca's MW</h3>
+      </a>
+    </div>
+
+    <ul class="list-unstyled components">
+      <p>MW Web Developer</p>
+      <li class="active">
+        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          Cadastros</a>
+        <ul class="collapse list-unstyled" id="homeSubmenu">
+
+          <li *ngFor="let item of registration_routes; index as i">
+            <a [routerLink]="item.path">{{item.pageTitle}}</a>
+          </li>
+
+        </ul>
+      </li>
+      <li>
+        <a href="#">Controle de Estoque</a>
+      </li>
+      <li>
+        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Consultas</a>
+        <ul class="collapse list-unstyled" id="pageSubmenu">
+
+          <li *ngFor="let item of query_routes; index as i">
+            <a [routerLink]="item.path">{{item.pageTitle}}</a>
+          </li>
+
+        </ul>
+      </li>
+      <li>
+        <a href="#chartSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Dashboards</a>
+        <ul class="collapse list-unstyled" id="chartSubmenu">
+
+          <li *ngFor="let item of dashboards_routes; index as i">
+            <a [routerLink]="item.path">{{item.pageTitle}}</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">Compras</a>
+      </li>
+      <li>
+        <a href="#">Vendas</a>
+      </li>
+    </ul>
+
+    <ul class="list-unstyled CTAs">
+      <li>
+        <a href="#" class="download">Sobre</a>
+      </li>
+      <li>
+        <a href="#" class="article">Licenças</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Page Content  -->
+  <div id="content">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <h3>Cadastro de Departamento</h3>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="nav navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Loggin</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <router-outlet></router-outlet>
+
+  </div>
+</div>
