@@ -2,14 +2,12 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Departament } from '@module/models';
 import { DepartamentService } from '@module/services';
-import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
-import { SfGridColumnModel } from '@module/shared/src/grid';
-import { SfGridColumns } from '@module/shared/src/grid/columns';
+import { FormGridCommandEventArgs, ModalComponent } from '@module/shared/src';
+import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed } from '@module/utils/common';
+import { markAllAsTouched } from '@module/utils/forms';
 import { ToastService } from '@module/utils/services';
-import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 
 const NEW_ID = 'NOVO';
 
@@ -20,21 +18,15 @@ interface GridRow {
 
 @Component({
   selector: 'app-departaments',
-  templateUrl: './departaments.component.html',
-  styleUrls: ['./departaments.component.scss'],
-  providers: [SortService, DepartamentService, DialogComponent],
+  templateUrl: './departaments.component.html'
 })
 export class DepartamentsComponent implements OnInit, OnDestroy {
-  @ViewChild('modal', { static: true })
-  modal!: DialogComponent;
+  @ViewChild(ModalComponent, { static: true })
+  modal!: ModalComponent;
 
   columns: SfGridColumnModel[] = this.createColumns();
-  dataSource: GridRow[] = [
-    {
-      id: 1,
-      name: 'Ola',
-    },
-  ];
+  dataSource: GridRow[] = [];
+
   form: FormGroup = this.createForm();
   isModalOpen = false;
 
@@ -63,20 +55,18 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
     }
   }
 
-  async onOpen(id?: number): Promise<void> {
+  private async onOpen(id?: number): Promise<void> {
     this.reset();
     try {
       if (id) {
         this.findDepartament(id);
       }
       this.isModalOpen = true;
-      this.modal.show();
     } catch (error) {}
   }
 
   async onModalClose(): Promise<void> {
-    this.isModalOpen = false;
-    this.modal.close();
+    this.modal.onCloseClick();
   }
 
   async onEdit(model: any): Promise<void> {
@@ -99,8 +89,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
 
   async onSaveClick(): Promise<void> {
     if (!this.form.valid) {
-      this.form.markAllAsTouched();
-      this.toastService.showWarning('Formulário inválido!');
+      markAllAsTouched(this.form)
       return;
     }
     const model = this.getModel();
@@ -126,8 +115,8 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   private onCommandAdd(): void {
-    console.log('add');
-    this.onOpen();
+    this.reset();
+    this.modal.open();
   }
 
   private onCommandEdit(model: GridRow): void {
@@ -205,7 +194,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
   private createColumns() {
     return SfGridColumns.build<GridRow>({
       id: SfGridColumns.text('id', 'Código').minWidth(100).isPrimaryKey(true),
-      name: SfGridColumns.text('name', 'Nome').minWidth(200),
+      name: SfGridColumns.text('name', 'Nome').minWidth(200)
     });
   }
 }
