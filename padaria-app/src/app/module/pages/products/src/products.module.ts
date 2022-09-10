@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ButtonAppModule, FormGridModule } from '@module/shared/src';
+import { ButtonAppModule, FormGridModule, ModalModule } from '@module/shared/src';
+import { ReactiveFormsModule } from '@module/utils/forms';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import {
   DropDownListModule,
-  MultiSelectModule,
+  MultiSelectModule
 } from '@syncfusion/ej2-angular-dropdowns';
 import {
   NumericTextBoxModule,
-  TextBoxModule,
+  TextBoxModule
 } from '@syncfusion/ej2-angular-inputs';
 import { TabModule } from '@syncfusion/ej2-angular-navigations';
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
@@ -32,6 +32,7 @@ import { UnitMeasureComponent } from './unit-measure/unit-measure.component';
     CommonModule,
     TextBoxModule,
     FormGridModule,
+    ModalModule,
     DialogModule,
     ReactiveFormsModule,
     TabModule,

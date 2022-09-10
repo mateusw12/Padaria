@@ -2,13 +2,13 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Brand } from '@module/models';
 import { BrandService } from '@module/services';
-import { ToastService } from '@module/utils/services';
-import { untilDestroyed } from '@module/utils/common';
-import { SortService } from '@syncfusion/ej2-angular-grids';
-import { FormValidators } from '@syncfusion/ej2-angular-inputs';
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
+import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
+import { untilDestroyed } from '@module/utils/common';
+import { markAllAsTouched } from '@module/utils/forms';
+import { ToastService } from '@module/utils/services';
+import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 
 const NEW_ID = 'NOVO';
 
@@ -20,15 +20,13 @@ interface GridRow {
 @Component({
   selector: 'app-brand',
   templateUrl: './brand.component.html',
-  providers: [SortService, BrandService, DialogComponent],
 })
 export class BrandComponent implements OnInit, OnDestroy {
-  @ViewChild('modal', { static: true })
-  modal!: DialogComponent;
+  @ViewChild(ModalComponent, { static: true })
+  modal!: ModalComponent;
 
   dataSource: GridRow[] = [];
   form: FormGroup = this.createForm();
-  isModalOpen = false;
   columns: SfGridColumnModel[] = this.createColumns();
 
   constructor(
@@ -46,62 +44,36 @@ export class BrandComponent implements OnInit, OnDestroy {
       if (id) {
         this.findBrand(id);
       }
-      this.isModalOpen = true;
-      this.modal.show();
+      this.modal.open();
     } catch (error) {}
   }
 
   async onModalClose(): Promise<void> {
-    this.isModalOpen = false;
-  }
-
-  async onEdit(model: GridRow): Promise<void> {
-    await this.onOpen(model.id);
-  }
-
-  async onRemove(model: GridRow): Promise<void> {
-    if (!model.id) return;
-    this.brandService
-      .deleteById(model.id)
-      .pipe(untilDestroyed(this))
-      .subscribe(
-        async () => {
-          await this.toastService.showRemove();
-        },
-        (error) => this.toastService.showError(error)
-      );
-    this.loadData();
+    this.modal.onCloseClick();
   }
 
   async onSaveClick(): Promise<void> {
     if (!this.form.valid) {
-      this.form.markAllAsTouched();
-      this.toastService.showWarning('Formulário inválido!');
+      markAllAsTouched(this.form);
       return;
     }
     const model = this.getModel();
     const exists = model.id > 1;
     if (
-      exists
-        ? this.brandService
-            .updateById(model)
-            .pipe(untilDestroyed(this))
-            .subscribe(
-              async () => {
-                await this.toastService.showUpdate();
-                this.reset();
-              },
-              (error) => this.toastService.showError(error)
-            )
-        : this.brandService
-            .add(model)
-            .pipe(untilDestroyed(this))
-            .subscribe(
-              async () => {
-                await this.toastService.showSuccess();
-              },
-              (error) => this.toastService.showError(error)
-            )
+      (exists
+        ? this.brandService.updateById(model)
+        : this.brandService.add(model)
+      )
+        .pipe(untilDestroyed(this))
+        .subscribe(
+          async () => {
+            await this.toastService.showSuccess();
+            this.loadData();
+          },
+          async (error) => {
+            this.toastService.showError(error);
+          }
+        )
     )
       return;
   }
@@ -138,7 +110,7 @@ export class BrandComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe(
         () => {
-          this.toastService.showSuccess('Excluído com sucesso!');
+          this.toastService.showRemove();
           this.loadData();
         },
         (error) => this.toastService.showError()
@@ -169,7 +141,7 @@ export class BrandComponent implements OnInit, OnDestroy {
   private populateForm(brand: Brand): void {
     this.form.patchValue({
       id: brand.id,
-      name: brand.name,
+      name: brand.name
     });
   }
 
@@ -183,7 +155,7 @@ export class BrandComponent implements OnInit, OnDestroy {
 
   private reset(): void {
     this.form.reset({
-      id: NEW_ID,
+      id: NEW_ID
     });
   }
 
@@ -192,7 +164,7 @@ export class BrandComponent implements OnInit, OnDestroy {
       id: new FormControl({ value: NEW_ID, disabled: true }),
       name: new FormControl(null, [
         FormValidators.required,
-        Validators.maxLength(200),
+        Validators.maxLength(200)
       ]),
     }));
   }
@@ -200,7 +172,7 @@ export class BrandComponent implements OnInit, OnDestroy {
   private createColumns(): SfGridColumnModel[] {
     return SfGridColumns.build<GridRow>({
       id: SfGridColumns.text('id', 'Código').minWidth(100).isPrimaryKey(true),
-      name: SfGridColumns.text('name', 'Nome').minWidth(200),
+      name: SfGridColumns.text('name', 'Nome').minWidth(200)
     });
   }
 }

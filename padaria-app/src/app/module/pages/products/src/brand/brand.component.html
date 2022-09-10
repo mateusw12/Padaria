@@ -1,37 +1,29 @@
-<ejs-formgrid [dataSource]="dataSource"
-              [columns]="columns"
-              (command)="onCommand($event)">
+<ejs-formgrid [dataSource]="dataSource" [columns]="columns" (command)="onCommand($event)">
 </ejs-formgrid>
 
-<div *ngIf="isModalOpen">
-  <ejs-dialog id='dialog' #modal header="Cadastro de Marca" isModal='true' showCloseIcon="true"
-    (close)="onModalClose()" width="50%" [content]="body" [footerTemplate]="footer">
-  </ejs-dialog>
-</div>
+<app-modal #modal modalHeader="Cadastro de Marca">
 
-<ng-template #body>
-  <form [formGroup]="form">
-    <div class="row">
-      <div class="form-group">
-        <ejs-textbox formControlName="id"
-                     placeholder="Código"
-                     width="10%">
-        </ejs-textbox>
-        <ejs-textbox  formControlName="name"
-                      placeholder="Nome"
-                      width="80%"
-                      formErrorHandler
-                      class="align-text-box-name">
-        </ejs-textbox>
+  <ng-template #bodyTemplate>
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <ejs-textbox formControlName="id" placeholder="Código">
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="form-group">
+            <ejs-textbox formControlName="name" placeholder="Nome" formErrorHandler>
+            </ejs-textbox>
+          </div>
+        </div>
       </div>
-    </div>
-  </form>
-</ng-template>
+    </form>
+  </ng-template>
 
-<ng-template #footer>
-  <div class="align-footer-button">
-    <button ejs-button buttonAdd [disabled]="!this.form.valid"
-      (click)="onSaveClick()"></button>
+  <ng-template #footerTemplate>
+    <button ejs-button buttonSave [disabled]="!this.form.dirty" (click)="onSaveClick()"></button>
     <button ejs-button buttonCancel (click)="onModalClose()"></button>
-  </div>
-</ng-template>
+  </ng-template>
+</app-modal>

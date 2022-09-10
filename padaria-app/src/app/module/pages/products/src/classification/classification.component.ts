@@ -1,15 +1,15 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Product, Classification } from '@module/models';
+import { Classification, Product } from '@module/models';
 import { ClassificationService, ProductService } from '@module/services';
-import { untilDestroyed } from '@module/utils/common';
-import { SortService } from '@syncfusion/ej2-angular-grids';
-import { FormValidators } from '@syncfusion/ej2-angular-inputs';
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
-import { forkJoin } from 'rxjs';
-import { ToastService } from '@module/utils/services';
+import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
+import { untilDestroyed } from '@module/utils/common';
+import { markAllAsTouched } from '@module/utils/forms';
+import { ToastService } from '@module/utils/services';
+import { FormValidators } from '@syncfusion/ej2-angular-inputs';
+import { forkJoin } from 'rxjs';
 
 const NEW_ID = 'NOVO';
 
@@ -21,20 +21,14 @@ interface GridRow {
 @Component({
   selector: 'app-classification',
   templateUrl: './classification.component.html',
-  providers: [
-    SortService,
-    ClassificationService,
-    ProductService,
-    DialogComponent,
-  ],
 })
 export class ClassificationComponent implements OnInit, OnDestroy {
-  @ViewChild('modal', { static: true })
-  modal!: DialogComponent;
+
+  @ViewChild(ModalComponent, { static: true })
+  modal!: ModalComponent;
 
   dataSource: GridRow[] = [];
   form: FormGroup = this.createForm();
-  isModalOpen = false;
   products: Product[] = [];
   columns: SfGridColumnModel[] = this.createColumns();
 
@@ -54,62 +48,36 @@ export class ClassificationComponent implements OnInit, OnDestroy {
       if (id) {
         await this.findClassification(id);
       }
-      this.isModalOpen = true;
-      this.modal.show();
+      this.modal.open();
     } catch (error) {}
   }
 
   async onModalClose(): Promise<void> {
-    this.isModalOpen = false;
-  }
-
-  async onEdit(model: GridRow): Promise<void> {
-    await this.onOpen(model.id);
-  }
-
-  async onRemove(model: GridRow): Promise<void> {
-    if (!model.id) return;
-    this.classificationService
-      .deleteById(model.id)
-      .pipe(untilDestroyed(this))
-      .subscribe(
-        async () => {
-          await this.toastService.showRemove();
-        },
-        (error) => this.toastService.showError(error)
-      );
-    this.loadData();
+    this.modal.onCloseClick();
   }
 
   async onSaveClick(): Promise<void> {
     if (!this.form.valid) {
-      this.form.markAllAsTouched();
-      this.toastService.showWarning('Formulário inválido!');
+      markAllAsTouched(this.form);
       return;
     }
     const model = this.getModel();
     const exists = model.id > 1;
     if (
-      exists
-        ? this.classificationService
-            .updateById(model)
-            .pipe(untilDestroyed(this))
-            .subscribe(
-              async () => {
-                await this.toastService.showUpdate();
-                this.reset();
-              },
-              (error) => this.toastService.showError(error)
-            )
-        : this.classificationService
-            .add(model)
-            .pipe(untilDestroyed(this))
-            .subscribe(
-              async () => {
-                await this.toastService.showSuccess();
-              },
-              (error) => this.toastService.showError(error)
-            )
+      (exists
+        ? this.classificationService.updateById(model)
+        : this.classificationService.add(model)
+      )
+        .pipe(untilDestroyed(this))
+        .subscribe(
+          async () => {
+            await this.toastService.showSuccess();
+            this.loadData();
+          },
+          async (error) => {
+            this.toastService.showError(error);
+          }
+        )
     )
       return;
   }
@@ -146,7 +114,7 @@ export class ClassificationComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe(
         () => {
-          this.toastService.showSuccess('Excluído com sucesso!');
+          this.toastService.showRemove();
           this.loadData();
         },
         (error) => this.toastService.showError()
