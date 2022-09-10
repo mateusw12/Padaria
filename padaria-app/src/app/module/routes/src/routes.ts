@@ -38,6 +38,11 @@ export const REGISTRATION_ROUTES_PATHS: AppRoutes[] = [
     pageTitle: 'Fabricante',
     fatherTitle: REGISTRATION_PATH,
   },
+  {
+    path: '/menu/note-type',
+    pageTitle: 'Tipos de Nota',
+    fatherTitle: REGISTRATION_PATH,
+  },
 ];
 
 export const QUERY_ROUTES_PATHS: AppRoutes[] = [

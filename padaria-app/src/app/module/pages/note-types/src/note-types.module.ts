@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ButtonAppModule, FormGridModule } from '@module/shared/src';
+import {
+  ButtonAppModule,
+  FormGridModule,
+  ModalModule
+} from '@module/shared/src';
+import { ReactiveFormsModule } from '@module/utils/forms';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
-import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { NoteTypesRoutingModule } from './note-types-routing.module';
 import { NoteTypesComponent } from './note-types.component';
 
@@ -13,10 +16,10 @@ import { NoteTypesComponent } from './note-types.component';
   imports: [
     CommonModule,
     TextBoxModule,
-    DialogModule,
+    ModalModule,
+    ReactiveFormsModule,
     FormGridModule,
     ButtonModule,
-    ReactiveFormsModule,
     ButtonAppModule,
     NoteTypesRoutingModule,
   ],
