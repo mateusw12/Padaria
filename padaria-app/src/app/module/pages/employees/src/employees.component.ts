@@ -18,19 +18,20 @@ import {
   JobService,
   ZipCodeAddressesService
 } from '@module/services';
-import { SortService } from '@syncfusion/ej2-angular-grids';
+import { FormGridCommandEventArgs, ModalComponent } from '@module/shared/src';
+import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
+import { untilDestroyed } from '@module/utils/common';
+import { ZIP_CODE_ADDRESSES_REGEX } from '@module/utils/constant';
+import { markAllAsTouched } from '@module/utils/forms';
+import { getEnumArray, getEnumDescription } from '@module/utils/functions';
+import { ToastService } from '@module/utils/services';
+import { isValidCPF } from '@module/utils/validations';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { forkJoin } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { ToastService } from '@module/utils/services';
-import { untilDestroyed } from '@module/utils/common';
-import { getEnumArray, getEnumDescription } from '@module/utils/functions';
-import { isValidCPF } from '@module/utils/validations';
 
 const NEW_ID = 'NOVO';
 const BRAZILIAN_STATES: State = new State();
-const ZIPCODEREGEX = /^[0-9]{8}$/;
 
 interface GridRow {
   id: number;
@@ -47,20 +48,16 @@ interface GridRow {
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
-  styleUrls: ['./employees.component.scss'],
-  providers: [
-    SortService,
-    EmployeeService,
-    DialogComponent,
-  ],
 })
 export class EmployeesComponent implements OnInit, OnDestroy {
-  @ViewChild('modal', { static: true })
-  modal!: DialogComponent;
+
+  @ViewChild(ModalComponent, { static: true })
+  modal!: ModalComponent;
 
   dataSource: GridRow[] = [];
   form: FormGroup = this.createForm();
-  isModalOpen = false;
+  columns: SfGridColumnModel[] = this.createColumns();
+
   genders = getEnumArray(gender);
   martialStatus = getEnumArray(maritalStatus);
   chronicConditions = getEnumArray(chronicCondition);
@@ -80,74 +77,84 @@ export class EmployeesComponent implements OnInit, OnDestroy {
     this.registerEvents();
   }
 
-  async onOpen(id?: number): Promise<void> {
-    this.reset();
-    try {
-      if (id) {
-        this.findEmployee(id);
-      }
-      this.isModalOpen = true;
-      this.modal.show();
-    } catch (error) {}
+  onCommand(event: FormGridCommandEventArgs): void {
+    switch (event.command) {
+      case 'Add':
+        this.onCommandAdd();
+        break;
+      case 'Edit':
+        this.onCommandEdit(event.rowData as GridRow);
+        break;
+      case 'Remove':
+        this.onCommandRemove(event.rowData as GridRow);
+        break;
+      default:
+        break;
+    }
   }
 
   async onModalClose(): Promise<void> {
-    this.isModalOpen = false;
-  }
-
-  async onEdit(model: GridRow): Promise<void> {
-    await this.onOpen(model.id);
-  }
-
-  async onRemove(model: GridRow): Promise<void> {
-    if (!model.id) return;
-    this.employeeService
-      .deleteById(model.id)
-      .pipe(untilDestroyed(this))
-      .subscribe(
-        async () => {
-          await this.toastService.showRemove();
-          this.loadData();
-        },
-        (error) => this.toastService.showRemove(error)
-      );
+    this.modal.onCloseClick();
   }
 
   async onSaveClick(): Promise<void> {
     if (!this.form.valid) {
-      this.form.markAllAsTouched();
-      this.toastService.showWarning('Formulário inválido!');
+      markAllAsTouched(this.form);
       return;
     }
     const model = this.getModel();
     const exists = model.id > 1;
     if (
-      exists
-        ? this.employeeService
-            .updateById(model)
-            .pipe(untilDestroyed(this))
-            .subscribe(
-              async () => {
-                await this.toastService.showUpdate();
-                this.reset();
-              },
-              (error) => this.toastService.showError(error)
-            )
-        : this.employeeService
-            .add(model)
-            .pipe(untilDestroyed(this))
-            .subscribe(
-              async () => {
-                await this.toastService.showSuccess();
-              },
-              (error) => this.toastService.showError(error)
-            )
+      (exists
+        ? this.employeeService.updateById(model)
+        : this.employeeService.add(model)
+      )
+        .pipe(untilDestroyed(this))
+        .subscribe(
+          async () => {
+            await this.toastService.showSuccess();
+            this.loadData();
+          },
+          async (error) => {
+            this.toastService.showError(error);
+          }
+        )
     )
-      this.loadData();
-    return;
+      return;
   }
 
   ngOnDestroy(): void {}
+
+  private onCommandAdd(): void {
+    this.onOpen();
+  }
+
+  private onCommandEdit(model: GridRow): void {
+    this.onOpen(model.id);
+  }
+
+  private async onCommandRemove(model: GridRow): Promise<void> {
+    this.employeeService
+      .deleteById(model.id)
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        () => {
+          this.toastService.showRemove();
+          this.loadData();
+        },
+        (error) => this.toastService.showError()
+      );
+  }
+
+  private async onOpen(id?: number): Promise<void> {
+    this.reset();
+    try {
+      if (id) {
+        this.findEmployee(id);
+      }
+      this.modal.open();
+    } catch (error) {}
+  }
 
   private registerEvents(): void {
     const controls = this.form.controls;
@@ -168,24 +175,27 @@ export class EmployeesComponent implements OnInit, OnDestroy {
           controls.cpf.reset();
           return;
         }
-        await this.toastService.showSuccess('CPF Válido!')
+        await this.toastService.showSuccess('CPF Válido!');
       });
   }
 
   private getZipCodeAddresses(zipCode: string): void {
     this.resetZipCodeAddressesField();
-    if (!ZIPCODEREGEX.test(zipCode)) return;
-    this.zipCodeAddressesService.getZipCodeAddresses(zipCode).subscribe(
-      async (zipCodeAddresses) => {
-        this.form.patchValue({
-          city: zipCodeAddresses.localidade,
-          street: zipCodeAddresses.logradouro,
-          district: zipCodeAddresses.bairro,
-          state: this.getReplaceState(zipCodeAddresses.uf),
-        });
-      },
-      (error: string | undefined) => this.toastService.showError(error)
-    );
+    if (!ZIP_CODE_ADDRESSES_REGEX.test(zipCode)) return;
+    this.zipCodeAddressesService
+      .getZipCodeAddresses(zipCode)
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        async (zipCodeAddresses) => {
+          this.form.patchValue({
+            city: zipCodeAddresses.localidade,
+            street: zipCodeAddresses.logradouro,
+            district: zipCodeAddresses.bairro,
+            state: this.getReplaceState(zipCodeAddresses.uf),
+          });
+        },
+        (error: string | undefined) => this.toastService.showError(error)
+      );
   }
 
   private getReplaceState(state: string): string {
@@ -313,5 +323,19 @@ export class EmployeesComponent implements OnInit, OnDestroy {
         Validators.maxLength(11),
       ]),
     }));
+  }
+
+  private createColumns() {
+    return SfGridColumns.build<GridRow>({
+      id: SfGridColumns.text('id', 'Código').minWidth(100).isPrimaryKey(true),
+      name: SfGridColumns.text('name', 'Nome').minWidth(200),
+      gender: SfGridColumns.text('gender', 'Gênero').minWidth(100),
+      birthDate: SfGridColumns.date('birthDate', 'Data Aniversário').minWidth(100),
+      city: SfGridColumns.text('city', 'Cidade').minWidth(200),
+      district: SfGridColumns.text('district', 'Bairro').minWidth(200),
+      jobName: SfGridColumns.text('jobName', 'Cargo').minWidth(100),
+      street: SfGridColumns.text('street', 'Endereço').minWidth(200),
+      phone: SfGridColumns.text('phone', 'Telefone').minWidth(100),
+    });
   }
 }

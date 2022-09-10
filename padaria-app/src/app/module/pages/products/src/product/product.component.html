@@ -35,13 +35,21 @@
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <ejs-numerictextbox formControlName="unitaryPrice" placeholder="Preço Unitário" formErrorHandler format="c2">
+            <ejs-numerictextbox formControlName="unitaryPrice"
+                                placeholder="Preço Unitário"
+                                formErrorHandler
+                                format="c2"
+                                [showSpinButton]="false">
             </ejs-numerictextbox>
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <ejs-numerictextbox formControlName="amount" placeholder="Quantidade" formErrorHandler format="0">
+            <ejs-numerictextbox formControlName="amount"
+                                placeholder="Quantidade"
+                                formErrorHandler
+                                format="0"
+                                [showSpinButton]="false">
             </ejs-numerictextbox>
           </div>
         </div>
@@ -50,22 +58,31 @@
       <div class="row">
         <div class="col md-4">
           <div class="form-group">
-            <ejs-dropdownlist formControlName="unitMeasureId" placeholder="Unidade de Medida" [dataSource]=""
-              formErrorHandler [fields]=" {value: 'id', text:'name'} ">
+            <ejs-dropdownlist formControlName="unitMeasureId"
+                              placeholder="Unidade de Medida"
+                              [dataSource]=""
+                              formErrorHandler
+                              [fields]="{value: 'id', text:'name'} ">
             </ejs-dropdownlist>
           </div>
         </div>
         <div class="col md-4">
           <div class="form-group">
-            <ejs-dropdownlist formControlName="brandId" placeholder="Marca" [dataSource]="" formErrorHandler
-              [fields]=" {value: 'id', text:'name'} ">
+            <ejs-dropdownlist formControlName="brandId"
+                              placeholder="Marca"
+                              [dataSource]=""
+                              formErrorHandler
+                              [fields]=" {value: 'id', text:'name'} ">
             </ejs-dropdownlist>
           </div>
         </div>
         <div class="col md-4">
           <div class="form-group">
-            <ejs-dropdownlist formControlName="manufacturerId" placeholder="Fabricante" [dataSource]="" formErrorHandler
-              [fields]=" {value: 'id', text:'name'} ">
+            <ejs-dropdownlist formControlName="manufacturerId"
+                              placeholder="Fabricante"
+                              [dataSource]=""
+                              formErrorHandler
+                              [fields]=" {value: 'id', text:'name'} ">
             </ejs-dropdownlist>
           </div>
         </div>

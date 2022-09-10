@@ -1,198 +1,182 @@
-<div class="align-button">
-  <button ejs-button buttonAdd (click)="onOpen()">
-  </button>
-</div>
+<ejs-formgrid [dataSource]="dataSource" [columns]="columns" (command)="onCommand($event)">
+</ejs-formgrid>
 
-<ejs-grid class="align-grid"
-          [height]="450"
-          [columns]="template"
-          [rowHeight]="40"
-          [allowSorting]="true"
-          [dataSource]="dataSource">
-  <e-columns>
-    <e-column headerTextAlign="left" width="50">
-      <ng-template #template let-data>
-          <button ejs-button class="e-info" iconCss='e-icons e-edit' (click)="onEdit(data)"></button>
-          <button ejs-button class="e-danger align" iconCss='e-icons e-cancel' (click)="onRemove(data)"></button>
-      </ng-template>
-    </e-column>
-    <e-column field="id" headerText="Código" headerTextAlign="center" textAlign="center" width="50" isPrimaryKey="true">
-    </e-column>
-    <e-column field="name" headerText="Nome" headerTextAlign="left" textAlign="left" width="100"></e-column>
-  </e-columns>
-</ejs-grid>
+<app-modal #modal modalHeader="Cadastro de Departamento" dialogClass="lg">
 
-<div *ngIf="isModalOpen">
-  <ejs-dialog id='dialog'
-              #modal
-              header="Cadastro de Funcionário"
-              isModal='true'
-              showCloseIcon="true"
-              (close)="onModalClose()"
-              width="50%"
-              [content]="body"
-              [footerTemplate]="footer">
-  </ejs-dialog>
-</div>
+  <ng-template #bodyTemplate>
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-md-2">
+          <div class="form-group">
+            <ejs-textbox formControlName="id" placeholder="Código">
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="form-group">
+            <ejs-textbox formControlName="name" placeholder="Nome" formErrorHandler>
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <ejs-textbox formControlName="cpf" placeholder="CPF" formErrorHandler>
+            </ejs-textbox>
+          </div>
+        </div>
+      </div>
 
-<ng-template #body>
-  <form [formGroup]="form">
-    <div class="row">
-      <div class="form-group">
-        <ejs-textbox  formControlName="id"
-                      placeholder="Código"
-                      width="10%">
-        </ejs-textbox>
-        <ejs-textbox  formControlName="name"
-                      placeholder="Nome"
-                      formErrorHandler
-                      width="60%"
-                      class="align-text-box-name">
-        </ejs-textbox>
-        <ejs-textbox  formControlName="cpf"
-                      placeholder="CPF"
-                      width="20%"
-                      formErrorHandler
-                      class="align-text-box-name">
-        </ejs-textbox>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <ejs-datepicker formControlName="birthDate" placeholder="Data Nascimento" [max]="today" formErrorHandler>
+            </ejs-datepicker>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <ejs-dropdownlist formControlName="gender"
+                              placeholder="Gênero"
+                              [allowFiltering]="true"
+                              formErrorHandler
+                              [fields]="{value: 'value', text:'description'}"
+                              [dataSource]="genders">
+            </ejs-dropdownlist>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <ejs-dropdownlist formControlName="maritalStatus"
+                              placeholder="Estado Cívil"
+                              [allowFiltering]="true"
+                              formErrorHandler
+                              [fields]="{value: 'value', text:'description'}"
+                              [dataSource]="martialStatus">
+            </ejs-dropdownlist>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <ejs-dropdownlist formControlName="levelSchooling"
+                              placeholder="Grau Escolaridade"
+                              [allowFiltering]="true"
+                              formErrorHandler
+                              [fields]="{value: 'value', text:'description'}"
+                              [dataSource]="levelSchoolings">
+            </ejs-dropdownlist>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="row align-row" class="align-drop-down">
-      <ejs-dropdownlist formControlName="gender"
-                        placeholder="Gênero"
-                        [allowFiltering]="true"
-                        formErrorHandler
-                        [fields]="{value: 'value', text:'description'}"
-                        [dataSource]="genders">
-      </ejs-dropdownlist>
-      <ejs-dropdownlist formControlName="maritalStatus"
-                        placeholder="Estado Cívil"
-                        [allowFiltering]="true"
-                        formErrorHandler
-                        [fields]="{value: 'value', text:'description'}"
-                        [dataSource]="martialStatus"
-                        class="align-text-box-name">
-      </ejs-dropdownlist>
-      <ejs-multiselect  formControlName="chronicCondition"
-                        placeholder="Doenças Crônicas"
-                        [allowFiltering]="true"
-                        formErrorHandler
-                        [fields]="{value: 'value', text:'description'}"
-                        [dataSource]="chronicConditions"
-                        [hideSelectedItem]="true"
-                        [showSelectAll]="true"
-                        class="align-text-box-name">
-      </ejs-multiselect>
-    </div>
-    <div class="row" class="align-drop-down">
-      <ejs-textbox  formControlName="phone"
-                    placeholder="Telefone"
-                    formErrorHandler
-                    width="30%">
-      </ejs-textbox>
-      <ejs-datepicker formControlName="birthDate"
-                      placeholder="Data Nascimento"
-                      [max]="today"
-                      formErrorHandler
-                      width="20%"
-                      class="align-text-box-name">
-      </ejs-datepicker>
-      <ejs-dropdownlist formControlName="levelSchooling"
-                        placeholder="Grau Escolaridade"
-                        [allowFiltering]="true"
-                        formErrorHandler
-                        [fields]="{value: 'value', text:'description'}"
-                        width="175%"
-                        [dataSource]="levelSchoolings"
-                        class="align-text-box-name">
-      </ejs-dropdownlist>
-    </div>
-    <div class="row" class="align-drop-down">
-      <div class="form-group">
-        <ejs-datepicker formControlName="admissionDate"
-                        placeholder="Data Admissão"
-                        [max]="today"
-                        formErrorHandler
-                        width="20%">
-        </ejs-datepicker>
-        <ejs-dropdownlist formControlName="jobId"
-                          placeholder="Cargo"
-                          [allowFiltering]="true"
-                          [fields]="{value: 'id', text:'name'}"
-                          [dataSource]="jobs"
-                          formErrorHandler
-                          class="align-text-box-name">
-        </ejs-dropdownlist>
-        <ejs-numerictextbox formControlName="workingHours"
-                            placeholder="Qtd Horas Trabalho"
-                            width="25%"
-                            [decimals]="0"
-                            [min]="1"
-                            formErrorHandler
-                            [showSpinButton]="false"
-                            class="align-text-box-name">
-        </ejs-numerictextbox>
-        <ejs-numerictextbox formControlName="hourlyWork"
-                            placeholder="Valor Por Hora"
-                            width="21%"
-                            [decimals]="2"
-                            [min]="1"
-                            format="C2"
-                            formErrorHandler
-                            [showSpinButton]="false"
-                            class="align-text-box-name">
-        </ejs-numerictextbox>
-      </div>
-    </div>
-    <div class="row">
-      <div class="form-group">
-        <ejs-textbox  formControlName="email"
-                      placeholder="E-mail"
-                      formErrorHandler
-                      width="94%">
-        </ejs-textbox>
-      </div>
-    </div>
-    <div class="row">
-      <div class="form-group">
-          <ejs-textbox  formControlName="zipCodeAddresses"
-                        placeholder="CEP"
-                        formErrorHandler
-                        width="20%">
-          </ejs-textbox>
-          <ejs-textbox  formControlName="state"
-                        placeholder="Estado"
-                        width="31%"
-                        formErrorHandler
-                        class="align-text-box-name">
-          </ejs-textbox>
-          <ejs-textbox  formControlName="city"
-                        placeholder="Cidade"
-                        width="40%"
-                        class="align-text-box-name">
-          </ejs-textbox>
-      </div>
-    </div>
-    <div class="row">
-      <div class="form-group">
-        <ejs-textbox  formControlName="district"
-                      placeholder="Bairro"
-                      width="42%">
-        </ejs-textbox>
-        <ejs-textbox  formControlName="street"
-                      placeholder="Endereço"
-                      width="50%"
-                      class="align-text-box-name">
-        </ejs-textbox>
-      </div>
-    </div>
-  </form>
-</ng-template>
 
-<ng-template #footer>
-  <div class="align-footer-button">
-    <button ejs-button buttonSave [disabled]="!this.form.valid"
-      (click)="onSaveClick()"></button>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <ejs-textbox formControlName="phone" placeholder="Telefone" formErrorHandler>
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-textbox formControlName="email" placeholder="E-mail" formErrorHandler>
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <ejs-multiselect  formControlName="chronicCondition"
+                              placeholder="Doenças Crônicas"
+                              [allowFiltering]="true"
+                              formErrorHandler
+                              [fields]="{value: 'value', text:'description'}"
+                              [dataSource]="chronicConditions"
+                              [hideSelectedItem]="true"
+                              [showSelectAll]="true">
+            </ejs-multiselect>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-textbox formControlName="zipCodeAddresses" placeholder="CEP" formErrorHandler>
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-textbox formControlName="state" placeholder="Estado" formErrorHandler class="align-text-box-name">
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-textbox formControlName="city" placeholder="Cidade">
+            </ejs-textbox>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-textbox formControlName="district" placeholder="Bairro">
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-textbox formControlName="street" placeholder="Endereço">
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-dropdownlist formControlName="jobId"
+                              placeholder="Cargo"
+                              [allowFiltering]="true"
+                              [fields]="{value: 'id', text:'name'}"
+                              [dataSource]="jobs"
+                              formErrorHandler>
+            </ejs-dropdownlist>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-datepicker formControlName="admissionDate" placeholder="Data Admissão" [max]="today" formErrorHandler>
+            </ejs-datepicker>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-numerictextbox formControlName="workingHours"
+                                placeholder="Qtd Horas Trabalho"
+                                format="0"
+                                formErrorHandler
+                                [showSpinButton]="false">
+            </ejs-numerictextbox>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-numerictextbox formControlName="hourlyWork"
+                                placeholder="Valor Por Hora"
+                                format="C2"
+                                formErrorHandler
+                                [showSpinButton]="false">
+            </ejs-numerictextbox>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </ng-template>
+
+  <ng-template #footerTemplate>
+    <button ejs-button buttonSave [disabled]="!this.form.dirty" (click)="onSaveClick()"></button>
     <button ejs-button buttonCancel (click)="onModalClose()"></button>
-  </div>
-</ng-template>
+  </ng-template>
+</app-modal>
