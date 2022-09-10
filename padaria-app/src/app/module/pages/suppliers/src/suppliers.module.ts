@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ButtonAppModule, FormGridModule } from '@module/shared/src';
+import { ButtonAppModule, FormGridModule, ModalModule } from '@module/shared/src';
+import { ReactiveFormsModule } from '@module/utils/forms';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
-import { DialogModule } from '@syncfusion/ej2-angular-popups';
+import { MaskedTextBoxModule, TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { SuppliersRoutingModule } from './suppliers-routing.module';
 import { SuppliersComponent } from './suppliers.component';
 
@@ -14,12 +13,12 @@ import { SuppliersComponent } from './suppliers.component';
     CommonModule,
     TextBoxModule,
     FormGridModule,
-    DialogModule,
     ReactiveFormsModule,
-    FormsModule,
+    MaskedTextBoxModule,
+    ModalModule,
     ButtonModule,
     ButtonAppModule,
-    SuppliersRoutingModule,
+    SuppliersRoutingModule
   ],
 })
 export class SuppliersModule {}

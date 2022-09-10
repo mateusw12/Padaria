@@ -1,101 +1,92 @@
-<ejs-formgrid [dataSource]="dataSource"
-              [columns]="columns"
-              (command)="onCommand($event)">
+<ejs-formgrid [dataSource]="dataSource" [columns]="columns" (command)="onCommand($event)">
 </ejs-formgrid>
 
-<div *ngIf="isModalOpen">
-  <ejs-dialog id='dialog'
-              #modal
-              header="Cadastro de Fornecedor"
-              isModal='true' showCloseIcon="true"
-              (close)="onModalClose()" width="40%"
-              [content]="body"
-              [footerTemplate]="footer">
-  </ejs-dialog>
-</div>
+<app-modal #modal modalHeader="Cadastro de Fornecedor" dialogClass="lg">
 
-<ng-template #body>
-  <form [formGroup]="form">
-    <div class="row">
-      <div class="form-group">
-        <ejs-textbox  formControlName="id"
-                      placeholder="Código"
-                      width="10%">
-        </ejs-textbox>
-        <ejs-textbox  formControlName="name"
-                      placeholder="Nome"
-                      width="56%"
-                      formErrorHandler
-                      class="align-text-box-name">
-        </ejs-textbox>
+  <ng-template #bodyTemplate>
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-md-2">
+          <div class="form-group">
+            <ejs-textbox formControlName="id" placeholder="Código">
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <ejs-textbox formControlName="name" placeholder="Nome" formErrorHandler>
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-gruop">
+            <ejs-maskedtextbox formControlName="cnpj" placeholder="CNPJ" formErrorHandler mask="00.000.000/0000-00">
+            </ejs-maskedtextbox>
+          </div>
+        </div>
+      </div>
 
-        <ejs-textbox  formControlName="cnpj"
-                      placeholder="CNPJ"
-                      width="30%"
-                      formErrorHandler
-                      class="align-text-box-name">
-        </ejs-textbox>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <ejs-textbox formControlName="comercialName" placeholder="Nome Fantasia" formErrorHandler>
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <ejs-textbox formControlName="email" placeholder="E-mail" formErrorHandler>
+            </ejs-textbox>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="form-group">
-        <ejs-textbox  formControlName="comercialName"
-                      placeholder="Nome Fantasia"
-                      formErrorHandler
-                      width="40%">
-        </ejs-textbox>
-        <ejs-textbox  formControlName="email"
-                      placeholder="E-mail"
-                      width="36%"
-                      formErrorHandler
-                      class="align-text-box-name">
-        </ejs-textbox>
-        <ejs-textbox  formControlName="phone"
-                      placeholder="Telefone"
-                      width="20%"
-                      formErrorHandler
-                      class="align-text-box-name">
-        </ejs-textbox>
-      </div>
-    </div>
-    <div class="row">
-      <div class="form-group">
-        <ejs-textbox  formControlName="zipCodeAddresses"
-                      placeholder="CEP"
-                      formErrorHandler
-                      width="20%">
-        </ejs-textbox>
-        <ejs-textbox  formControlName="state"
-                      placeholder="Estado"
-                      width="35%"
-                      class="align-text-box-name">
-        </ejs-textbox>
-        <ejs-textbox  formControlName="city"
-                      placeholder="Cidade"
-                      width="41%"
-                      class="align-text-box-name">
-        </ejs-textbox>
-      </div>
-    </div>
-    <div class="row">
-      <div class="form-group">
-        <ejs-textbox  formControlName="district"
-                      placeholder="Bairro"
-                      width="48%">
-        </ejs-textbox>
-        <ejs-textbox  formControlName="street"
-                      placeholder="Endereço"
-                      width="50%"
-                      class="align-text-box-name">
-        </ejs-textbox>
-      </div>
-    </div>
-  </form>
-</ng-template>
 
-<ng-template #footer>
-  <div class="align-footer-button">
-    <button ejs-button buttonSave [disabled]="!this.form.valid" (click)="onSaveClick()"></button>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <ejs-textbox formControlName="phone" placeholder="Telefone" formErrorHandler>
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <ejs-textbox formControlName="zipCodeAddresses" placeholder="CEP" formErrorHandler>
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <ejs-textbox formControlName="state" placeholder="Estado">
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-textbox formControlName="city" placeholder="Cidade">
+            </ejs-textbox>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <ejs-textbox formControlName="district" placeholder="Bairro">
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <ejs-textbox formControlName="street" placeholder="Endereço">
+            </ejs-textbox>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template #footerTemplate>
+    <button ejs-button buttonSave [disabled]="!this.form.dirty" (click)="onSaveClick()"></button>
     <button ejs-button buttonCancel (click)="onModalClose()"></button>
-  </div>
-</ng-template>
+  </ng-template>
+</app-modal>

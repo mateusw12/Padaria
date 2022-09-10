@@ -1,22 +1,20 @@
 import {
-  Component,
-  ErrorHandler,
-  OnDestroy,
+  Component, OnDestroy,
   OnInit,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { State, Supplier } from '@module/models';
 import { SupplierService, ZipCodeAddressesService } from '@module/services';
+import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed } from '@module/utils/common';
 import { ZIP_CODE_ADDRESSES_REGEX } from '@module/utils/constant';
+import { markAllAsTouched } from '@module/utils/forms';
 import { ToastService } from '@module/utils/services';
 import { isValidCNPJ } from '@module/utils/validations';
-import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { debounceTime } from 'rxjs/operators';
 
 const NEW_ID = 'NOVO';
@@ -34,28 +32,19 @@ interface GridRow {
 @Component({
   selector: 'app-suppliers',
   templateUrl: './suppliers.component.html',
-  styleUrls: ['./suppliers.component.scss'],
-  providers: [
-    SortService,
-    SupplierService,
-    DialogComponent,
-    ZipCodeAddressesService,
-  ],
 })
 export class SuppliersComponent implements OnInit, OnDestroy {
-  @ViewChild('modal', { static: true })
-  private modal!: DialogComponent;
+  @ViewChild(ModalComponent, { static: true })
+  private modal!: ModalComponent;
 
   dataSource: GridRow[] = [];
   form: FormGroup = this.createForm();
-  isModalOpen = false;
   columns: SfGridColumnModel[] = this.createColumns();
 
   constructor(
     private toastService: ToastService,
     private supplierService: SupplierService,
-    private zipCodeAddresses: ZipCodeAddressesService,
-    private errorHandler: ErrorHandler
+    private zipCodeAddresses: ZipCodeAddressesService
   ) {}
 
   ngOnInit(): void {
@@ -69,62 +58,40 @@ export class SuppliersComponent implements OnInit, OnDestroy {
       if (id) {
         this.findSupplier(id);
       }
-      this.isModalOpen = true;
-      this.modal.show();
+      this.modal.open();
     } catch (error) {}
   }
 
   async onModalClose(): Promise<void> {
-    this.isModalOpen = false;
+    this.modal.onCloseClick();
   }
 
   async onEdit(model: GridRow): Promise<void> {
     await this.onOpen(model.id);
   }
 
-  async onRemove(model: GridRow): Promise<void> {
-    if (!model.id) return;
-    this.supplierService
-      .deleteById(model.id)
-      .pipe(untilDestroyed(this))
-      .subscribe(
-        async () => {
-          await this.toastService.showRemove('Removido');
-        },
-        (error) => this.toastService.showError(error)
-      );
-    this.loadData();
-  }
-
   async onSaveClick(): Promise<void> {
     if (!this.form.valid) {
-      this.form.markAllAsTouched();
-      this.toastService.showWarning('Formulário Inválido');
+      markAllAsTouched(this.form);
       return;
     }
     const model = this.getModel();
     const exists = model.id > 1;
     if (
-      exists
-        ? this.supplierService
-            .updateById(model)
-            .pipe(untilDestroyed(this))
-            .subscribe(
-              async () => {
-                await this.toastService.showUpdate();
-                this.resetForm();
-              },
-              (error) => this.toastService.showError(error)
-            )
-        : this.supplierService
-            .add(model)
-            .pipe()
-            .subscribe(
-              async () => {
-                await this.toastService.showSuccess();
-              },
-              (error) => this.toastService.showError(error)
-            )
+      (exists
+        ? this.supplierService.updateById(model)
+        : this.supplierService.add(model)
+      )
+        .pipe(untilDestroyed(this))
+        .subscribe(
+          async () => {
+            await this.toastService.showSuccess();
+            this.loadData();
+          },
+          async (error) => {
+            this.toastService.showError(error);
+          }
+        )
     )
       return;
   }
@@ -161,7 +128,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe(
         () => {
-          this.toastService.showSuccess('Excluído com sucesso!');
+          this.toastService.showRemove();
           this.loadData();
         },
         (error) => this.toastService.showError()
@@ -178,7 +145,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
       });
 
     controls.cnpj.valueChanges
-      .pipe(debounceTime(700))
+      .pipe(debounceTime(2000))
       .subscribe(async (value) => {
         if (!value) return;
         const valid = isValidCNPJ(value);
@@ -187,24 +154,26 @@ export class SuppliersComponent implements OnInit, OnDestroy {
           controls.cnpj.reset();
           return;
         }
-        await this.toastService.showSuccess('CNPJ Válido!');
       });
   }
 
   private getZipCodeAddresses(zipCode: string): void {
     this.resetZipCodeAddressesField();
     if (!ZIP_CODE_ADDRESSES_REGEX.test(zipCode)) return;
-    this.zipCodeAddresses.getZipCodeAddresses(zipCode).subscribe(
-      async (zipCodeAddresses) => {
-        this.form.patchValue({
-          city: zipCodeAddresses.localidade,
-          street: zipCodeAddresses.logradouro,
-          district: zipCodeAddresses.bairro,
-          state: this.getReplaceState(zipCodeAddresses.uf),
-        });
-      },
-      (error) => this.toastService.showError(error)
-    );
+    this.zipCodeAddresses
+      .getZipCodeAddresses(zipCode)
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        async (zipCodeAddresses) => {
+          this.form.patchValue({
+            city: zipCodeAddresses.localidade,
+            street: zipCodeAddresses.logradouro,
+            district: zipCodeAddresses.bairro,
+            state: this.getReplaceState(zipCodeAddresses.uf)
+          });
+        },
+        (error) => this.toastService.showError(error)
+      );
   }
 
   private getReplaceState(state: string): string {
@@ -222,28 +191,23 @@ export class SuppliersComponent implements OnInit, OnDestroy {
         async (suppliers) => {
           const dataSouce: GridRow[] = [];
           for (const item of suppliers) {
+            const state = BRAZILIAN_STATES.state.find(
+              (el) => el.name === item.name
+            );
+
             dataSouce.push({
               city: item.city,
               cnpj: item.cnpj,
               email: item.email,
               id: item.id,
               name: item.name,
-              state: this.getStateAbbreviation(item.state),
+              state: state ? state.displayName : ''
             });
           }
           this.dataSource = dataSouce;
         },
-        (error) => {
-          console.log(this.errorHandler.handleError(error));
-        }
+        (error) => {}
       );
-  }
-
-  private getStateAbbreviation(state: string): string {
-    const stateProperty = BRAZILIAN_STATES.state.find(
-      (el) => el.name === state
-    );
-    return stateProperty ? stateProperty.abbreviation : '';
   }
 
   private async findSupplier(id: number): Promise<void> {
@@ -251,8 +215,8 @@ export class SuppliersComponent implements OnInit, OnDestroy {
       .findById(id)
       .pipe(untilDestroyed(this))
       .subscribe(
-        async (departament) => {
-          this.populateForm(departament);
+        async (suppliers) => {
+          this.populateForm(suppliers);
         },
         (error) => this.toastService.showError(error)
       );
@@ -270,7 +234,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
       state: supplier.state,
       district: supplier.district,
       city: supplier.city,
-      street: supplier.street,
+      street: supplier.street
     });
   }
 
@@ -321,25 +285,24 @@ export class SuppliersComponent implements OnInit, OnDestroy {
       phone: new FormControl(null, [Validators.maxLength(15)]),
       zipCodeAddresses: new FormControl(null, [
         FormValidators.required,
-        Validators.maxLength(11),
+        Validators.maxLength(11)
       ]),
-
       state: new FormControl({ value: null, disabled: true }),
       district: new FormControl({ value: null, disabled: true }),
       street: new FormControl({ value: null, disabled: true }),
       city: new FormControl({ value: null, disabled: true }),
-      email: new FormControl(null, [Validators.maxLength(200)]),
+      email: new FormControl(null, [Validators.maxLength(200), Validators.email])
     }));
   }
 
   private createColumns(): SfGridColumnModel[] {
     return SfGridColumns.build<GridRow>({
-      id: SfGridColumns.text('id', 'Código').minWidth(100).isPrimaryKey(true),
+      id: SfGridColumns.text('id', 'Código').minWidth(75).isPrimaryKey(true),
       name: SfGridColumns.text('name', 'Nome').minWidth(200),
-      city: SfGridColumns.text('city', 'Cidade').minWidth(200),
-      cnpj: SfGridColumns.text('cnpj', 'CNPJ').minWidth(200),
-      email: SfGridColumns.text('email', 'E-mail').minWidth(200),
-      state: SfGridColumns.text('state', 'Estado').minWidth(200),
+      city: SfGridColumns.text('city', 'Cidade').minWidth(100),
+      cnpj: SfGridColumns.text('cnpj', 'CNPJ').minWidth(100),
+      email: SfGridColumns.text('email', 'E-mail').minWidth(100),
+      state: SfGridColumns.text('state', 'Estado').minWidth(100)
     });
   }
 }
