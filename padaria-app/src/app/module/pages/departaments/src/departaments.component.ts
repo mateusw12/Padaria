@@ -18,7 +18,7 @@ interface GridRow {
 
 @Component({
   selector: 'app-departaments',
-  templateUrl: './departaments.component.html'
+  templateUrl: './departaments.component.html',
 })
 export class DepartamentsComponent implements OnInit, OnDestroy {
   @ViewChild(ModalComponent, { static: true })
@@ -26,9 +26,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
 
   columns: SfGridColumnModel[] = this.createColumns();
   dataSource: GridRow[] = [];
-
   form: FormGroup = this.createForm();
-  isModalOpen = false;
 
   constructor(
     private toastService: ToastService,
@@ -55,41 +53,13 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private async onOpen(id?: number): Promise<void> {
-    this.reset();
-    try {
-      if (id) {
-        this.findDepartament(id);
-      }
-      this.isModalOpen = true;
-    } catch (error) {}
-  }
-
   async onModalClose(): Promise<void> {
     this.modal.onCloseClick();
   }
 
-  async onEdit(model: any): Promise<void> {
-    await this.onOpen(model.id);
-  }
-
-  async onRemove(model: GridRow): Promise<void> {
-    if (!model.id) return;
-    this.departametService
-      .deleteById(model.id)
-      .pipe(untilDestroyed(this))
-      .subscribe(
-        async () => {
-          await this.toastService.showRemove();
-        },
-        (error) => this.toastService.showError(error)
-      );
-    this.loadData();
-  }
-
   async onSaveClick(): Promise<void> {
     if (!this.form.valid) {
-      markAllAsTouched(this.form)
+      markAllAsTouched(this.form);
       return;
     }
     const model = this.getModel();
@@ -103,6 +73,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
         .subscribe(
           async () => {
             await this.toastService.showSuccess();
+            this.loadData();
           },
           async (error) => {
             this.toastService.showError(error);
@@ -114,9 +85,18 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
-  private onCommandAdd(): void {
+  private async onOpen(id?: number): Promise<void> {
     this.reset();
-    this.modal.open();
+    try {
+      if (id) {
+        this.findDepartament(id);
+      }
+      this.modal.open();
+    } catch (error) {}
+  }
+
+  private onCommandAdd(): void {
+    this.onOpen();
   }
 
   private onCommandEdit(model: GridRow): void {
@@ -194,7 +174,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
   private createColumns() {
     return SfGridColumns.build<GridRow>({
       id: SfGridColumns.text('id', 'Código').minWidth(100).isPrimaryKey(true),
-      name: SfGridColumns.text('name', 'Nome').minWidth(200)
+      name: SfGridColumns.text('name', 'Nome').minWidth(200),
     });
   }
 }

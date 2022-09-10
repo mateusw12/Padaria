@@ -2,13 +2,13 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Job } from '@module/models';
 import { JobService } from '@module/services';
+import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed } from '@module/utils/common';
+import { markAllAsTouched } from '@module/utils/forms';
 import { ToastService } from '@module/utils/services';
-import { SortService } from '@syncfusion/ej2-angular-grids';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 
 const NEW_ID = 'NOVO';
 
@@ -20,16 +20,13 @@ interface GridRow {
 @Component({
   selector: 'app-jobs',
   templateUrl: './jobs.component.html',
-  styleUrls: ['./jobs.component.scss'],
-  providers: [SortService, JobService, DialogComponent],
 })
 export class JobsComponent implements OnInit, OnDestroy {
-  @ViewChild('modal', { static: true })
-  modal!: DialogComponent;
+  @ViewChild(ModalComponent, { static: true })
+  modal!: ModalComponent;
 
   dataSource: GridRow[] = [];
   form: FormGroup = this.createForm();
-  isModalOpen = false;
   columns: SfGridColumnModel[] = this.createColumns();
 
   constructor(
@@ -41,71 +38,30 @@ export class JobsComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  async onOpen(id?: number): Promise<void> {
-    this.reset();
-    try {
-      if (id) {
-        this.findJob(id);
-      }
-      this.isModalOpen = true;
-      this.modal.show();
-    } catch (error) {}
-  }
-
-  async onModalClose(): Promise<void> {
-    this.isModalOpen = false;
-  }
-
-  async onEdit(model: GridRow): Promise<void> {
-    await this.onOpen(model.id);
-  }
-
-  async onRemove(model: GridRow): Promise<void> {
-    if (!model.id) return;
-    this.jobService
-      .deleteById(model.id)
-      .pipe(untilDestroyed(this))
-      .subscribe(
-        async () => {
-          await this.toastService.showRemove();
-          this.loadData();
-        },
-        (error) => this.toastService.showRemove(error)
-      );
-  }
-
   async onSaveClick(): Promise<void> {
     if (!this.form.valid) {
-      this.form.markAllAsTouched();
-      this.toastService.showWarning('Formulário inválido!');
+      markAllAsTouched(this.form);
       return;
     }
     const model = this.getModel();
     const exists = model.id > 1;
     if (
-      exists
-        ? this.jobService
-            .updateById(model)
-            .pipe(untilDestroyed(this))
-            .subscribe(
-              async () => {
-                await this.toastService.showUpdate();
-                this.reset();
-              },
-              (error) => this.toastService.showError(error)
-            )
-        : this.jobService
-            .add(model)
-            .pipe(untilDestroyed(this))
-            .subscribe(
-              async () => {
-                await this.toastService.showSuccess();
-              },
-              (error) => this.toastService.showError(error)
-            )
+      (exists
+        ? this.jobService.updateById(model)
+        : this.jobService.add(model)
+      )
+        .pipe(untilDestroyed(this))
+        .subscribe(
+          async () => {
+            await this.toastService.showSuccess();
+            this.loadData();
+          },
+          async (error) => {
+            this.toastService.showError(error);
+          }
+        )
     )
-      this.loadData();
-    return;
+      return;
   }
 
   onCommand(event: FormGridCommandEventArgs): void {
@@ -126,6 +82,19 @@ export class JobsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
+  private async onOpen(id?: number): Promise<void> {
+    this.reset();
+    try {
+      if (id) {
+        this.findJob(id);
+      }
+      this.modal.open();
+    } catch (error) {}
+  }
+
+  async onModalClose(): Promise<void> {
+    this.modal.onCloseClick();
+  }
   private onCommandAdd(): void {
     this.onOpen();
   }
