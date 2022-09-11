@@ -14,13 +14,12 @@ import {
   UPDATE_CONTENT,
   WARNING_CSS_CLASS,
   WARNING_TITLE
-} from '../constant';
+} from '../constant/dialog';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ToastService implements OnDestroy {
-
   async showSuccess(message?: string): Promise<void> {
     const MESSAGE_CONTENT = message ? message : SUCCESS_CONTENT;
     await this.showToast(SUCCESS_TITLE, SUCCESS_CSS_CLASS, MESSAGE_CONTENT);

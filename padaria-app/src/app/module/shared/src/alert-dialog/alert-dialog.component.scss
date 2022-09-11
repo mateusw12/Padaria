@@ -1,0 +1,15 @@
+p {
+  max-width: 60ch;
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+
+.align-header {
+  display: flex;
+  align-items: baseline;
+}
+
+.size-icons {
+  font-size: 50px;
+  padding-right: 5px;
+}
