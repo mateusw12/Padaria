@@ -5,9 +5,9 @@ import { JobService } from '@module/services';
 import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
-import { untilDestroyed } from '@module/utils/common';
+import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';
-import { ToastService } from '@module/utils/services';
+import { MessageService, ToastService } from '@module/utils/services';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 
 const NEW_ID = 'NOVO';
@@ -31,7 +31,8 @@ export class JobsComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastService: ToastService,
-    private jobService: JobService
+    private jobService: JobService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -45,11 +46,18 @@ export class JobsComponent implements OnInit, OnDestroy {
     }
     const model = this.getModel();
     const exists = model.id > 1;
+
+    if (exists) {
+      const confirmed$ = this.messageService.showConfirmSave();
+      const confirmed = await untilDestroyedAsync(
+        confirmed$.asObservable(),
+        this
+      );
+      if (!confirmed) return;
+    }
+
     if (
-      (exists
-        ? this.jobService.updateById(model)
-        : this.jobService.add(model)
-      )
+      (exists ? this.jobService.updateById(model) : this.jobService.add(model))
         .pipe(untilDestroyed(this))
         .subscribe(
           async () => {
@@ -104,6 +112,12 @@ export class JobsComponent implements OnInit, OnDestroy {
   }
 
   private async onCommandRemove(model: GridRow): Promise<void> {
+    const confirmed$ = this.messageService.showConfirmSave();
+    const confirmed = await untilDestroyedAsync(
+      confirmed$.asObservable(),
+      this
+    );
+    if (!confirmed) return;
     this.jobService
       .deleteById(model.id)
       .pipe(untilDestroyed(this))

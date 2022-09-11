@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { ButtonModelPropsModel } from '@syncfusion/ej2-angular-notifications';
 import { ToastUtility } from '@syncfusion/ej2-notifications';
 import {
@@ -13,14 +13,13 @@ import {
   SUCCESS_TITLE,
   UPDATE_CONTENT,
   WARNING_CSS_CLASS,
-  WARNING_TITLE,
+  WARNING_TITLE
 } from '../constant';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ToastService implements OnInit, OnDestroy {
-  ngOnInit(): void {}
+export class ToastService implements OnDestroy {
 
   async showSuccess(message?: string): Promise<void> {
     const MESSAGE_CONTENT = message ? message : SUCCESS_CONTENT;

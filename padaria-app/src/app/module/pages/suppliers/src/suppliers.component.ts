@@ -1,18 +1,14 @@
-import {
-  Component, OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { State, Supplier } from '@module/models';
 import { SupplierService, ZipCodeAddressesService } from '@module/services';
 import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
-import { untilDestroyed } from '@module/utils/common';
+import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { ZIP_CODE_ADDRESSES_REGEX } from '@module/utils/constant';
 import { markAllAsTouched } from '@module/utils/forms';
-import { ToastService } from '@module/utils/services';
+import { MessageService, ToastService } from '@module/utils/services';
 import { isValidCNPJ } from '@module/utils/validations';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { debounceTime } from 'rxjs/operators';
@@ -44,7 +40,8 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   constructor(
     private toastService: ToastService,
     private supplierService: SupplierService,
-    private zipCodeAddresses: ZipCodeAddressesService
+    private zipCodeAddresses: ZipCodeAddressesService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -77,6 +74,16 @@ export class SuppliersComponent implements OnInit, OnDestroy {
     }
     const model = this.getModel();
     const exists = model.id > 1;
+
+    if (exists) {
+      const confirmed$ = this.messageService.showConfirmSave();
+      const confirmed = await untilDestroyedAsync(
+        confirmed$.asObservable(),
+        this
+      );
+      if (!confirmed) return;
+    }
+
     if (
       (exists
         ? this.supplierService.updateById(model)
@@ -123,6 +130,13 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   }
 
   private async onCommandRemove(model: GridRow): Promise<void> {
+    const confirmed$ = this.messageService.showConfirmSave();
+    const confirmed = await untilDestroyedAsync(
+      confirmed$.asObservable(),
+      this
+    );
+    if (!confirmed) return;
+
     this.supplierService
       .deleteById(model.id)
       .pipe(untilDestroyed(this))
@@ -169,7 +183,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
             city: zipCodeAddresses.localidade,
             street: zipCodeAddresses.logradouro,
             district: zipCodeAddresses.bairro,
-            state: this.getReplaceState(zipCodeAddresses.uf)
+            state: this.getReplaceState(zipCodeAddresses.uf),
           });
         },
         (error) => this.toastService.showError(error)
@@ -201,7 +215,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
               email: item.email,
               id: item.id,
               name: item.name,
-              state: state ? state.displayName : ''
+              state: state ? state.displayName : '',
             });
           }
           this.dataSource = dataSouce;
@@ -234,7 +248,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
       state: supplier.state,
       district: supplier.district,
       city: supplier.city,
-      street: supplier.street
+      street: supplier.street,
     });
   }
 
@@ -285,13 +299,16 @@ export class SuppliersComponent implements OnInit, OnDestroy {
       phone: new FormControl(null, [Validators.maxLength(15)]),
       zipCodeAddresses: new FormControl(null, [
         FormValidators.required,
-        Validators.maxLength(11)
+        Validators.maxLength(11),
       ]),
       state: new FormControl({ value: null, disabled: true }),
       district: new FormControl({ value: null, disabled: true }),
       street: new FormControl({ value: null, disabled: true }),
       city: new FormControl({ value: null, disabled: true }),
-      email: new FormControl(null, [Validators.maxLength(200), Validators.email])
+      email: new FormControl(null, [
+        Validators.maxLength(200),
+        Validators.email,
+      ]),
     }));
   }
 
@@ -302,7 +319,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
       city: SfGridColumns.text('city', 'Cidade').minWidth(100),
       cnpj: SfGridColumns.text('cnpj', 'CNPJ').minWidth(100),
       email: SfGridColumns.text('email', 'E-mail').minWidth(100),
-      state: SfGridColumns.text('state', 'Estado').minWidth(100)
+      state: SfGridColumns.text('state', 'Estado').minWidth(100),
     });
   }
 }

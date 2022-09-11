@@ -4,9 +4,9 @@ import { Departament } from '@module/models';
 import { DepartamentService } from '@module/services';
 import { FormGridCommandEventArgs, ModalComponent } from '@module/shared/src';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
-import { untilDestroyed } from '@module/utils/common';
+import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';
-import { ToastService } from '@module/utils/services';
+import { MessageService, ToastService } from '@module/utils/services';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 
 const NEW_ID = 'NOVO';
@@ -30,6 +30,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastService: ToastService,
+    private messageService: MessageService,
     private departametService: DepartamentService
   ) {}
 
@@ -64,6 +65,16 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
     }
     const model = this.getModel();
     const exists = model.id > 1;
+
+    if (exists) {
+      const confirmed$ = this.messageService.showConfirmSave();
+      const confirmed = await untilDestroyedAsync(
+        confirmed$.asObservable(),
+        this
+      );
+      if (!confirmed) return;
+    }
+
     if (
       (exists
         ? this.departametService.updateById(model)
@@ -104,6 +115,13 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
   }
 
   private async onCommandRemove(model: GridRow): Promise<void> {
+    const confirmed$ = this.messageService.showConfirmSave();
+    const confirmed = await untilDestroyedAsync(
+      confirmed$.asObservable(),
+      this
+    );
+    if (!confirmed) return;
+
     this.departametService
       .deleteById(model.id)
       .pipe(untilDestroyed(this))

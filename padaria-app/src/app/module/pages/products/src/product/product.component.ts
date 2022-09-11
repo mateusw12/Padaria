@@ -11,10 +11,10 @@ import {
 import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
-import { untilDestroyed } from '@module/utils/common';
+import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';
 import { toDictionary } from '@module/utils/functions';
-import { ToastService } from '@module/utils/services';
+import { MessageService, ToastService } from '@module/utils/services';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { forkJoin } from 'rxjs';
 
@@ -49,7 +49,8 @@ export class ProductComponent implements OnInit, OnDestroy {
     private unitMeasureService: UnitMeasureService,
     private brandService: BrandService,
     private manufacturerService: ManufacturerService,
-    private productService: ProductService
+    private productService: ProductService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -77,6 +78,16 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
     const model = this.getModel();
     const exists = model.id > 1;
+
+    if (exists) {
+      const confirmed$ = this.messageService.showConfirmSave();
+      const confirmed = await untilDestroyedAsync(
+        confirmed$.asObservable(),
+        this
+      );
+      if (!confirmed) return;
+    }
+
     if (
       (exists
         ? this.productService.updateById(model)
@@ -123,6 +134,13 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   private async onCommandRemove(model: GridRow): Promise<void> {
+    const confirmed$ = this.messageService.showConfirmSave();
+    const confirmed = await untilDestroyedAsync(
+      confirmed$.asObservable(),
+      this
+    );
+    if (!confirmed) return;
+
     this.classificationService
       .deleteById(model.id)
       .pipe(untilDestroyed(this))

@@ -5,9 +5,9 @@ import { NoteTypeService } from '@module/services';
 import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
-import { untilDestroyed } from '@module/utils/common';
+import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';
-import { ToastService } from '@module/utils/services';
+import { MessageService, ToastService } from '@module/utils/services';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 
 const NEW_ID = 'NOVO';
@@ -32,6 +32,7 @@ export class NoteTypesComponent implements OnInit {
 
   constructor(
     private toastService: ToastService,
+    private messageService: MessageService,
     private noteTypeService: NoteTypeService
   ) {}
 
@@ -50,6 +51,16 @@ export class NoteTypesComponent implements OnInit {
     }
     const model = this.getModel();
     const exists = model.id > 1;
+
+    if (exists) {
+      const confirmed$ = this.messageService.showConfirmSave();
+      const confirmed = await untilDestroyedAsync(
+        confirmed$.asObservable(),
+        this
+      );
+      if (!confirmed) return;
+    }
+
     if (
       (exists
         ? this.noteTypeService.updateById(model)
@@ -106,6 +117,13 @@ export class NoteTypesComponent implements OnInit {
   }
 
   private async onCommandRemove(model: GridRow): Promise<void> {
+    const confirmed$ = this.messageService.showConfirmSave();
+    const confirmed = await untilDestroyedAsync(
+      confirmed$.asObservable(),
+      this
+    );
+    if (!confirmed) return;
+
     this.noteTypeService
       .deleteById(model.id)
       .pipe(untilDestroyed(this))

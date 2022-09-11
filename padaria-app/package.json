@@ -41,6 +41,7 @@
     "cpf-cnpj-validator": "^1.0.3",
     "jquery": "^3.6.1",
     "ngx-bootstrap": "^8.0.0",
+    "ngx-bootstrap-modal": "^2.0.1",
     "ngx-modal-bootstrap": "^1.0.1",
     "popper.js": "^1.16.1",
     "rxjs": "~6.6.0",

@@ -1,0 +1,14 @@
+<div class="position-confirm-modal">
+  <div class="modal-content confirm-modal-size">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-basic-title"> {{title}}</h3>
+      <button type="button" class="close" aria-label="Close" (click)="onClose()">
+        <span aria-hidden="true">X</span>
+      </button>
+    </div>
+    <div class="modal-footer">
+      <button ejs-button buttonOk (click)="onConfirmClick()"></button>
+      <button ejs-button buttonCancel data-dismiss="modal" (click)="onClose()"></button>
+    </div>
+  </div>
+</div>

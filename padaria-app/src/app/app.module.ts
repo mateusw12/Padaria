@@ -7,9 +7,10 @@ import {
   ExternalNavigationService,
   ToastService
 } from '@module/utils/services';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [AppComponent, MenuComponent],
@@ -20,7 +21,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AppRoutingModule,
     NgbModule,
   ],
-  providers: [ToastService, ExternalNavigationService],
+  providers: [ToastService, ExternalNavigationService, BsModalService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

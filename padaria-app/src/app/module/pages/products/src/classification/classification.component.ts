@@ -5,9 +5,9 @@ import { ClassificationService, ProductService } from '@module/services';
 import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
-import { untilDestroyed } from '@module/utils/common';
+import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';
-import { ToastService } from '@module/utils/services';
+import { MessageService, ToastService } from '@module/utils/services';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { forkJoin } from 'rxjs';
 
@@ -23,7 +23,6 @@ interface GridRow {
   templateUrl: './classification.component.html',
 })
 export class ClassificationComponent implements OnInit, OnDestroy {
-
   @ViewChild(ModalComponent, { static: true })
   modal!: ModalComponent;
 
@@ -35,6 +34,7 @@ export class ClassificationComponent implements OnInit, OnDestroy {
   constructor(
     private toastService: ToastService,
     private classificationService: ClassificationService,
+    private messageService: MessageService,
     private productService: ProductService
   ) {}
 
@@ -63,6 +63,16 @@ export class ClassificationComponent implements OnInit, OnDestroy {
     }
     const model = this.getModel();
     const exists = model.id > 1;
+
+    if (exists) {
+      const confirmed$ = this.messageService.showConfirmSave();
+      const confirmed = await untilDestroyedAsync(
+        confirmed$.asObservable(),
+        this
+      );
+      if (!confirmed) return;
+    }
+
     if (
       (exists
         ? this.classificationService.updateById(model)
@@ -109,6 +119,13 @@ export class ClassificationComponent implements OnInit, OnDestroy {
   }
 
   private async onCommandRemove(model: GridRow): Promise<void> {
+    const confirmed$ = this.messageService.showConfirmSave();
+    const confirmed = await untilDestroyedAsync(
+      confirmed$.asObservable(),
+      this
+    );
+    if (!confirmed) return;
+
     this.classificationService
       .deleteById(model.id)
       .pipe(untilDestroyed(this))

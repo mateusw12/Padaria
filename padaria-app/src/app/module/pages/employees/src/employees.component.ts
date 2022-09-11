@@ -11,20 +11,20 @@ import {
   levelSchooling,
   MaritalStatus,
   maritalStatus,
-  State
+  State,
 } from '@module/models';
 import {
   EmployeeService,
   JobService,
-  ZipCodeAddressesService
+  ZipCodeAddressesService,
 } from '@module/services';
 import { FormGridCommandEventArgs, ModalComponent } from '@module/shared/src';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
-import { untilDestroyed } from '@module/utils/common';
+import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { ZIP_CODE_ADDRESSES_REGEX } from '@module/utils/constant';
 import { markAllAsTouched } from '@module/utils/forms';
 import { getEnumArray, getEnumDescription } from '@module/utils/functions';
-import { ToastService } from '@module/utils/services';
+import { MessageService, ToastService } from '@module/utils/services';
 import { isValidCPF } from '@module/utils/validations';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { forkJoin } from 'rxjs';
@@ -50,7 +50,6 @@ interface GridRow {
   templateUrl: './employees.component.html',
 })
 export class EmployeesComponent implements OnInit, OnDestroy {
-
   @ViewChild(ModalComponent, { static: true })
   modal!: ModalComponent;
 
@@ -69,6 +68,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private employeeService: EmployeeService,
     private jobService: JobService,
+    private messageService: MessageService,
     private zipCodeAddressesService: ZipCodeAddressesService
   ) {}
 
@@ -104,6 +104,16 @@ export class EmployeesComponent implements OnInit, OnDestroy {
     }
     const model = this.getModel();
     const exists = model.id > 1;
+
+    if (exists) {
+      const confirmed$ = this.messageService.showConfirmSave();
+      const confirmed = await untilDestroyedAsync(
+        confirmed$.asObservable(),
+        this
+      );
+      if (!confirmed) return;
+    }
+
     if (
       (exists
         ? this.employeeService.updateById(model)
@@ -134,6 +144,12 @@ export class EmployeesComponent implements OnInit, OnDestroy {
   }
 
   private async onCommandRemove(model: GridRow): Promise<void> {
+    const confirmed$ = this.messageService.showConfirmSave();
+    const confirmed = await untilDestroyedAsync(
+      confirmed$.asObservable(),
+      this
+    );
+    if (!confirmed) return;
     this.employeeService
       .deleteById(model.id)
       .pipe(untilDestroyed(this))
@@ -330,7 +346,9 @@ export class EmployeesComponent implements OnInit, OnDestroy {
       id: SfGridColumns.text('id', 'Código').minWidth(100).isPrimaryKey(true),
       name: SfGridColumns.text('name', 'Nome').minWidth(200),
       gender: SfGridColumns.text('gender', 'Gênero').minWidth(100),
-      birthDate: SfGridColumns.date('birthDate', 'Data Aniversário').minWidth(100),
+      birthDate: SfGridColumns.date('birthDate', 'Data Aniversário').minWidth(
+        100
+      ),
       city: SfGridColumns.text('city', 'Cidade').minWidth(200),
       district: SfGridColumns.text('district', 'Bairro').minWidth(200),
       jobName: SfGridColumns.text('jobName', 'Cargo').minWidth(100),

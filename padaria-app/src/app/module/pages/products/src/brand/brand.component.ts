@@ -5,9 +5,9 @@ import { BrandService } from '@module/services';
 import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
-import { untilDestroyed } from '@module/utils/common';
+import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';
-import { ToastService } from '@module/utils/services';
+import { MessageService, ToastService } from '@module/utils/services';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 
 const NEW_ID = 'NOVO';
@@ -31,6 +31,7 @@ export class BrandComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastService: ToastService,
+    private messageService: MessageService,
     private brandService: BrandService
   ) {}
 
@@ -59,6 +60,16 @@ export class BrandComponent implements OnInit, OnDestroy {
     }
     const model = this.getModel();
     const exists = model.id > 1;
+
+    if (exists) {
+      const confirmed$ = this.messageService.showConfirmSave();
+      const confirmed = await untilDestroyedAsync(
+        confirmed$.asObservable(),
+        this
+      );
+      if (!confirmed) return;
+    }
+
     if (
       (exists
         ? this.brandService.updateById(model)
@@ -105,6 +116,13 @@ export class BrandComponent implements OnInit, OnDestroy {
   }
 
   private async onCommandRemove(model: GridRow): Promise<void> {
+    const confirmed$ = this.messageService.showConfirmSave();
+    const confirmed = await untilDestroyedAsync(
+      confirmed$.asObservable(),
+      this
+    );
+    if (!confirmed) return;
+
     this.brandService
       .deleteById(model.id)
       .pipe(untilDestroyed(this))
@@ -141,7 +159,7 @@ export class BrandComponent implements OnInit, OnDestroy {
   private populateForm(brand: Brand): void {
     this.form.patchValue({
       id: brand.id,
-      name: brand.name
+      name: brand.name,
     });
   }
 
@@ -155,7 +173,7 @@ export class BrandComponent implements OnInit, OnDestroy {
 
   private reset(): void {
     this.form.reset({
-      id: NEW_ID
+      id: NEW_ID,
     });
   }
 
@@ -164,7 +182,7 @@ export class BrandComponent implements OnInit, OnDestroy {
       id: new FormControl({ value: NEW_ID, disabled: true }),
       name: new FormControl(null, [
         FormValidators.required,
-        Validators.maxLength(200)
+        Validators.maxLength(200),
       ]),
     }));
   }
@@ -172,7 +190,7 @@ export class BrandComponent implements OnInit, OnDestroy {
   private createColumns(): SfGridColumnModel[] {
     return SfGridColumns.build<GridRow>({
       id: SfGridColumns.text('id', 'Código').minWidth(100).isPrimaryKey(true),
-      name: SfGridColumns.text('name', 'Nome').minWidth(200)
+      name: SfGridColumns.text('name', 'Nome').minWidth(200),
     });
   }
 }
