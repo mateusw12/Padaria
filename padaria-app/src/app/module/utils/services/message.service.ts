@@ -4,6 +4,7 @@ import {
   AlertDialogComponent,
   ConfirmDialogComponent,
 } from '@module/shared/src';
+import { ButtonOptions } from '@module/shared/src/confirm-dialog';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
 import {
@@ -41,11 +42,12 @@ export class MessageService {
     return (<ConfirmDialogComponent>bsModalRef.content).confirmResult;
   }
 
-  showConfirm(title?: string): Subject<boolean> {
+  showConfirm(title: string, buttonOptions?: ButtonOptions): Subject<boolean> {
     const bsModalRef: BsModalRef = this.modalService.show(
       ConfirmDialogComponent
     );
     bsModalRef.content.title = title;
+    bsModalRef.content.buttonOptions = buttonOptions;
     return (<ConfirmDialogComponent>bsModalRef.content).confirmResult;
   }
 
@@ -91,6 +93,7 @@ export class MessageService {
 
   private showMessage(alertContent: AlertContent): void {
     const bsModalRef: BsModalRef = this.modalService.show(AlertDialogComponent);
+    bsModalRef.content.alertContent = alertContent;
     bsModalRef.content.alertContent = alertContent;
   }
 }

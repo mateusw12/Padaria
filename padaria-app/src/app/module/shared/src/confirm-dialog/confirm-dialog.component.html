@@ -7,8 +7,16 @@
       </button>
     </div>
     <div class="modal-footer">
-      <button ejs-button buttonOk (click)="onConfirmClick()"></button>
-      <button ejs-button buttonCancel data-dismiss="modal" (click)="onClose()"></button>
+      <div *ngIf="!buttonOptions.isConfirmButton">
+        <button type="button" class="btn btn-{{buttonOptions.confirmCssClass}}" (click)="onConfirmClick()">
+          {{buttonOptions.confirmContent}}
+        </button>
+      </div>
+      <div *ngIf="!buttonOptions.isCloseButton">
+        <button type="button" class="btn btn-{{buttonOptions.closeCssClass}}" data-dismiss="modal" (click)="onClose()">
+          {{ buttonOptions.closeContent}}
+        </button>
+      </div>
     </div>
   </div>
 </div>
