@@ -41,6 +41,14 @@ export class MessageService {
     return (<ConfirmDialogComponent>bsModalRef.content).confirmResult;
   }
 
+  showConfirm(title?: string): Subject<boolean> {
+    const bsModalRef: BsModalRef = this.modalService.show(
+      ConfirmDialogComponent
+    );
+    bsModalRef.content.title = title;
+    return (<ConfirmDialogComponent>bsModalRef.content).confirmResult;
+  }
+
   showWarningMessage(message?: string): void {
     const alertContent: AlertContent = {
       cssClass: WARNING_CSS_CLASS,
@@ -85,5 +93,4 @@ export class MessageService {
     const bsModalRef: BsModalRef = this.modalService.show(AlertDialogComponent);
     bsModalRef.content.alertContent = alertContent;
   }
-
 }

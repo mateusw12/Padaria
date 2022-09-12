@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 
 @Component({
   templateUrl: './confirm-dialog.component.html',
-  styleUrls:['./confirm-dialog.component.scss'],
+  styleUrls: ['./confirm-dialog.component.scss'],
   selector: 'app-confirm-modal',
 })
 export class ConfirmDialogComponent implements OnInit {
