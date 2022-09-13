@@ -7,7 +7,11 @@ import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';
-import { MessageService, ToastService } from '@module/utils/services';
+import {
+  ErrorHandler,
+  MessageService,
+  ToastService,
+} from '@module/utils/services';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 
 const NEW_ID = 'NOVO';
@@ -33,6 +37,7 @@ export class NoteTypesComponent implements OnInit {
   constructor(
     private toastService: ToastService,
     private messageService: MessageService,
+    private errorHandler: ErrorHandler,
     private noteTypeService: NoteTypeService
   ) {}
 
@@ -72,9 +77,7 @@ export class NoteTypesComponent implements OnInit {
             await this.toastService.showSuccess();
             this.loadData();
           },
-          async (error) => {
-            this.toastService.showError(error);
-          }
+          async (error) => this.handleError(error)
         )
     )
       return;
@@ -132,7 +135,7 @@ export class NoteTypesComponent implements OnInit {
           this.toastService.showRemove();
           this.loadData();
         },
-        (error) => this.toastService.showError()
+        (error) => this.handleError(error)
       );
   }
 
@@ -140,21 +143,21 @@ export class NoteTypesComponent implements OnInit {
     this.noteTypeService
       .findAll()
       .pipe(untilDestroyed(this))
-      .subscribe(async (noteTypes) => {
-        this.dataSource = noteTypes;
-      });
+      .subscribe(
+        async (noteTypes) => {
+          this.dataSource = noteTypes;
+        },
+        (error) => this.handleError(error)
+      );
   }
 
   private async findNoteType(id: number): Promise<void> {
     this.noteTypeService
       .findById(id)
       .pipe(untilDestroyed(this))
-      .subscribe(
-        async (noteType) => {
-          this.populateForm(noteType);
-        },
-        (error) => this.toastService.showError(error)
-      );
+      .subscribe(async (noteType) => {
+        this.populateForm(noteType);
+      });
   }
 
   private populateForm(noteType: NoteType): void {
@@ -178,6 +181,10 @@ export class NoteTypesComponent implements OnInit {
     this.form.reset({
       id: NEW_ID,
     });
+  }
+
+  private handleError(error: unknown): void {
+    this.errorHandler.present(error);
   }
 
   private createForm(): FormGroup {

@@ -6,7 +6,11 @@ import { FormGridCommandEventArgs, ModalComponent } from '@module/shared/src';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';
-import { MessageService, ToastService } from '@module/utils/services';
+import {
+  ErrorHandler,
+  MessageService,
+  ToastService,
+} from '@module/utils/services';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 
 const NEW_ID = 'NOVO';
@@ -31,6 +35,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
   constructor(
     private toastService: ToastService,
     private messageService: MessageService,
+    private errorHandler: ErrorHandler,
     private departametService: DepartamentService
   ) {}
 
@@ -86,9 +91,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
             await this.toastService.showSuccess();
             this.loadData();
           },
-          async (error) => {
-            this.toastService.showError(error);
-          }
+          async (error) => this.handleError(error)
         )
     )
       return;
@@ -103,7 +106,9 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
         this.findDepartament(id);
       }
       this.modal.open();
-    } catch (error) {}
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   private onCommandAdd(): void {
@@ -130,7 +135,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
           this.toastService.showSuccess('Excluído com sucesso!');
           this.loadData();
         },
-        (error) => this.toastService.showError()
+        (error) => this.handleError(error)
       );
   }
 
@@ -142,7 +147,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
         async (departaments) => {
           this.dataSource = departaments;
         },
-        (error) => this.toastService.showError(error)
+        (error) => this.handleError(error)
       );
   }
 
@@ -150,12 +155,9 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
     this.departametService
       .findById(id)
       .pipe(untilDestroyed(this))
-      .subscribe(
-        async (departament) => {
-          this.populateForm(departament);
-        },
-        (error) => this.toastService.showError(error)
-      );
+      .subscribe(async (departament) => {
+        this.populateForm(departament);
+      });
   }
 
   private populateForm(departament: Departament): void {
@@ -177,6 +179,10 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
     this.form.reset({
       id: NEW_ID,
     });
+  }
+
+  private handleError(error: unknown): void {
+    this.errorHandler.present(error);
   }
 
   private createForm(): FormGroup {

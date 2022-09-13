@@ -7,7 +7,11 @@ import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';
-import { MessageService, ToastService } from '@module/utils/services';
+import {
+  ErrorHandler,
+  MessageService,
+  ToastService
+} from '@module/utils/services';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 
 const NEW_ID = 'NOVO';
@@ -32,7 +36,8 @@ export class BrandComponent implements OnInit, OnDestroy {
   constructor(
     private toastService: ToastService,
     private messageService: MessageService,
-    private brandService: BrandService
+    private brandService: BrandService,
+    private errorHandler: ErrorHandler
   ) {}
 
   ngOnInit(): void {
@@ -46,7 +51,9 @@ export class BrandComponent implements OnInit, OnDestroy {
         this.findBrand(id);
       }
       this.modal.open();
-    } catch (error) {}
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   async onModalClose(): Promise<void> {
@@ -81,9 +88,7 @@ export class BrandComponent implements OnInit, OnDestroy {
             await this.toastService.showSuccess();
             this.loadData();
           },
-          async (error) => {
-            this.toastService.showError(error);
-          }
+          async (error) => this.handleError(error)
         )
     )
       return;
@@ -131,7 +136,7 @@ export class BrandComponent implements OnInit, OnDestroy {
           this.toastService.showRemove();
           this.loadData();
         },
-        (error) => this.toastService.showError()
+        (error) => this.handleError(error)
       );
   }
 
@@ -139,21 +144,21 @@ export class BrandComponent implements OnInit, OnDestroy {
     this.brandService
       .findAll()
       .pipe(untilDestroyed(this))
-      .subscribe(async (brands) => {
-        this.dataSource = brands;
-      });
+      .subscribe(
+        async (brands) => {
+          this.dataSource = brands;
+        },
+        (error) => this.handleError(error)
+      );
   }
 
   private async findBrand(id: number): Promise<void> {
     this.brandService
       .findById(id)
       .pipe(untilDestroyed(this))
-      .subscribe(
-        async (brand) => {
-          this.populateForm(brand);
-        },
-        (error) => this.toastService.showError(error)
-      );
+      .subscribe(async (brand) => {
+        this.populateForm(brand);
+      });
   }
 
   private populateForm(brand: Brand): void {
@@ -175,6 +180,10 @@ export class BrandComponent implements OnInit, OnDestroy {
     this.form.reset({
       id: NEW_ID,
     });
+  }
+
+  private handleError(error: unknown): void {
+    this.errorHandler.present(error);
   }
 
   private createForm(): FormGroup {

@@ -14,7 +14,11 @@ import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';
 import { toDictionary } from '@module/utils/functions';
-import { MessageService, ToastService } from '@module/utils/services';
+import {
+  ErrorHandler,
+  MessageService,
+  ToastService,
+} from '@module/utils/services';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { forkJoin } from 'rxjs';
 
@@ -50,7 +54,8 @@ export class ProductComponent implements OnInit, OnDestroy {
     private brandService: BrandService,
     private manufacturerService: ManufacturerService,
     private productService: ProductService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private errorHandler: ErrorHandler
   ) {}
 
   ngOnInit(): void {
@@ -64,7 +69,9 @@ export class ProductComponent implements OnInit, OnDestroy {
         await this.findProduct(id);
       }
       this.modal.open();
-    } catch (error) {}
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   async onModalClose(): Promise<void> {
@@ -99,9 +106,7 @@ export class ProductComponent implements OnInit, OnDestroy {
             await this.toastService.showSuccess();
             this.loadData();
           },
-          async (error) => {
-            this.toastService.showError(error);
-          }
+          async (error) => this.handleError(error)
         )
     )
       return;
@@ -149,7 +154,7 @@ export class ProductComponent implements OnInit, OnDestroy {
           this.toastService.showRemove();
           this.loadData();
         },
-        (error) => this.toastService.showError()
+        (error) => this.handleError(error)
       );
   }
 
@@ -186,7 +191,7 @@ export class ProductComponent implements OnInit, OnDestroy {
           }
           this.dataSource = dataSource;
         },
-        (error) => this.toastService.showError()
+        (error) => this.handleError(error)
       );
   }
 
@@ -194,12 +199,9 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.productService
       .findById(id)
       .pipe(untilDestroyed(this))
-      .subscribe(
-        async (product) => {
-          this.populateForm(product);
-        },
-        (error) => this.toastService.showError(error)
-      );
+      .subscribe(async (product) => {
+        this.populateForm(product);
+      });
   }
 
   private populateForm(product: Product): void {
@@ -235,6 +237,10 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.form.reset({
       id: NEW_ID,
     });
+  }
+
+  private handleError(error: unknown): void {
+    this.errorHandler.present(error);
   }
 
   private createForm(): FormGroup {

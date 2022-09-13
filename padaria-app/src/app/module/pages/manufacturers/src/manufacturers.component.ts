@@ -7,7 +7,11 @@ import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';
-import { MessageService, ToastService } from '@module/utils/services';
+import {
+  ErrorHandler,
+  MessageService,
+  ToastService,
+} from '@module/utils/services';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 
 const NEW_ID = 'NOVO';
@@ -32,6 +36,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
   constructor(
     private toastService: ToastService,
     private messageService: MessageService,
+    private errorHandler: ErrorHandler,
     private manufacturerService: ManufacturerService
   ) {}
 
@@ -71,9 +76,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
             await this.toastService.showSuccess();
             this.loadData();
           },
-          async (error) => {
-            this.toastService.showError(error);
-          }
+          async (error) => this.handleError(error)
         )
     )
       return;
@@ -104,7 +107,9 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
         this.findManufacturer(id);
       }
       this.modal.open();
-    } catch (error) {}
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   private onCommandAdd(): void {
@@ -131,7 +136,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
           this.toastService.showRemove();
           this.loadData();
         },
-        (error) => this.toastService.showError()
+        (error) => this.handleError(error)
       );
   }
 
@@ -139,21 +144,21 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
     this.manufacturerService
       .findAll()
       .pipe(untilDestroyed(this))
-      .subscribe(async (manufacturer) => {
-        this.dataSource = manufacturer;
-      });
+      .subscribe(
+        async (manufacturer) => {
+          this.dataSource = manufacturer;
+        },
+        (error) => this.handleError(error)
+      );
   }
 
   private async findManufacturer(id: number): Promise<void> {
     this.manufacturerService
       .findById(id)
       .pipe(untilDestroyed(this))
-      .subscribe(
-        async (departament) => {
-          this.populateForm(departament);
-        },
-        (error) => this.toastService.showError(error)
-      );
+      .subscribe(async (departament) => {
+        this.populateForm(departament);
+      });
   }
 
   private populateForm(manufacturer: Manufacturer): void {
@@ -175,6 +180,10 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
     this.form.reset({
       id: NEW_ID,
     });
+  }
+
+  private handleError(error: unknown): void {
+    this.errorHandler.present(error);
   }
 
   private createForm(): FormGroup {

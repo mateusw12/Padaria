@@ -7,7 +7,11 @@ import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';
-import { MessageService, ToastService } from '@module/utils/services';
+import {
+  ErrorHandler,
+  MessageService,
+  ToastService
+} from '@module/utils/services';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 
 const NEW_ID = 'NOVO';
@@ -32,6 +36,7 @@ export class JobsComponent implements OnInit, OnDestroy {
   constructor(
     private toastService: ToastService,
     private jobService: JobService,
+    private errorHandler: ErrorHandler,
     private messageService: MessageService
   ) {}
 
@@ -97,7 +102,9 @@ export class JobsComponent implements OnInit, OnDestroy {
         this.findJob(id);
       }
       this.modal.open();
-    } catch (error) {}
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   async onModalClose(): Promise<void> {
@@ -126,7 +133,7 @@ export class JobsComponent implements OnInit, OnDestroy {
           this.toastService.showSuccess('Excluído com sucesso!');
           this.loadData();
         },
-        (error) => this.toastService.showError()
+        (error) => this.handleError(error)
       );
   }
 
@@ -134,21 +141,21 @@ export class JobsComponent implements OnInit, OnDestroy {
     this.jobService
       .findAll()
       .pipe(untilDestroyed(this))
-      .subscribe(async (jobs) => {
-        this.dataSource = jobs;
-      });
+      .subscribe(
+        async (jobs) => {
+          this.dataSource = jobs;
+        },
+        (error) => this.handleError(error)
+      );
   }
 
   private async findJob(id: number): Promise<void> {
     this.jobService
       .findById(id)
       .pipe(untilDestroyed(this))
-      .subscribe(
-        async (job) => {
-          this.populateForm(job);
-        },
-        (error) => this.toastService.showError(error)
-      );
+      .subscribe(async (job) => {
+        this.populateForm(job);
+      });
   }
 
   private populateForm(job: Job): void {
@@ -170,6 +177,10 @@ export class JobsComponent implements OnInit, OnDestroy {
     this.form.reset({
       id: NEW_ID,
     });
+  }
+
+  private handleError(error: unknown): void {
+    this.errorHandler.present(error);
   }
 
   private createForm(): FormGroup {

@@ -7,7 +7,11 @@ import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';
-import { MessageService, ToastService } from '@module/utils/services';
+import {
+  ErrorHandler,
+  MessageService,
+  ToastService,
+} from '@module/utils/services';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { forkJoin } from 'rxjs';
 
@@ -35,7 +39,8 @@ export class ClassificationComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private classificationService: ClassificationService,
     private messageService: MessageService,
-    private productService: ProductService
+    private productService: ProductService,
+    private errorHandler: ErrorHandler
   ) {}
 
   ngOnInit(): void {
@@ -49,7 +54,9 @@ export class ClassificationComponent implements OnInit, OnDestroy {
         await this.findClassification(id);
       }
       this.modal.open();
-    } catch (error) {}
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   async onModalClose(): Promise<void> {
@@ -84,9 +91,7 @@ export class ClassificationComponent implements OnInit, OnDestroy {
             await this.toastService.showSuccess();
             this.loadData();
           },
-          async (error) => {
-            this.toastService.showError(error);
-          }
+          async (error) => this.handleError(error)
         )
     )
       return;
@@ -134,7 +139,7 @@ export class ClassificationComponent implements OnInit, OnDestroy {
           this.toastService.showRemove();
           this.loadData();
         },
-        (error) => this.toastService.showError()
+        (error) => this.handleError(error)
       );
   }
 
@@ -144,30 +149,30 @@ export class ClassificationComponent implements OnInit, OnDestroy {
       this.classificationService.findAll(),
     ])
       .pipe(untilDestroyed(this))
-      .subscribe(async ([products, classifications]) => {
-        const dataSource: GridRow[] = [];
-        this.products = products;
+      .subscribe(
+        async ([products, classifications]) => {
+          const dataSource: GridRow[] = [];
+          this.products = products;
 
-        for (const item of classifications) {
-          dataSource.push({
-            id: item.id,
-            name: item.name,
-          });
-        }
-        this.dataSource = dataSource;
-      });
+          for (const item of classifications) {
+            dataSource.push({
+              id: item.id,
+              name: item.name,
+            });
+          }
+          this.dataSource = dataSource;
+        },
+        (error) => this.handleError(error)
+      );
   }
 
   private async findClassification(id: number): Promise<void> {
     this.classificationService
       .findById(id)
       .pipe(untilDestroyed(this))
-      .subscribe(
-        async (classification) => {
-          this.populateForm(classification);
-        },
-        (error) => this.toastService.showError(error)
-      );
+      .subscribe(async (classification) => {
+        this.populateForm(classification);
+      });
   }
 
   private populateForm(classification: Classification): void {
@@ -191,6 +196,10 @@ export class ClassificationComponent implements OnInit, OnDestroy {
     this.form.reset({
       id: NEW_ID,
     });
+  }
+
+  private handleError(error: unknown): void {
+    this.errorHandler.present(error);
   }
 
   private createForm(): FormGroup {

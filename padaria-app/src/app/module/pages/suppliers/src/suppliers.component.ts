@@ -8,7 +8,11 @@ import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { ZIP_CODE_ADDRESSES_REGEX } from '@module/utils/constant';
 import { markAllAsTouched } from '@module/utils/forms';
-import { MessageService, ToastService } from '@module/utils/services';
+import {
+  ErrorHandler,
+  MessageService,
+  ToastService,
+} from '@module/utils/services';
 import { isValidCNPJ } from '@module/utils/validations';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { debounceTime } from 'rxjs/operators';
@@ -41,7 +45,8 @@ export class SuppliersComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private supplierService: SupplierService,
     private zipCodeAddresses: ZipCodeAddressesService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private errorHandler: ErrorHandler
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +61,9 @@ export class SuppliersComponent implements OnInit, OnDestroy {
         this.findSupplier(id);
       }
       this.modal.open();
-    } catch (error) {}
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   async onModalClose(): Promise<void> {
@@ -95,9 +102,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
             await this.toastService.showSuccess();
             this.loadData();
           },
-          async (error) => {
-            this.toastService.showError(error);
-          }
+          async (error) => this.handleError(error)
         )
     )
       return;
@@ -145,7 +150,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
           this.toastService.showRemove();
           this.loadData();
         },
-        (error) => this.toastService.showError()
+        (error) => this.handleError(error)
       );
   }
 
@@ -186,7 +191,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
             state: this.getReplaceState(zipCodeAddresses.uf),
           });
         },
-        (error) => this.toastService.showError(error)
+        (error) => this.handleError(error)
       );
   }
 
@@ -220,7 +225,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
           }
           this.dataSource = dataSouce;
         },
-        (error) => {}
+        (error) => this.handleError(error)
       );
   }
 
@@ -232,7 +237,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
         async (suppliers) => {
           this.populateForm(suppliers);
         },
-        (error) => this.toastService.showError(error)
+        (error) => this.handleError(error)
       );
   }
 
@@ -282,6 +287,10 @@ export class SuppliersComponent implements OnInit, OnDestroy {
       city: null,
       street: null,
     });
+  }
+
+  private handleError(error: unknown): void {
+    this.errorHandler.present(error);
   }
 
   private createForm(): FormGroup {

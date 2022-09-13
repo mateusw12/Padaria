@@ -24,7 +24,11 @@ import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { ZIP_CODE_ADDRESSES_REGEX } from '@module/utils/constant';
 import { markAllAsTouched } from '@module/utils/forms';
 import { getEnumArray, getEnumDescription } from '@module/utils/functions';
-import { MessageService, ToastService } from '@module/utils/services';
+import {
+  ErrorHandler,
+  MessageService,
+  ToastService,
+} from '@module/utils/services';
 import { isValidCPF } from '@module/utils/validations';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 import { forkJoin } from 'rxjs';
@@ -69,6 +73,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
     private employeeService: EmployeeService,
     private jobService: JobService,
     private messageService: MessageService,
+    private errorHandler: ErrorHandler,
     private zipCodeAddressesService: ZipCodeAddressesService
   ) {}
 
@@ -125,9 +130,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
             await this.toastService.showSuccess();
             this.loadData();
           },
-          async (error) => {
-            this.toastService.showError(error);
-          }
+          async (error) => this.handleError(error)
         )
     )
       return;
@@ -158,7 +161,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
           this.toastService.showRemove();
           this.loadData();
         },
-        (error) => this.toastService.showError()
+        (error) => this.handleError(error)
       );
   }
 
@@ -169,7 +172,9 @@ export class EmployeesComponent implements OnInit, OnDestroy {
         this.findEmployee(id);
       }
       this.modal.open();
-    } catch (error) {}
+    } catch (error) {
+      this.handleError(error);
+    }
   }
 
   private registerEvents(): void {
@@ -210,7 +215,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
             state: this.getReplaceState(zipCodeAddresses.uf),
           });
         },
-        (error: string | undefined) => this.toastService.showError(error)
+        (error) => this.handleError(error)
       );
   }
 
@@ -224,38 +229,38 @@ export class EmployeesComponent implements OnInit, OnDestroy {
   private loadData(): void {
     forkJoin([this.employeeService.findAll(), this.jobService.findAll()])
       .pipe(untilDestroyed(this))
-      .subscribe(async ([employees, jobs]) => {
-        const dataSource: GridRow[] = [];
+      .subscribe(
+        async ([employees, jobs]) => {
+          const dataSource: GridRow[] = [];
 
-        for (const item of employees) {
-          const job = jobs.find((el) => el.id === item.jobId);
+          for (const item of employees) {
+            const job = jobs.find((el) => el.id === item.jobId);
 
-          dataSource.push({
-            birthDate: item.birthDate,
-            city: item.city,
-            district: item.district,
-            name: item.name,
-            gender: getEnumDescription(gender, item.gender),
-            id: item.id,
-            phone: item.phone,
-            street: item.street,
-            jobName: job ? job.name : '',
-          });
-        }
-        this.dataSource = dataSource;
-      });
+            dataSource.push({
+              birthDate: item.birthDate,
+              city: item.city,
+              district: item.district,
+              name: item.name,
+              gender: getEnumDescription(gender, item.gender),
+              id: item.id,
+              phone: item.phone,
+              street: item.street,
+              jobName: job ? job.name : '',
+            });
+          }
+          this.dataSource = dataSource;
+        },
+        (error) => this.handleError(error)
+      );
   }
 
   private async findEmployee(id: number): Promise<void> {
     this.employeeService
       .findById(id)
       .pipe(untilDestroyed(this))
-      .subscribe(
-        async (employee) => {
-          this.populateForm(employee);
-        },
-        (error) => this.toastService.showError(error)
-      );
+      .subscribe(async (employee) => {
+        this.populateForm(employee);
+      });
   }
 
   private populateForm(employee: Employee): void {
@@ -303,6 +308,10 @@ export class EmployeesComponent implements OnInit, OnDestroy {
       city: null,
       street: null,
     });
+  }
+
+  private handleError(error: unknown): void {
+    this.errorHandler.present(error);
   }
 
   private createForm(): FormGroup {
