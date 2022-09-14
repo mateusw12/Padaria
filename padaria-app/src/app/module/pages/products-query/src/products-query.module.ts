@@ -1,17 +1,30 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
+import {
+  ButtonAppModule,
+  FormGridModule,
+  ModalModule
+} from '@module/shared/src';
+import { ReactiveFormsModule } from '@module/utils/forms';
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
+import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ProductsQueryRoutingModule } from './products-query-routing.module';
 import { ProductsQueryComponent } from './products-query.component';
-
+import { SearchModalomponent } from './search-modal/search-modal.component';
 
 @NgModule({
-  declarations: [
-    ProductsQueryComponent
-  ],
+  declarations: [ProductsQueryComponent, SearchModalomponent],
   imports: [
     CommonModule,
-    ProductsQueryRoutingModule
-  ]
+    ReactiveFormsModule,
+    TextBoxModule,
+    MultiSelectModule,
+    ModalModule,
+    ButtonModule,
+    ButtonAppModule,
+    FormGridModule,
+    ProductsQueryRoutingModule,
+  ],
 })
-export class ProductsQueryModule { }
+export class ProductsQueryModule {}

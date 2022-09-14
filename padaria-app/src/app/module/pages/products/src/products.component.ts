@@ -6,7 +6,6 @@ import { AfterViewInit, Component, OnDestroy } from '@angular/core';
   styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements AfterViewInit, OnDestroy {
-  constructor() {}
   ngAfterViewInit(): void {}
   ngOnDestroy(): void {}
 }

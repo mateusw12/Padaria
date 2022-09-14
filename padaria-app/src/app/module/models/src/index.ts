@@ -12,6 +12,8 @@ export * from './menu/menu';
 export * from './note-type/note-type';
 export * from './payment-condition/payment-condition';
 export * from './payment-condition/payment-instalment';
+export * from './product-query/product-filter';
+export * from './product-query/product-query';
 export * from './product/product';
 export * from './state/state';
 export * from './supplier/supplier';

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ButtonAllModule } from '@syncfusion/ej2-angular-buttons';
 import { ButtonAddDirective } from './button-add.directive';
+import { ButtonApplyDirective } from './button-apply.directive';
 import { ButtonCancelDirective } from './button-cancel.directive';
 import { ButtonConfigDirective } from './button-config.directive';
 import { ButtonDeleteDirective } from './button-delete.directive';
@@ -23,6 +24,7 @@ import { ThrottleClickDirective } from './throttle-click.directive';
     ButtonSearchDirective,
     ButtonDirective,
     ButtonOkDirective,
+    ButtonApplyDirective,
     ThrottleClickDirective,
   ],
   exports: [
@@ -35,6 +37,7 @@ import { ThrottleClickDirective } from './throttle-click.directive';
     ButtonSearchDirective,
     ButtonDirective,
     ButtonOkDirective,
+    ButtonApplyDirective,
     ThrottleClickDirective,
   ],
 })

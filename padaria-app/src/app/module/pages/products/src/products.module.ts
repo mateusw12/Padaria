@@ -12,7 +12,6 @@ import {
   TextBoxModule
 } from '@syncfusion/ej2-angular-inputs';
 import { TabModule } from '@syncfusion/ej2-angular-navigations';
-import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { BrandComponent } from './brand/brand.component';
 import { ClassificationComponent } from './classification/classification.component';
 import { ProductComponent } from './product/product.component';
@@ -33,7 +32,6 @@ import { UnitMeasureComponent } from './unit-measure/unit-measure.component';
     TextBoxModule,
     FormGridModule,
     ModalModule,
-    DialogModule,
     ReactiveFormsModule,
     TabModule,
     ButtonModule,

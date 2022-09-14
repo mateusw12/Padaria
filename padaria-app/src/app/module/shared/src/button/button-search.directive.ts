@@ -5,7 +5,7 @@ import { ButtonBase } from './button.directive';
 export class ButtonSearchDirective extends ButtonBase {
   constructor(injector: Injector) {
     super(injector);
-    this.cssClass = 'e-setting';
+    this.cssClass = 'e-info';
     this.iconCss = 'e-icons e-search';
     this.content = 'Consultar';
   }
