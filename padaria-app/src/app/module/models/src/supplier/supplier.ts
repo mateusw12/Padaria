@@ -10,4 +10,8 @@ export class Supplier {
   state: string = '';
   email: string = '';
   zipCodeAddresses: string = '';
+
+  get displayName(): string {
+    return `${this.name} (${this.id})`;
+  }
 }

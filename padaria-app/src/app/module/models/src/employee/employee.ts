@@ -23,4 +23,8 @@ export class Employee {
   email: string = '';
   name: string = '';
   cpf: string = '';
+
+  get displayName(): string {
+    return `${this.name} (${this.id})`;
+  }
 }

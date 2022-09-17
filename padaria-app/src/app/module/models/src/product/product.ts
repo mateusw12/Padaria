@@ -8,4 +8,8 @@ export class Product {
   amount: number = 0;
   unitMeasureId: number = 0;
   manufacturerId: number = 0;
+
+  get displayName(): string {
+    return `${this.name} (${this.id})`;
+  }
 }
