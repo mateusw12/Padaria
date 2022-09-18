@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
@@ -14,10 +14,9 @@ import {
   Manufacturer,
   Product,
   ProductQueryFilter,
-  UnitMeasure,
+  UnitMeasure
 } from '@module/models';
 import { ModalComponent } from '@module/shared/src';
-import { ErrorHandler } from '@module/utils/services';
 
 @Component({
   selector: 'app-search-product-modal',
@@ -47,7 +46,7 @@ export class SearchModalomponent implements OnInit, OnDestroy {
   @ViewChild(ModalComponent, { static: true })
   private modal!: ModalComponent;
 
-  constructor(private errorHandler: ErrorHandler) {}
+  constructor() {}
 
   ngOnInit(): void {}
 
@@ -82,10 +81,6 @@ export class SearchModalomponent implements OnInit, OnDestroy {
     model.unitMeasureIds = formValue.unitMeasureIds as number[];
     model.classificationIds = formValue.classificationIds as number[];
     return model;
-  }
-
-  private handleError(error: unknown): void {
-    this.errorHandler.present(error);
   }
 
   private createForm(): FormGroup {

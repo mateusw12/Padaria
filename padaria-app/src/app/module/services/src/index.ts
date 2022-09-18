@@ -1,6 +1,7 @@
 export * from './brand/brand.service';
 export * from './classification/classification.service';
 export * from './departament/departament.service';
+export * from './employee-query/employee-query.service';
 export * from './employee/employee.service';
 export * from './job/job.service';
 export * from './manufacturer/manufacturer.service';

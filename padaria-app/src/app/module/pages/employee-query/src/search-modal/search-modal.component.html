@@ -1,0 +1,84 @@
+<app-modal #modal modalHeader="Consulta de Funcionários" dialogClass="lg">
+
+  <ng-template #bodyTemplate>
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-textbox formControlName="city" placeholder="Cidade">
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <ejs-multiselect formControlName="maritalStatus" placeholder="Estado Civil" [dataSource]="martialStatus"
+              [fields]=" {value: 'value', text:'description' } " [hideSelectedItem]="true" [allowFiltering]="true">
+            </ejs-multiselect>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <ejs-datepicker formControlName="admissionDate" placeholder="Data Admissão">
+            </ejs-datepicker>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-5">
+          <div class="form-group">
+            <ejs-multiselect formControlName="chronicCondition" placeholder="Doenças Crônicas" [dataSource]="chronicConditions"
+              [fields]=" {value: 'value', text:'description'} " [hideSelectedItem]="true" [allowFiltering]="true">
+            </ejs-multiselect>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-multiselect formControlName="levelSchooling" placeholder="Nível Escolaridade" [dataSource]="levelSchoolings"
+              [fields]=" {value: 'value', text:'description'} " [hideSelectedItem]="true" [allowFiltering]="true">
+            </ejs-multiselect>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <ejs-multiselect formControlName="gender" placeholder="Gênero" [dataSource]="genders"
+              [fields]=" {value: 'value', text:'description'} " [hideSelectedItem]="true" [allowFiltering]="true">
+            </ejs-multiselect>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <ejs-multiselect formControlName="jobIds" placeholder="Cargos"
+              [fields]=" {value: 'id', text:'displayName'} " [dataSource]="jobs" [hideSelectedItem]="true"
+              [allowFiltering]="true">
+            </ejs-multiselect>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <ejs-multiselect formControlName="states" placeholder="Estados" [dataSource]="states"  [hideSelectedItem]="true"
+              [allowFiltering]="true" [fields]=" {value: 'abbreviation', text:'displayName'} ">
+            </ejs-multiselect>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <ejs-multiselect formControlName="employeeIds" placeholder="Funcionários" [hideSelectedItem]="true"
+              [allowFiltering]="true" [fields]=" {value: 'id', text:'displayName'} ">
+            </ejs-multiselect>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template #footerTemplate>
+    <button ejs-button buttonAddApply (click)="onApplyClick()"></button>
+    <button ejs-button buttonReset (click)="reset()"></button>
+    <button ejs-button buttonCancel (click)="onModalClose()"></button>
+  </ng-template>
+</app-modal>

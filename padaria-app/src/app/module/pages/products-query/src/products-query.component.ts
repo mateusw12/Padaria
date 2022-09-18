@@ -35,7 +35,6 @@ interface GridRow {
 @Component({
   selector: 'app-products-query',
   templateUrl: './products-query.component.html',
-  styleUrls: ['./products-query.component.scss'],
 })
 export class ProductsQueryComponent implements OnInit, OnDestroy {
   products: Product[] = [];
