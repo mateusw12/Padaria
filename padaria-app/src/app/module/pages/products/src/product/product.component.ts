@@ -45,6 +45,9 @@ export class ProductComponent implements OnInit, OnDestroy {
   dataSource: GridRow[] = [];
   form: FormGroup = this.createForm();
   products: Product[] = [];
+  unitMeasures: UnitMeasure[] = [];
+  brands: Brand[] = [];
+  manufacturers: Manufacturer[] = [];
   columns: SfGridColumnModel[] = this.createColumns();
 
   constructor(
@@ -168,6 +171,10 @@ export class ProductComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe(
         async ([products, brands, manufacturers, unitMeasures]) => {
+          this.unitMeasures = unitMeasures;
+          this.manufacturers = manufacturers;
+          this.brands = brands;
+
           const dataSource: GridRow[] = [];
           const brandDictionary = toDictionary<Brand>(brands);
           const manufacturerDictionary =
@@ -183,10 +190,10 @@ export class ProductComponent implements OnInit, OnDestroy {
               id: item.id,
               name: item.name,
               amount: item.amount,
-              brandName: brand ? brand.name : '',
-              manufacturerName: manufacturer ? manufacturer.name : '',
+              brandName: brand ? brand.displayName : '',
+              manufacturerName: manufacturer ? manufacturer.displayName : '',
               unitaryPrice: item.unitaryPrice,
-              unitMeasureName: unitMeasure ? unitMeasure.name : '',
+              unitMeasureName: unitMeasure ? unitMeasure.displayName : '',
             });
           }
           this.dataSource = dataSource;

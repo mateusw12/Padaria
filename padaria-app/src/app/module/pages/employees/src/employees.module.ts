@@ -2,20 +2,16 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
   ButtonAppModule,
+  DatePickerModule,
+  DropDownListModule,
   FormGridModule,
   ModalModule,
+  MultiSelectModule,
+  NumericTextBoxModule,
+  TextBoxModule
 } from '@module/shared/src';
 import { ReactiveFormsModule } from '@module/utils/forms';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
-import {
-  DropDownListModule,
-  MultiSelectModule,
-} from '@syncfusion/ej2-angular-dropdowns';
-import {
-  NumericTextBoxModule,
-  TextBoxModule,
-} from '@syncfusion/ej2-angular-inputs';
 import { EmployeesRoutingModule } from './employees-routing.module';
 import { EmployeesComponent } from './employees.component';
 

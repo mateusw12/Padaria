@@ -1,4 +1,4 @@
-import { isNil, Nilable, Nullable } from '@movtech/menu/internal';
+import { Nilable, Nullable, isNil } from '@module/utils/internal';
 import { MomentFormatSpecification, MomentInput } from 'moment';
 import { chain } from './chain';
 

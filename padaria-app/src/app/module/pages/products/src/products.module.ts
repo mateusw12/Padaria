@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ButtonAppModule, FormGridModule, ModalModule } from '@module/shared/src';
+import {
+  ButtonAppModule,
+  DropDownListModule,
+  FormGridModule,
+  ModalModule,
+  MultiSelectModule,
+  NumericTextBoxModule,
+  TextBoxModule,
+} from '@module/shared/src';
 import { ReactiveFormsModule } from '@module/utils/forms';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
-import {
-  DropDownListModule,
-  MultiSelectModule
-} from '@syncfusion/ej2-angular-dropdowns';
-import {
-  NumericTextBoxModule,
-  TextBoxModule
-} from '@syncfusion/ej2-angular-inputs';
 import { TabModule } from '@syncfusion/ej2-angular-navigations';
 import { BrandComponent } from './brand/brand.component';
 import { ClassificationComponent } from './classification/classification.component';

@@ -3,12 +3,12 @@ import { NgModule } from '@angular/core';
 import {
   ButtonAppModule,
   FormGridModule,
-  ModalModule
+  ModalModule,
+  MultiSelectModule,
+  TextBoxModule,
 } from '@module/shared/src';
 import { ReactiveFormsModule } from '@module/utils/forms';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
-import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ProductsQueryRoutingModule } from './products-query-routing.module';
 import { ProductsQueryComponent } from './products-query.component';
 import { SearchModalomponent } from './search-modal/search-modal.component';

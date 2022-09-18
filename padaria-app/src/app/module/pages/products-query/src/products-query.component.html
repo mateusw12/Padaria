@@ -3,9 +3,9 @@
               [showAddButton]="false"
               [showRemoveButton]="false"
               [showEditButton]="false">
-              <ng-template #toolbarTemplate>
-                 <button ejs-button buttonSearch (click)="onSearchClick()"></button>
-              </ng-template>
+  <ng-template #toolbarTemplate>
+      <button ejs-button buttonSearch (click)="onSearchClick()"></button>
+  </ng-template>
 </ejs-formgrid>
 
 <app-search-product-modal (filter)="onFiltered($event)"

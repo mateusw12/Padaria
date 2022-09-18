@@ -1,4 +1,4 @@
-import { titleCase } from '@movtech/menu/utils/string';
+import { titleCase } from '../../string/title-case';
 import { format } from './format';
 
 export function monthName(source?: Date): string {

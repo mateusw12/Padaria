@@ -3,11 +3,11 @@ import { NgModule } from '@angular/core';
 import {
   ButtonAppModule,
   FormGridModule,
-  ModalModule
+  ModalModule,
+  TextBoxModule
 } from '@module/shared/src';
 import { ReactiveFormsModule } from '@module/utils/forms';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { NoteTypesRoutingModule } from './note-types-routing.module';
 import { NoteTypesComponent } from './note-types.component';
 

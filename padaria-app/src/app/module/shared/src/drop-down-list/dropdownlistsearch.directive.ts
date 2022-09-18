@@ -10,6 +10,7 @@ type DropDownListSearchType = 'Search' | 'Find';
 
 type DropDownListValue = string | number | boolean;
 
+// tslint:disable-next-line: no-any
 type DropDownListItem = { [key in PropertyKey]: any };
 
 interface DropDownListState {

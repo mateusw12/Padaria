@@ -1,4 +1,4 @@
-import { Nilable } from '@movtech/menu/internal';
+import { Nilable } from '@module/utils/internal';
 import { chain } from './chain';
 import { isValid } from './is-valid';
 

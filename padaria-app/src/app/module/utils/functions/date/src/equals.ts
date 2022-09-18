@@ -1,4 +1,4 @@
-import { isNil, Nilable } from '@movtech/menu/internal';
+import { isNil, Nilable } from '@module/utils/internal';
 import { chain } from './chain';
 
 export function equals(a: Nilable<Date>, b: Nilable<Date>): boolean {

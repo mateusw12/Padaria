@@ -15,7 +15,6 @@
                               placeholder="Produtos"
                               [fields]=" {value: 'id', text:'displayName'} "
                               [dataSource]="products"
-                              [hideSelectedItem]="true"
                               [allowFiltering]="true">
             </ejs-multiselect>
           </div>
@@ -29,7 +28,6 @@
                               placeholder="Fabricantes"
                               [fields]=" {value: 'id', text:'displayName'} "
                               [dataSource]="manufacturers"
-                              [hideSelectedItem]="true"
                               [allowFiltering]="true">
             </ejs-multiselect>
           </div>
@@ -40,7 +38,6 @@
                               placeholder="Unidade de Medidas"
                               [fields]=" {value: 'id', text:'displayName'} "
                               [dataSource]="unitMeasures"
-                              [hideSelectedItem]="true"
                               [allowFiltering]="true">
             </ejs-multiselect>
           </div>
@@ -54,7 +51,6 @@
                               placeholder="Marcas"
                               [fields]=" {value: 'id', text:'displayName'} "
                               [dataSource]="brands"
-                              [hideSelectedItem]="true"
                               [allowFiltering]="true">
             </ejs-multiselect>
           </div>
@@ -63,7 +59,6 @@
           <div class="form-group">
             <ejs-multiselect  formControlName="classificationIds"
                               placeholder="Classificações"
-                              [hideSelectedItem]="true"
                               [allowFiltering]="true"
                               [fields]=" {value: 'id', text:'displayName'} "
                               [dataSource]="classifications">

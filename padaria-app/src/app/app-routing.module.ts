@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MenuComponent } from '@module/pages/menu/src/menu.component';
+import { MenuComponent } from '@module/pages/menu';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'menu' },

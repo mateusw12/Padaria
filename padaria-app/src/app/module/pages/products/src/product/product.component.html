@@ -38,8 +38,7 @@
             <ejs-numerictextbox formControlName="unitaryPrice"
                                 placeholder="Preço Unitário"
                                 formErrorHandler
-                                format="c2"
-                                [showSpinButton]="false">
+                                format="c2">
             </ejs-numerictextbox>
           </div>
         </div>
@@ -48,8 +47,7 @@
             <ejs-numerictextbox formControlName="amount"
                                 placeholder="Quantidade"
                                 formErrorHandler
-                                format="0"
-                                [showSpinButton]="false">
+                                format="0">
             </ejs-numerictextbox>
           </div>
         </div>
@@ -60,9 +58,9 @@
           <div class="form-group">
             <ejs-dropdownlist formControlName="unitMeasureId"
                               placeholder="Unidade de Medida"
-                              [dataSource]=""
+                              [dataSource]="unitMeasures"
                               formErrorHandler
-                              [fields]="{value: 'id', text:'name'} ">
+                              [fields]="{value: 'id', text:'displayName'} ">
             </ejs-dropdownlist>
           </div>
         </div>
@@ -70,9 +68,9 @@
           <div class="form-group">
             <ejs-dropdownlist formControlName="brandId"
                               placeholder="Marca"
-                              [dataSource]=""
+                              [dataSource]="brands"
                               formErrorHandler
-                              [fields]=" {value: 'id', text:'name'} ">
+                              [fields]=" {value: 'id', text:'displayName'} ">
             </ejs-dropdownlist>
           </div>
         </div>
@@ -80,9 +78,9 @@
           <div class="form-group">
             <ejs-dropdownlist formControlName="manufacturerId"
                               placeholder="Fabricante"
-                              [dataSource]=""
+                              [dataSource]="manufacturers"
                               formErrorHandler
-                              [fields]=" {value: 'id', text:'name'} ">
+                              [fields]=" {value: 'id', text:'displayName'} ">
             </ejs-dropdownlist>
           </div>
         </div>

@@ -4,10 +4,10 @@ import {
   ButtonAppModule,
   FormGridModule,
   ModalModule,
+  TextBoxModule
 } from '@module/shared/src';
 import { ReactiveFormsModule } from '@module/utils/forms';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
-import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ManufacturersRoutingModule } from './manufacturers-routing.module';
 import { ManufacturersComponent } from './manufacturers.component';
 
