@@ -1,16 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { UnitMeasure } from '@module/models';
 import { Observable } from 'rxjs';
 
-const API_URL = '/api/unit-measure';
+const API_URL = '/api/cadastro/unidade-medida';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UnitMeasureService implements AfterViewInit {
+export class UnitMeasureRepository {
   constructor(private httpCliente: HttpClient) {}
-  ngAfterViewInit(): void {}
 
   add(brand: UnitMeasure): Observable<void> {
     return this.httpCliente.post<void>(API_URL, brand);
@@ -24,11 +23,14 @@ export class UnitMeasureService implements AfterViewInit {
     return this.httpCliente.get<UnitMeasure[]>(`${API_URL}`);
   }
 
-  updateById(brand: UnitMeasure): Observable<void> {
-    return this.httpCliente.put<void>(`${API_URL}/${brand.id}`, brand);
+  updateById(unitMeasure: UnitMeasure): Observable<void> {
+    return this.httpCliente.put<void>(
+      `${API_URL}/${unitMeasure.id}`,
+      unitMeasure
+    );
   }
 
-  deleteById(id: number) {
-    return this.httpCliente.delete(`${API_URL}/${id}`);
+  deleteById(id: number): Observable<void> {
+    return this.httpCliente.delete<void>(`${API_URL}/${id}`);
   }
 }

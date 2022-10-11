@@ -3,15 +3,13 @@ import { AfterViewInit, Injectable } from '@angular/core';
 import { Product } from '@module/models';
 import { Observable } from 'rxjs';
 
-const API_URL = '/api/product';
+const API_URL = '/api/cadastro/produto';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductService implements AfterViewInit {
-
+export class ProductRepository {
   constructor(private httpCliente: HttpClient) {}
-  ngAfterViewInit(): void {}
 
   add(product: Product): Observable<void> {
     return this.httpCliente.post<void>(API_URL, product);
@@ -29,7 +27,7 @@ export class ProductService implements AfterViewInit {
     return this.httpCliente.put<void>(`${API_URL}/${product.id}`, product);
   }
 
-  deleteById(id: number) {
-    return this.httpCliente.delete(`${API_URL}/${id}`);
+  deleteById(id: number): Observable<void> {
+    return this.httpCliente.delete<void>(`${API_URL}/${id}`);
   }
 }

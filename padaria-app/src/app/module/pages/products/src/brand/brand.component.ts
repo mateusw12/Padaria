@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Brand } from '@module/models';
-import { BrandService } from '@module/services';
+import { BrandRepository } from '@module/repository';
 import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
@@ -36,7 +36,7 @@ export class BrandComponent implements OnInit, OnDestroy {
   constructor(
     private toastService: ToastService,
     private messageService: MessageService,
-    private brandService: BrandService,
+    private brandRepository: BrandRepository,
     private errorHandler: ErrorHandler
   ) {}
 
@@ -79,8 +79,8 @@ export class BrandComponent implements OnInit, OnDestroy {
 
     if (
       (exists
-        ? this.brandService.updateById(model)
-        : this.brandService.add(model)
+        ? this.brandRepository.updateById(model)
+        : this.brandRepository.add(model)
       )
         .pipe(untilDestroyed(this))
         .subscribe(
@@ -128,7 +128,7 @@ export class BrandComponent implements OnInit, OnDestroy {
     );
     if (!confirmed) return;
 
-    this.brandService
+    this.brandRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -141,7 +141,7 @@ export class BrandComponent implements OnInit, OnDestroy {
   }
 
   private loadData(): void {
-    this.brandService
+    this.brandRepository
       .findAll()
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -153,7 +153,7 @@ export class BrandComponent implements OnInit, OnDestroy {
   }
 
   private async findBrand(id: number): Promise<void> {
-    this.brandService
+    this.brandRepository
       .findById(id)
       .pipe(untilDestroyed(this))
       .subscribe(async (brand) => {

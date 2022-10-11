@@ -7,7 +7,7 @@ export enum Gender {
 
 export const gender = new Map<Gender, string>([
   [Gender.None, 'Nenhum'],
-  [Gender.Male, 'Marculino'],
+  [Gender.Male, 'Masculino'],
   [Gender.Female, 'Feminino'],
   [Gender.Other, 'Outro'],
 ]);

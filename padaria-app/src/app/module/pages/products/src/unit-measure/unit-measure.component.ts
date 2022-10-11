@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UnitMeasure } from '@module/models';
-import { UnitMeasureService } from '@module/services';
+import { UnitMeasureRepository } from '@module/repository';
 import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
@@ -36,7 +36,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastService: ToastService,
-    private unitMeasureService: UnitMeasureService,
+    private unitMeasureRepository: UnitMeasureRepository,
     private errorHandler: ErrorHandler,
     private messageService: MessageService
   ) {}
@@ -80,8 +80,8 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
 
     if (
       (exists
-        ? this.unitMeasureService.updateById(model)
-        : this.unitMeasureService.add(model)
+        ? this.unitMeasureRepository.updateById(model)
+        : this.unitMeasureRepository.add(model)
       )
         .pipe(untilDestroyed(this))
         .subscribe(
@@ -131,7 +131,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
     );
     if (!confirmed) return;
 
-    this.unitMeasureService
+    this.unitMeasureRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -144,7 +144,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
   }
 
   private loadData(): void {
-    this.unitMeasureService
+    this.unitMeasureRepository
       .findAll()
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -156,7 +156,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
   }
 
   private async findUnitMeasure(id: number): Promise<void> {
-    this.unitMeasureService
+    this.unitMeasureRepository
       .findById(id)
       .pipe(untilDestroyed(this))
       .subscribe(async (unitMeasure) => {

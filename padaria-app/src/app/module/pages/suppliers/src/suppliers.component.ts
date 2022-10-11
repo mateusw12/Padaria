@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { State, Supplier } from '@module/models';
-import { SupplierService, ZipCodeAddressesService } from '@module/services';
+import { SupplierRepository, ZipCodeAddressesRepository } from '@module/repository';
 import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
@@ -43,8 +43,8 @@ export class SuppliersComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastService: ToastService,
-    private supplierService: SupplierService,
-    private zipCodeAddresses: ZipCodeAddressesService,
+    private supplierRepository: SupplierRepository,
+    private zipCodeAddressesRepository: ZipCodeAddressesRepository,
     private messageService: MessageService,
     private errorHandler: ErrorHandler
   ) {}
@@ -93,8 +93,8 @@ export class SuppliersComponent implements OnInit, OnDestroy {
 
     if (
       (exists
-        ? this.supplierService.updateById(model)
-        : this.supplierService.add(model)
+        ? this.supplierRepository.updateById(model)
+        : this.supplierRepository.add(model)
       )
         .pipe(untilDestroyed(this))
         .subscribe(
@@ -142,7 +142,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
     );
     if (!confirmed) return;
 
-    this.supplierService
+    this.supplierRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -179,7 +179,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   private getZipCodeAddresses(zipCode: string): void {
     this.resetZipCodeAddressesField();
     if (!ZIP_CODE_ADDRESSES_REGEX.test(zipCode)) return;
-    this.zipCodeAddresses
+    this.zipCodeAddressesRepository
       .getZipCodeAddresses(zipCode)
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -203,7 +203,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   }
 
   private loadData(): void {
-    this.supplierService
+    this.supplierRepository
       .findAll()
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -230,7 +230,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   }
 
   private async findSupplier(id: number): Promise<void> {
-    this.supplierService
+    this.supplierRepository
       .findById(id)
       .pipe(untilDestroyed(this))
       .subscribe(

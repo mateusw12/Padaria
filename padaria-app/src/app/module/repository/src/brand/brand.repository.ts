@@ -1,16 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Brand } from '@module/models';
 import { Observable } from 'rxjs';
 
-const API_URL = '/api/marca';
+const API_URL = '/api/cadastro/marca';
 
 @Injectable({
   providedIn: 'root',
 })
-export class BrandService implements AfterViewInit {
+export class BrandRepository {
   constructor(private httpCliente: HttpClient) {}
-  ngAfterViewInit(): void {}
 
   add(brand: Brand): Observable<void> {
     return this.httpCliente.post<void>(API_URL, brand);
@@ -28,7 +27,7 @@ export class BrandService implements AfterViewInit {
     return this.httpCliente.put<void>(`${API_URL}/${brand.id}`, brand);
   }
 
-  deleteById(id: number) {
-    return this.httpCliente.delete(`${API_URL}/${id}`);
+  deleteById(id: number): Observable<void> {
+    return this.httpCliente.delete<void>(`${API_URL}/${id}`);
   }
 }

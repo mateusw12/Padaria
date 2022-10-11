@@ -29,10 +29,11 @@ export function getEnumArray(enumeration: Map<any, string>): Enum[] {
  */
 export function getEnumDescription(
   enumeration: Map<any, string>,
-  value: number
+  value: any
 ): string {
   let description = '';
   for (const item of enumeration) {
+    console.log(item);
     if (item[0] === value) description = item[1] as string;
   }
   return description;
@@ -46,12 +47,15 @@ export function getEnumDescription(
  * @param value[]
  * @returns
  */
-export function getEnumDescriptions(  enumeration: Map<any, string>,  value: number[]): string[] {
-    const descriptions: string[] = [];
+export function getEnumDescriptions(
+  enumeration: Map<any, string>,
+  value: number[]
+): string[] {
+  const descriptions: string[] = [];
 
-    value.forEach((element) => {
-      const description = getEnumDescription(enumeration, element);
-      descriptions.push(description);
-    });
-    return descriptions;
+  value.forEach((element) => {
+    const description = getEnumDescription(enumeration, element);
+    descriptions.push(description);
+  });
+  return descriptions;
 }

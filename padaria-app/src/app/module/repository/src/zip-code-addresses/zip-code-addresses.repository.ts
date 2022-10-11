@@ -5,7 +5,7 @@ import { ZipCodeAddresses } from '@module/models';
 @Injectable({
   providedIn: 'root',
 })
-export class ZipCodeAddressesService {
+export class ZipCodeAddressesRepository {
   constructor(private httpCliente: HttpClient) {}
 
   getZipCodeAddresses(zipCodeAddresses: string) {

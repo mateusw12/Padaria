@@ -38,6 +38,7 @@ export class ConfirmDialogComponent implements OnInit {
   }
 
   private confirmAndClose(confirm: boolean): void {
+    console.log('confirmCLose', confirm)
     this.confirmResult.next(confirm);
     this.bsModalRef.hide();
   }

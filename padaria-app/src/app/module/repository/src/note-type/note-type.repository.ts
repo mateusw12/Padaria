@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { NoteType } from '@module/models';
 import { Observable } from 'rxjs';
 
-const API_URL = '/api/tipo-nota';
+const API_URL = '/api/cadastro/tipo-nota';
 
 @Injectable({
   providedIn: 'root',
 })
-export class NoteTypeService {
+export class NoteTypeRepository {
   constructor(private httpCliente: HttpClient) {}
 
   add(noteType: NoteType): Observable<void> {
@@ -24,13 +24,10 @@ export class NoteTypeService {
   }
 
   updateById(noteType: NoteType): Observable<void> {
-    return this.httpCliente.put<void>(
-      `${API_URL}/${noteType.id}`,
-      noteType
-    );
+    return this.httpCliente.put<void>(`${API_URL}/${noteType.id}`, noteType);
   }
 
-  deleteById(id: number) {
-    return this.httpCliente.delete(`${API_URL}/${id}`);
+  deleteById(id: number): Observable<void> {
+    return this.httpCliente.delete<void>(`${API_URL}/${id}`);
   }
 }

@@ -1,17 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Classification } from '@module/models';
 import { Observable } from 'rxjs';
 
-const API_URL = '/api/classificacao';
+const API_URL = '/api/cadastro/classificacao';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ClassificationService implements AfterViewInit {
-
+export class ClassificationRepository {
   constructor(private httpCliente: HttpClient) {}
-  ngAfterViewInit(): void {}
 
   add(classification: Classification): Observable<void> {
     return this.httpCliente.post<void>(API_URL, classification);
@@ -26,10 +24,13 @@ export class ClassificationService implements AfterViewInit {
   }
 
   updateById(classification: Classification): Observable<void> {
-    return this.httpCliente.put<void>(`${API_URL}/${classification.id}`, classification);
+    return this.httpCliente.put<void>(
+      `${API_URL}/${classification.id}`,
+      classification
+    );
   }
 
-  deleteById(id: number) {
-    return this.httpCliente.delete(`${API_URL}/${id}`).pipe();
+  deleteById(id: number): Observable<void> {
+    return this.httpCliente.delete<void>(`${API_URL}/${id}`);
   }
 }

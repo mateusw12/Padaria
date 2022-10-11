@@ -8,13 +8,13 @@ import {
   UnitMeasure,
 } from '@module/models';
 import {
-  BrandService,
-  ClassificationService,
-  ManufacturerService,
-  ProductQueryService,
-  ProductService,
-  UnitMeasureService,
-} from '@module/services';
+  BrandRepository,
+  ClassificationRepository,
+  ManufacturerRepository,
+  ProductQueryRepository,
+  ProductRepository,
+  UnitMeasureRepository,
+} from '@module/repository';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed } from '@module/utils/common';
 import { ErrorHandler } from '@module/utils/services';
@@ -51,12 +51,12 @@ export class ProductsQueryComponent implements OnInit, OnDestroy {
 
   constructor(
     private errorHandler: ErrorHandler,
-    private manufacturerService: ManufacturerService,
-    private brandService: BrandService,
-    private classificationService: ClassificationService,
-    private unitMeasureService: UnitMeasureService,
-    private productQueryService: ProductQueryService,
-    private productService: ProductService
+    private manufacturerRepository: ManufacturerRepository,
+    private brandRepository: BrandRepository,
+    private classificationRepository: ClassificationRepository,
+    private unitMeasureRepository: UnitMeasureRepository,
+    private productQueryRepository: ProductQueryRepository,
+    private productRepository: ProductRepository
   ) {}
 
   ngOnInit(): void {
@@ -75,12 +75,12 @@ export class ProductsQueryComponent implements OnInit, OnDestroy {
 
   private loadData(filter?: ProductQueryFilter): void {
     forkJoin([
-      this.productQueryService.find(filter),
-      this.productService.findAll(),
-      this.manufacturerService.findAll(),
-      this.brandService.findAll(),
-      this.classificationService.findAll(),
-      this.unitMeasureService.findAll(),
+      this.productQueryRepository.find(filter),
+      this.productRepository.findAll(),
+      this.manufacturerRepository.findAll(),
+      this.brandRepository.findAll(),
+      this.classificationRepository.findAll(),
+      this.unitMeasureRepository.findAll(),
     ])
       .pipe(untilDestroyed(this))
       .subscribe(

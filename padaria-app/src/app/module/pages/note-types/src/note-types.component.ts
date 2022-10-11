@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NoteType } from '@module/models';
-import { NoteTypeService } from '@module/services';
+import { NoteTypeRepository } from '@module/repository';
 import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
@@ -38,7 +38,7 @@ export class NoteTypesComponent implements OnInit {
     private toastService: ToastService,
     private messageService: MessageService,
     private errorHandler: ErrorHandler,
-    private noteTypeService: NoteTypeService
+    private noteTypeRepository: NoteTypeRepository
   ) {}
 
   ngOnInit(): void {
@@ -68,8 +68,8 @@ export class NoteTypesComponent implements OnInit {
 
     if (
       (exists
-        ? this.noteTypeService.updateById(model)
-        : this.noteTypeService.add(model)
+        ? this.noteTypeRepository.updateById(model)
+        : this.noteTypeRepository.add(model)
       )
         .pipe(untilDestroyed(this))
         .subscribe(
@@ -127,7 +127,7 @@ export class NoteTypesComponent implements OnInit {
     );
     if (!confirmed) return;
 
-    this.noteTypeService
+    this.noteTypeRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -140,7 +140,7 @@ export class NoteTypesComponent implements OnInit {
   }
 
   private loadData(): void {
-    this.noteTypeService
+    this.noteTypeRepository
       .findAll()
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -152,7 +152,7 @@ export class NoteTypesComponent implements OnInit {
   }
 
   private async findNoteType(id: number): Promise<void> {
-    this.noteTypeService
+    this.noteTypeRepository
       .findById(id)
       .pipe(untilDestroyed(this))
       .subscribe(async (noteType) => {
@@ -194,7 +194,7 @@ export class NoteTypesComponent implements OnInit {
         FormValidators.required,
         Validators.maxLength(200),
       ]),
-      abbreviation: new FormControl(null, [Validators.maxLength(200)]),
+      abbreviation: new FormControl(null, [Validators.maxLength(10)]),
     }));
   }
 

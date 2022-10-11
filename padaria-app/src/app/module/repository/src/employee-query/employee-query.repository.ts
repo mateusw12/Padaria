@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { EmployeeQuery, EmployeeQueryFilter } from '@module/models';
 import { Observable } from 'rxjs';
 
-const API_URL = '/api/consulta-funcinario';
+const API_URL = '/api/consulta/funcinario';
 
 @Injectable({
   providedIn: 'root',
 })
-export class EmployeeQueryService {
+export class EmployeeQueryRepository {
   constructor(private httpCliente: HttpClient) {}
 
   find(filter?: EmployeeQueryFilter): Observable<EmployeeQuery[]> {

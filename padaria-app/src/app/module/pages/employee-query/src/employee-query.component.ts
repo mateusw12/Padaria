@@ -1,14 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   chronicCondition,
-  ChronicCondition,
   EmployeeQueryFilter,
   gender,
   Job,
   levelSchooling,
   maritalStatus,
 } from '@module/models';
-import { EmployeeQueryService, JobService } from '@module/services';
+import { EmployeeQueryRepository, JobRepository } from '@module/repository';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed } from '@module/utils/common';
 import {
@@ -50,8 +49,8 @@ export class EmployeeQueryComponent implements OnInit, OnDestroy {
 
   constructor(
     private errorHandler: ErrorHandler,
-    private employeeQueryService: EmployeeQueryService,
-    private jobService: JobService
+    private employeeQueryRepository: EmployeeQueryRepository,
+    private jobRepository: JobRepository
   ) {}
 
   ngOnInit(): void {
@@ -70,8 +69,8 @@ export class EmployeeQueryComponent implements OnInit, OnDestroy {
 
   private loadData(filter?: EmployeeQueryFilter): void {
     forkJoin([
-      this.employeeQueryService.find(filter),
-      this.jobService.findAll(),
+      this.employeeQueryRepository.find(filter),
+      this.jobRepository.findAll(),
     ])
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -116,7 +115,10 @@ export class EmployeeQueryComponent implements OnInit, OnDestroy {
       );
   }
 
-  private getCalcMonthlySalary(workingHours: number,hourlyWork: number): number {
+  private getCalcMonthlySalary(
+    workingHours: number,
+    hourlyWork: number
+  ): number {
     const weeklyWage = workingHours * hourlyWork * 7;
     return weeklyWage * 30;
   }

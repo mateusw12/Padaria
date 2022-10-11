@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Classification, Product } from '@module/models';
-import { ClassificationService, ProductService } from '@module/services';
+import { ClassificationRepository, ProductRepository } from '@module/repository';
 import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
@@ -37,9 +37,9 @@ export class ClassificationComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastService: ToastService,
-    private classificationService: ClassificationService,
+    private classificationRepository: ClassificationRepository,
     private messageService: MessageService,
-    private productService: ProductService,
+    private productRepository: ProductRepository,
     private errorHandler: ErrorHandler
   ) {}
 
@@ -82,8 +82,8 @@ export class ClassificationComponent implements OnInit, OnDestroy {
 
     if (
       (exists
-        ? this.classificationService.updateById(model)
-        : this.classificationService.add(model)
+        ? this.classificationRepository.updateById(model)
+        : this.classificationRepository.add(model)
       )
         .pipe(untilDestroyed(this))
         .subscribe(
@@ -131,7 +131,7 @@ export class ClassificationComponent implements OnInit, OnDestroy {
     );
     if (!confirmed) return;
 
-    this.classificationService
+    this.classificationRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -145,8 +145,8 @@ export class ClassificationComponent implements OnInit, OnDestroy {
 
   private loadData(): void {
     forkJoin([
-      this.productService.findAll(),
-      this.classificationService.findAll(),
+      this.productRepository.findAll(),
+      this.classificationRepository.findAll(),
     ])
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -167,7 +167,7 @@ export class ClassificationComponent implements OnInit, OnDestroy {
   }
 
   private async findClassification(id: number): Promise<void> {
-    this.classificationService
+    this.classificationRepository
       .findById(id)
       .pipe(untilDestroyed(this))
       .subscribe(async (classification) => {

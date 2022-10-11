@@ -3,23 +3,20 @@ import { AfterViewInit, Injectable } from '@angular/core';
 import { Departament } from '@module/models';
 import { Observable } from 'rxjs';
 
-const API_URL = '/api/departamento';
+const API_URL = '/api/cadastro/departamento';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DepartamentService implements AfterViewInit {
+export class DepartamentRepository {
   constructor(private httpCliente: HttpClient) {}
-  ngAfterViewInit(): void {}
 
   add(departament: Departament): Observable<void> {
     return this.httpCliente.post<void>(API_URL, departament);
   }
 
   findById(codigo: number): Observable<Departament> {
-    return this.httpCliente
-      .get<Departament>(`${API_URL}/${codigo}`)
-      .pipe();
+    return this.httpCliente.get<Departament>(`${API_URL}/${codigo}`).pipe();
   }
 
   findAll(): Observable<Departament[]> {
@@ -33,7 +30,7 @@ export class DepartamentService implements AfterViewInit {
     );
   }
 
-  deleteById(id: number) {
-    return this.httpCliente.delete(`${API_URL}/${id}`);
+  deleteById(id: number): Observable<void> {
+    return this.httpCliente.delete<void>(`${API_URL}/${id}`);
   }
 }

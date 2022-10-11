@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Job } from '@module/models';
-import { JobService } from '@module/services';
+import { JobRepository } from '@module/repository';
 import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
@@ -35,7 +35,7 @@ export class JobsComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastService: ToastService,
-    private jobService: JobService,
+    private jobRepository: JobRepository,
     private errorHandler: ErrorHandler,
     private messageService: MessageService
   ) {}
@@ -62,7 +62,7 @@ export class JobsComponent implements OnInit, OnDestroy {
     }
 
     if (
-      (exists ? this.jobService.updateById(model) : this.jobService.add(model))
+      (exists ? this.jobRepository.updateById(model) : this.jobRepository.add(model))
         .pipe(untilDestroyed(this))
         .subscribe(
           async () => {
@@ -119,13 +119,15 @@ export class JobsComponent implements OnInit, OnDestroy {
   }
 
   private async onCommandRemove(model: GridRow): Promise<void> {
-    const confirmed$ = this.messageService.showConfirmSave();
+    const confirmed$ = this.messageService.showConfirmDelete();
     const confirmed = await untilDestroyedAsync(
       confirmed$.asObservable(),
       this
     );
+    console.log('confirmed', confirmed);
     if (!confirmed) return;
-    this.jobService
+    console.log('passei do if')
+    this.jobRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -138,7 +140,7 @@ export class JobsComponent implements OnInit, OnDestroy {
   }
 
   private loadData(): void {
-    this.jobService
+    this.jobRepository
       .findAll()
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -150,7 +152,7 @@ export class JobsComponent implements OnInit, OnDestroy {
   }
 
   private async findJob(id: number): Promise<void> {
-    this.jobService
+    this.jobRepository
       .findById(id)
       .pipe(untilDestroyed(this))
       .subscribe(async (job) => {

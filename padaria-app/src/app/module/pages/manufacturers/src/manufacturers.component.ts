@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Manufacturer } from '@module/models';
-import { ManufacturerService } from '@module/services';
+import { ManufacturerRepository } from '@module/repository';
 import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
@@ -37,7 +37,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private messageService: MessageService,
     private errorHandler: ErrorHandler,
-    private manufacturerService: ManufacturerService
+    private manufacturerRepository: ManufacturerRepository
   ) {}
 
   ngOnInit(): void {
@@ -67,8 +67,8 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
 
     if (
       (exists
-        ? this.manufacturerService.updateById(model)
-        : this.manufacturerService.add(model)
+        ? this.manufacturerRepository.updateById(model)
+        : this.manufacturerRepository.add(model)
       )
         .pipe(untilDestroyed(this))
         .subscribe(
@@ -128,7 +128,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
     );
     if (!confirmed) return;
 
-    this.manufacturerService
+    this.manufacturerRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -141,7 +141,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
   }
 
   private loadData(): void {
-    this.manufacturerService
+    this.manufacturerRepository
       .findAll()
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -153,7 +153,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
   }
 
   private async findManufacturer(id: number): Promise<void> {
-    this.manufacturerService
+    this.manufacturerRepository
       .findById(id)
       .pipe(untilDestroyed(this))
       .subscribe(async (departament) => {

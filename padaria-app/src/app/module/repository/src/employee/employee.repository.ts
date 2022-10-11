@@ -1,17 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Employee } from '@module/models';
 import { Observable } from 'rxjs';
 
-const API_URL = '/api/funcionario';
+const API_URL = '/api/cadastro/funcionario';
 
 @Injectable({
   providedIn: 'root',
 })
-export class EmployeeService implements AfterViewInit {
-
+export class EmployeeRepository {
   constructor(private httpCliente: HttpClient) {}
-  ngAfterViewInit(): void {}
 
   add(employee: Employee): Observable<void> {
     return this.httpCliente.post<void>(API_URL, employee);
@@ -29,7 +27,7 @@ export class EmployeeService implements AfterViewInit {
     return this.httpCliente.put<void>(`${API_URL}/${employee.id}`, employee);
   }
 
-  deleteById(id: number) {
-    return this.httpCliente.delete(`${API_URL}/${id}`);
+  deleteById(id: number): Observable<void> {
+    return this.httpCliente.delete<void>(`${API_URL}/${id}`);
   }
 }

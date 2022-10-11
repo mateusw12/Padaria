@@ -1,16 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Manufacturer } from '@module/models';
 import { Observable } from 'rxjs';
 
-const API_URL = '/api/fabricante';
+const API_URL = '/api/cadastro/fabricante';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ManufacturerService implements AfterViewInit {
+export class ManufacturerRepository {
   constructor(private httpCliente: HttpClient) {}
-  ngAfterViewInit(): void {}
 
   add(manufacturer: Manufacturer): Observable<void> {
     return this.httpCliente.post<void>(API_URL, manufacturer);
@@ -31,7 +30,7 @@ export class ManufacturerService implements AfterViewInit {
     );
   }
 
-  deleteById(id: number) {
-    return this.httpCliente.delete(`${API_URL}/${id}`);
+  deleteById(id: number): Observable<void> {
+    return this.httpCliente.delete<void>(`${API_URL}/${id}`);
   }
 }

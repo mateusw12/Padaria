@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Departament } from '@module/models';
-import { DepartamentService } from '@module/services';
+import { DepartamentRepository } from '@module/repository';
 import { FormGridCommandEventArgs, ModalComponent } from '@module/shared/src';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
@@ -36,7 +36,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private messageService: MessageService,
     private errorHandler: ErrorHandler,
-    private departametService: DepartamentService
+    private departametRepository: DepartamentRepository
   ) {}
 
   ngOnInit(): void {
@@ -82,8 +82,8 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
 
     if (
       (exists
-        ? this.departametService.updateById(model)
-        : this.departametService.add(model)
+        ? this.departametRepository.updateById(model)
+        : this.departametRepository.add(model)
       )
         .pipe(untilDestroyed(this))
         .subscribe(
@@ -127,7 +127,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
     );
     if (!confirmed) return;
 
-    this.departametService
+    this.departametRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -140,7 +140,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
   }
 
   private loadData(): void {
-    this.departametService
+    this.departametRepository
       .findAll()
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -152,7 +152,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
   }
 
   private async findDepartament(id: number): Promise<void> {
-    this.departametService
+    this.departametRepository
       .findById(id)
       .pipe(untilDestroyed(this))
       .subscribe(async (departament) => {
