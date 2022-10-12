@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {
   AppRoutes,
   DASHBOARDS_ROUTES_PATH,
+  INFORMATION_PATH,
   OHTERS_ROUTES_PATHS,
   QUERY_ROUTES_PATHS,
   REGISTRATION_ROUTES_PATHS,
@@ -21,6 +22,7 @@ export class MenuComponent implements OnInit {
   readonly query_routes: AppRoutes[] = QUERY_ROUTES_PATHS;
   readonly dashboards_routes: AppRoutes[] = DASHBOARDS_ROUTES_PATH;
   readonly others_routes: AppRoutes[] = OHTERS_ROUTES_PATHS;
+  readonly information_route: AppRoutes = INFORMATION_PATH;
 
   private _breadCrumb: AppRoutes | undefined;
   isLoad = false;

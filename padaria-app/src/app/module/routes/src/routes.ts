@@ -6,7 +6,7 @@ const INVENTORY_PATH = 'Estoque';
 const PURCHASE_PATH = 'Compras';
 const SALES_PATH = 'Vendas';
 const DASHBOARDS_PATH = 'DashBoards';
-
+const ABOUT_PATH = 'Informações';
 
 export const REGISTRATION_ROUTES_PATHS: AppRoutes[] = [
   {
@@ -103,3 +103,10 @@ export const OHTERS_ROUTES_PATHS: AppRoutes[] = [
     fatherTitle: SALES_PATH,
   },
 ];
+
+export const INFORMATION_PATH: AppRoutes = {
+  path: '/menu/information',
+  onlyPath: 'information',
+  pageTitle: 'Sobre',
+  fatherTitle: ABOUT_PATH,
+};

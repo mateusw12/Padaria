@@ -47,7 +47,7 @@
 
     <ul class="list-unstyled CTAs">
       <li>
-        <a href="#" class="download">Sobre</a>
+        <a [routerLink]="information_route.path" (click)="onBreadCrumb(information_route)" class="download">{{information_route.pageTitle}}</a>
       </li>
       <li>
         <a href="#" class="article">Licenças</a>

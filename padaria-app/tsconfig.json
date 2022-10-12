@@ -7,9 +7,10 @@
       "@module/*":["./src/app/module/*"],
       "@models/*":["@module/models/*"],
       "@pages/*":["@module/pages/*"],
-      "@services/*":["@module/services/*"],
+      "@repository/*":["@module/repository/*"],
       "@shared/*":["@module/shared/*"],
-      "@utils/*":["@module/utils/*"]
+      "@utils/*":["@module/utils/*"],
+      "@routes/*":["@module/routes/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
