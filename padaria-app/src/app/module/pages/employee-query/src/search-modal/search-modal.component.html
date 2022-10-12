@@ -65,7 +65,7 @@
           <div class="form-group">
             <ejs-multiselect  formControlName="jobIds"
                               placeholder="Cargos"
-                              [fields]=" {value: 'id', text:'displayName'} "
+                              [fields]=" {value: 'id', text:'name'} "
                               [dataSource]="jobs"
                               [allowFiltering]="true">
             </ejs-multiselect>
@@ -77,7 +77,7 @@
                               placeholder="Estados"
                               [dataSource]="states"
                               [allowFiltering]="true"
-                              [fields]=" {value: 'abbreviation', text:'displayName'} ">
+                              [fields]=" {value: 'abbreviation', text:'name'} ">
             </ejs-multiselect>
           </div>
         </div>
@@ -88,7 +88,8 @@
             <ejs-multiselect  formControlName="employeeIds"
                               placeholder="Funcionários"
                               [allowFiltering]="true"
-                              [fields]=" {value: 'id', text:'displayName'} ">
+                              [dataSource]="employees"
+                              [fields]=" {value: 'id', text:'name'} ">
             </ejs-multiselect>
           </div>
         </div>

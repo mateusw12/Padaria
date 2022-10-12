@@ -11,6 +11,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
   chronicCondition,
   ChronicCondition,
+  Employee,
   EmployeeQueryFilter,
   gender,
   Gender,
@@ -32,11 +33,15 @@ const BRAZILIAN_STATES: State = new State();
   templateUrl: './search-modal.component.html',
 })
 export class SearchEmployeeModalComponent implements OnInit, OnDestroy {
+
   @Output()
   filter = new EventEmitter<EmployeeQueryFilter>();
 
   @Input()
   jobs: Job[] = [];
+
+  @Input()
+  employees: Employee[] = [];
 
   form: FormGroup = this.createForm();
   genders = getEnumArray(gender);

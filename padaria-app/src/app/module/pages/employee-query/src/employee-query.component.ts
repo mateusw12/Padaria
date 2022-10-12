@@ -1,13 +1,18 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   chronicCondition,
+  Employee,
   EmployeeQueryFilter,
   gender,
   Job,
   levelSchooling,
   maritalStatus,
 } from '@module/models';
-import { EmployeeQueryRepository, JobRepository } from '@module/repository';
+import {
+  EmployeeQueryRepository,
+  EmployeeRepository,
+  JobRepository,
+} from '@module/repository';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed } from '@module/utils/common';
 import {
@@ -40,6 +45,7 @@ interface GridRow {
 })
 export class EmployeeQueryComponent implements OnInit, OnDestroy {
   jobs: Job[] = [];
+  employees: Employee[] = [];
 
   dataSource: GridRow[] = [];
   columns: SfGridColumnModel[] = this.createColumns();
@@ -50,7 +56,8 @@ export class EmployeeQueryComponent implements OnInit, OnDestroy {
   constructor(
     private errorHandler: ErrorHandler,
     private employeeQueryRepository: EmployeeQueryRepository,
-    private jobRepository: JobRepository
+    private jobRepository: JobRepository,
+    private employeeRepository: EmployeeRepository
   ) {}
 
   ngOnInit(): void {
@@ -71,12 +78,14 @@ export class EmployeeQueryComponent implements OnInit, OnDestroy {
     forkJoin([
       this.employeeQueryRepository.find(filter),
       this.jobRepository.findAll(),
+      this.employeeRepository.findAll(),
     ])
       .pipe(untilDestroyed(this))
       .subscribe(
-        ([employeeFilter, jobs]) => {
+        ([employeeFilter, jobs, employees]) => {
           const dataSource: GridRow[] = [];
           this.jobs = jobs;
+          this.employees = employees;
 
           for (const item of employeeFilter) {
             const job = jobs.find((el) => el.id === item.jobId);
