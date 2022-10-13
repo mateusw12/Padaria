@@ -3,6 +3,7 @@ import {
   AppRoutes,
   DASHBOARDS_ROUTES_PATH,
   INFORMATION_PATH,
+  LICENSE_PATH,
   OHTERS_ROUTES_PATHS,
   QUERY_ROUTES_PATHS,
   REGISTRATION_ROUTES_PATHS,
@@ -23,6 +24,7 @@ export class MenuComponent implements OnInit {
   readonly dashboards_routes: AppRoutes[] = DASHBOARDS_ROUTES_PATH;
   readonly others_routes: AppRoutes[] = OHTERS_ROUTES_PATHS;
   readonly information_route: AppRoutes = INFORMATION_PATH;
+  readonly license_route: AppRoutes = LICENSE_PATH;
 
   private _breadCrumb: AppRoutes | undefined;
   isLoad = false;

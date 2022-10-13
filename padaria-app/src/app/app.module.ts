@@ -2,10 +2,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MenuComponent } from '@module/pages/menu/src/menu.component';
+import { MenuComponent } from '@module/pages/menu';
 import {
   ExternalNavigationService,
-  ToastService
+  ToastService,
 } from '@module/utils/services';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsModalService } from 'ngx-bootstrap/modal';

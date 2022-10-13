@@ -1,112 +1,86 @@
-import { AppRoutes } from './app-routes-interface';
+import { Routes } from '@angular/router';
+import { MenuComponent } from '@module/pages/menu';
+import * as pages from './pages';
 
-const REGISTRATION_PATH = 'Cadastro';
-const QUERY_PATH = 'Consulta';
-const INVENTORY_PATH = 'Estoque';
-const PURCHASE_PATH = 'Compras';
-const SALES_PATH = 'Vendas';
-const DASHBOARDS_PATH = 'DashBoards';
-const ABOUT_PATH = 'Informações';
-
-export const REGISTRATION_ROUTES_PATHS: AppRoutes[] = [
+export const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: 'menu' },
   {
-    path: '/menu/departaments',
-    onlyPath: 'departaments',
-    pageTitle: 'Departamento',
-    fatherTitle: REGISTRATION_PATH,
-  },
-  {
-    path: '/menu/jobs',
-    pageTitle: 'Cargo',
-    onlyPath: 'jobs',
-    fatherTitle: REGISTRATION_PATH,
-  },
-  {
-    path: '/menu/products',
-    pageTitle: 'Produto',
-    onlyPath: 'products',
-    fatherTitle: REGISTRATION_PATH,
-  },
-  {
-    path: '/menu/employee',
-    onlyPath: 'employee',
-    pageTitle: 'Funcionário',
-    fatherTitle: REGISTRATION_PATH,
-  },
-  {
-    path: '/menu/suppliers',
-    onlyPath: 'suppliers',
-    pageTitle: 'Fornecedor',
-    fatherTitle: REGISTRATION_PATH,
-  },
-  {
-    path: '/menu/manufacturers',
-    onlyPath: 'manufacturers',
-    pageTitle: 'Fabricante',
-    fatherTitle: REGISTRATION_PATH,
-  },
-  {
-    path: '/menu/note-type',
-    onlyPath: 'note-type',
-    pageTitle: 'Tipos de Nota',
-    fatherTitle: REGISTRATION_PATH,
+    path: 'menu',
+    component: MenuComponent,
+    data: { pageTitle: 'Menu' },
+    children: [
+      {
+        path: 'registrations',
+        data: { pageTitle: 'Cadastros' },
+        children: [
+          {
+            path: 'jobs',
+            data: { pageTitle: 'Cargos' },
+            loadChildren: pages.jobRegistration,
+          },
+          {
+            path: 'departaments',
+            data: { pageTitle: 'Departamentos' },
+            loadChildren: pages.departamentRegistration,
+          },
+          {
+            path: 'products',
+            data: { pageTitle: 'Produtos' },
+            loadChildren: pages.productRegistration,
+          },
+          {
+            path: 'employee',
+            data: { pageTitle: 'Funcionários' },
+            loadChildren: pages.employeeRegistration,
+          },
+          {
+            path: 'suppliers',
+            data: { pageTitle: 'Fornecedores' },
+            loadChildren: pages.supplierRegistration,
+          },
+          {
+            path: 'note-type',
+            data: { pageTitle: 'Tipos de Nota' },
+            loadChildren: pages.noteTypeRegistration,
+          },
+          {
+            path: 'manufacturers',
+            data: { pageTitle: 'Fabricantes' },
+            loadChildren: pages.manufacturerRegistration,
+          },
+        ],
+      },
+      {
+        path: 'queries',
+        data: { pageTitle: 'Consultas' },
+        children: [
+          {
+            path: 'employee-query',
+            data: { pageTitle: 'Funcionários' },
+            loadChildren: pages.employeeQueryRegistration,
+          },
+          {
+            path: 'products-query',
+            data: { pageTitle: 'Produtos' },
+            loadChildren: pages.productQueryRegistration,
+          },
+        ],
+      },
+      {
+        path: 'inventory',
+        data: { pageTitle: 'Estoque' },
+        loadChildren: pages.inventoryRegistration,
+      },
+      {
+        path: 'information',
+        data: { pageTitle: 'Sobre' },
+        loadChildren: pages.informationRegistration,
+      },
+      {
+        path: 'license',
+        data: { pageTitle: 'Licenças' },
+        loadChildren: pages.licenseRegistration,
+      },
+    ],
   },
 ];
-
-export const QUERY_ROUTES_PATHS: AppRoutes[] = [
-  {
-    path: '/menu/employee-query',
-    onlyPath: 'employee-query',
-    pageTitle: 'Consulta Funcionário',
-    fatherTitle: QUERY_PATH,
-  },
-  {
-    path: '/menu/products-query',
-    onlyPath: 'products-query',
-    pageTitle: 'Consulta Produtos',
-    fatherTitle: QUERY_PATH,
-  },
-];
-
-export const DASHBOARDS_ROUTES_PATH: AppRoutes[] = [
-  {
-    path: '/menu/dashboards-receipts',
-    onlyPath: 'dashboards-receipts',
-    pageTitle: 'Receita',
-    fatherTitle: DASHBOARDS_PATH,
-  },
-  {
-    path: '/menu/dashboards-expenses',
-    onlyPath: 'dashboards-expenses',
-    pageTitle: 'Despesas',
-    fatherTitle: DASHBOARDS_PATH,
-  },
-];
-
-export const OHTERS_ROUTES_PATHS: AppRoutes[] = [
-  {
-    path: '/menu/inventory',
-    onlyPath: 'inventory',
-    pageTitle: 'Controle Estoque',
-    fatherTitle: INVENTORY_PATH,
-  },
-  {
-    path: '/menu/purchase',
-    onlyPath: 'purchase',
-    pageTitle: 'Controle Compras',
-    fatherTitle: PURCHASE_PATH,
-  },
-  {
-    path: '/menu/sales',
-    onlyPath: 'sales',
-    pageTitle: 'Controle Vendas',
-    fatherTitle: SALES_PATH,
-  },
-];
-
-export const INFORMATION_PATH: AppRoutes = {
-  path: '/menu/information',
-  onlyPath: 'information',
-  pageTitle: 'Sobre',
-  fatherTitle: ABOUT_PATH,
-};
