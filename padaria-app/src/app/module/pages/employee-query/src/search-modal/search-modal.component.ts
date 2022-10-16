@@ -5,25 +5,21 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
-  chronicCondition,
   ChronicCondition,
   Employee,
   EmployeeQueryFilter,
-  gender,
   Gender,
   Job,
-  levelSchooling,
   LevelSchooling,
-  maritalStatus,
   MaritalStatus,
-  State
+  State,
 } from '@module/models';
 import { ModalComponent } from '@module/shared/src';
-import { getEnumArray } from '@module/utils/functions';
+import { toArray } from '@module/utils/functions/enum';
 import { StateProperty } from '@module/utils/interfaces';
 
 const BRAZILIAN_STATES: State = new State();
@@ -33,7 +29,6 @@ const BRAZILIAN_STATES: State = new State();
   templateUrl: './search-modal.component.html',
 })
 export class SearchEmployeeModalComponent implements OnInit, OnDestroy {
-
   @Output()
   filter = new EventEmitter<EmployeeQueryFilter>();
 
@@ -44,10 +39,16 @@ export class SearchEmployeeModalComponent implements OnInit, OnDestroy {
   employees: Employee[] = [];
 
   form: FormGroup = this.createForm();
-  genders = getEnumArray(gender);
-  martialStatus = getEnumArray(maritalStatus);
-  chronicConditions = getEnumArray(chronicCondition);
-  levelSchoolings = getEnumArray(levelSchooling);
+  genders = toArray(Gender).filter((el) => el.value !== Gender.None);
+  martialStatus = toArray(MaritalStatus).filter(
+    (el) => el.value !== MaritalStatus.None
+  );
+  chronicConditions = toArray(ChronicCondition).filter(
+    (el) => el.value !== ChronicCondition.None
+  );
+  levelSchoolings = toArray(LevelSchooling).filter(
+    (el) => el.value !== LevelSchooling.None
+  );
   states: StateProperty[] = BRAZILIAN_STATES.state;
 
   @ViewChild(ModalComponent, { static: true })

@@ -1,3 +1,5 @@
+import { describe } from '@module/utils/functions/enum';
+
 export enum Gender {
   None = 0,
   Male = 1,
@@ -5,9 +7,9 @@ export enum Gender {
   Other = 3,
 }
 
-export const gender = new Map<Gender, string>([
-  [Gender.None, 'Nenhum'],
-  [Gender.Male, 'Masculino'],
-  [Gender.Female, 'Feminino'],
-  [Gender.Other, 'Outro'],
-]);
+describe(Gender, {
+  None: 'Nenhum',
+  Male: 'Masculino',
+  Female: 'Feminino',
+  Other: 'Outro',
+});

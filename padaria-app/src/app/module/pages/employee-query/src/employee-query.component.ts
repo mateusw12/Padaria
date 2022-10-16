@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
-  chronicCondition,
+  ChronicCondition,
   Employee,
   EmployeeQueryFilter,
-  gender,
+  Gender,
   Job,
-  levelSchooling,
-  maritalStatus,
+  LevelSchooling,
+  MaritalStatus,
 } from '@module/models';
 import {
   EmployeeQueryRepository,
@@ -15,10 +15,7 @@ import {
 } from '@module/repository';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed } from '@module/utils/common';
-import {
-  getEnumDescription,
-  getEnumDescriptions,
-} from '@module/utils/functions';
+import { getDescription } from '@module/utils/functions/enum';
 import { ErrorHandler } from '@module/utils/services';
 import { forkJoin } from 'rxjs';
 import { SearchEmployeeModalComponent } from './search-modal/search-modal.component';
@@ -29,9 +26,9 @@ interface GridRow {
   jobName: string;
   cpf: string;
   gender: string;
-  maritalStatus: string[];
+  maritalStatus: string;
   chronicCondition: string[];
-  levelSchooling: string[];
+  levelSchooling: string;
   phone: string;
   city: string;
   monthlySalary: number;
@@ -90,25 +87,26 @@ export class EmployeeQueryComponent implements OnInit, OnDestroy {
           for (const item of employeeFilter) {
             const job = jobs.find((el) => el.id === item.jobId);
 
+            let chronicConditions: string[] = [];
+            for (const chornicCondition of item.chronicCondition) {
+              chronicConditions.push(
+                getDescription(ChronicCondition, chornicCondition)
+              );
+            }
+
             dataSource.push({
-              chronicCondition: getEnumDescriptions(
-                chronicCondition,
-                item.chronicCondition
-              ),
+              chronicCondition: chronicConditions,
               city: item.city,
               cpf: item.cpf,
               employeeName: item.employeeName,
-              gender: getEnumDescription(gender, item.gender),
+              gender: getDescription(Gender, item.gender),
               id: item.employeeId,
               jobName: job ? job.displayName : '',
-              levelSchooling: getEnumDescriptions(
-                levelSchooling,
+              levelSchooling: getDescription(
+                LevelSchooling,
                 item.levelSchooling
               ),
-              maritalStatus: getEnumDescriptions(
-                maritalStatus,
-                item.maritalStatus
-              ),
+              maritalStatus: getDescription(MaritalStatus, item.maritalStatus),
               monthlySalary: this.getCalcMonthlySalary(
                 item.workingHours,
                 item.hourlyWork

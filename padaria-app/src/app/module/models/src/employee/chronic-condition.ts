@@ -1,3 +1,5 @@
+import { describe } from '@module/utils/functions/enum';
+
 export enum ChronicCondition {
   None = 0,
   HighCholesterol = 1,
@@ -9,13 +11,13 @@ export enum ChronicCondition {
   Others = 7,
 }
 
-export const chronicCondition = new Map<ChronicCondition, string>([
-  [ChronicCondition.None, 'Nenhum'],
-  [ChronicCondition.HighCholesterol, 'Colesterol Alto'],
-  [ChronicCondition.Diabetes, 'Diabete'],
-  [ChronicCondition.Hypertension, 'Hipertensão'],
-  [ChronicCondition.Osteoporosis, 'Osteoporose'],
-  [ChronicCondition.ParkinsonsDisease, 'Mal de Parkinson'],
-  [ChronicCondition.Cancer, 'Câncer'],
-  [ChronicCondition.Others, 'Outros'],
-]);
+describe(ChronicCondition, {
+  None: 'Nenhum',
+  HighCholesterol: 'Colesterol Alto',
+  Diabetes: 'Diabete',
+  Hypertension: 'Hipertensão',
+  Osteoporosis: 'Osteoporose',
+  ParkinsonsDisease: 'Mal de Parkinson',
+  Cancer: 'Câncer',
+  Others: 'Outros',
+});

@@ -2,32 +2,32 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   ChronicCondition,
-  chronicCondition,
   Employee,
   Gender,
-  gender,
   Job,
   LevelSchooling,
-  levelSchooling,
   MaritalStatus,
-  maritalStatus,
-  State,
+  State
 } from '@module/models';
 import {
   EmployeeRepository,
   JobRepository,
-  ZipCodeAddressesRepository,
+  ZipCodeAddressesRepository
 } from '@module/repository';
 import { FormGridCommandEventArgs, ModalComponent } from '@module/shared/src';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { ZIP_CODE_ADDRESSES_REGEX } from '@module/utils/constant';
 import { markAllAsTouched } from '@module/utils/forms';
-import { getEnumArray, getEnumDescription } from '@module/utils/functions';
+import {
+  EnumItem,
+  getDescription,
+  toArray
+} from '@module/utils/functions/enum';
 import {
   ErrorHandler,
   MessageService,
-  ToastService,
+  ToastService
 } from '@module/utils/services';
 import { isValidCPF } from '@module/utils/validations';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
@@ -61,10 +61,18 @@ export class EmployeesComponent implements OnInit, OnDestroy {
   form: FormGroup = this.createForm();
   columns: SfGridColumnModel[] = this.createColumns();
 
-  genders = getEnumArray(gender);
-  martialStatus = getEnumArray(maritalStatus);
-  chronicConditions = getEnumArray(chronicCondition);
-  levelSchoolings = getEnumArray(levelSchooling);
+  genders: EnumItem[] = toArray(Gender).filter(
+    (el) => el.value !== Gender.None
+  );
+  martialStatus = toArray(MaritalStatus).filter(
+    (el) => el.value !== MaritalStatus.None
+  );
+  chronicConditions = toArray(ChronicCondition).filter(
+    (el) => el.value !== ChronicCondition.None
+  );
+  levelSchoolings = toArray(LevelSchooling).filter(
+    (el) => el.value !== LevelSchooling.None
+  );
   today: Date = new Date();
   jobs: Job[] = [];
 
@@ -238,7 +246,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
               city: item.city,
               district: item.district,
               name: item.name,
-              gender: getEnumDescription(gender, item.gender),
+              gender: getDescription(Gender, item.gender),
               id: item.id,
               phone: item.phone,
               street: item.street,

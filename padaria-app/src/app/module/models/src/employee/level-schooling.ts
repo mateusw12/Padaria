@@ -1,3 +1,5 @@
+import { describe } from '@module/utils/functions/enum';
+
 export enum LevelSchooling {
   None = 0,
   IncompleteHigherEducation = 1,
@@ -7,11 +9,11 @@ export enum LevelSchooling {
   PostGraduation = 5,
 }
 
-export const levelSchooling = new Map<LevelSchooling, string>([
-  [LevelSchooling.None, 'Nenhum'],
-  [LevelSchooling.IncompleteSchoolLevel, 'Enisno Médio Incompleto'],
-  [LevelSchooling.CompleteSchoolLevel, 'Enisno Médio Completo'],
-  [LevelSchooling.IncompleteHigherEducation, 'Ensino Superior Incompleto'],
-  [LevelSchooling.CompleteHigherEducation, 'Ensino Superior Completo'],
-  [LevelSchooling.PostGraduation, 'Pós-Graduação'],
-]);
+describe(LevelSchooling, {
+  None: 'Nenhum',
+  IncompleteSchoolLevel: 'Enisno Médio Incompleto',
+  CompleteSchoolLevel: 'Enisno Médio Completo',
+  IncompleteHigherEducation: 'Ensino Superior Incompleto',
+  CompleteHigherEducation: 'Ensino Superior Completo',
+  PostGraduation: 'Pós-Graduação',
+});

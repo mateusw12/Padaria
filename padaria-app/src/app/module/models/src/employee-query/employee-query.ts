@@ -9,9 +9,9 @@ export class EmployeeQuery {
   employeeName: string = '';
   gender: Gender = Gender.None;
   cpf: string = '';
-  maritalStatus: MaritalStatus[] = []
+  maritalStatus: MaritalStatus = MaritalStatus.None
   chronicCondition: ChronicCondition[] = [];
-  levelSchooling: LevelSchooling[]= [];
+  levelSchooling: LevelSchooling= LevelSchooling.None;
   phone: string = '';
   workingHours: number = 0;
   city: string = '';

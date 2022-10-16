@@ -1,3 +1,5 @@
+import { describe } from '@module/utils/functions/enum';
+
 export enum MaritalStatus {
   None = 0,
   Single = 1,
@@ -7,11 +9,11 @@ export enum MaritalStatus {
   Widowed = 5,
 }
 
-export const maritalStatus = new Map<MaritalStatus, string>([
-  [MaritalStatus.None, 'Nenhum'],
-  [MaritalStatus.Single, 'Solteiro'],
-  [MaritalStatus.Married, 'Casado'],
-  [MaritalStatus.Spouse, 'Cônjuge'],
-  [MaritalStatus.Divorced, 'Divorciado'],
-  [MaritalStatus.Widowed, 'Viúvo'],
-]);
+describe(MaritalStatus, {
+  None: 'Nenhum',
+  Single: 'Solteiro',
+  Married: 'Casado',
+  Spouse: 'Cônjuge',
+  Divorced: 'Divorciado',
+  Widowed: 'Viúvo',
+});
