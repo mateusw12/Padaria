@@ -17,8 +17,9 @@ export * from './payment-condition/payment-instalment';
 export * from './product-query/product-filter';
 export * from './product-query/product-query';
 export * from './product/product';
+export * from './purchase-control/purchase-control';
 export * from './state/state';
 export * from './supplier/supplier';
 export * from './unit-measure/unit-measure';
 export * from './zip-code-addresses/zip-code-addresses';
-
+export * from './file-extensions/file-extensions';

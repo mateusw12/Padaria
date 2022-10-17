@@ -92,8 +92,8 @@ export const OHTERS_ROUTES_PATHS: AppRoutes[] = [
     fatherTitle: INVENTORY_PATH,
   },
   {
-    path: '/menu/purchase',
-    onlyPath: 'purchase',
+    path: '/menu/purchase-control',
+    onlyPath: 'purchase-control',
     pageTitle: 'Controle Compras',
     fatherTitle: PURCHASE_PATH,
   },

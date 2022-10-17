@@ -81,6 +81,11 @@ export const routes: Routes = [
         data: { pageTitle: 'Licenças' },
         loadChildren: pages.licenseRegistration,
       },
+      {
+        path: 'purchase-control',
+        data: { pageTitle: 'Controle Compras' },
+        loadChildren: pages.purchaseControlRegistration,
+      },
     ],
   },
 ];

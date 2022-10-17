@@ -1,0 +1,13 @@
+.bid-price-register-minute-input {
+  display: flex;
+
+  &__input {
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  &__search {
+    flex: 0 0 auto;
+    margin-left: 5px;
+  }
+}

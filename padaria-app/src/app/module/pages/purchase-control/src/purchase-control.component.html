@@ -1,0 +1,118 @@
+<ejs-formgrid [dataSource]="dataSource"
+              [columns]="columns"
+              (command)="onCommand($event)">
+</ejs-formgrid>
+
+<app-modal #modal modalHeader="Cadastro de Compras" dialogClass="lg">
+
+  <ng-template #bodyTemplate>
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-md-2">
+          <div class="form-group">
+            <ejs-textbox formControlName="id" placeholder="Código">
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <ejs-textbox formControlName="name" placeholder="Nome" formErrorHandler>
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <ejs-textbox formControlName="description" placeholder="Descrição" formErrorHandler>
+            </ejs-textbox>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <ejs-textbox formControlName="fiscalNoteId" placeholder="Nota Fiscal" formErrorHandler>
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col m-md-4">
+          <div class="form-group">
+            <ejs-dropdownlist formControlName="noteTypeId"
+                              placeholder="Tipo de Nota"
+                              [dataSource]="noteTypes"
+                              formErrorHandler
+                              [fields]="{value: 'id', text:'name'} ">
+            </ejs-dropdownlist>
+          </div>
+        </div>
+        <div class="col md-5">
+          <div class="form-group">
+            <ejs-dropdownlist formControlName="manufacturerId"
+                              placeholder="Fabricante"
+                              [dataSource]="manufacturers"
+                              formErrorHandler
+                              [fields]="{value: 'id', text:'name'} ">
+            </ejs-dropdownlist>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <ejs-datepicker formControlName="purchaseDate"
+                            formErrorHandler
+                            placeholder="Data da Compra">
+            </ejs-datepicker>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <ejs-datepicker formControlName="deliveryDate" formErrorHandler placeholder="Data de Entrega">
+            </ejs-datepicker>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <ejs-numerictextbox formControlName="amount" placeholder="Quantidade" formErrorHandler format="0">
+            </ejs-numerictextbox>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <ejs-numerictextbox formControlName="price" placeholder="Valor R$" formErrorHandler format="c2">
+            </ejs-numerictextbox>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+        <div class="bid-item-import-search-input">
+          <div class="bid-item-import-search-input__input">
+            <ejs-textbox formControlName="fileName" formErrorHandler placeholder="Nome do Arquivo">
+            </ejs-textbox>
+          </div>
+            <button licButtonSearch (click)="selectFile()"></button>
+        </div>
+        <ejs-uploader hidden
+                      allowedExtensions=".doc,.docx,.pdf"
+                      [autoUpload]="false"
+                      [showFileList]="false"
+                      [multiple]="false"
+                      [maxFileSize]="maxFileLenght"
+                      [directoryUpload]="false"
+                      (selected)="onFileSelect($event)">
+        </ejs-uploader>
+      </div>
+      </div>
+
+    </form>
+  </ng-template>
+
+  <ng-template #footerTemplate>
+    <button ejs-button buttonSave [disabled]="!this.form.dirty" (click)="onSaveClick()"></button>
+    <button ejs-button buttonCancel (click)="onModalClose()"></button>
+  </ng-template>
+</app-modal>

@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Brand, Manufacturer, Product, UnitMeasure } from '@module/models';
 import {
   BrandRepository,
-  ClassificationRepository,
   ManufacturerRepository,
   ProductRepository,
   UnitMeasureRepository,
@@ -52,7 +51,6 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   constructor(
     private toastService: ToastService,
-    private classificationRepository: ClassificationRepository,
     private unitMeasureRepository: UnitMeasureRepository,
     private brandRepository: BrandRepository,
     private manufacturerRepository: ManufacturerRepository,
@@ -149,7 +147,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     );
     if (!confirmed) return;
 
-    this.classificationRepository
+    this.productRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))
       .subscribe(

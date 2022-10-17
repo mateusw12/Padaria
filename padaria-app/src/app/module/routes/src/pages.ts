@@ -77,3 +77,10 @@ export function informationRegistration() {
   );
   return promise;
 }
+
+export function purchaseControlRegistration() {
+  const promise = import('@module/pages/purchase-control').then(
+    (m) => m.PurchaseControlModule
+  );
+  return promise;
+}
