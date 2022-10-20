@@ -56,13 +56,13 @@ export const REGISTRATION_ROUTES_PATHS: AppRoutes[] = [
 
 export const QUERY_ROUTES_PATHS: AppRoutes[] = [
   {
-    path: '/menu/queries/employees',
+    path: '/menu/queries/employee-query',
     onlyPath: 'employee-query',
     pageTitle: 'Consulta Funcionário',
     fatherTitle: QUERY_PATH,
   },
   {
-    path: '/menu/queries/products',
+    path: '/menu/queries/products-query',
     onlyPath: 'products-query',
     pageTitle: 'Consulta Produtos',
     fatherTitle: QUERY_PATH,

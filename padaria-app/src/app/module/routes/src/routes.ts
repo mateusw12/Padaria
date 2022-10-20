@@ -3,12 +3,17 @@ import { MenuComponent } from '@module/pages/menu';
 import * as pages from './pages';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'menu' },
+  { path: '', pathMatch: 'full', redirectTo: 'menu/home' },
   {
     path: 'menu',
     component: MenuComponent,
     data: { pageTitle: 'Menu' },
     children: [
+      {
+        path: 'home',
+        data: { pageTitle: 'Home' },
+        loadChildren: pages.homeRegistration,
+      },
       {
         path: 'registrations',
         data: { pageTitle: 'Cadastros' },
@@ -29,7 +34,7 @@ export const routes: Routes = [
             loadChildren: pages.productRegistration,
           },
           {
-            path: 'employee',
+            path: 'employees',
             data: { pageTitle: 'Funcionários' },
             loadChildren: pages.employeeRegistration,
           },
@@ -39,7 +44,7 @@ export const routes: Routes = [
             loadChildren: pages.supplierRegistration,
           },
           {
-            path: 'note-type',
+            path: 'note-types',
             data: { pageTitle: 'Tipos de Nota' },
             loadChildren: pages.noteTypeRegistration,
           },

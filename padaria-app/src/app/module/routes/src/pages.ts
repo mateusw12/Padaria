@@ -84,3 +84,10 @@ export function purchaseControlRegistration() {
   );
   return promise;
 }
+
+export function homeRegistration() {
+  const promise = import('@module/pages/home').then(
+    (m) => m.HomeModule
+  );
+  return promise;
+}
