@@ -1,8 +1,7 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ERROR_TITLE } from '../constant/dialog';
-import { ErrorData, ErrorHandlerProvider, ErrorParser, NavigationProvider, NAVIGATION_PROVIDER } from '../core';
+import { ErrorData, ErrorHandlerProvider, ErrorParser } from '../core';
 import { MessageService } from './message.service';
-import { ToastService } from './toast.service';
 
 interface ErrorMessage {
   type: 'Error' | 'Warning';
@@ -16,10 +15,8 @@ export class ErrorHandler implements ErrorHandlerProvider {
 
   constructor(
     private errorParser: ErrorParser,
-    private messageService: MessageService,
-    private toastService: ToastService
+    private messageService: MessageService
   ) {}
-  private navigationProvider!: NavigationProvider;
 
   getLastError(): ErrorData | null {
     return this.lastError;
@@ -40,20 +37,6 @@ export class ErrorHandler implements ErrorHandlerProvider {
     });
   }
 
-  async redirect(error: unknown): Promise<boolean> {
-    const data = await this.handle(error);
-    if (data.isBadRequest()) {
-      return this.navigationProvider.navigateToError400();
-    }
-    if (data.isForbidden()) {
-      return this.navigationProvider.navigateToError403();
-    }
-    if (data.isNotFound()) {
-      return this.navigationProvider.navigateToError404();
-    }
-    return this.navigationProvider.navigateToError500();
-  }
-
   async present(error: unknown): Promise<void> {
     const data = await this.handle(error);
     const message = this.getErrorMessage(data);
@@ -61,15 +44,6 @@ export class ErrorHandler implements ErrorHandlerProvider {
     isWarning
       ? this.messageService.showWarningMessage(message.content)
       : this.messageService.showErrorMessage(message.content);
-  }
-
-  async notify(error: unknown): Promise<void> {
-    const data = await this.handle(error);
-    const message = this.getErrorMessage(data);
-    const isWarning = message.type === 'Warning';
-    isWarning
-      ? await this.toastService.showWarning(message.content)
-      : await this.toastService.showError(message.content);
   }
 
   private getErrorMessage(data: ErrorData): ErrorMessage {

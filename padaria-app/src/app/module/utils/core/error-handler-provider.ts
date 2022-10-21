@@ -11,8 +11,6 @@ export interface ErrorHandlerProvider {
 
   present(error: unknown): Promise<void>;
 
-  notify(error: unknown): Promise<void>;
-
 }
 
 export const ERROR_HANDLER_PROVIDER = new InjectionToken<ErrorHandlerProvider>('ERROR_HANDLER_PROVIDER');
