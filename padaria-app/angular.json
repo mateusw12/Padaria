@@ -32,12 +32,14 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+                "node_modules/font-awesome/scss/font-awesome.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/@syncfusion",
-                "node_modules/bootstrap/dist/css/bootstrap.min.scss"
+                "node_modules/bootstrap/dist/css/bootstrap.min.scss",
+                "node_modules/font-awesome/scss/font-awesome.scss"
               ]
             },
             "scripts": [
@@ -116,7 +118,8 @@
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/@syncfusion",
-                "node_modules/bootstrap/dist/css/bootstrap.min.scss"
+                "node_modules/bootstrap/dist/css/bootstrap.min.scss",
+                "node_modules/font-awesome/scss/font-awesome.scss"
               ]
             },
             "scripts": [
