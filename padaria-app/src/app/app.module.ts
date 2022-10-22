@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MenuComponent } from '@module/pages/menu';
 import {
   ExternalNavigationService,
-  ToastService,
+  ToastService
 } from '@module/utils/services';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsModalService } from 'ngx-bootstrap/modal';

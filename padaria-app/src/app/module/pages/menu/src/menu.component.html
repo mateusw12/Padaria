@@ -11,43 +11,36 @@
       <li class="active">
         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Cadastros</a>
         <ul class="collapse list-unstyled" id="homeSubmenu">
-
           <li *ngFor="let item of registration_routes; index as i">
             <a [routerLink]="item.path" (click)="onBreadCrumb(item)">{{item.pageTitle}}</a>
           </li>
-
         </ul>
       </li>
       <li>
         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Consultas</a>
         <ul class="collapse list-unstyled" id="pageSubmenu">
-
           <li *ngFor="let item of query_routes; index as i">
             <a [routerLink]="item.path" (click)="onBreadCrumb(item)">{{item.pageTitle}}</a>
           </li>
-
         </ul>
       </li>
       <li>
         <a href="#chartSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Dashboards</a>
         <ul class="collapse list-unstyled" id="chartSubmenu">
-
           <li *ngFor="let item of dashboards_routes; index as i">
             <a [routerLink]="item.path" (click)="onBreadCrumb(item)">{{item.pageTitle}}</a>
           </li>
-
         </ul>
       </li>
-
       <li *ngFor="let item of others_routes; index as i">
         <a [routerLink]="item.path" (click)="onBreadCrumb(item)">{{item.pageTitle}}</a>
       </li>
-
     </ul>
 
     <ul class="list-unstyled CTAs">
       <li>
-        <a [routerLink]="information_route.path" (click)="onBreadCrumb(information_route)" class="download">{{information_route.pageTitle}}</a>
+        <a [routerLink]="information_route.path" (click)="onBreadCrumb(information_route)"
+          class="download">{{information_route.pageTitle}}</a>
       </li>
       <li>
         <a [routerLink]="license_route.path" (click)="onBreadCrumb(license_route)" class="article">Licenças</a>
@@ -57,11 +50,23 @@
 
   <!-- Page Content  -->
   <div id="content">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-custom">
       <div class="container-fluid">
+        <a class="navbar-brand">
+          <img src="/assets/pages/menu/menu.webp" width="30" height="30" alt="Menu Home">
+        </a>
         <h3 *ngIf="isLoad"> Menu / {{breadCrumb?.fatherTitle}} / {{ breadCrumb?.pageTitle }} </h3>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="nav navbar-nav ml-auto">
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+              data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
+              aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <li class="nav-item">
+              <a class="nav-link" (click)="setTheme()"> <i class="fa fa-fw fa-adjust fa-2x"></i></a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Loggin</a>
             </li>

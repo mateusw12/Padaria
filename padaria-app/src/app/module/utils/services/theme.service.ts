@@ -1,41 +1,30 @@
 import { Injectable } from '@angular/core';
-import { MessageService } from './message.service';
-import { NOT_SUPPORTED_STORAGE } from './../constant/storage/storage';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-
   private storage: Storage;
 
-  constructor(private messageService: MessageService) {
+  constructor() {
     this.storage = window.localStorage;
   }
 
-  getGlobalTheme(key: string): string | null {
+  getTheme(key: string): string | null {
     if (!this.validateBroswerStorage()) return null;
     const storageItem = this.storage.getItem(key);
     if (!storageItem) return null;
-    return JSON.parse(storageItem);
+    return storageItem;
   }
 
-  setGlobalTheme(key: string, value: string): void {
-    if (!this.validateBroswerStorage()) {
-      this.messageService.showErrorMessage(NOT_SUPPORTED_STORAGE);
-    }
+  setTheme(key: string, value: string): void {
+    document.body.classList.toggle(value);
     this.storage.setItem(key, value);
   }
 
-  removeGlobalTheme(key: string): void {
-    if (!this.validateBroswerStorage()) {
-      this.messageService.showErrorMessage(NOT_SUPPORTED_STORAGE);
-    }
+  removeTheme(key: string): void {
     this.storage.removeItem(key);
   }
 
-  clearGlobalTheme(): void {
-    if (!this.validateBroswerStorage()) {
-      this.messageService.showErrorMessage(NOT_SUPPORTED_STORAGE);
-    }
+  clearThemes(): void {
     this.storage.clear();
   }
 

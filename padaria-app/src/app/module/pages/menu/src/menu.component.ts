@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AppRoutes,
   DASHBOARDS_ROUTES_PATH,
@@ -8,6 +8,8 @@ import {
   QUERY_ROUTES_PATHS,
   REGISTRATION_ROUTES_PATHS,
 } from '@module/routes';
+import { DARK_THEME } from '@module/utils/constant';
+import { ThemeService } from '@module/utils/services';
 
 @Component({
   selector: 'app-menu',
@@ -15,6 +17,8 @@ import {
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit {
+  constructor(private themeService: ThemeService) {}
+
   get breadCrumb(): AppRoutes | undefined {
     return this._breadCrumb;
   }
@@ -30,6 +34,7 @@ export class MenuComponent implements OnInit {
   isLoad = false;
 
   ngOnInit(): void {
+    this.getTheme();
     this.getAllRoutes();
   }
 
@@ -60,11 +65,22 @@ export class MenuComponent implements OnInit {
     this.getBreadCrump(allRoutes);
   }
 
+  setTheme(): void {
+    const globalTheme = this.themeService.getTheme('theme');
+    const theme = globalTheme ? globalTheme : DARK_THEME;
+    this.themeService.setTheme('theme', theme);
+  }
+
+  private getTheme(): void {
+    const globalTheme = this.themeService.getTheme('theme');
+    const theme = globalTheme ? globalTheme : DARK_THEME;
+    this.themeService.setTheme('theme', theme);
+  }
+
   private getBreadCrump(allRoutes: AppRoutes[]): void {
     const url = document.URL.split('menu/');
     const path = url[1];
     const route = allRoutes.find((el) => el.onlyPath === path);
-
     this._breadCrumb = route;
     this.isLoad = true;
   }

@@ -25,7 +25,7 @@ a:focus {
 
 .navbar {
   padding: 15px 10px;
-  background: #fff;
+  background: var(--body);
   border: none;
   border-radius: 0;
   margin-bottom: 40px;
@@ -136,22 +136,14 @@ a.article:hover {
   color: #fff !important;
 }
 
-/* ---------------------------------------------------
-    CONTENT STYLE
------------------------------------------------------ */
-
 #content {
   width: 100%;
-  padding: 20px;
+  padding: 10px;
   min-height: 100vh;
   max-height: 100vh;
   transition: all 0.3s;
   overflow: hidden;
 }
-
-/* ---------------------------------------------------
-    MEDIAQUERIES
------------------------------------------------------ */
 
 @media (max-width: 768px) {
   #sidebar {
@@ -165,4 +157,12 @@ a.article:hover {
   #sidebarCollapse span {
     display: none;
   }
+}
+
+.navbar-custom {
+  background-color: var(--body);
+}
+
+a {
+  color: var(--text-menu)
 }
