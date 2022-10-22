@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PurchaseControl } from '@module/models';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 const API_URL = '/api/controle-compras';
 
@@ -33,4 +34,11 @@ export class PurchaseControlRepository {
   deleteById(id: number): Observable<void> {
     return this.httpCliente.delete<void>(`${API_URL}/${id}`);
   }
+
+  findFile(id: number): Observable<string> {
+    return this.httpCliente
+      .get(`${API_URL}/${id}/file`)
+      .pipe(map(String));
+  }
+
 }

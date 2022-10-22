@@ -1,6 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FileExtensions, Manufacturer, NoteType, PurchaseControl } from '@module/models';
+import {
+  FileExtensions,
+  Manufacturer,
+  NoteType,
+  PurchaseControl,
+} from '@module/models';
 import {
   ManufacturerRepository,
   NoteTypeRepository,
@@ -23,7 +28,14 @@ import {
   UploaderComponent,
 } from '@syncfusion/ej2-angular-inputs';
 import { AppFile } from '@module/utils/interfaces';
-import { getFileExtension, transformArrayBufferToBase64 } from '@module/utils/functions';
+import {
+  getFileExtension,
+  transformArrayBufferToBase64,
+} from '@module/utils/functions';
+import {
+  FILE_EXTENSION_NOT_SUPPORTED,
+  FILE_NOT_FOUND,
+} from '@module/utils/constant';
 
 const NEW_ID = 'NOVO';
 
@@ -37,6 +49,7 @@ interface GridRow {
   price: number;
   purchaseDate: Date;
   fiscalNoteDownload: string;
+  fileName: string;
 }
 
 @Component({
@@ -135,16 +148,17 @@ export class PurchaseControlComponent implements OnInit, OnDestroy {
     uploder.browseButton.click();
   }
 
-  async onDownloadFileClick(): Promise<void> {
+  async onDownloadFileClick(data: GridRow): Promise<void> {
     try {
-      const controls = this.form.controls;
-      const file = controls.file.value as string;
-      const fileName = controls.fileName.value as string;
-      this.fileManangerService.downloadFile(file, fileName);
+      const file = await untilDestroyedAsync(
+        this.purchaseControlRepository.findFile(data.id),
+        this
+      );
+      this.fileManangerService.downloadFile(file, data.fileName);
     } catch (error) {
-      const handledError = await this.errorHandler.handle(error);
-      if (handledError.status === 404) {
-        this.toastService.showWarning('Arquivo não encontrado!');
+      const errorHandler = await this.errorHandler.handle(error);
+      if (errorHandler.status === 404) {
+        this.toastService.showWarning(FILE_NOT_FOUND);
         return;
       }
       this.handleError(error);
@@ -162,7 +176,7 @@ export class PurchaseControlComponent implements OnInit, OnDestroy {
 
     const fileExtension = getFileExtension(fileInfo.name);
     if (fileExtension === FileExtensions.None) {
-      this.toastService.showWarning('Extensão não suportada!');
+      this.toastService.showWarning(FILE_EXTENSION_NOT_SUPPORTED);
       return;
     }
 
@@ -254,6 +268,7 @@ export class PurchaseControlComponent implements OnInit, OnDestroy {
               name: item.name,
               price: item.price,
               purchaseDate: item.purchaseDate,
+              fileName: item.fileName,
               noteTypeName: noteType ? noteType.name : '',
             });
           }
@@ -348,6 +363,7 @@ export class PurchaseControlComponent implements OnInit, OnDestroy {
       ),
       amount: SfGridColumns.numeric('amount', 'Quantidade').minWidth(100),
       price: SfGridColumns.numeric('price', 'Preço').minWidth(100),
+      fileName: SfGridColumns.text('fileName', 'Nome Arquivo').minWidth(200).visible(false),
       fiscalNoteDownload: SfGridColumns.text(
         'fiscalNoteDownload',
         'Baixar Nota Fiscal'
