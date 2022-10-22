@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UnitMeasure } from '@module/models';
 import { UnitMeasureRepository } from '@module/repository';
-import { ModalComponent } from '@module/shared/src';
-import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
+import { ModalComponent, FormGridCommandEventArgs } from '@module/shared';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';
@@ -27,7 +26,6 @@ interface GridRow {
   templateUrl: './unit-measure.component.html',
 })
 export class UnitMeasureComponent implements OnInit, OnDestroy {
-  @ViewChild(ModalComponent, { static: true })
   modal!: ModalComponent;
 
   dataSource: GridRow[] = [];

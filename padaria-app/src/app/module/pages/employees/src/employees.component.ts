@@ -14,7 +14,7 @@ import {
   JobRepository,
   ZipCodeAddressesRepository
 } from '@module/repository';
-import { FormGridCommandEventArgs, ModalComponent } from '@module/shared/src';
+import { FormGridCommandEventArgs, ModalComponent } from '@module/shared';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { ZIP_CODE_ADDRESSES_REGEX } from '@module/utils/constant';

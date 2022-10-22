@@ -18,7 +18,7 @@ import {
   MaritalStatus,
   State,
 } from '@module/models';
-import { ModalComponent } from '@module/shared/src';
+import { ModalComponent } from '@module/shared';
 import { toArray } from '@module/utils/functions/enum';
 import { StateProperty } from '@module/utils/interfaces';
 

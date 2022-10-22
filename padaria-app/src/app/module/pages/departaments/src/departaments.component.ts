@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Departament } from '@module/models';
 import { DepartamentRepository } from '@module/repository';
-import { FormGridCommandEventArgs, ModalComponent } from '@module/shared/src';
+import { ModalComponent, FormGridCommandEventArgs } from '@module/shared';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';

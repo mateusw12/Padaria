@@ -9,7 +9,7 @@ import {
   MultiSelectModule,
   NumericTextBoxModule,
   TextBoxModule
-} from '@module/shared/src';
+} from '@module/shared';
 import { ReactiveFormsModule } from '@module/utils/forms';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { EmployeesRoutingModule } from './employees-routing.module';

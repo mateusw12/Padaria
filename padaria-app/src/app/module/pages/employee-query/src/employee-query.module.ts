@@ -7,7 +7,7 @@ import {
   ModalModule,
   MultiSelectModule,
   TextBoxModule,
-} from '@module/shared/src';
+} from '@module/shared';
 import { ReactiveFormsModule } from '@module/utils/forms';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { EmployeeQueryRoutingModule } from './employee-query-routing.module';
