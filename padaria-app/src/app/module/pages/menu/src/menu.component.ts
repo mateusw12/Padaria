@@ -31,7 +31,6 @@ export class MenuComponent implements OnInit {
   readonly license_route: AppRoutes = LICENSE_PATH;
 
   private _breadCrumb: AppRoutes | undefined;
-  isLoad = false;
 
   ngOnInit(): void {
     this.getTheme();
@@ -40,7 +39,6 @@ export class MenuComponent implements OnInit {
 
   onBreadCrumb(route: AppRoutes): void {
     this._breadCrumb = route;
-    this.isLoad = true;
   }
 
   getAllRoutes(): void {
@@ -82,6 +80,5 @@ export class MenuComponent implements OnInit {
     const path = url[1];
     const route = allRoutes.find((el) => el.onlyPath === path);
     this._breadCrumb = route;
-    this.isLoad = true;
   }
 }

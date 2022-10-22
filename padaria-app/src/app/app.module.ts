@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MenuComponent } from '@module/pages/menu';
+import { BreadCrumbComponent } from '@module/shared';
 import {
   ExternalNavigationService,
   ToastService
@@ -13,7 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  declarations: [AppComponent, MenuComponent],
+  declarations: [AppComponent, MenuComponent, BreadCrumbComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

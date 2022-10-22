@@ -29,3 +29,5 @@ export * from './numeric-text-box/numerictextbox.module';
 export * from './text-box/textbox.directive';
 export * from './text-box/textbox.module';
 export * from './view-refresh/view-refresh.module';
+export * from './bread-crumb/bread-crumb.component';
+export * from './bread-crumb/breadcrumb-interface';
