@@ -43,7 +43,6 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.6.1",
     "moment": "^2.29.4",
-    "ng-busy": "^14.0.0",
     "ngx-bootstrap": "^8.0.0",
     "ngx-bootstrap-modal": "^2.0.1",
     "ngx-modal-bootstrap": "^1.0.1",
