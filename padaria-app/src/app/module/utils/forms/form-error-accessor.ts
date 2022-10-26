@@ -1,6 +1,6 @@
-import { ControlContainer, FormGroupDirective, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ControlContainer, FormGroupDirective, ValidatorFn } from '@angular/forms';
 import { isString, isFunction } from '../internal';
-import { AbstractControl, AbstractControlOptions, FormErrorMessages } from './form-interfaces';
+import { AbstractControlOptions, FormErrorMessages } from './form-interfaces';
 import { FormPath, FormPathInfo } from './form-path-info';
 
 const formErrorMessagesSymbol = Symbol('formErrorMessages');
@@ -16,7 +16,7 @@ const FORM_ERROR_MESSAGES: FormErrorMessages = {
   url: 'URL inválida.'
 };
 
-interface FormErrorMessagesAccessor<T> extends AbstractControl<T> {
+interface FormErrorMessagesAccessor<T> extends AbstractControl {
   [formErrorMessagesSymbol]?: FormErrorMessages;
 }
 
@@ -26,7 +26,7 @@ export interface FormError {
 }
 
 export function setErrorMessages(
-  control: AbstractControl<unknown>,
+  control: AbstractControl,
   validatorOrOptions?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null,
   errorMessages?: FormErrorMessages
 ): void {
@@ -39,7 +39,7 @@ export function setErrorMessages(
   }
 }
 
-export function getErrorMessages(control: AbstractControl<unknown>): FormErrorMessages {
+export function getErrorMessages(control: AbstractControl): FormErrorMessages {
   const accessor = control as FormErrorMessagesAccessor<unknown>;
   if (!accessor[formErrorMessagesSymbol]) return FORM_ERROR_MESSAGES;
   return accessor[formErrorMessagesSymbol] as FormErrorMessages;
@@ -55,7 +55,7 @@ export function getErrorMessage(container: ControlContainer, path: FormPath, err
   return isString(error.data) ? error.data : error.code;
 }
 
-function findControl(container: ControlContainer, path: FormPath): AbstractControl<unknown> | null {
+function findControl(container: ControlContainer, path: FormPath): AbstractControl | null {
   if (!container.control) return null;
   if (!container.path) return null;
   const control = container.control;

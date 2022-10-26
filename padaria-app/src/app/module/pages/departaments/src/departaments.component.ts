@@ -186,13 +186,13 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
   }
 
   private createForm(): FormGroup {
-    return (this.form = new FormGroup({
+    return new FormGroup({
       id: new FormControl({ value: NEW_ID, disabled: true }),
       name: new FormControl(null, [
         FormValidators.required,
         Validators.maxLength(200),
       ]),
-    }));
+    });
   }
 
   private createColumns() {

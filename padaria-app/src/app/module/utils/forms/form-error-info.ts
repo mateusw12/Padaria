@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 import { FormPath, FormPathInfo, getControlPath } from './form-path-info';
 
 const ERROR_SEPARATOR = ':';
@@ -8,24 +8,6 @@ export function parseErrorInfo(errorCode: string): FormErrorInfo | null {
   const parts = errorCode.split(ERROR_SEPARATOR, 2);
   if (parts.length !== 2) return null;
   return new FormErrorInfo(parts[0], parts[1]);
-}
-
-export function createFormError(control: AbstractControl, name: string, data: unknown = true): ValidationErrors {
-  const pathInfo = getControlPath(control);
-  const errorInfo = new FormErrorInfo(pathInfo, name);
-  const errors: ValidationErrors = {};
-  errors[errorInfo.getCode()] = data;
-  return errors;
-}
-
-export function mergeFormErrors(errors: ValidationErrors[]): ValidationErrors {
-  const result: ValidationErrors = {};
-  for (const error of errors) {
-    for (const key of Object.keys(error)) {
-      result[key] = error[key];
-    }
-  }
-  return result;
 }
 
 export function hasFormError(control: AbstractControl): boolean {

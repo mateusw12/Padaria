@@ -17,10 +17,6 @@ export class FormPathInfo {
     }
   }
 
-  isEmpty(): boolean {
-    return this.path.length === 0;
-  }
-
   getPath(): Readonly<string[]> {
     return this.path;
   }

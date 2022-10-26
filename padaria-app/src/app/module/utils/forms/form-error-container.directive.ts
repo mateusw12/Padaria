@@ -26,7 +26,8 @@ export class FormErrorContainerDirective implements FormErrorContainer {
   private getErrorContainer(): FormErrorContainerComponent {
     if (!this.errorContainer) {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(FormErrorContainerComponent);
-      this.errorContainer = this.viewContainerRef.createComponent(componentFactory, 0);
+      this.errorContainer = this.viewContainerRef.createComponent(componentFactory);
+      this.errorContainer.changeDetectorRef.detectChanges();
     }
     return this.errorContainer.instance;
   }

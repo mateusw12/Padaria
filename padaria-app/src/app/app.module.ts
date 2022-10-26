@@ -12,8 +12,8 @@ import { AppComponent } from './app.component';
 @NgModule({
   declarations: [AppComponent, MenuComponent, BreadCrumbComponent],
   imports: [
-    BrowserModule,
     HttpClientModule,
+    BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     NgbModule,
