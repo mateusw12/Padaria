@@ -32,6 +32,18 @@ interface GridRow {
   amount: number;
 }
 
+interface FormModel {
+  id: FormControl<string | null>;
+  name: FormControl<string | null>;
+  description: FormControl<string | null>;
+  groupedCodes: FormControl<string | null>;
+  manufacturerId: FormControl<number | null>;
+  brandId: FormControl<number | null>;
+  unitMeasureId: FormControl<number | null>;
+  unitaryPrice: FormControl<number | null>;
+  amount: FormControl<number | null>;
+}
+
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -41,7 +53,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   modal!: ModalComponent;
 
   dataSource: GridRow[] = [];
-  form: FormGroup = this.createForm();
+  form = this.createForm();
   products: Product[] = [];
   unitMeasures: UnitMeasure[] = [];
   brands: Brand[] = [];
@@ -210,7 +222,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   private populateForm(product: Product): void {
     this.form.patchValue({
-      id: product.id,
+      id: product.id.toString(),
       name: product.name,
       brandId: product.brandId,
       manufacturerId: product.manufacturerId,
@@ -225,7 +237,8 @@ export class ProductComponent implements OnInit, OnDestroy {
   private getModel(): Product {
     const model = new Product();
     const formValue = this.form.getRawValue();
-    model.id = formValue.id === NEW_ID ? 0 : (formValue.id as number);
+    model.id =
+      formValue.id === NEW_ID ? 0 : (formValue.id as unknown as number);
     model.name = formValue.name as string;
     model.amount = formValue.amount as number;
     model.brandId = formValue.brandId as number;
@@ -247,24 +260,34 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.errorHandler.present(error);
   }
 
-  private createForm(): FormGroup {
-    return (this.form = new FormGroup({
-      id: new FormControl({ value: NEW_ID, disabled: true }),
-      name: new FormControl(null, [
+  private createForm(): FormGroup<FormModel> {
+    return new FormGroup<FormModel>({
+      id: new FormControl<string | null>({ value: NEW_ID, disabled: true }),
+      name: new FormControl<string | null>(null, [
         FormValidators.required,
         Validators.maxLength(200),
       ]),
-      description: new FormControl(null, [Validators.maxLength(200)]),
-      unitMeasureId: new FormControl(null, [FormValidators.required]),
-      brandId: new FormControl(null, [FormValidators.required]),
-      manufacturerId: new FormControl(null, [FormValidators.required]),
-      unitaryPrice: new FormControl(null, [FormValidators.required]),
-      groupedCodes: new FormControl(null, [Validators.maxLength(200)]),
-      amount: new FormControl(null, [
+      description: new FormControl<string | null>(null, [
+        Validators.maxLength(200),
+      ]),
+      unitMeasureId: new FormControl<number | null>(null, [
+        FormValidators.required,
+      ]),
+      brandId: new FormControl<number | null>(null, [FormValidators.required]),
+      manufacturerId: new FormControl<number | null>(null, [
+        FormValidators.required,
+      ]),
+      unitaryPrice: new FormControl<number | null>(null, [
+        FormValidators.required,
+      ]),
+      groupedCodes: new FormControl<string | null>(null, [
+        Validators.maxLength(200),
+      ]),
+      amount: new FormControl<number | null>(null, [
         Validators.min(0),
         FormValidators.required,
       ]),
-    }));
+    });
   }
 
   private createColumns(): SfGridColumnModel[] {

@@ -7,12 +7,12 @@ import {
   Job,
   LevelSchooling,
   MaritalStatus,
-  State
+  State,
 } from '@module/models';
 import {
   EmployeeRepository,
   JobRepository,
-  ZipCodeAddressesRepository
+  ZipCodeAddressesRepository,
 } from '@module/repository';
 import { FormGridCommandEventArgs, ModalComponent } from '@module/shared';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
@@ -22,12 +22,12 @@ import { markAllAsTouched } from '@module/utils/forms';
 import {
   EnumItem,
   getDescription,
-  toArray
+  toArray,
 } from '@module/utils/functions/enum';
 import {
   ErrorHandler,
   MessageService,
-  ToastService
+  ToastService,
 } from '@module/utils/services';
 import { isValidCPF } from '@module/utils/validations';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
@@ -47,6 +47,28 @@ interface GridRow {
   street: string;
   phone: string;
   jobName: string;
+}
+
+interface FormModel {
+  id: FormControl<string | null>;
+  name: FormControl<string | null>;
+  birthDate: FormControl<Date | null>;
+  admissionDate: FormControl<Date | null>;
+  gender: FormControl<Gender | null>;
+  maritalStatus: FormControl<MaritalStatus | null>;
+  chronicCondition: FormControl<ChronicCondition[] | null>;
+  levelSchooling: FormControl<LevelSchooling | null>;
+  city: FormControl<string | null>;
+  district: FormControl<string | null>;
+  street: FormControl<string | null>;
+  phone: FormControl<string | null>;
+  zipCodeAddresses: FormControl<string | null>;
+  state: FormControl<string | null>;
+  email: FormControl<string | null>;
+  cpf: FormControl<string | null>;
+  hourlyWork: FormControl<number | null>;
+  workingHours: FormControl<number | null>;
+  jobId: FormControl<number | null>;
 }
 
 @Component({
@@ -338,43 +360,55 @@ export class EmployeesComponent implements OnInit, OnDestroy {
     this.errorHandler.present(error);
   }
 
-  private createForm(): FormGroup {
-    return (this.form = new FormGroup({
-      id: new FormControl({ value: NEW_ID, disabled: true }),
-      name: new FormControl(null, [
+  private createForm(): FormGroup<FormModel> {
+    return new FormGroup<FormModel>({
+      id: new FormControl<string | null>({ value: NEW_ID, disabled: true }),
+      name: new FormControl<string | null>(null, [
         FormValidators.required,
         Validators.maxLength(200),
       ]),
-      admissionDate: new FormControl(null, [FormValidators.required]),
-      birthDate: new FormControl(null, [Validators.maxLength(200)]),
-      chronicCondition: new FormControl(null),
-      city: new FormControl({ value: null, disabled: true }),
-      street: new FormControl({ value: null, disabled: true }),
-      district: new FormControl({ value: null, disabled: true }),
-      state: new FormControl({ value: null, disabled: true }),
-      email: new FormControl(null, [
+      admissionDate: new FormControl<Date | null>(null, [
+        FormValidators.required,
+      ]),
+      birthDate: new FormControl<Date | null>(null, [
+        Validators.maxLength(200),
+      ]),
+      chronicCondition: new FormControl<ChronicCondition[] | null>(null),
+      city: new FormControl<string | null>({ value: null, disabled: true }),
+      street: new FormControl<string | null>({ value: null, disabled: true }),
+      district: new FormControl<string | null>({ value: null, disabled: true }),
+      state: new FormControl<string | null>({ value: null, disabled: true }),
+      email: new FormControl<string | null>(null, [
         FormValidators.email,
         Validators.maxLength(250),
       ]),
-      gender: new FormControl(null, [FormValidators.required]),
-      hourlyWork: new FormControl(null, [FormValidators.required]),
-      jobId: new FormControl(null, [FormValidators.required]),
-      levelSchooling: new FormControl(null, [FormValidators.required]),
-      maritalStatus: new FormControl(null, [FormValidators.required]),
-      phone: new FormControl(null, [Validators.maxLength(15)]),
-      workingHours: new FormControl(null, [FormValidators.required]),
-      zipCodeAddresses: new FormControl(null, [
+      gender: new FormControl<Gender | null>(null, [FormValidators.required]),
+      hourlyWork: new FormControl<number | null>(null, [
+        FormValidators.required,
+      ]),
+      jobId: new FormControl<number | null>(null, [FormValidators.required]),
+      levelSchooling: new FormControl<LevelSchooling | null>(null, [
+        FormValidators.required,
+      ]),
+      maritalStatus: new FormControl<MaritalStatus | null>(null, [
+        FormValidators.required,
+      ]),
+      phone: new FormControl<string | null>(null, [Validators.maxLength(15)]),
+      workingHours: new FormControl<number | null>(null, [
+        FormValidators.required,
+      ]),
+      zipCodeAddresses: new FormControl<string | null>(null, [
         FormValidators.required,
         Validators.maxLength(14),
       ]),
-      cpf: new FormControl(null, [
+      cpf: new FormControl<string | null>(null, [
         FormValidators.required,
         Validators.maxLength(11),
       ]),
-    }));
+    });
   }
 
-  private createColumns() {
+  private createColumns(): SfGridColumnModel[] {
     return SfGridColumns.build<GridRow>({
       id: SfGridColumns.text('id', 'Código').minWidth(100).isPrimaryKey(true),
       name: SfGridColumns.text('name', 'Nome').minWidth(200),

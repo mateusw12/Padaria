@@ -21,6 +21,12 @@ interface GridRow {
   abbreviation: string;
 }
 
+interface FormModel {
+  id: FormControl<string | null>;
+  name: FormControl<string | null>;
+  abbreviation: FormControl<string | null>;
+}
+
 @Component({
   selector: 'app-unit-measure',
   templateUrl: './unit-measure.component.html',
@@ -29,7 +35,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
   modal!: ModalComponent;
 
   dataSource: GridRow[] = [];
-  form: FormGroup = this.createForm();
+  form = this.createForm();
   columns: SfGridColumnModel[] = this.createColumns();
 
   constructor(
@@ -164,7 +170,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
 
   private populateForm(unitMeasure: UnitMeasure): void {
     this.form.patchValue({
-      id: unitMeasure.id,
+      id: unitMeasure.id.toString(),
       name: unitMeasure.name,
       abbreviation: unitMeasure.abbreviation,
     });
@@ -173,7 +179,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
   private getModel(): UnitMeasure {
     const model = new UnitMeasure();
     const formValue = this.form.getRawValue();
-    model.id = formValue.id === NEW_ID ? 0 : (formValue.id as number);
+    model.id = formValue.id === NEW_ID ? 0 : (formValue.id as unknown as number);
     model.name = formValue.name as string;
     model.abbreviation = formValue.abbreviation as string;
     return model;
@@ -189,15 +195,18 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
     this.errorHandler.present(error);
   }
 
-  private createForm(): FormGroup {
-    return (this.form = new FormGroup({
-      id: new FormControl({ value: NEW_ID, disabled: true }),
-      name: new FormControl(null, [
+  private createForm(): FormGroup<FormModel> {
+    return new FormGroup<FormModel>({
+      id: new FormControl<string | null>({ value: NEW_ID, disabled: true }),
+      name: new FormControl<string | null>(null, [
         FormValidators.required,
         Validators.maxLength(200),
       ]),
-      abbreviation: new FormControl(null, Validators.maxLength(5)),
-    }));
+      abbreviation: new FormControl<string | null>(
+        null,
+        Validators.maxLength(5)
+      ),
+    });
   }
 
   private createColumns(): SfGridColumnModel[] {

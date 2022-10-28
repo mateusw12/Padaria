@@ -11,13 +11,17 @@ import {
   MessageService,
   ToastService,
 } from '@module/utils/services';
-import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 
 const NEW_ID = 'NOVO';
 
 interface GridRow {
   id: number;
   name: string;
+}
+
+interface FormModel {
+  id: FormControl<string | null>;
+  name: FormControl<string | null>;
 }
 
 @Component({
@@ -30,7 +34,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
 
   columns: SfGridColumnModel[] = this.createColumns();
   dataSource: GridRow[] = [];
-  form: FormGroup = this.createForm();
+  form = this.createForm();
 
   constructor(
     private toastService: ToastService,
@@ -145,7 +149,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe(
         async (departaments) => {
-          this.dataSource = departaments;
+          this.dataSource = departaments as GridRow[];
         },
         (error) => this.handleError(error)
       );
@@ -155,7 +159,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
     this.departametRepository
       .findById(id)
       .pipe(untilDestroyed(this))
-      .subscribe(async (departament) => {
+      .subscribe((departament) => {
         this.populateForm(departament);
       });
   }
@@ -185,11 +189,11 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
     this.errorHandler.present(error);
   }
 
-  private createForm(): FormGroup {
-    return new FormGroup({
-      id: new FormControl({ value: NEW_ID, disabled: true }),
-      name: new FormControl(null, [
-        FormValidators.required,
+  private createForm(): FormGroup<FormModel> {
+    return new FormGroup<FormModel>({
+      id: new FormControl<string | null>({ value: NEW_ID, disabled: true }),
+      name: new FormControl<string | null>(null, [
+        Validators.required,
         Validators.maxLength(200),
       ]),
     });

@@ -24,6 +24,18 @@ import { StateProperty } from '@module/utils/interfaces';
 
 const BRAZILIAN_STATES: State = new State();
 
+interface FormModel {
+  employeeIds: FormControl<number[] | null>;
+  gender: FormControl<Gender[] | null>;
+  maritalStatus: FormControl<MaritalStatus[] | null>;
+  chronicCondition: FormControl<ChronicCondition[] | null>;
+  levelSchooling: FormControl<LevelSchooling[] | null>;
+  jobIds: FormControl<number[] | null>;
+  states: FormControl<string[] | null>;
+  admissionDate: FormControl<Date | null>;
+  city: FormControl<string | null>;
+}
+
 @Component({
   selector: 'app-search-employee-modal',
   templateUrl: './search-modal.component.html',
@@ -94,17 +106,17 @@ export class SearchEmployeeModalComponent implements OnInit, OnDestroy {
     return model;
   }
 
-  private createForm(): FormGroup {
-    return (this.form = new FormGroup({
-      employeeIds: new FormControl([]),
-      gender: new FormControl([]),
-      maritalStatus: new FormControl([]),
-      chronicCondition: new FormControl([]),
-      levelSchooling: new FormControl([]),
-      jobIds: new FormControl([]),
-      states: new FormControl([]),
-      admissionDate: new FormControl(null),
-      city: new FormControl(null),
-    }));
+  private createForm(): FormGroup<FormModel> {
+    return new FormGroup<FormModel>({
+      employeeIds: new FormControl<number[] | null>([]),
+      gender: new FormControl<Gender[] | null>([]),
+      maritalStatus: new FormControl<MaritalStatus[] | null>([]),
+      chronicCondition: new FormControl<ChronicCondition[] | null>([]),
+      levelSchooling: new FormControl<LevelSchooling[] | null>([]),
+      jobIds: new FormControl<number[] | null>([]),
+      states: new FormControl<string[] | null>([]),
+      admissionDate: new FormControl<Date | null>(null),
+      city: new FormControl<string | null>(null),
+    });
   }
 }

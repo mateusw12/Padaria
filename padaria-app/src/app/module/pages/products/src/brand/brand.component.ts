@@ -6,10 +6,11 @@ import { ModalComponent, FormGridCommandEventArgs } from '@module/shared';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';
+import { Nullable } from '@module/utils/internal';
 import {
   ErrorHandler,
   MessageService,
-  ToastService
+  ToastService,
 } from '@module/utils/services';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 
@@ -20,6 +21,11 @@ interface GridRow {
   name: string;
 }
 
+interface FormModel {
+  id: FormControl<string | null>;
+  name: FormControl<string | null>;
+}
+
 @Component({
   selector: 'app-brand',
   templateUrl: './brand.component.html',
@@ -28,7 +34,7 @@ export class BrandComponent implements OnInit, OnDestroy {
   modal!: ModalComponent;
 
   dataSource: GridRow[] = [];
-  form: FormGroup = this.createForm();
+  form = this.createForm();
   columns: SfGridColumnModel[] = this.createColumns();
 
   constructor(
@@ -161,7 +167,7 @@ export class BrandComponent implements OnInit, OnDestroy {
 
   private populateForm(brand: Brand): void {
     this.form.patchValue({
-      id: brand.id,
+      id: brand.id.toString(),
       name: brand.name,
     });
   }
@@ -169,7 +175,8 @@ export class BrandComponent implements OnInit, OnDestroy {
   private getModel(): Brand {
     const model = new Brand();
     const formValue = this.form.getRawValue();
-    model.id = formValue.id === NEW_ID ? 0 : (formValue.id as number);
+    model.id =
+      formValue.id === NEW_ID ? 0 : (formValue.id as unknown as number);
     model.name = formValue.name as string;
     return model;
   }
@@ -184,14 +191,14 @@ export class BrandComponent implements OnInit, OnDestroy {
     this.errorHandler.present(error);
   }
 
-  private createForm(): FormGroup {
-    return (this.form = new FormGroup({
-      id: new FormControl({ value: NEW_ID, disabled: true }),
-      name: new FormControl(null, [
+  private createForm(): FormGroup<FormModel> {
+    return new FormGroup<FormModel>({
+      id: new FormControl<string | null>({ value: NEW_ID, disabled: true }),
+      name: new FormControl<string | null>(null, [
         FormValidators.required,
         Validators.maxLength(200),
       ]),
-    }));
+    });
   }
 
   private createColumns(): SfGridColumnModel[] {

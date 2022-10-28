@@ -9,7 +9,7 @@ import { markAllAsTouched } from '@module/utils/forms';
 import {
   ErrorHandler,
   MessageService,
-  ToastService
+  ToastService,
 } from '@module/utils/services';
 import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 
@@ -18,6 +18,11 @@ const NEW_ID = 'NOVO';
 interface GridRow {
   id: number;
   name: string;
+}
+
+interface FormModel {
+  id: FormControl<string | null>;
+  name: FormControl<string | null>;
 }
 
 @Component({
@@ -29,7 +34,7 @@ export class JobsComponent implements OnInit, OnDestroy {
   modal!: ModalComponent;
 
   dataSource: GridRow[] = [];
-  form: FormGroup = this.createForm();
+  form = this.createForm();
   columns: SfGridColumnModel[] = this.createColumns();
 
   constructor(
@@ -61,7 +66,10 @@ export class JobsComponent implements OnInit, OnDestroy {
     }
 
     if (
-      (exists ? this.jobRepository.updateById(model) : this.jobRepository.add(model))
+      (exists
+        ? this.jobRepository.updateById(model)
+        : this.jobRepository.add(model)
+      )
         .pipe(untilDestroyed(this))
         .subscribe(
           async () => {
@@ -125,7 +133,7 @@ export class JobsComponent implements OnInit, OnDestroy {
     );
     console.log('confirmed', confirmed);
     if (!confirmed) return;
-    console.log('passei do if')
+    console.log('passei do if');
     this.jobRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))
@@ -161,7 +169,7 @@ export class JobsComponent implements OnInit, OnDestroy {
 
   private populateForm(job: Job): void {
     this.form.patchValue({
-      id: job.id,
+      id: job.id.toString(),
       name: job.name,
     });
   }
@@ -169,7 +177,7 @@ export class JobsComponent implements OnInit, OnDestroy {
   private getModel(): Job {
     const model = new Job();
     const formValue = this.form.getRawValue();
-    model.id = formValue.id === NEW_ID ? 0 : (formValue.id as number);
+    model.id = formValue.id === NEW_ID ? 0 : (formValue.id as unknown as number);
     model.name = formValue.name as string;
     return model;
   }
@@ -184,17 +192,17 @@ export class JobsComponent implements OnInit, OnDestroy {
     this.errorHandler.present(error);
   }
 
-  private createForm(): FormGroup {
-    return (this.form = new FormGroup({
-      id: new FormControl({ value: NEW_ID, disabled: true }),
-      name: new FormControl(null, [
+  private createForm(): FormGroup<FormModel> {
+    return new FormGroup<FormModel>({
+      id: new FormControl<string | null>({ value: NEW_ID, disabled: true }),
+      name: new FormControl<string | null>(null, [
         FormValidators.required,
         Validators.maxLength(200),
       ]),
-    }));
+    });
   }
 
-  private createColumns() {
+  private createColumns(): SfGridColumnModel[] {
     return SfGridColumns.build<GridRow>({
       id: SfGridColumns.text('id', 'Código').minWidth(100).isPrimaryKey(true),
       name: SfGridColumns.text('name', 'Nome').minWidth(200),

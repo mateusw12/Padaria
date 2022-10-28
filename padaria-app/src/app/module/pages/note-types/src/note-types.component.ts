@@ -21,6 +21,12 @@ interface GridRow {
   name: string;
 }
 
+interface FormModel {
+  id: FormControl<string | null>;
+  name: FormControl<string | null>;
+  abbreviation: FormControl<string | null>;
+}
+
 @Component({
   selector: 'app-note-types',
   templateUrl: './note-types.component.html',
@@ -30,7 +36,7 @@ export class NoteTypesComponent implements OnInit {
   modal!: ModalComponent;
 
   dataSource: GridRow[] = [];
-  form: FormGroup = this.createForm();
+  form = this.createForm();
   columns: SfGridColumnModel[] = this.createColumns();
 
   constructor(
@@ -161,7 +167,7 @@ export class NoteTypesComponent implements OnInit {
 
   private populateForm(noteType: NoteType): void {
     this.form.patchValue({
-      id: noteType.id,
+      id: noteType.id.toString(),
       name: noteType.name,
       abbreviation: noteType.abbreviation,
     });
@@ -170,7 +176,7 @@ export class NoteTypesComponent implements OnInit {
   private getModel(): NoteType {
     const model = new NoteType();
     const formValue = this.form.getRawValue();
-    model.id = formValue.id === NEW_ID ? 0 : (formValue.id as number);
+    model.id = formValue.id === NEW_ID ? 0 : (formValue.id as unknown as number);
     model.name = formValue.name as string;
     model.abbreviation = formValue.abbreviation as string;
     return model;
@@ -186,15 +192,17 @@ export class NoteTypesComponent implements OnInit {
     this.errorHandler.present(error);
   }
 
-  private createForm(): FormGroup {
-    return (this.form = new FormGroup({
-      id: new FormControl({ value: NEW_ID, disabled: true }),
-      name: new FormControl(null, [
+  private createForm(): FormGroup<FormModel> {
+    return new FormGroup<FormModel>({
+      id: new FormControl<string | null>({ value: NEW_ID, disabled: true }),
+      name: new FormControl<string | null>(null, [
         FormValidators.required,
         Validators.maxLength(200),
       ]),
-      abbreviation: new FormControl(null, [Validators.maxLength(10)]),
-    }));
+      abbreviation: new FormControl<string | null>(null, [
+        Validators.maxLength(10),
+      ]),
+    });
   }
 
   private createColumns(): SfGridColumnModel[] {

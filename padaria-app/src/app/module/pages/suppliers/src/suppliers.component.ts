@@ -1,7 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { State, Supplier } from '@module/models';
-import { SupplierRepository, ZipCodeAddressesRepository } from '@module/repository';
+import {
+  SupplierRepository,
+  ZipCodeAddressesRepository,
+} from '@module/repository';
 import { ModalComponent } from '@module/shared/src';
 import { FormGridCommandEventArgs } from '@module/shared/src/form-grid/formgrid.component';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
@@ -29,6 +32,20 @@ interface GridRow {
   email: string;
 }
 
+interface FormModel {
+  id: FormControl<string | null>;
+  name: FormControl<string | null>;
+  cnpj: FormControl<string | null>;
+  city: FormControl<string | null>;
+  state: FormControl<string | null>;
+  email: FormControl<string | null>;
+  district: FormControl<string | null>;
+  comercialName: FormControl<string | null>;
+  phone: FormControl<string | null>;
+  street: FormControl<string | null>;
+  zipCodeAddresses: FormControl<string | null>;
+}
+
 @Component({
   selector: 'app-suppliers',
   templateUrl: './suppliers.component.html',
@@ -38,7 +55,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   private modal!: ModalComponent;
 
   dataSource: GridRow[] = [];
-  form: FormGroup = this.createForm();
+  form = this.createForm();
   columns: SfGridColumnModel[] = this.createColumns();
 
   constructor(
@@ -160,7 +177,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
     controls.zipCodeAddresses.valueChanges
       .pipe(debounceTime(200))
       .subscribe((value) => {
-        if (value as string) this.getZipCodeAddresses(value);
+        if (value as string) this.getZipCodeAddresses(value as string);
       });
 
     controls.cnpj.valueChanges
@@ -243,7 +260,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
 
   private populateForm(supplier: Supplier): void {
     this.form.patchValue({
-      id: supplier.id,
+      id: supplier.id.toString(),
       name: supplier.name,
       comercialName: supplier.comercialName,
       cnpj: supplier.cnpj,
@@ -260,7 +277,8 @@ export class SuppliersComponent implements OnInit, OnDestroy {
   private getModel(): Supplier {
     const model = new Supplier();
     const formValue = this.form.getRawValue();
-    model.id = formValue.id === NEW_ID ? 0 : (formValue.id as number);
+    model.id =
+      formValue.id === NEW_ID ? 0 : (formValue.id as unknown as number);
     model.name = formValue.name as string;
     model.city = formValue.city as string;
     model.cnpj = formValue.cnpj as string;
@@ -293,32 +311,32 @@ export class SuppliersComponent implements OnInit, OnDestroy {
     this.errorHandler.present(error);
   }
 
-  private createForm(): FormGroup {
-    return (this.form = new FormGroup({
-      id: new FormControl({ value: NEW_ID, disabled: true }),
-      name: new FormControl(null, [
+  private createForm(): FormGroup<FormModel> {
+    return new FormGroup<FormModel>({
+      id: new FormControl<string | null>({ value: NEW_ID, disabled: true }),
+      name: new FormControl<string | null>(null, [
         FormValidators.required,
         Validators.maxLength(200),
       ]),
-      comercialName: new FormControl(null, [
+      comercialName: new FormControl<string | null>(null, [
         FormValidators.required,
         Validators.maxLength(200),
       ]),
-      cnpj: new FormControl(null, [Validators.maxLength(14)]),
-      phone: new FormControl(null, [Validators.maxLength(15)]),
-      zipCodeAddresses: new FormControl(null, [
+      cnpj: new FormControl<string | null>(null, [Validators.maxLength(14)]),
+      phone: new FormControl<string | null>(null, [Validators.maxLength(15)]),
+      zipCodeAddresses: new FormControl<string | null>(null, [
         FormValidators.required,
         Validators.maxLength(11),
       ]),
-      state: new FormControl({ value: null, disabled: true }),
-      district: new FormControl({ value: null, disabled: true }),
-      street: new FormControl({ value: null, disabled: true }),
-      city: new FormControl({ value: null, disabled: true }),
-      email: new FormControl(null, [
+      state: new FormControl<string | null>({ value: null, disabled: true }),
+      district: new FormControl<string | null>({ value: null, disabled: true }),
+      street: new FormControl<string | null>({ value: null, disabled: true }),
+      city: new FormControl<string | null>({ value: null, disabled: true }),
+      email: new FormControl<string | null>(null, [
         Validators.maxLength(200),
         Validators.email,
       ]),
-    }));
+    });
   }
 
   private createColumns(): SfGridColumnModel[] {

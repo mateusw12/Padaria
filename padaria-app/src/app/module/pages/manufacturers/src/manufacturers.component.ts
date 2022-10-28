@@ -20,6 +20,11 @@ interface GridRow {
   name: string;
 }
 
+interface FormModel {
+  id: FormControl<string | null>;
+  name: FormControl<string | null>;
+}
+
 @Component({
   selector: 'app-manufacturers',
   templateUrl: './manufacturers.component.html',
@@ -29,7 +34,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
   modal!: ModalComponent;
 
   dataSource: GridRow[] = [];
-  form: FormGroup = this.createForm();
+  form = this.createForm();
   columns: SfGridColumnModel[] = this.createColumns();
 
   constructor(
@@ -162,7 +167,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
 
   private populateForm(manufacturer: Manufacturer): void {
     this.form.patchValue({
-      id: manufacturer.id,
+      id: manufacturer.id.toString(),
       name: manufacturer.name,
     });
   }
@@ -170,7 +175,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
   private getModel(): Manufacturer {
     const model = new Manufacturer();
     const formValue = this.form.getRawValue();
-    model.id = formValue.id === NEW_ID ? 0 : (formValue.id as number);
+    model.id = formValue.id === NEW_ID ? 0 : (formValue.id as unknown as number);
     model.name = formValue.name as string;
     return model;
   }
@@ -185,14 +190,14 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
     this.errorHandler.present(error);
   }
 
-  private createForm(): FormGroup {
-    return (this.form = new FormGroup({
-      id: new FormControl({ value: NEW_ID, disabled: true }),
-      name: new FormControl(null, [
+  private createForm(): FormGroup<FormModel> {
+    return new FormGroup<FormModel>({
+      id: new FormControl<string | null>({ value: NEW_ID, disabled: true }),
+      name: new FormControl<string | null>(null, [
         FormValidators.required,
         Validators.maxLength(200),
       ]),
-    }));
+    });
   }
 
   private createColumns(): SfGridColumnModel[] {

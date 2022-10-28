@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
@@ -14,9 +14,18 @@ import {
   Manufacturer,
   Product,
   ProductQueryFilter,
-  UnitMeasure
+  UnitMeasure,
 } from '@module/models';
 import { ModalComponent } from '@module/shared/src';
+
+interface FormModel {
+  brandIds: FormControl<number[] | null>;
+  manufacturerIds: FormControl<number[] | null>;
+  productIds: FormControl<number[] | null>;
+  unitMeasureIds: FormControl<number[] | null>;
+  classificationIds: FormControl<number[] | null>;
+  productName: FormControl<string | null>;
+}
 
 @Component({
   selector: 'app-search-product-modal',
@@ -41,7 +50,7 @@ export class SearchModalomponent implements OnInit, OnDestroy {
   @Input()
   classifications: Classification[] = [];
 
-  form: FormGroup = this.createForm();
+  form = this.createForm();
 
   @ViewChild(ModalComponent, { static: true })
   private modal!: ModalComponent;
@@ -83,14 +92,14 @@ export class SearchModalomponent implements OnInit, OnDestroy {
     return model;
   }
 
-  private createForm(): FormGroup {
-    return (this.form = new FormGroup({
-      brandIds: new FormControl([]),
-      manufacturerIds: new FormControl([]),
-      productIds: new FormControl([]),
-      unitMeasureIds: new FormControl([]),
-      classificationIds: new FormControl([]),
-      productName: new FormControl(null),
-    }));
+  private createForm(): FormGroup<FormModel> {
+    return new FormGroup<FormModel>({
+      brandIds: new FormControl<number[] | null>([]),
+      manufacturerIds: new FormControl<number[] | null>([]),
+      productIds: new FormControl<number[] | null>([]),
+      unitMeasureIds: new FormControl<number[] | null>([]),
+      classificationIds: new FormControl<number[] | null>([]),
+      productName: new FormControl<string | null>(null),
+    });
   }
 }

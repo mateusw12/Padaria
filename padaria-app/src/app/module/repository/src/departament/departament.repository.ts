@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Departament } from '@module/models';
 import { Observable } from 'rxjs';
 
