@@ -88,24 +88,26 @@
       </div>
 
       <div class="row">
-        <div class="col-md-12">
-        <div class="bid-item-import-search-input">
-          <div class="bid-item-import-search-input__input">
-            <ejs-textbox formControlName="fileName" formErrorHandler placeholder="Nome do Arquivo">
-            </ejs-textbox>
+        <div class="col-md-10">
+          <div class="bid-item-import-search-input">
+            <div class="bid-item-import-search-input__input">
+              <ejs-textbox formControlName="fileName" formErrorHandler placeholder="Nome do Arquivo" [readonly]="true">
+              </ejs-textbox>
+            </div>
           </div>
-            <button licButtonSearch (click)="selectFile()"></button>
+          <ejs-uploader hidden
+                        allowedExtensions=".doc,.docx,.pdf"
+                        [autoUpload]="false"
+                        [showFileList]="false"
+                        [multiple]="false"
+                        [maxFileSize]="maxFileLenght"
+                        [directoryUpload]="false"
+                        (selected)="onFileSelect($event)">
+          </ejs-uploader>
         </div>
-        <ejs-uploader hidden
-                      allowedExtensions=".doc,.docx,.pdf"
-                      [autoUpload]="false"
-                      [showFileList]="false"
-                      [multiple]="false"
-                      [maxFileSize]="maxFileLenght"
-                      [directoryUpload]="false"
-                      (selected)="onFileSelect($event)">
-        </ejs-uploader>
-      </div>
+        <div class="col-md-2">
+            <button class="btn-info" (click)="selectFile()"><i class="e-icons e-search"></i></button>
+        </div>
       </div>
 
     </form>

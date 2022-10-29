@@ -52,6 +52,21 @@ interface GridRow {
   fileName: string;
 }
 
+interface FormModel {
+  id: FormControl<string | null>;
+  description: FormControl<string | null>;
+  file: FormControl<string | null>;
+  name: FormControl<string | null>;
+  fileName: FormControl<string | null>;
+  deliveryDate: FormControl<Date | null>;
+  purchaseDate: FormControl<Date | null>;
+  manufacturerId: FormControl<number | null>;
+  noteTypeId: FormControl<number | null>;
+  fiscalNoteId: FormControl<string | null>;
+  price: FormControl<number | null>;
+  amount: FormControl<number | null>;
+}
+
 @Component({
   selector: 'app-purchase-controls',
   templateUrl: './purchase-control.component.html',
@@ -59,7 +74,7 @@ interface GridRow {
 export class PurchaseControlComponent implements OnInit, OnDestroy {
   columns: SfGridColumnModel[] = [];
   dataSource: GridRow[] = [];
-  form: FormGroup = this.createForm();
+  form = this.createForm();
   manufacturers: Manufacturer[] = [];
   noteTypes: NoteType[] = [];
   readonly maxFileLenght = 100 * 1024 * 1024;
@@ -131,7 +146,7 @@ export class PurchaseControlComponent implements OnInit, OnDestroy {
             if (exists) this.onModalClose();
             this.loadData();
           },
-          async (error) => this.handleError(error)
+          (error) => this.handleError(error)
         )
     )
       return;
@@ -170,7 +185,7 @@ export class PurchaseControlComponent implements OnInit, OnDestroy {
     if (event.filesData.length === 0) return;
     const fileInfo = event.filesData[0];
     if (fileInfo.statusCode !== '1') {
-      this.toastService.showWarning(fileInfo.status);
+      this.toastService.showWarning(FILE_EXTENSION_NOT_SUPPORTED);
       return;
     }
 
@@ -186,7 +201,6 @@ export class PurchaseControlComponent implements OnInit, OnDestroy {
 
     controls.fileName.setValue(fileInfo.name);
     controls.file.setValue(transformArrayBufferToBase64(arrayBuffer));
-    controls.fileExtension.setValue(fileExtension);
 
     this.uploader.clearAll();
   }
@@ -280,7 +294,7 @@ export class PurchaseControlComponent implements OnInit, OnDestroy {
 
   private populateForm(model: PurchaseControl): void {
     this.form.patchValue({
-      id: model.id,
+      id: model.id.toString(),
       amount: model.amount,
       deliveryDate: model.deliveryDate,
       description: model.description,
@@ -296,7 +310,7 @@ export class PurchaseControlComponent implements OnInit, OnDestroy {
   private getModel(): PurchaseControl {
     const model = new PurchaseControl();
     const formValue = this.form.getRawValue();
-    model.id = formValue.id === NEW_ID ? 0 : (formValue.id as number);
+    model.id = formValue.id === NEW_ID ? 0 : (formValue.id as unknown as number);
     model.amount = formValue.amount as number;
     model.deliveryDate = formValue.deliveryDate as Date;
     model.description = formValue.description as string;
@@ -321,8 +335,8 @@ export class PurchaseControlComponent implements OnInit, OnDestroy {
     });
   }
 
-  private createForm(): FormGroup {
-    return (this.form = new FormGroup({
+  private createForm(): FormGroup<FormModel> {
+    return new FormGroup<FormModel>({
       id: new FormControl({ value: NEW_ID, disabled: true }),
       name: new FormControl(null, [
         FormValidators.required,
@@ -341,7 +355,7 @@ export class PurchaseControlComponent implements OnInit, OnDestroy {
         Validators.min(0),
         FormValidators.required,
       ]),
-    }));
+    });
   }
 
   private createColumns(): SfGridColumnModel[] {
@@ -363,7 +377,9 @@ export class PurchaseControlComponent implements OnInit, OnDestroy {
       ),
       amount: SfGridColumns.numeric('amount', 'Quantidade').minWidth(100),
       price: SfGridColumns.numeric('price', 'Preço').minWidth(100),
-      fileName: SfGridColumns.text('fileName', 'Nome Arquivo').minWidth(200).visible(false),
+      fileName: SfGridColumns.text('fileName', 'Nome Arquivo')
+        .minWidth(200)
+        .visible(false),
       fiscalNoteDownload: SfGridColumns.text(
         'fiscalNoteDownload',
         'Baixar Nota Fiscal'
