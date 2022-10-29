@@ -3,7 +3,7 @@
               (command)="onCommand($event)">
 </ejs-formgrid>
 
-<app-modal #modal modalHeader="Cadastro de Compras" dialogClass="lg">
+<app-modal #modal modalHeader="Cadastro de Compras Genéricas" dialogClass="lg">
 
   <ng-template #bodyTemplate>
     <form [formGroup]="form">
@@ -24,7 +24,6 @@
           <div class="form-group">
             <ejs-textbox formControlName="description" placeholder="Descrição" formErrorHandler>
             </ejs-textbox>
-
           </div>
         </div>
       </div>

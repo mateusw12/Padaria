@@ -9,6 +9,7 @@ import { ButtonOkDirective } from './button-ok.directive';
 import { ButtonResetDirective } from './button-reset.directive';
 import { ButtonSaveDirective } from './button-save.directive';
 import { ButtonSearchDirective } from './button-search.directive';
+import { ButtonUploadDirective } from './button-upload.directive';
 import { ButtonDirective } from './button.directive';
 import { ThrottleClickDirective } from './throttle-click.directive';
 
@@ -26,6 +27,7 @@ import { ThrottleClickDirective } from './throttle-click.directive';
     ButtonOkDirective,
     ButtonApplyDirective,
     ThrottleClickDirective,
+    ButtonUploadDirective,
   ],
   exports: [
     ButtonAddDirective,
@@ -39,6 +41,7 @@ import { ThrottleClickDirective } from './throttle-click.directive';
     ButtonOkDirective,
     ButtonApplyDirective,
     ThrottleClickDirective,
+    ButtonUploadDirective,
   ],
 })
 export class ButtonAppModule {}
