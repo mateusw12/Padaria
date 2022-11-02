@@ -3,6 +3,7 @@ export * from './classification/classification.repository';
 export * from './departament/departament.repository';
 export * from './employee-query/employee-query.repository';
 export * from './employee/employee.repository';
+export * from './inventory/inventory.repository';
 export * from './job/job.repository';
 export * from './manufacturer/manufacturer.repository';
 export * from './note-type/note-type.repository';

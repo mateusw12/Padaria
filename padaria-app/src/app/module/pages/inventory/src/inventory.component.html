@@ -1,1 +1,35 @@
-<p>inventory works!</p>
+<ejs-tab id="element">
+  <e-tabitems>
+    <e-tabitem>
+      <ng-template #headerText>
+        <div> Controle de Estoque </div>
+      </ng-template>
+      <ng-template #content>
+        <div class="align-content">
+          <app-inventory-control></app-inventory-control>
+        </div>
+      </ng-template>
+    </e-tabitem>
+
+    <e-tabitem>
+      <ng-template #headerText>
+        <div> Pedidos de Compra </div>
+      </ng-template>
+      <ng-template #content>
+        <div class="align-content">
+        </div>
+      </ng-template>
+    </e-tabitem>
+
+    <e-tabitem>
+      <ng-template #headerText>
+        <div> Pedidos de Venda </div>
+      </ng-template>
+      <ng-template #content>
+        <div class="align-content">
+        </div>
+      </ng-template>
+    </e-tabitem>
+
+  </e-tabitems>
+</ejs-tab>
