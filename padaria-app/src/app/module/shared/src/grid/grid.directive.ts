@@ -111,12 +111,10 @@ export class GridDirective implements OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe(this.onDestroyed.bind(this));
 
-    // tslint:disable-next-line: deprecation
     from(this.component.resizing as ObservableInput<ResizeArgs>)
       .pipe(untilDestroyed(this))
       .subscribe(this.onResizing.bind(this));
 
-    // tslint:disable-next-line: deprecation
     from(this.component.resizeStop as ObservableInput<ResizeArgs>)
       .pipe(untilDestroyed(this))
       .subscribe(this.onResizeStop.bind(this));
