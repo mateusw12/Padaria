@@ -12,12 +12,17 @@ import {
 import { ReactiveFormsModule } from '@module/utils/forms';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { TabModule } from '@syncfusion/ej2-angular-navigations';
+import { BuyRequestRegistrationModalComponent } from './inventory-control/buy-request-registration-modal/request-buy-registration-modal.component';
 import { InventoryControlComponent } from './inventory-control/inventory-control.component';
 import { InventoryRoutingModule } from './inventory-routing.module';
 import { InventoryComponent } from './inventory.component';
 
 @NgModule({
-  declarations: [InventoryComponent, InventoryControlComponent],
+  declarations: [
+    InventoryComponent,
+    InventoryControlComponent,
+    BuyRequestRegistrationModalComponent,
+  ],
   imports: [
     CommonModule,
     ModalModule,

@@ -1,11 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   BuyRequest,
   InventoryStatus,
   Product,
   SalesRequest,
 } from '@module/models';
-import { InventoryRepository } from '@module/repository';
+import {
+  BuyRequestRepository,
+  InventoryRepository,
+  SalesRequestRepository,
+} from '@module/repository';
 import { FormGridCommandEventArgs } from '@module/shared';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
@@ -17,6 +21,7 @@ import {
 } from '@module/utils/services';
 import { forkJoin } from 'rxjs';
 import { InventoryService } from '../inventory.service';
+import { BuyRequestRegistrationModalComponent } from './buy-request-registration-modal/request-buy-registration-modal.component';
 
 interface GridRow {
   productName: string;
@@ -30,6 +35,7 @@ interface GridRow {
   salesValue: number;
   profitPercentage: number;
   inventoryStatus: string;
+  noteTypeName: string;
 }
 
 @Component({
@@ -40,9 +46,14 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
   dataSource: GridRow[] = [];
   columns: SfGridColumnModel[] = this.createColumns();
 
+  @ViewChild(BuyRequestRegistrationModalComponent, { static: false })
+  private buyRequestModal!: BuyRequestRegistrationModalComponent;
+
   constructor(
     private errorHandler: ErrorHandler,
     private inventoryRepository: InventoryRepository,
+    private salesRequestRepository: SalesRequestRepository,
+    private buyRequestRepository: BuyRequestRepository,
     private inventoryService: InventoryService,
     private messageService: MessageService,
     private toastService: ToastService
@@ -52,7 +63,9 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  async onAddBuyRequest(): Promise<void> {}
+  async onAddBuyRequest(): Promise<void> {
+    this.buyRequestModal.onOpen();
+  }
 
   async onAddSalesRequest(): Promise<void> {}
 
@@ -64,6 +77,10 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
       default:
         break;
     }
+  }
+
+  onSaved(): void {
+    this.loadData();
   }
 
   ngOnDestroy(): void {}
@@ -92,13 +109,21 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
     forkJoin([
       this.inventoryService.loadProducts(),
       this.inventoryService.loadSuppliers(),
-      this.inventoryRepository.findBuyRequest(),
-      this.inventoryRepository.findSalesRequest(),
+      this.buyRequestRepository.findAll(),
+      this.salesRequestRepository.findAll(),
       this.inventoryRepository.findAll(),
+      this.inventoryService.loadNoteTypes(),
     ])
       .pipe(untilDestroyed(this))
       .subscribe(
-        ([products, suppliers, buyRequests, salesRequests, inventories]) => {
+        ([
+          products,
+          suppliers,
+          buyRequests,
+          salesRequests,
+          inventories,
+          noteTypes,
+        ]) => {
           const dataSource: GridRow[] = [];
 
           for (const item of inventories) {
@@ -110,6 +135,7 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
             );
             const product = products.find((el) => el.id === item.productId);
             const supplier = suppliers.find((el) => el.id === item.supplierId);
+            const noteType = noteTypes.find((el) => el.id === item.noteTypeId);
 
             dataSource.push({
               itemId: item.itemId,
@@ -134,6 +160,7 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
               purchaseValue: buyRequest ? buyRequest.totalValue : 0,
               salesValue: salesRequest ? salesRequest.totalValue : 0,
               supplierName: supplier ? supplier.name : '',
+              noteTypeName: noteType ? noteType.name : '',
             });
           }
         },
@@ -194,6 +221,9 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
         .isPrimaryKey(true),
       productName: SfGridColumns.text('productName', 'Produto').minWidth(200),
       supplierName: SfGridColumns.text('supplierName', 'Fornecedor').minWidth(
+        100
+      ),
+      noteTypeName: SfGridColumns.text('noteTypeName', 'Tipo Nota').minWidth(
         100
       ),
       inventoryStatus: SfGridColumns.text('inventoryStatus', 'Status').minWidth(

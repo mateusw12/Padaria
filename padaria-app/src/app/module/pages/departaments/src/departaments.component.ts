@@ -73,7 +73,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
       return;
     }
     const model = this.getModel();
-    const exists = model.id > 1;
+    const exists = model.id > 0;
 
     if (exists) {
       const confirmed$ = this.messageService.showConfirmSave();

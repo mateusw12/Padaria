@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Employee, Product, Supplier } from '@module/models';
+import { Employee, NoteType, Product, Supplier } from '@module/models';
 import {
   EmployeeRepository,
+  NoteTypeRepository,
   ProductRepository,
   SupplierRepository,
 } from '@module/repository';
@@ -13,11 +14,13 @@ export class InventoryService {
   private _products: Product[] = [];
   private _suppliers: Supplier[] = [];
   private _employees: Employee[] = [];
+  private _noteTypes: NoteType[] = [];
 
   constructor(
     private productRepository: ProductRepository,
     private employeeRepository: EmployeeRepository,
-    private supplierRepository: SupplierRepository
+    private supplierRepository: SupplierRepository,
+    private noteTypeRepository: NoteTypeRepository
   ) {}
 
   loadProducts(): Observable<Product[]> {
@@ -55,4 +58,17 @@ export class InventoryService {
       })
     );
   }
+
+  loadNoteTypes(): Observable<NoteType[]> {
+    if (this._noteTypes.length > 0) {
+      return of(this._noteTypes);
+    }
+    return this.noteTypeRepository.findAll().pipe(
+      tap((noteTypes) => {
+        this._noteTypes = noteTypes;
+        return this._noteTypes;
+      })
+    );
+  }
+
 }
