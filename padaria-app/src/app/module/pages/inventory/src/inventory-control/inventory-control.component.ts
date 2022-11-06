@@ -22,6 +22,7 @@ import {
 import { forkJoin } from 'rxjs';
 import { InventoryService } from '../inventory.service';
 import { BuyRequestRegistrationModalComponent } from './buy-request-registration-modal/request-buy-registration-modal.component';
+import { SalesRequestRegistrationModalComponent } from './sales-request-registration-modal/sales-request-registration-modal.component';
 
 interface GridRow {
   productName: string;
@@ -49,6 +50,9 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
   @ViewChild(BuyRequestRegistrationModalComponent, { static: false })
   private buyRequestModal!: BuyRequestRegistrationModalComponent;
 
+  @ViewChild(SalesRequestRegistrationModalComponent, { static: false })
+  private salesRequestModal!: SalesRequestRegistrationModalComponent;
+
   constructor(
     private errorHandler: ErrorHandler,
     private inventoryRepository: InventoryRepository,
@@ -67,7 +71,9 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
     this.buyRequestModal.onOpen();
   }
 
-  async onAddSalesRequest(): Promise<void> {}
+  async onAddSalesRequest(): Promise<void> {
+    this.salesRequestModal.onOpen();
+  }
 
   onCommand(event: FormGridCommandEventArgs): void {
     switch (event.command) {

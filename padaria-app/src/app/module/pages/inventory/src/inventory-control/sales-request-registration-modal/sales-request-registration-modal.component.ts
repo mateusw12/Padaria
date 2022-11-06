@@ -8,15 +8,18 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
-  BuyRequest,
   Employee,
   Inventory,
   NoteType,
   PaymentCondition,
   Product,
+  SalesRequest,
   Supplier,
 } from '@module/models';
-import { BuyRequestRepository, InventoryRepository } from '@module/repository';
+import {
+  InventoryRepository,
+  SalesRequestRepository,
+} from '@module/repository';
 import { ModalComponent } from '@module/shared';
 import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';
@@ -42,17 +45,17 @@ interface FormModel {
   noteTypeId: FormControl<number | null>;
   observation: FormControl<string | null>;
   totalValue: FormControl<number | null>;
-  issueDate: FormControl<Date | null>;
-  deliveryDate: FormControl<Date | null>;
   paymentCondition: FormControl<PaymentCondition | null>;
   requestId: FormControl<string | null>;
 }
 
 @Component({
-  selector: 'app-request-buy-modal',
-  templateUrl: './request-buy-registration-modal.component.html',
+  selector: 'app-sales-request-modal',
+  templateUrl: './sales-request-registration-modal.component.html',
 })
-export class BuyRequestRegistrationModalComponent implements OnInit, OnDestroy {
+export class SalesRequestRegistrationModalComponent
+  implements OnInit, OnDestroy
+{
   @Output()
   saved = new EventEmitter<void>();
 
@@ -70,7 +73,7 @@ export class BuyRequestRegistrationModalComponent implements OnInit, OnDestroy {
 
   constructor(
     private inventoryRepository: InventoryRepository,
-    private buyRequestRepository: BuyRequestRepository,
+    private salesRequestRepository: SalesRequestRepository,
     private messageService: MessageService,
     private toastService: ToastService,
     private inventoryService: InventoryService,
@@ -109,8 +112,8 @@ export class BuyRequestRegistrationModalComponent implements OnInit, OnDestroy {
 
     if (
       (exists
-        ? this.buyRequestRepository.updateById(model)
-        : this.buyRequestRepository.add(model)
+        ? this.salesRequestRepository.updateById(model)
+        : this.salesRequestRepository.add(model)
       )
         .pipe(untilDestroyed(this))
         .subscribe(
@@ -162,13 +165,10 @@ export class BuyRequestRegistrationModalComponent implements OnInit, OnDestroy {
     this.form.reset({ itemId: NEW_ID });
   }
 
-  private getModel(): BuyRequest {
-    const model = new BuyRequest();
+  private getModel(): SalesRequest {
+    const model = new SalesRequest();
     const formValue = this.form.getRawValue();
     model.amount = formValue.amount as number;
-    model.deliveryDate = formValue.deliveryDate as Date;
-    model.issueDate = formValue.issueDate as Date;
-    model.noteTypeId = formValue.noteTypeId as number;
     model.observation = formValue.observation as string;
     model.paymentCondition = formValue.paymentCondition as PaymentCondition;
     model.requestId = formValue.requestId as string;
@@ -210,8 +210,6 @@ export class BuyRequestRegistrationModalComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.min(0),
       ]),
-      deliveryDate: new FormControl<Date | null>(null, [Validators.required]),
-      issueDate: new FormControl<Date | null>(null, [Validators.required]),
       employeeId: new FormControl<number | null>(null, [
         Validators.required,
         Validators.min(0),

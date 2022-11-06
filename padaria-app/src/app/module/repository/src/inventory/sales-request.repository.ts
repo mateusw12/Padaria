@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { SalesRequest } from '@module/models';
 import { Observable } from 'rxjs';
 
-const API_URL = '/api/estoque/compra';
+const API_URL = '/api/estoque/vendas';
 
 @Injectable({ providedIn: 'root' })
 export class SalesRequestRepository {
@@ -17,7 +17,7 @@ export class SalesRequestRepository {
     return this.httpCliente.get<SalesRequest>(`${API_URL}/${itemId}`);
   }
 
-  update(salesRequest: SalesRequest): Observable<void> {
+  updateById(salesRequest: SalesRequest): Observable<void> {
     return this.httpCliente.put<void>(
       `${API_URL}/${salesRequest.itemId}`,
       salesRequest

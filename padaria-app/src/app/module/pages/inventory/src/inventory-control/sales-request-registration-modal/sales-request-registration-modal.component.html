@@ -1,0 +1,117 @@
+<app-modal #modal modalHeader="Cadastro de Pedido Venda" dialogClass="lg">
+
+  <ng-template #bodyTemplate>
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-md-2">
+          <div class="form-group">
+            <ejs-textbox formControlName="itemId" placeholder="Código">
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-textbox formControlName="requestId" placeholder="N° Pedido" formErrorHandler>
+            </ejs-textbox>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <ejs-textbox formControlName="itemDescription" placeholder="Descrição" formErrorHandler>
+            </ejs-textbox>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-dropdownlist formControlName="productId"
+                              placeholder="Produtos"
+                              [allowFiltering]="true"
+                              formErrorHandler
+                              [fields]="{value: 'id', text:'name'}"
+                              [dataSource]="products">
+            </ejs-dropdownlist>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-dropdownlist formControlName="supplierId"
+                              placeholder="Fornecedores"
+                              [allowFiltering]="true"
+                              formErrorHandler
+                              [fields]="{value: 'id', text:'name'}"
+                              [dataSource]="suppliers">
+            </ejs-dropdownlist>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-dropdownlist formControlName="employeeId"
+                              placeholder="Funcionários"
+                              [allowFiltering]="true"
+                              formErrorHandler
+                              [fields]="{value: 'id', text:'name'}"
+                              [dataSource]="employees">
+            </ejs-dropdownlist>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-dropdownlist formControlName="noteTypeId"
+                              placeholder="Tipos de Nota"
+                              [allowFiltering]="true"
+                              formErrorHandler
+                              [fields]="{value: 'id', text:'name'}"
+                              [dataSource]="noteTypes">
+            </ejs-dropdownlist>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-numerictextbox formControlName="amount"
+                                placeholder="Quantidade"
+                                formErrorHandler
+                                [showSpinButton]="false">
+            </ejs-numerictextbox>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-numerictextbox formControlName="totalValue"
+                                placeholder="Valort Total"
+                                formErrorHandler
+                                [showSpinButton]="false">
+            </ejs-numerictextbox>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <ejs-dropdownlist formControlName="paymentCondition"
+                              placeholder="Condição Pagamento"
+                              [allowFiltering]="true"
+                              formErrorHandler
+                              [fields]="{value: 'value', text:'description' }"
+                              [dataSource]="paymentConditions">
+            </ejs-dropdownlist>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <ejs-textbox formControlName="observation" placeholder="Observação" formErrorHandler>
+            </ejs-textbox>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template #footerTemplate>
+    <button ejs-button buttonSave [disabled]="!this.form.dirty" (click)="onSaveClick()"></button>
+    <button ejs-button buttonCancel (click)="onModalClose()"></button>
+  </ng-template>
+</app-modal>
