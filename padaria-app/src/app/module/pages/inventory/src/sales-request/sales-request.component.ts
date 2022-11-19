@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Employee, NoteType, Product, Supplier } from '@module/models';
-import { BuyRequestRepository } from '@module/repository';
+import { SalesRequestRepository } from '@module/repository';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed } from '@module/utils/common';
 import { toDictionary } from '@module/utils/functions';
 import { ErrorHandler } from '@module/utils/services';
 import { forkJoin } from 'rxjs';
-import { InventoryService } from './../inventory.service';
+import { InventoryService } from '../inventory.service';
 
 interface GridRow {
   itemId: number;
@@ -15,24 +15,22 @@ interface GridRow {
   noteTypeName: string;
   totalValue: number;
   supplierName: string;
-  issueDate: Date;
-  deliveryDate: Date;
   amount: number;
   employeeName: string;
   requestId: string;
 }
 
 @Component({
-  selector: 'app-buy-request',
-  templateUrl: './buy-request.component.html',
+  selector: 'app-sales-request',
+  templateUrl: './sales-request.component.html',
 })
-export class BuyRequestComponent implements OnInit, OnDestroy {
+export class SalesRequestComponent implements OnInit, OnDestroy {
   dataSource: GridRow[] = [];
   columns: SfGridColumnModel[] = this.createColumns();
 
   constructor(
     private errorHandler: ErrorHandler,
-    private buyRequestRepository: BuyRequestRepository,
+    private salesRequestRepository: SalesRequestRepository,
     private inventoryService: InventoryService
   ) {}
 
@@ -48,7 +46,7 @@ export class BuyRequestComponent implements OnInit, OnDestroy {
 
   private loadData(): void {
     forkJoin([
-      this.buyRequestRepository.findAll(),
+      this.salesRequestRepository.findAll(),
       this.inventoryService.loadNoteTypes(),
       this.inventoryService.loadSuppliers(),
       this.inventoryService.loadProducts(),
@@ -72,8 +70,6 @@ export class BuyRequestComponent implements OnInit, OnDestroy {
 
             dataSource.push({
               amount: item.amount,
-              deliveryDate: item.deliveryDate,
-              issueDate: item.issueDate,
               itemId: item.itemId,
               noteTypeName: noteType ? noteType.name : '',
               observation: item.observation,
@@ -81,7 +77,7 @@ export class BuyRequestComponent implements OnInit, OnDestroy {
               supplierName: supplier ? supplier.name : '',
               totalValue: item.totalValue,
               employeeName: employee ? employee.name : '',
-              requestId: item.requestId
+              requestId: item.requestId,
             });
           }
           this.dataSource = dataSource;
@@ -99,7 +95,7 @@ export class BuyRequestComponent implements OnInit, OnDestroy {
       itemId: SfGridColumns.numeric('itemId', 'Cód. Item')
         .minWidth(75)
         .isPrimaryKey(true),
-      requestId: SfGridColumns.text('requestId', 'N Pedido').minWidth(100),
+      requestId: SfGridColumns.text('requestId', 'N° Pedido').minWidth(100),
       productName: SfGridColumns.text('productName', 'Produto').minWidth(200),
       employeeName: SfGridColumns.text('employeeName', 'Funcionário').minWidth(
         200
@@ -110,10 +106,6 @@ export class BuyRequestComponent implements OnInit, OnDestroy {
       noteTypeName: SfGridColumns.text('noteTypeName', 'Tipo Nota').minWidth(
         200
       ),
-      issueDate: SfGridColumns.date('issueDate', 'Data Emissão').minWidth(100),
-      deliveryDate: SfGridColumns.date('deliveryDate', 'Data Entrega').minWidth(
-        100
-      ),
       observation: SfGridColumns.text('observation', 'Observação').minWidth(
         200
       ),
@@ -123,5 +115,4 @@ export class BuyRequestComponent implements OnInit, OnDestroy {
       ),
     });
   }
-
 }

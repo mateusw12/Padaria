@@ -18,6 +18,7 @@ import { InventoryControlComponent } from './inventory-control/inventory-control
 import { SalesRequestRegistrationModalComponent } from './inventory-control/sales-request-registration-modal/sales-request-registration-modal.component';
 import { InventoryRoutingModule } from './inventory-routing.module';
 import { InventoryComponent } from './inventory.component';
+import { SalesRequestComponent } from './sales-request/sales-request.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { InventoryComponent } from './inventory.component';
     InventoryControlComponent,
     BuyRequestRegistrationModalComponent,
     SalesRequestRegistrationModalComponent,
-    BuyRequestComponent
+    BuyRequestComponent,
+    SalesRequestComponent,
   ],
   imports: [
     CommonModule,
