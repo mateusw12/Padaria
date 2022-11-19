@@ -12,6 +12,7 @@ import {
 import { ReactiveFormsModule } from '@module/utils/forms';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { TabModule } from '@syncfusion/ej2-angular-navigations';
+import { BuyRequestComponent } from './buy-request/buy-request.component';
 import { BuyRequestRegistrationModalComponent } from './inventory-control/buy-request-registration-modal/request-buy-registration-modal.component';
 import { InventoryControlComponent } from './inventory-control/inventory-control.component';
 import { SalesRequestRegistrationModalComponent } from './inventory-control/sales-request-registration-modal/sales-request-registration-modal.component';
@@ -24,6 +25,7 @@ import { InventoryComponent } from './inventory.component';
     InventoryControlComponent,
     BuyRequestRegistrationModalComponent,
     SalesRequestRegistrationModalComponent,
+    BuyRequestComponent
   ],
   imports: [
     CommonModule,

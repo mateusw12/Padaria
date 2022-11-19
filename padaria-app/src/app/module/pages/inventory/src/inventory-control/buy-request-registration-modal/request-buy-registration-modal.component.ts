@@ -174,20 +174,22 @@ export class BuyRequestRegistrationModalComponent implements OnInit, OnDestroy {
     model.requestId = formValue.requestId as string;
     model.totalValue = formValue.totalValue as number;
     model.itemId = formValue.itemId === NEW_ID ? 0 : Number(formValue.itemId);
+    model.productId = formValue.productId as number;
+    model.observation = formValue.observation as string;
+    model.noteTypeId = formValue.noteTypeId as number;
+    model.supplierId = formValue.supplierId as number;
+    model.employeeId = formValue.employeeId as number;
     return model;
   }
 
   private getInventoryModel(): Inventory {
     const model = new Inventory();
     const formValue = this.form.getRawValue();
-    model.employeeId = formValue.employeeId as number;
     model.fiscalNoteId = formValue.fiscalNoteId as string;
     model.productId = formValue.productId as number;
     model.requestId = formValue.requestId as string;
-    model.supplierId = formValue.supplierId as number;
     model.itemDescription = formValue.itemDescription as string;
     model.itemId = formValue.itemId === NEW_ID ? 0 : Number(formValue.itemId);
-    model.noteTypeId = formValue.noteTypeId as number;
     return model;
   }
 

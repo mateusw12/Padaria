@@ -7,4 +7,8 @@ export class SalesRequest {
   amount: number = 0;
   totalValue: number = 0;
   observation: string = '';
+  productId: number = 0;
+  noteTypeId: number = 0;
+  employeeId: number = 0;
+  supplierId: number = 0;
 }

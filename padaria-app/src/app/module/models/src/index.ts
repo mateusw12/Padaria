@@ -10,7 +10,7 @@ export * from './employee/level-schooling';
 export * from './employee/marital-status';
 export * from './file-extensions/file-extensions';
 export * from './iventory/buy-request';
-export * from './iventory/iventory';
+export * from './iventory/inventory';
 export * from './iventory/inventory-status';
 export * from './iventory/sales-request';
 export * from './job/job';

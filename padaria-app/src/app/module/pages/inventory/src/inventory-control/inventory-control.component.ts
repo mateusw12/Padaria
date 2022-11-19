@@ -27,7 +27,6 @@ import { SalesRequestRegistrationModalComponent } from './sales-request-registra
 interface GridRow {
   productName: string;
   itemId: number;
-  supplierName: string;
   minimumStock: number;
   retirementStock: number;
   initialStock: number;
@@ -36,7 +35,6 @@ interface GridRow {
   salesValue: number;
   profitPercentage: number;
   inventoryStatus: string;
-  noteTypeName: string;
 }
 
 @Component({
@@ -114,34 +112,28 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
   private loadData(): void {
     forkJoin([
       this.inventoryService.loadProducts(),
-      this.inventoryService.loadSuppliers(),
       this.buyRequestRepository.findAll(),
       this.salesRequestRepository.findAll(),
       this.inventoryRepository.findAll(),
-      this.inventoryService.loadNoteTypes(),
     ])
       .pipe(untilDestroyed(this))
       .subscribe(
         ([
           products,
-          suppliers,
           buyRequests,
           salesRequests,
           inventories,
-          noteTypes,
         ]) => {
           const dataSource: GridRow[] = [];
 
           for (const item of inventories) {
             const buyRequest = buyRequests.find(
-              (el) => el.itemId === item.itemId
+              (el) => el.productId === item.productId
             );
             const salesRequest = salesRequests.find(
-              (el) => el.itemId === item.itemId
+              (el) => el.productId === item.productId
             );
             const product = products.find((el) => el.id === item.productId);
-            const supplier = suppliers.find((el) => el.id === item.supplierId);
-            const noteType = noteTypes.find((el) => el.id === item.noteTypeId);
 
             dataSource.push({
               itemId: item.itemId,
@@ -165,8 +157,6 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
               productName: product ? product.name : '',
               purchaseValue: buyRequest ? buyRequest.totalValue : 0,
               salesValue: salesRequest ? salesRequest.totalValue : 0,
-              supplierName: supplier ? supplier.name : '',
-              noteTypeName: noteType ? noteType.name : '',
             });
           }
         },
@@ -226,12 +216,6 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
         .minWidth(75)
         .isPrimaryKey(true),
       productName: SfGridColumns.text('productName', 'Produto').minWidth(200),
-      supplierName: SfGridColumns.text('supplierName', 'Fornecedor').minWidth(
-        100
-      ),
-      noteTypeName: SfGridColumns.text('noteTypeName', 'Tipo Nota').minWidth(
-        100
-      ),
       inventoryStatus: SfGridColumns.text('inventoryStatus', 'Status').minWidth(
         100
       ),
