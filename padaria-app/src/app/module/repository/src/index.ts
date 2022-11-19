@@ -15,3 +15,4 @@ export * from './purchase-control/purchase-control.repository';
 export * from './supplier/supplier.repository';
 export * from './unit-measure/unit-measure.repository';
 export * from './zip-code-addresses/zip-code-addresses.repository';
+export * from './user/user.repository';

@@ -53,6 +53,11 @@ export const routes: Routes = [
             data: { pageTitle: 'Fabricantes', breadcrumb: 'Fabricantes' },
             loadChildren: pages.manufacturerRegistration,
           },
+          {
+            path: 'users',
+            data: { pageTitle: 'Usuário', breadcrumb: 'Usuário' },
+            loadChildren: pages.userRegistration,
+          },
         ],
       },
       {
@@ -88,7 +93,10 @@ export const routes: Routes = [
       },
       {
         path: 'purchase-control',
-        data: { pageTitle: 'Controle Compras', breadcrumb: 'Controle de Compras' },
+        data: {
+          pageTitle: 'Controle Compras',
+          breadcrumb: 'Controle de Compras',
+        },
         loadChildren: pages.purchaseControlRegistration,
       },
     ],

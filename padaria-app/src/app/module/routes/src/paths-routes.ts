@@ -51,6 +51,12 @@ export const REGISTRATION_ROUTES_PATHS: AppRoutes[] = [
     pageTitle: 'Tipos de Nota',
     fatherTitle: REGISTRATION_PATH,
   },
+  {
+    path: '/menu/registrations/users',
+    onlyPath: 'user',
+    pageTitle: 'Usuário',
+    fatherTitle: REGISTRATION_PATH,
+  },
 ];
 
 export const QUERY_ROUTES_PATHS: AppRoutes[] = [

@@ -91,3 +91,8 @@ export function homeRegistration() {
   );
   return promise;
 }
+
+export function userRegistration() {
+  const promise = import('@module/pages/user').then((m) => m.UserModule);
+  return promise;
+}

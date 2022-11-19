@@ -31,3 +31,5 @@ export * from './text-box/textbox.module';
 export * from './view-refresh/view-refresh.module';
 export * from './bread-crumb/bread-crumb.component';
 export * from './bread-crumb/breadcrumb-interface';
+export * from './password-strength-bar/passwordstrengthbar.module';
+export * from './password-strength-bar/passwordstrengthbar.component';

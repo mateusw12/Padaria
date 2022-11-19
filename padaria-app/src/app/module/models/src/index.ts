@@ -25,5 +25,6 @@ export * from './purchase-control/purchase-control';
 export * from './state/state';
 export * from './supplier/supplier';
 export * from './unit-measure/unit-measure';
+export * from './user/user';
+export * from './user/user-role';
 export * from './zip-code-addresses/zip-code-addresses';
-
