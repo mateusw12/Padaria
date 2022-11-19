@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
   AppRoutes,
-  DASHBOARDS_ROUTES_PATH,
   INFORMATION_PATH,
   LICENSE_PATH,
   OHTERS_ROUTES_PATHS,
@@ -25,7 +24,6 @@ export class MenuComponent implements OnInit {
 
   readonly registration_routes: AppRoutes[] = REGISTRATION_ROUTES_PATHS;
   readonly query_routes: AppRoutes[] = QUERY_ROUTES_PATHS;
-  readonly dashboards_routes: AppRoutes[] = DASHBOARDS_ROUTES_PATH;
   readonly others_routes: AppRoutes[] = OHTERS_ROUTES_PATHS;
   readonly information_route: AppRoutes = INFORMATION_PATH;
   readonly license_route: AppRoutes = LICENSE_PATH;
@@ -49,10 +47,6 @@ export class MenuComponent implements OnInit {
     }
 
     for (const item of this.query_routes) {
-      allRoutes.push(item);
-    }
-
-    for (const item of this.dashboards_routes) {
       allRoutes.push(item);
     }
 

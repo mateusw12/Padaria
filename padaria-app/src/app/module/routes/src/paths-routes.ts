@@ -5,7 +5,6 @@ const QUERY_PATH = 'Consulta';
 const INVENTORY_PATH = 'Estoque';
 const PURCHASE_PATH = 'Compras';
 const SALES_PATH = 'Vendas';
-const DASHBOARDS_PATH = 'DashBoards';
 const ABOUT_PATH = 'Informações';
 const COPYRIGHT_PATH = 'Licenças';
 
@@ -66,21 +65,6 @@ export const QUERY_ROUTES_PATHS: AppRoutes[] = [
     onlyPath: 'products-query',
     pageTitle: 'Consulta Produtos',
     fatherTitle: QUERY_PATH,
-  },
-];
-
-export const DASHBOARDS_ROUTES_PATH: AppRoutes[] = [
-  {
-    path: '/menu/dashboards-receipts',
-    onlyPath: 'dashboards-receipts',
-    pageTitle: 'Receita',
-    fatherTitle: DASHBOARDS_PATH,
-  },
-  {
-    path: '/menu/dashboards-expenses',
-    onlyPath: 'dashboards-expenses',
-    pageTitle: 'Despesas',
-    fatherTitle: DASHBOARDS_PATH,
   },
 ];
 

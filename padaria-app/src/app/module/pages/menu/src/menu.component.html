@@ -24,14 +24,6 @@
           </li>
         </ul>
       </li>
-      <li>
-        <a href="#chartSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Dashboards</a>
-        <ul class="collapse list-unstyled" id="chartSubmenu">
-          <li *ngFor="let item of dashboards_routes; index as i">
-            <a [routerLink]="item.path" (click)="onBreadCrumb(item)">{{item.pageTitle}}</a>
-          </li>
-        </ul>
-      </li>
       <li *ngFor="let item of others_routes; index as i">
         <a [routerLink]="item.path" (click)="onBreadCrumb(item)">{{item.pageTitle}}</a>
       </li>
