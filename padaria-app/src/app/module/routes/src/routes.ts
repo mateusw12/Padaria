@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { MenuComponent } from '@module/pages/menu';
 import * as pages from './pages';
+import { BreadCrumb } from './../../shared/src/bread-crumb/breadcrumb-interface';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'menu/home' },
@@ -98,6 +99,11 @@ export const routes: Routes = [
           breadcrumb: 'Controle de Compras',
         },
         loadChildren: pages.purchaseControlRegistration,
+      },
+      {
+        path: '**',
+        data: { pageTitle: 'Erro 404', BreadCrumb: '' },
+        loadChildren: pages.error404Registration,
       },
     ],
   },

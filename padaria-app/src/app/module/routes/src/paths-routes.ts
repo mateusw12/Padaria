@@ -108,3 +108,10 @@ export const LICENSE_PATH: AppRoutes = {
   pageTitle: 'Licença',
   fatherTitle: COPYRIGHT_PATH,
 };
+
+export const ERROR_404_PATH: AppRoutes = {
+  path: '/menu/home',
+  onlyPath: '**',
+  pageTitle: 'Error 404',
+  fatherTitle: '',
+};

@@ -96,3 +96,8 @@ export function userRegistration() {
   const promise = import('@module/pages/user').then((m) => m.UserModule);
   return promise;
 }
+
+export function error404Registration() {
+  const promise = import('@module/pages/error404').then((m) => m.Error404Module);
+  return promise;
+}
