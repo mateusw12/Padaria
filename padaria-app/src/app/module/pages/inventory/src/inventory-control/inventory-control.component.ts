@@ -87,6 +87,11 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
+  load():void{
+    this.columns = this.createColumns();
+    this.loadData();
+  }
+
   ngOnDestroy(): void {}
 
   private async onCommandRemove(model: GridRow): Promise<void> {

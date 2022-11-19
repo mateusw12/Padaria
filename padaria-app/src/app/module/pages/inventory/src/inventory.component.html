@@ -1,8 +1,8 @@
-<ejs-tab id="element">
+<ejs-tab id="element" (selected)="onSelected($event)">
   <e-tabitems>
     <e-tabitem>
       <ng-template #headerText>
-        <div> Controle de Estoque </div>
+        <div> {{ this.tabSettings.inventoryControl.heading }} </div>
       </ng-template>
       <ng-template #content>
         <div class="align-content">
@@ -13,7 +13,7 @@
 
     <e-tabitem>
       <ng-template #headerText>
-        <div> Pedidos de Compra </div>
+        <div> {{ this.tabSettings.buyRequest.heading }} </div>
       </ng-template>
       <ng-template #content>
         <div class="align-content">
@@ -24,10 +24,11 @@
 
     <e-tabitem>
       <ng-template #headerText>
-        <div> Pedidos de Venda </div>
+        <div> {{ this.tabSettings.salesRequest.heading }} </div>
       </ng-template>
       <ng-template #content>
         <div class="align-content">
+          <app-sales-request></app-sales-request>
         </div>
       </ng-template>
     </e-tabitem>

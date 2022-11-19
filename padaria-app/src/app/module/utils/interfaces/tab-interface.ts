@@ -1,9 +1,9 @@
 export interface TabValidate {
-    tabIndex: number;
-    valid: boolean;
+  tabIndex: number;
+  valid: boolean;
 }
 
 export interface TabContent {
-    heading: string;
-    index: number;
+  heading: string;
+  index: number;
 }
