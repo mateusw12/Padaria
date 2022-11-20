@@ -27,11 +27,9 @@ export class DropDownListDirective {
   }
 
   private beforePropertyChanged(newProp: DropDownListModel, oldProp: DropDownListModel): void {
-    // Corrige problema com allowFiltering que mantinha o item selecionado na lista ao alterar o dataSource.
     if (newProp.dataSource && this.component.allowFiltering) {
       const state = this.component as unknown as DropDownListState;
       if (newProp.value === undefined) {
-        // Atribuímos o valor atual para o DropDownList não buscar pelo nome, evitando problemas com nomes duplicados.
         newProp.value = this.component.value;
         oldProp.value = this.component.value;
       }
@@ -41,7 +39,6 @@ export class DropDownListDirective {
   }
 
   private afterPropertyChanged(newProp: DropDownListModel, oldProp: DropDownListModel): void {
-    // Corrige problema com allowFiltering que não atualizava o nome do item selecionado.
     if (newProp.dataSource && this.component.allowFiltering && this.component.text === undefined) {
       if (isNil(newProp.value)) return;
       const itemData = this.component.getDataByValue(newProp.value);
