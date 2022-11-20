@@ -86,9 +86,7 @@ export function purchaseControlRegistration() {
 }
 
 export function homeRegistration() {
-  const promise = import('@module/pages/home').then(
-    (m) => m.HomeModule
-  );
+  const promise = import('@module/pages/home').then((m) => m.HomeModule);
   return promise;
 }
 
@@ -98,6 +96,13 @@ export function userRegistration() {
 }
 
 export function error404Registration() {
-  const promise = import('@module/pages/error404').then((m) => m.Error404Module);
+  const promise = import('@module/pages/error404').then(
+    (m) => m.Error404Module
+  );
+  return promise;
+}
+
+export function loginRegistration() {
+  const promise = import('@module/pages/login').then((m) => m.LoginModule);
   return promise;
 }

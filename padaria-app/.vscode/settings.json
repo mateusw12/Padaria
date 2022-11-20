@@ -1,0 +1,6 @@
+{
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "html.format.wrapAttributes": "force-aligned",
+  "angular.disableAutomaticNgcc": true,
+  "editor.tabSize": 2
+}

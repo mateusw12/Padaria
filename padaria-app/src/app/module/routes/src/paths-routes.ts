@@ -115,3 +115,10 @@ export const ERROR_404_PATH: AppRoutes = {
   pageTitle: 'Error 404',
   fatherTitle: '',
 };
+
+export const LOGIN_PATH: AppRoutes = {
+  path: '/login',
+  onlyPath: 'login',
+  pageTitle: 'Login',
+  fatherTitle: '',
+};

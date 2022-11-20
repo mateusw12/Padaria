@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   AppRoutes,
   INFORMATION_PATH,
   LICENSE_PATH,
+  LOGIN_PATH,
   OHTERS_ROUTES_PATHS,
   QUERY_ROUTES_PATHS,
-  REGISTRATION_ROUTES_PATHS,
+  REGISTRATION_ROUTES_PATHS
 } from '@module/routes';
 import { DARK_THEME } from '@module/utils/constant';
-import { ThemeService } from '@module/utils/services';
+import { AuthenticationService, ThemeService } from '@module/utils/services';
 
 @Component({
   selector: 'app-menu',
@@ -16,7 +18,11 @@ import { ThemeService } from '@module/utils/services';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit {
-  constructor(private themeService: ThemeService) {}
+  constructor(
+    private themeService: ThemeService,
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) {}
 
   get breadCrumb(): AppRoutes | undefined {
     return this._breadCrumb;
@@ -27,6 +33,7 @@ export class MenuComponent implements OnInit {
   readonly others_routes: AppRoutes[] = OHTERS_ROUTES_PATHS;
   readonly information_route: AppRoutes = INFORMATION_PATH;
   readonly license_route: AppRoutes = LICENSE_PATH;
+  readonly login_route: AppRoutes = LOGIN_PATH;
 
   private _breadCrumb: AppRoutes | undefined;
 
@@ -61,6 +68,12 @@ export class MenuComponent implements OnInit {
     const globalTheme = this.themeService.getTheme('theme');
     const theme = globalTheme ? globalTheme : DARK_THEME;
     this.themeService.setTheme('theme', theme);
+  }
+
+  onLogoutClick(): void {
+    const userToken = this.authenticationService.getUserToken();
+    this.authenticationService.removeUserToken(userToken.userName);
+    this.router.navigate([`/${this.login_route.path}`]);
   }
 
   private getTheme(): void {

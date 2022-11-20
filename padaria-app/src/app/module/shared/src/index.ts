@@ -6,8 +6,6 @@ export * from './confirm-dialog/confirm-dialog.component';
 export * from './confirm-dialog/confirm-dialog.module';
 export * from './date-picker/datepicker.directive';
 export * from './date-picker/datepicker.module';
-export * from './date-range-picker/daterangepicker.directive';
-export * from './date-range-picker/daterangepicker.module';
 export * from './date-time-picker/datetimepicker.directive';
 export * from './date-time-picker/datetimepicker.module';
 export * from './drop-down-list/dropdownlist.directive';

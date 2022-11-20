@@ -5,3 +5,5 @@ export * from './message.service';
 export * from './spinner.service';
 export * from './theme.service';
 export * from './toast.service';
+export * from './local-storage.service';
+export * from './authentication.service';

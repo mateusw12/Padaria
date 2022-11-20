@@ -191,7 +191,6 @@ export class UserComponent implements OnInit, OnDestroy {
       name: user.name,
       role: user.role,
       userName: user.userName,
-      password: user.password,
       email: user.email,
       isActive: user.isActive,
     });

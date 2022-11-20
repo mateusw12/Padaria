@@ -3,7 +3,12 @@ import { MenuComponent } from '@module/pages/menu';
 import * as pages from './pages';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'menu/home' },
+  { path: '', pathMatch: 'full', redirectTo: 'login' },
+  {
+    path: 'login',
+    data: { pageTitle: 'Login' },
+    loadChildren: pages.loginRegistration,
+  },
   {
     path: 'menu',
     component: MenuComponent,
