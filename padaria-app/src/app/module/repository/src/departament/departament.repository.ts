@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Departament } from '@module/models';
+import { AuthenticationService } from '@module/utils/services';
 import { Observable } from 'rxjs';
 
 const API_URL = '/api/cadastro/departamento';
@@ -9,8 +10,11 @@ const API_URL = '/api/cadastro/departamento';
   providedIn: 'root',
 })
 export class DepartamentRepository {
-  constructor(private httpCliente: HttpClient) {}
-
+  constructor(
+    private httpCliente: HttpClient,
+    private authenticationService: AuthenticationService
+  ) {}
+  private token = this.authenticationService.getUserToken().token;
   add(departament: Departament): Observable<void> {
     return this.httpCliente.post<void>(API_URL, departament);
   }

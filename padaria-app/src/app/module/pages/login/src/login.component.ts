@@ -61,9 +61,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         },
         (error) => {
           const errorHandler = error as ErrorData;
-
-          if (errorHandler.toString()) {
-            this.messageService.showErrorMessage('Acesso Negado!');
+          if (errorHandler.status === 403) {
+            this.messageService.showErrorMessage('Usuário inválido!');
             return;
           }
           this.handleError(error);

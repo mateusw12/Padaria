@@ -1,35 +1,40 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import {
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { from, Observable, throwError } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
-import { ErrorHandlerProvider, ERROR_HANDLER_PROVIDER, Lazy, LazyInjector } from '../core';
-import { Context } from '../core/context';
-import { Logger } from '../logging';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { AuthenticationService } from '../services';
 
-const logger = new Logger('HttpErrorHandlerInterceptor');
-
-/**
- * Adiciona um manipulador de erros padrão a todas as solicitações.
- */
 @Injectable({ providedIn: 'root' })
 export class HttpErrorHandlerInterceptor implements HttpInterceptor {
+  constructor(private authenticationService: AuthenticationService) {}
 
-  private errorHandlerProvider: Lazy<ErrorHandlerProvider>;
+  intercept(
+    request: HttpRequest<unknown>,
+    next: HttpHandler
+  ): Observable<HttpEvent<unknown>> {
+    const token = this.authenticationService.getUserToken().token;
+    const requestUrl: string[] = request.url.split('/');
+    const apiURL: string[] = environment.api_url.split('/');
 
-  constructor(lazyInjector: LazyInjector, private context: Context) {
-    this.errorHandlerProvider = lazyInjector.get(ERROR_HANDLER_PROVIDER);
-  }
-
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    return next.handle(request).pipe(catchError(this.handleError.bind(this)));
-  }
-
-  private handleError(event: HttpEvent<unknown>): Observable<HttpEvent<unknown>> {
-    if (!this.context.production) {
-      logger.error('Erro na solicitação.', event);
+    if (token && requestUrl[2] === apiURL[2]) {
+      const newRequest = request.clone({
+        setHeaders: { Authorization: `Bearer ${token}` },
+      });
+      return next.handle(newRequest);
     }
-    return from(this.errorHandlerProvider.value.handle(event))
-      .pipe(switchMap(error => throwError(error)));
-  }
 
+    if (requestUrl[1] === apiURL[3]) {
+      const newRequest = request.clone({
+        setHeaders: { Authorization: `Bearer ${token}` },
+      });
+      return next.handle(newRequest);
+    }
+
+    return next.handle(request);
+  }
 }
