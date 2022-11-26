@@ -1,4 +1,3 @@
-import { InjectionToken } from '@angular/core';
 import { ErrorData } from './error-parser/error-data';
 
 export interface ErrorHandlerProvider {
@@ -12,5 +11,3 @@ export interface ErrorHandlerProvider {
   present(error: unknown): Promise<void>;
 
 }
-
-export const ERROR_HANDLER_PROVIDER = new InjectionToken<ErrorHandlerProvider>('ERROR_HANDLER_PROVIDER');
