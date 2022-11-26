@@ -36,6 +36,7 @@ export class AuthenticationService implements OnDestroy {
 
   clearUserToken(): void {
     this.localStorageService.clear();
+    this.userToken = new UserToken();
   }
 
   validateUserToken(): void {

@@ -1,13 +1,19 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Login } from '@module/models';
 import { LoginRepository } from '@module/repository';
-import { markAllAsTouched } from '@module/utils/forms';
-import { AuthenticationService, ErrorHandler, ToastService } from '@module/utils/services';
-import { FormValidators } from '@syncfusion/ej2-angular-inputs';
-import { untilDestroyed } from '@module/utils/common';
-import { Router } from '@angular/router';
 import { AppRoutes, LOGIN_PATH } from '@module/routes';
+import { untilDestroyed } from '@module/utils/common';
+import { ErrorData } from '@module/utils/core';
+import { markAllAsTouched } from '@module/utils/forms';
+import {
+  AuthenticationService,
+  ErrorHandler,
+  MessageService,
+  ToastService
+} from '@module/utils/services';
+import { FormValidators } from '@syncfusion/ej2-angular-inputs';
 
 interface FormModel {
   userName: FormControl<string | null>;
@@ -28,7 +34,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private loginRepository: LoginRepository,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -52,7 +59,15 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.router.navigate([`/menu/home`]);
           }
         },
-        (error) => this.handleError(error)
+        (error) => {
+          const errorHandler = error as ErrorData;
+
+          if (errorHandler.toString()) {
+            this.messageService.showErrorMessage('Acesso Negado!');
+            return;
+          }
+          this.handleError(error);
+        }
       );
   }
 

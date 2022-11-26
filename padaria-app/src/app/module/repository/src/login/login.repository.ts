@@ -12,4 +12,5 @@ export class LoginRepository {
   login(login: Login): Observable<UserToken> {
     return this.httpCliente.post<UserToken>(API_URL, login);
   }
+
 }
