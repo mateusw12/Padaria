@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Product } from '@module/models';
 import { Observable } from 'rxjs';
 
@@ -15,8 +15,12 @@ export class ProductRepository {
     return this.httpCliente.post<void>(API_URL, product);
   }
 
-  findById(codigo: number): Observable<Product> {
-    return this.httpCliente.get<Product>(`${API_URL}/${codigo}`);
+  findById(id: number): Observable<Product> {
+    return this.httpCliente.get<Product>(`${API_URL}/${id}`);
+  }
+
+  findByBarCode(barCode: string): Observable<Product[]> {
+    return this.httpCliente.post<Product[]>(`${API_URL}/bar-code`, barCode);
   }
 
   findAll(): Observable<Product[]> {

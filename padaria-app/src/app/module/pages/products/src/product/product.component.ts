@@ -42,6 +42,7 @@ interface FormModel {
   unitMeasureId: FormControl<number | null>;
   unitaryPrice: FormControl<number | null>;
   amount: FormControl<number | null>;
+  barCode: FormControl<string | null>;
 }
 
 @Component({
@@ -76,6 +77,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   async onOpen(id?: number): Promise<void> {
     this.reset();
+    this.getBarCode();
     try {
       if (id) {
         await this.findProduct(id);
@@ -247,6 +249,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     model.unitaryPrice = formValue.unitaryPrice as number;
     model.groupedCodes = formValue.groupedCodes as string;
     model.description = formValue.description as string;
+    model.barCode = formValue.barCode as string;;
     return model;
   }
 
@@ -254,6 +257,16 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.form.reset({
       id: NEW_ID,
     });
+  }
+
+  private getBarCode(): void {
+    const min = Math.ceil(0);
+    const max = Math.floor(9);
+    let random: string = '';
+   for (let index = 0; index < 13; index++) {
+    random = random + String(Math.floor(Math.random() * (max - min + 1)) + min);     
+   }
+   this.form.controls.barCode.setValue(random);
   }
 
   private handleError(error: unknown): void {
@@ -268,6 +281,9 @@ export class ProductComponent implements OnInit, OnDestroy {
         Validators.maxLength(200),
       ]),
       description: new FormControl<string | null>(null, [
+        Validators.maxLength(200),
+      ]),
+      barCode: new FormControl<string | null>(null, [
         Validators.maxLength(200),
       ]),
       unitMeasureId: new FormControl<number | null>(null, [
