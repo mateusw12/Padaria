@@ -106,3 +106,8 @@ export function loginRegistration() {
   const promise = import('@module/pages/login').then((m) => m.LoginModule);
   return promise;
 }
+
+export function salesControlRegistration() {
+  const promise = import('@module/pages/sales-control').then((m) => m.SalesControlModule);
+  return promise;
+}

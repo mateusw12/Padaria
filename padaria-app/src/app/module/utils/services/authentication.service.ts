@@ -1,3 +1,4 @@
+import { chain } from '@module/utils/functions/date';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserToken } from '@module/models';
@@ -12,7 +13,6 @@ const REFRESH_INTERVAL_STATUS = 30000; // 30  segundos
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService implements OnDestroy {
-  private userToken: UserToken = new UserToken();
   private interval$: Subscription = new Subscription();
 
   constructor(
@@ -22,12 +22,24 @@ export class AuthenticationService implements OnDestroy {
   ) {}
 
   setUserToken(userToken: UserToken): void {
-    this.userToken = userToken;
-    this.localStorageService.setItem(userToken.userName, userToken.token);
+    this.localStorageService.setItem('token', userToken.token);
+    this.localStorageService.setItem('user', userToken.userName);
+    this.localStorageService.setItem(
+      'expirationDate',
+       new Date(userToken.expirationDate).toString()
+    );
   }
 
-  getUserToken(): UserToken {
-    return this.userToken;
+  getToken(): string | null {
+    return this.localStorageService.getItem('token');
+  }
+
+  getUser(): string | null {
+    return this.localStorageService.getItem('user');
+  }
+
+  getExpirationDate(): string | null {
+    return this.localStorageService.getItem('expirationDate');
   }
 
   removeUserToken(key: string): void {
@@ -36,7 +48,6 @@ export class AuthenticationService implements OnDestroy {
 
   clearUserToken(): void {
     this.localStorageService.clear();
-    this.userToken = new UserToken();
   }
 
   validateUserToken(): void {
@@ -44,7 +55,10 @@ export class AuthenticationService implements OnDestroy {
       .pipe(
         tap(async () => {
           const today = new Date();
-          const result = moment(today).diff(this.userToken.expirationDate);
+          const expirationDate =  this.getExpirationDate()
+          const momentDate = chain(expirationDate, 'dd//MM/yyyy').toDate();
+          const result = moment(today).diff(momentDate);
+          console.log('validate pipe', today, momentDate)
           if (result <= 0) {
             this.interval$.unsubscribe();
             this.navigateToLogin();
@@ -55,6 +69,7 @@ export class AuthenticationService implements OnDestroy {
       )
       .subscribe(
         (timeout) => {
+          console.log('valdiate timeout', timeout)
           if (timeout <= 0) {
             this.interval$.unsubscribe();
             this.navigateToLogin();

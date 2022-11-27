@@ -88,8 +88,8 @@ export const OHTERS_ROUTES_PATHS: AppRoutes[] = [
     fatherTitle: PURCHASE_PATH,
   },
   {
-    path: '/menu/sales',
-    onlyPath: 'sales',
+    path: '/menu/sales-control',
+    onlyPath: 'sales-control',
     pageTitle: 'Controle Vendas',
     fatherTitle: SALES_PATH,
   },

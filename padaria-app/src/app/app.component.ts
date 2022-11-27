@@ -8,8 +8,7 @@ import { setTheme } from 'ngx-bootstrap/utils';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  constructor(private authenticationService: AuthenticationService) {
+  constructor() {
     setTheme('bs4');
-    this.authenticationService.validateUserToken();
   }
 }

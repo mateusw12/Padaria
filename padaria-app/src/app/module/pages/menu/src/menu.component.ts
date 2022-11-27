@@ -71,8 +71,7 @@ export class MenuComponent implements OnInit {
   }
 
   onLogoutClick(): void {
-    const userToken = this.authenticationService.getUserToken();
-    this.authenticationService.removeUserToken(userToken.userName);
+    this.authenticationService.clearUserToken();
     this.router.navigate([`/${this.login_route.path}`]);
   }
 

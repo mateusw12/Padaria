@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { MenuComponent } from '@module/pages/menu';
+import { AuthGuardsService } from '@module/utils/http';
 import * as pages from './pages';
 
 export const routes: Routes = [
@@ -13,6 +14,8 @@ export const routes: Routes = [
     path: 'menu',
     component: MenuComponent,
     data: { pageTitle: 'Menu', breadcrumb: 'Menu' },
+    canActivate: [AuthGuardsService],
+    canActivateChild: [AuthGuardsService],
     children: [
       {
         path: 'home',
@@ -103,6 +106,14 @@ export const routes: Routes = [
           breadcrumb: 'Controle de Compras',
         },
         loadChildren: pages.purchaseControlRegistration,
+      },
+      {
+        path: 'sales-control',
+        data: {
+          pageTitle: 'Controle Vendas',
+          breadcrumb: 'Controle de Vendas',
+        },
+        loadChildren: pages.salesControlRegistration,
       },
       {
         path: '**',
