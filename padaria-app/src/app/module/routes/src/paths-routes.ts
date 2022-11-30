@@ -7,6 +7,7 @@ const PURCHASE_PATH = 'Compras';
 const SALES_PATH = 'Vendas';
 const ABOUT_PATH = 'Informações';
 const COPYRIGHT_PATH = 'Licenças';
+const SETTING_PATH = 'Configuração';
 
 export const REGISTRATION_ROUTES_PATHS: AppRoutes[] = [
   {
@@ -120,5 +121,12 @@ export const LOGIN_PATH: AppRoutes = {
   path: '/login',
   onlyPath: 'login',
   pageTitle: 'Login',
+  fatherTitle: '',
+};
+
+export const SETTINGS_ROUTES_PATHS: AppRoutes = {
+  path: '/menu/settings',
+  onlyPath: 'settings',
+  pageTitle: 'Configuração',
   fatherTitle: '',
 };

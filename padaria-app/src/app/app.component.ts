@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AuthenticationService } from '@module/utils/services';
 import { setTheme } from 'ngx-bootstrap/utils';
 
 @Component({

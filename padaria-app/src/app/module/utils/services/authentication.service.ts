@@ -58,7 +58,6 @@ export class AuthenticationService implements OnDestroy {
           const expirationDate =  this.getExpirationDate()
           const momentDate = chain(expirationDate, 'dd//MM/yyyy').toDate();
           const result = moment(today).diff(momentDate);
-          console.log('validate pipe', today, momentDate)
           if (result <= 0) {
             this.interval$.unsubscribe();
             this.navigateToLogin();
@@ -69,7 +68,6 @@ export class AuthenticationService implements OnDestroy {
       )
       .subscribe(
         (timeout) => {
-          console.log('valdiate timeout', timeout)
           if (timeout <= 0) {
             this.interval$.unsubscribe();
             this.navigateToLogin();

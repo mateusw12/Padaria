@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { untilDestroyed } from '@module/utils/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SettingRepository } from '@module/repository';
 import {
   AppRoutes,
   INFORMATION_PATH,
@@ -7,21 +9,28 @@ import {
   LOGIN_PATH,
   OHTERS_ROUTES_PATHS,
   QUERY_ROUTES_PATHS,
-  REGISTRATION_ROUTES_PATHS
+  REGISTRATION_ROUTES_PATHS,
+  SETTINGS_ROUTES_PATHS,
 } from '@module/routes';
 import { DARK_THEME } from '@module/utils/constant';
-import { AuthenticationService, ThemeService } from '@module/utils/services';
+import {
+  AuthenticationService,
+  ErrorHandler,
+  ThemeService,
+} from '@module/utils/services';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnDestroy {
   constructor(
     private themeService: ThemeService,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private settingRepository: SettingRepository,
+    private errorHandler: ErrorHandler
   ) {}
 
   get breadCrumb(): AppRoutes | undefined {
@@ -34,12 +43,17 @@ export class MenuComponent implements OnInit {
   readonly information_route: AppRoutes = INFORMATION_PATH;
   readonly license_route: AppRoutes = LICENSE_PATH;
   readonly login_route: AppRoutes = LOGIN_PATH;
+  readonly settings_route: AppRoutes = SETTINGS_ROUTES_PATHS;
+  companyTitle: string = '';
+  themeColor: string = '';
+  logo: string = '';
 
   private _breadCrumb: AppRoutes | undefined;
 
   ngOnInit(): void {
     this.getTheme();
     this.getAllRoutes();
+    this.loadData();
   }
 
   onBreadCrumb(route: AppRoutes): void {
@@ -75,6 +89,22 @@ export class MenuComponent implements OnInit {
     this.router.navigate([`/${this.login_route.path}`]);
   }
 
+  ngOnDestroy(): void {}
+
+  private loadData(): void {
+    this.settingRepository
+      .find()
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        (settings) => {
+          this.companyTitle = settings.name;
+          this.logo = settings.logo
+          this.themeColor = settings.themeColor;
+        },
+        (error) => this.handleError(error)
+      );
+  }
+
   private getTheme(): void {
     const globalTheme = this.themeService.getTheme('theme');
     const theme = globalTheme ? globalTheme : DARK_THEME;
@@ -86,5 +116,9 @@ export class MenuComponent implements OnInit {
     const path = url[1];
     const route = allRoutes.find((el) => el.onlyPath === path);
     this._breadCrumb = route;
+  }
+
+  private handleError(error: unknown): void {
+    this.errorHandler.present(error);
   }
 }

@@ -19,7 +19,6 @@ export class AuthGuardsService implements CanActivate, CanActivateChild {
   ){}
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     const token = this.authenticationService.getToken();
-    console.log('canActivateChild', token);
     if (token) {
       return true;
     }
@@ -29,8 +28,6 @@ export class AuthGuardsService implements CanActivate, CanActivateChild {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     const token = this.authenticationService.getToken();
-    console.log('canActivate', token);
-
     if (token) {
       return true;
     }

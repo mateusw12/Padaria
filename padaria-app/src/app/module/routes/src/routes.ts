@@ -108,12 +108,12 @@ export const routes: Routes = [
         loadChildren: pages.purchaseControlRegistration,
       },
       {
-        path: 'sales-control',
+        path: 'settings',
         data: {
-          pageTitle: 'Controle Vendas',
-          breadcrumb: 'Controle de Vendas',
+          pageTitle: 'Configuração',
+          breadcrumb: 'Configuração',
         },
-        loadChildren: pages.salesControlRegistration,
+        loadChildren: pages.settingsRegistration,
       },
       {
         path: '**',

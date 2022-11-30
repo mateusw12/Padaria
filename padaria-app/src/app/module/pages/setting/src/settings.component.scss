@@ -1,0 +1,23 @@
+.bid-item-import {
+  display: flex;
+
+  &__input {
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  &__search {
+    flex: 0 0 auto;
+    margin-left: 5px;
+  }
+}
+
+.align-footer-items {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.align-button {
+  margin-right: 20px;
+}

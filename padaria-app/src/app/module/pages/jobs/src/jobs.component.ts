@@ -131,9 +131,7 @@ export class JobsComponent implements OnInit, OnDestroy {
       confirmed$.asObservable(),
       this
     );
-    console.log('confirmed', confirmed);
     if (!confirmed) return;
-    console.log('passei do if');
     this.jobRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))

@@ -30,3 +30,4 @@ export * from './user/user';
 export * from './user/user-role';
 export * from './zip-code-addresses/zip-code-addresses';
 export * from './login/user-token';
+export * from './setting/setting';

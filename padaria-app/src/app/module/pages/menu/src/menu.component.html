@@ -1,41 +1,151 @@
 <div class="wrapper overflow">
-  <nav id="sidebar">
-    <div class="sidebar-header">
+  <nav
+    id="sidebar"
+    [ngStyle]="{
+      background: themeColor
+    }"
+  >
+    <div
+      class="sidebar-header"
+      [ngStyle]="{
+        background: themeColor
+      }"
+    >
       <a href="menu/home">
-        <h3 class="header-title">Padoca's MW</h3>
+        <h3 class="header-title">{{ companyTitle }}</h3>
       </a>
     </div>
 
-    <ul class="list-unstyled components">
+    <ul
+      class="list-unstyled components"
+      [ngStyle]="{
+        background: themeColor
+      }"
+    >
       <p>MW Web Developer</p>
-      <li class="active">
-        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Cadastros</a>
-        <ul class="collapse list-unstyled" id="homeSubmenu">
-          <li *ngFor="let item of registration_routes; index as i">
-            <a [routerLink]="item.path" (click)="onBreadCrumb(item)">{{item.pageTitle}}</a>
+      <li
+        class="active"
+        [ngStyle]="{
+          background: themeColor
+        }"
+      >
+        <a
+          href="#homeSubmenu"
+          data-toggle="collapse"
+          aria-expanded="false"
+          class="dropdown-toggle"
+          [ngStyle]="{
+            background: themeColor
+          }"
+          >Cadastros</a
+        >
+        <ul
+          class="collapse list-unstyled"
+          id="homeSubmenu"
+          [ngStyle]="{
+            background: themeColor
+          }"
+        >
+          <li
+            *ngFor="let item of registration_routes; index as i"
+            [ngStyle]="{
+              background: themeColor
+            }"
+          >
+            <a
+              [routerLink]="item.path"
+              (click)="onBreadCrumb(item)"
+              [ngStyle]="{
+                background: themeColor
+              }"
+              >{{ item.pageTitle }}</a
+            >
           </li>
         </ul>
       </li>
       <li>
-        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Consultas</a>
-        <ul class="collapse list-unstyled" id="pageSubmenu">
-          <li *ngFor="let item of query_routes; index as i">
-            <a [routerLink]="item.path" (click)="onBreadCrumb(item)">{{item.pageTitle}}</a>
+        <a
+          href="#pageSubmenu"
+          data-toggle="collapse"
+          aria-expanded="false"
+          class="dropdown-toggle"
+          [ngStyle]="{
+            background: themeColor
+          }"
+          >Consultas</a
+        >
+        <ul
+          class="collapse list-unstyled"
+          id="pageSubmenu"
+          [ngStyle]="{
+            background: themeColor
+          }"
+        >
+          <li
+            *ngFor="let item of query_routes; index as i"
+            [ngStyle]="{
+              background: themeColor
+            }"
+          >
+            <a
+              [routerLink]="item.path"
+              (click)="onBreadCrumb(item)"
+              [ngStyle]="{
+                background: themeColor
+              }"
+              >{{ item.pageTitle }}</a
+            >
           </li>
         </ul>
       </li>
-      <li *ngFor="let item of others_routes; index as i">
-        <a [routerLink]="item.path" (click)="onBreadCrumb(item)">{{item.pageTitle}}</a>
+      <li
+        *ngFor="let item of others_routes; index as i"
+        [ngStyle]="{
+          background: themeColor
+        }"
+      >
+        <a
+          [routerLink]="item.path"
+          (click)="onBreadCrumb(item)"
+          [ngStyle]="{
+            background: themeColor
+          }"
+          >{{ item.pageTitle }}</a
+        >
+      </li>
+      <li>
+        <a
+          [routerLink]="settings_route.path"
+          (click)="onBreadCrumb(settings_route)"
+          [ngStyle]="{
+            background: themeColor
+          }"
+          >Configuração</a
+        >
       </li>
     </ul>
 
-    <ul class="list-unstyled CTAs">
+    <ul
+      class="list-unstyled CTAs"
+      [ngStyle]="{
+        background: themeColor
+      }"
+    >
       <li>
-        <a [routerLink]="information_route.path" (click)="onBreadCrumb(information_route)"
-          class="download">{{information_route.pageTitle}}</a>
+        <a
+          [routerLink]="information_route.path"
+          (click)="onBreadCrumb(information_route)"
+          class="download"
+          >{{ information_route.pageTitle }}</a
+        >
       </li>
       <li>
-        <a [routerLink]="license_route.path" (click)="onBreadCrumb(license_route)" class="article">Licenças</a>
+        <a
+          [routerLink]="license_route.path"
+          (click)="onBreadCrumb(license_route)"
+          class="article"
+          >Licenças</a
+        >
       </li>
     </ul>
   </nav>
@@ -44,24 +154,40 @@
     <nav class="navbar navbar-expand-lg navbar-custom">
       <div class="container-fluid">
         <a class="navbar-brand">
-          <img src="/assets/pages/menu/menu.webp" width="30" height="30" alt="Menu Home">
+          <img
+            src="/assets/pages/menu/menu.webp"
+            width="30"
+            height="30"
+            alt="Menu Home"
+          />
         </a>
         <h3>
           <app-bread-crumb></app-bread-crumb>
         </h3>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="nav navbar-nav ml-auto">
-
-            <button class="navbar-toggler" type="button" data-toggle="collapse"
-              data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
-              aria-expanded="false" aria-label="Toggle navigation">
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarToggleExternalContent"
+              aria-controls="navbarToggleExternalContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
               <span class="navbar-toggler-icon"></span>
             </button>
             <li class="nav-item">
-              <a class="nav-link" (click)="setTheme()"><span style="font-size: 2em;"><i class="fa fa-fw fa-adjust"></i></span></a>
+              <a class="nav-link" (click)="setTheme()"
+                ><span style="font-size: 2em"
+                  ><i class="fa fa-fw fa-adjust"></i></span
+              ></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" (click)="onLogoutClick()"><span style="font-size: 2em;"><i class="bi bi-box-arrow-right"></i></span></a>
+              <a class="nav-link" (click)="onLogoutClick()"
+                ><span style="font-size: 2em"
+                  ><i class="bi bi-box-arrow-right"></i></span
+              ></a>
             </li>
           </ul>
         </div>

@@ -1,0 +1,95 @@
+<div class="col-md-6">
+  <div class="panel panel-info">
+    <div class="panel-heading">Configuração</div>
+    <div class="panel-body">
+      <form [formGroup]="form">
+        <div class="row">
+          <div class="col-md-2">
+            <div class="form-group">
+              <ejs-textbox formControlName="id" placeholder="Código">
+              </ejs-textbox>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <ejs-textbox
+                formControlName="name"
+                placeholder="Nome"
+                formErrorHandler
+              >
+              </ejs-textbox>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <h6>Cor Tema</h6>
+            <div class="form-group">
+              <input
+                ejs-colorpicker
+                type="color"
+                id="colorpicker"
+                locale="pt-BR"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10">
+            <div class="bid-item-import-search-input">
+              <div class="bid-item-import-search-input__input">
+                <ejs-textbox
+                  formControlName="fileName"
+                  formErrorHandler
+                  placeholder="Nome Logo"
+                  [readonly]="true"
+                >
+                </ejs-textbox>
+              </div>
+            </div>
+            <ejs-uploader
+              hidden
+              allowedExtensions=".jpg,.jpeg,.png,.webp"
+              [autoUpload]="false"
+              [showFileList]="false"
+              [multiple]="false"
+              [maxFileSize]="maxFileLenght"
+              [directoryUpload]="false"
+              (selected)="onFileSelect($event)"
+            >
+            </ejs-uploader>
+          </div>
+          <div class="col-md-2">
+            <button class="btn-info" (click)="selectFile()">
+              <i class="e-icons e-search"></i>
+            </button>
+            <button
+              class="btn-info"
+              (click)="onDownloadFileClick()"
+              [disabled]="disabled"
+            >
+              <i class="e-icons e-download"></i>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="align-footer-items">
+              <button
+                class="align-button"
+                ejs-button
+                buttonSave
+                [disabled]="!this.form.dirty"
+                (click)="onSaveClick()"
+              ></button>
+              <button
+                ejs-button
+                buttonDelete
+                [disabled]="!disabled"
+                (click)="onRemoveClick()"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
