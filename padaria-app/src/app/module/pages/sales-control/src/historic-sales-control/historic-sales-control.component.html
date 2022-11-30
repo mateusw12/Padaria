@@ -1,0 +1,12 @@
+<ejs-formgrid
+  [showAddButton]="false"
+  [showEditButton]="false"
+  [showRemoveButton]="false"
+  [dataSource]="dataSource"
+  [columns]="columns"
+  [showSearchButton]="true"
+  (command)="onCommand($event)"
+>
+</ejs-formgrid>
+
+<app-search-modal (filter)="onFilter($event)"></app-search-modal>

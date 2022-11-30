@@ -1,0 +1,64 @@
+<app-modal #modal modalHeader="Consulta Histórico Vendas" dialogClass="md">
+  <ng-template #bodyTemplate>
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <ejs-datepicker
+              formControlName="startSalesDate"
+              placeholder="Data Venda Inicial"
+            >
+            </ejs-datepicker>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <ejs-datepicker
+              formControlName="endSalesDate"
+              placeholder="Data Venda Final"
+              formErrorHandler
+            >
+            </ejs-datepicker>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col md-12">
+          <div class="form-group">
+            <ejs-multiselect
+              formControlName="productIds"
+              placeholder="Produtos"
+              [dataSource]="products"
+              formErrorHandler
+              [fields]="{ value: 'id', text: 'name' }"
+            >
+            </ejs-multiselect>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col md-12">
+          <div class="form-group">
+            <ejs-multiselect
+              formControlName="brandIds"
+              placeholder="Marcas"
+              [dataSource]="brands"
+              formErrorHandler
+              [fields]="{ value: 'id', text: 'name' }"
+            >
+            </ejs-multiselect>
+          </div>
+        </div>
+      </div>
+      
+    </form>
+  </ng-template>
+
+  <ng-template #footerTemplate>
+    <button ejs-button buttonApply (click)="onSearchClick()"></button>
+    <button ejs-button buttonReset (click)="form.reset()"></button>
+    <button ejs-button buttonCancel (click)="onModalClose()"></button>
+  </ng-template>
+</app-modal>
