@@ -111,3 +111,10 @@ export function settingsRegistration() {
   const promise = import('@module/pages/setting').then((m) => m.SettingsModule);
   return promise;
 }
+
+export function salesControlRegistration() {
+  const promise = import('@module/pages/sales-control').then(
+    (m) => m.SalesControlModule
+  );
+  return promise;
+}

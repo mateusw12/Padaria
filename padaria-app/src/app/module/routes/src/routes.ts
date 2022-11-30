@@ -116,6 +116,14 @@ export const routes: Routes = [
         loadChildren: pages.settingsRegistration,
       },
       {
+        path: 'sales-control',
+        data: {
+          pageTitle: 'Controle de Vendas',
+          breadcrumb: 'Controle de Venda',
+        },
+        loadChildren: pages.salesControlRegistration,
+      },
+      {
         path: '**',
         data: { pageTitle: 'Erro 404', BreadCrumb: '' },
         loadChildren: pages.error404Registration,

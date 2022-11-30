@@ -31,3 +31,5 @@ export * from './user/user-role';
 export * from './zip-code-addresses/zip-code-addresses';
 export * from './login/user-token';
 export * from './setting/setting';
+export * from './sales-control/sales-control';
+export * from './sales-control/sales-control-filter';

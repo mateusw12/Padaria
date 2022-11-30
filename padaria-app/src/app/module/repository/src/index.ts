@@ -18,3 +18,4 @@ export * from './supplier/supplier.repository';
 export * from './unit-measure/unit-measure.repository';
 export * from './user/user.repository';
 export * from './zip-code-addresses/zip-code-addresses.repository';
+export * from './sales-control/sales-control.repository';
