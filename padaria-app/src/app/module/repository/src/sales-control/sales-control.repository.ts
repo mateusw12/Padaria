@@ -19,7 +19,7 @@ export class SalesControlRepository {
 
   find(salesControlFilter?: SalesControlFiter): Observable<SalesControl[]> {
     return this.httpCliente.post<SalesControl[]>(
-      `${API_URL}`,
+      `${API_URL}/filter`,
       salesControlFilter
     );
   }

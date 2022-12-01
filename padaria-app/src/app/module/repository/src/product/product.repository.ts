@@ -19,8 +19,8 @@ export class ProductRepository {
     return this.httpCliente.get<Product>(`${API_URL}/${id}`);
   }
 
-  findByBarCode(barCode: string): Observable<Product[]> {
-    return this.httpCliente.post<Product[]>(`${API_URL}/bar-code`, barCode);
+  findByBarCode(barCode: string): Observable<Product> {
+    return this.httpCliente.post<Product>(`${API_URL}/bar-code`, barCode);
   }
 
   findAll(): Observable<Product[]> {

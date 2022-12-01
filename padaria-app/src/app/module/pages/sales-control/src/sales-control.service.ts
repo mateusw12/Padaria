@@ -14,6 +14,14 @@ export class SalesControlService {
     private brandRepository: BrandRepository
   ) {}
 
+  findProductByBarCode(barCode: string): Observable<Product> {
+    return this.productRepository.findByBarCode(barCode).pipe(
+      tap((products) => {
+        return products;
+      })
+    );
+  }
+
   loadProducts(): Observable<Product[]> {
     if (this._products.length > 0) {
       return of(this._products);
@@ -37,5 +45,4 @@ export class SalesControlService {
       })
     );
   }
-  
 }

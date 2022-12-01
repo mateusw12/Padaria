@@ -13,6 +13,7 @@ import {
 import { ReactiveFormsModule } from '@module/utils/forms';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { TabAllModule } from '@syncfusion/ej2-angular-navigations';
+import { CashierControlComponent } from './cashier-control/cashier-control.component';
 import { HistoricSalesQueryComponent } from './historic-sales-control/historic-sales-query.component';
 import { SearchModalComponent } from './historic-sales-control/search-modal/search-modal.component';
 import { SalesControlRoutingModule } from './sales-control-routing.module';
@@ -24,6 +25,7 @@ import { SalesControlService } from './sales-control.service';
     SalesControlComponent,
     HistoricSalesQueryComponent,
     SearchModalComponent,
+    CashierControlComponent,
   ],
   imports: [
     CommonModule,

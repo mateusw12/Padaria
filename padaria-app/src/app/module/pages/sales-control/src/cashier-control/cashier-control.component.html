@@ -1,0 +1,109 @@
+<form [formGroup]="form">
+  <div class="row">
+    <div class="col-md-1">
+      <div class="form-group">
+        <ejs-textbox
+          formControlName="salesId"
+          placeholder="Código"
+          formErrorHandler
+        >
+        </ejs-textbox>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <ejs-textbox
+          formControlName="barCode"
+          placeholder="Código Barra"
+          formErrorHandler
+        >
+        </ejs-textbox>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <ejs-datepicker
+          formControlName="registrationDate"
+          placeholder="Data Venda"
+          formErrorHandler
+        >
+        </ejs-datepicker>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <ejs-dropdownlist
+          formControlName="brandId"
+          placeholder="Marca"
+          [dataSource]="brands"
+          [fields]="{ value: 'id', text: 'name' }"
+          formErrorHandler
+        >
+        </ejs-dropdownlist>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <ejs-dropdownlist
+          formControlName="productId"
+          placeholder="Produto"
+          [dataSource]="products"
+          [fields]="{ value: 'id', text: 'name' }"
+          formErrorHandler
+        >
+        </ejs-dropdownlist>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <ejs-numerictextbox
+          formControlName="amount"
+          placeholder="Quantidade Compra"
+          formErrorHandler
+          format="0"
+        >
+        </ejs-numerictextbox>
+      </div>
+    </div>
+    <div class="col-md-1">
+      <div class="form-group">
+        <ejs-numerictextbox
+          formControlName="unitPrice"
+          placeholder="Preço Produto"
+          title="Preço Produto"
+          formErrorHandler
+        >
+        </ejs-numerictextbox>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <ejs-numerictextbox
+          formControlName="totalSalesValue"
+          placeholder="Valor Total Produto"
+          formErrorHandler
+        >
+        </ejs-numerictextbox>
+      </div>
+    </div>
+  </div>
+</form>
+
+<ejs-formgrid
+  [showEditButton]="false"
+  [dataSource]="dataSource"
+  [columns]="columns"
+  (command)="onCommand($event)"
+>
+  <ng-template #toolbarTemplate>
+    <button
+      ejs-button
+      buttonFinish
+      [disabled]="disabledFinishButton"
+      (click)="onFinishBuyClick()"
+    ></button>
+  </ng-template>
+</ejs-formgrid>

@@ -5,4 +5,5 @@ export class SalesControl {
   amount: number = 0;
   totalValue: number = 0;
   registrationDate: Date = new Date();
+  userSales: string = '';
 }
