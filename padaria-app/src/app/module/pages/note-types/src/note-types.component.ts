@@ -79,8 +79,10 @@ export class NoteTypesComponent implements OnInit {
         .pipe(untilDestroyed(this))
         .subscribe(
           async () => {
-            await this.toastService.showSuccess();
+            this.toastService.showSuccess();
             this.loadData();
+            this.reset();
+            if (exists) this.modal.onCloseClick();
           },
           async (error) => this.handleError(error)
         )
@@ -176,7 +178,8 @@ export class NoteTypesComponent implements OnInit {
   private getModel(): NoteType {
     const model = new NoteType();
     const formValue = this.form.getRawValue();
-    model.id = formValue.id === NEW_ID ? 0 : (formValue.id as unknown as number);
+    model.id =
+      formValue.id === NEW_ID ? 0 : (formValue.id as unknown as number);
     model.name = formValue.name as string;
     model.abbreviation = formValue.abbreviation as string;
     return model;

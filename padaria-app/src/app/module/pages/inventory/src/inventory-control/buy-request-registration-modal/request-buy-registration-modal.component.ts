@@ -118,6 +118,8 @@ export class BuyRequestRegistrationModalComponent implements OnInit, OnDestroy {
             this.toastService.showSuccess();
             await this.addInventory();
             this.saved.emit();
+            this.reset();
+            if (exists) this.modal.onCloseClick();
           },
           async (error) => this.handleError(error)
         )

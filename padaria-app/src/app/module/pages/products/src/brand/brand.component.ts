@@ -1,12 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Brand } from '@module/models';
 import { BrandRepository } from '@module/repository';
-import { ModalComponent, FormGridCommandEventArgs } from '@module/shared';
+import { FormGridCommandEventArgs, ModalComponent } from '@module/shared';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed, untilDestroyedAsync } from '@module/utils/common';
 import { markAllAsTouched } from '@module/utils/forms';
-import { Nullable } from '@module/utils/internal';
 import {
   ErrorHandler,
   MessageService,
@@ -52,7 +51,7 @@ export class BrandComponent implements OnInit, OnDestroy {
     this.reset();
     try {
       if (id) {
-        this.findBrand(id);
+        await this.findBrand(id);
       }
       this.modal.open();
     } catch (error) {
@@ -89,8 +88,10 @@ export class BrandComponent implements OnInit, OnDestroy {
         .pipe(untilDestroyed(this))
         .subscribe(
           async () => {
-            await this.toastService.showSuccess();
+            this.toastService.showSuccess();
             this.loadData();
+            this.reset();
+            if (exists) this.modal.onCloseClick();
           },
           async (error) => this.handleError(error)
         )

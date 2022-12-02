@@ -117,8 +117,10 @@ export class ProductComponent implements OnInit, OnDestroy {
         .pipe(untilDestroyed(this))
         .subscribe(
           async () => {
-            await this.toastService.showSuccess();
+            this.toastService.showSuccess();
             this.loadData();
+            this.reset();
+            if (exists) this.modal.onCloseClick();
           },
           async (error) => this.handleError(error)
         )
@@ -249,7 +251,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     model.unitaryPrice = formValue.unitaryPrice as number;
     model.groupedCodes = formValue.groupedCodes as string;
     model.description = formValue.description as string;
-    model.barCode = formValue.barCode as string;;
+    model.barCode = formValue.barCode as string;
     return model;
   }
 
@@ -263,10 +265,11 @@ export class ProductComponent implements OnInit, OnDestroy {
     const min = Math.ceil(0);
     const max = Math.floor(9);
     let random: string = '';
-   for (let index = 0; index < 13; index++) {
-    random = random + String(Math.floor(Math.random() * (max - min + 1)) + min);     
-   }
-   this.form.controls.barCode.setValue(random);
+    for (let index = 0; index < 13; index++) {
+      random =
+        random + String(Math.floor(Math.random() * (max - min + 1)) + min);
+    }
+    this.form.controls.barCode.setValue(random);
   }
 
   private handleError(error: unknown): void {

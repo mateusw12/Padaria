@@ -156,8 +156,10 @@ export class EmployeesComponent implements OnInit, OnDestroy {
         .pipe(untilDestroyed(this))
         .subscribe(
           async () => {
-            await this.toastService.showSuccess();
+            this.toastService.showSuccess();
             this.loadData();
+            this.reset();
+            if (exists) this.modal.onCloseClick();
           },
           async (error) => this.handleError(error)
         )
@@ -198,7 +200,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
     this.reset();
     try {
       if (id) {
-        this.findEmployee(id);
+        await this.findEmployee(id);
       }
       this.modal.open();
     } catch (error) {

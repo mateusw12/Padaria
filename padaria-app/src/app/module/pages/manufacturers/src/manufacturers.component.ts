@@ -77,8 +77,10 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
         .pipe(untilDestroyed(this))
         .subscribe(
           async () => {
-            await this.toastService.showSuccess();
+            this.toastService.showSuccess();
             this.loadData();
+            this.reset();
+            if (exists) this.modal.onCloseClick();
           },
           async (error) => this.handleError(error)
         )
@@ -108,7 +110,7 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
     this.reset();
     try {
       if (id) {
-        this.findManufacturer(id);
+        await this.findManufacturer(id);
       }
       this.modal.open();
     } catch (error) {
@@ -175,7 +177,8 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
   private getModel(): Manufacturer {
     const model = new Manufacturer();
     const formValue = this.form.getRawValue();
-    model.id = formValue.id === NEW_ID ? 0 : (formValue.id as unknown as number);
+    model.id =
+      formValue.id === NEW_ID ? 0 : (formValue.id as unknown as number);
     model.name = formValue.name as string;
     return model;
   }

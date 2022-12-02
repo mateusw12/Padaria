@@ -92,8 +92,10 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
         .pipe(untilDestroyed(this))
         .subscribe(
           async () => {
-            await this.toastService.showSuccess();
+            this.toastService.showSuccess();
             this.loadData();
+            this.reset();
+            if (exists) this.modal.onCloseClick();
           },
           async (error) => this.handleError(error)
         )
@@ -107,7 +109,7 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
     this.reset();
     try {
       if (id) {
-        this.findDepartament(id);
+        await this.findDepartament(id);
       }
       this.modal.open();
     } catch (error) {

@@ -103,8 +103,10 @@ export class UserComponent implements OnInit, OnDestroy {
         .pipe(untilDestroyed(this))
         .subscribe(
           async () => {
-            await this.toastService.showSuccess();
+            this.toastService.showSuccess();
             this.loadData();
+            if (exists) this.modal.onCloseClick();
+            this.reset();
           },
           async (error) => this.handleError(error)
         )
@@ -118,7 +120,7 @@ export class UserComponent implements OnInit, OnDestroy {
     this.reset();
     try {
       if (id) {
-        this.findUser(id);
+        await this.findUser(id);
       }
       this.modal.open();
     } catch (error) {

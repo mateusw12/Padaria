@@ -53,7 +53,7 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
     this.reset();
     try {
       if (id) {
-        this.findUnitMeasure(id);
+        await this.findUnitMeasure(id);
       }
       this.modal.open();
     } catch (error) {
@@ -90,8 +90,10 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
         .pipe(untilDestroyed(this))
         .subscribe(
           async () => {
-            await this.toastService.showSuccess();
+            this.toastService.showSuccess();
             this.loadData();
+            this.reset();
+            if (exists) this.modal.onCloseClick();
           },
           async (error) => {
             this.handleError(error);
@@ -179,7 +181,8 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
   private getModel(): UnitMeasure {
     const model = new UnitMeasure();
     const formValue = this.form.getRawValue();
-    model.id = formValue.id === NEW_ID ? 0 : (formValue.id as unknown as number);
+    model.id =
+      formValue.id === NEW_ID ? 0 : (formValue.id as unknown as number);
     model.name = formValue.name as string;
     model.abbreviation = formValue.abbreviation as string;
     return model;

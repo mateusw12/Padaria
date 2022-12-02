@@ -75,7 +75,7 @@ export class SuppliersComponent implements OnInit, OnDestroy {
     this.resetForm();
     try {
       if (id) {
-        this.findSupplier(id);
+        await this.findSupplier(id);
       }
       this.modal.open();
     } catch (error) {
@@ -116,8 +116,10 @@ export class SuppliersComponent implements OnInit, OnDestroy {
         .pipe(untilDestroyed(this))
         .subscribe(
           async () => {
-            await this.toastService.showSuccess();
+            this.toastService.showSuccess();
             this.loadData();
+            this.resetForm();
+            if (exists) this.modal.onCloseClick();
           },
           async (error) => this.handleError(error)
         )
