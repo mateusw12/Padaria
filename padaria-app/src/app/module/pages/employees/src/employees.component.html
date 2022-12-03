@@ -1,10 +1,11 @@
-<ejs-formgrid [dataSource]="dataSource"
-              [columns]="columns"
-              (command)="onCommand($event)">
+<ejs-formgrid
+  [dataSource]="dataSource"
+  [columns]="columns"
+  (command)="onCommand($event)"
+>
 </ejs-formgrid>
 
 <app-modal #modal modalHeader="Cadastro de Funcionário" dialogClass="lg">
-
   <ng-template #bodyTemplate>
     <form [formGroup]="form">
       <div class="row">
@@ -16,13 +17,21 @@
         </div>
         <div class="col-md-7">
           <div class="form-group">
-            <ejs-textbox formControlName="name" placeholder="Nome" formErrorHandler>
+            <ejs-textbox
+              formControlName="name"
+              placeholder="Nome"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
-            <ejs-textbox formControlName="cpf" placeholder="CPF" formErrorHandler>
+            <ejs-textbox
+              formControlName="cpf"
+              placeholder="CPF"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
@@ -31,40 +40,51 @@
       <div class="row">
         <div class="col-md-3">
           <div class="form-group">
-            <ejs-datepicker formControlName="birthDate" placeholder="Data Nascimento" [max]="today" formErrorHandler>
+            <ejs-datepicker
+              formControlName="birthDate"
+              placeholder="Data Nascimento"
+              [max]="today"
+              formErrorHandler
+            >
             </ejs-datepicker>
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
-            <ejs-dropdownlist formControlName="gender"
-                              placeholder="Gênero"
-                              [allowFiltering]="true"
-                              formErrorHandler
-                              [fields]="{value: 'value', text:'description'}"
-                              [dataSource]="genders">
+            <ejs-dropdownlist
+              formControlName="gender"
+              placeholder="Gênero"
+              [allowFiltering]="true"
+              formErrorHandler
+              [fields]="{ value: 'value', text: 'description' }"
+              [dataSource]="genders"
+            >
             </ejs-dropdownlist>
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
-            <ejs-dropdownlist formControlName="maritalStatus"
-                              placeholder="Estado Cívil"
-                              [allowFiltering]="true"
-                              formErrorHandler
-                              [fields]="{value: 'value', text:'description'}"
-                              [dataSource]="martialStatus">
+            <ejs-dropdownlist
+              formControlName="maritalStatus"
+              placeholder="Estado Cívil"
+              [allowFiltering]="true"
+              formErrorHandler
+              [fields]="{ value: 'value', text: 'description' }"
+              [dataSource]="martialStatus"
+            >
             </ejs-dropdownlist>
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
-            <ejs-dropdownlist formControlName="levelSchooling"
-                              placeholder="Grau Escolaridade"
-                              [allowFiltering]="true"
-                              formErrorHandler
-                              [fields]="{value: 'value', text:'description'}"
-                              [dataSource]="levelSchoolings">
+            <ejs-dropdownlist
+              formControlName="levelSchooling"
+              placeholder="Grau Escolaridade"
+              [allowFiltering]="true"
+              formErrorHandler
+              [fields]="{ value: 'value', text: 'description' }"
+              [dataSource]="levelSchoolings"
+            >
             </ejs-dropdownlist>
           </div>
         </div>
@@ -73,26 +93,36 @@
       <div class="row">
         <div class="col-md-3">
           <div class="form-group">
-            <ejs-textbox formControlName="phone" placeholder="Telefone" formErrorHandler>
+            <ejs-textbox
+              formControlName="phone"
+              placeholder="Telefone"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <ejs-textbox formControlName="email" placeholder="E-mail" formErrorHandler>
+            <ejs-textbox
+              formControlName="email"
+              placeholder="E-mail"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
         <div class="col-md-5">
           <div class="form-group">
-            <ejs-multiselect  formControlName="chronicCondition"
-                              placeholder="Doenças Crônicas"
-                              [allowFiltering]="true"
-                              formErrorHandler
-                              [fields]="{value: 'value', text:'description'}"
-                              [dataSource]="chronicConditions"
-                              [hideSelectedItem]="true"
-                              [showSelectAll]="true">
+            <ejs-multiselect
+              formControlName="chronicCondition"
+              placeholder="Doenças Crônicas"
+              [allowFiltering]="true"
+              formErrorHandler
+              [fields]="{ value: 'value', text: 'description' }"
+              [dataSource]="chronicConditions"
+              [hideSelectedItem]="true"
+              [showSelectAll]="true"
+            >
             </ejs-multiselect>
           </div>
         </div>
@@ -101,13 +131,22 @@
       <div class="row">
         <div class="col-md-4">
           <div class="form-group">
-            <ejs-textbox formControlName="zipCodeAddresses" placeholder="CEP" formErrorHandler>
+            <ejs-textbox
+              formControlName="zipCodeAddresses"
+              placeholder="CEP"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <ejs-textbox formControlName="state" placeholder="Estado" formErrorHandler class="align-text-box-name">
+            <ejs-textbox
+              formControlName="state"
+              placeholder="Estado"
+              formErrorHandler
+              class="align-text-box-name"
+            >
             </ejs-textbox>
           </div>
         </div>
@@ -134,12 +173,14 @@
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <ejs-dropdownlist formControlName="jobId"
-                              placeholder="Cargo"
-                              [allowFiltering]="true"
-                              [fields]="{value: 'id', text:'name'}"
-                              [dataSource]="jobs"
-                              formErrorHandler>
+            <ejs-dropdownlist
+              formControlName="jobId"
+              placeholder="Cargo"
+              [allowFiltering]="true"
+              [fields]="{ value: 'id', text: 'name' }"
+              [dataSource]="jobs"
+              formErrorHandler
+            >
             </ejs-dropdownlist>
           </div>
         </div>
@@ -148,37 +189,50 @@
       <div class="row">
         <div class="col-md-4">
           <div class="form-group">
-            <ejs-datepicker formControlName="admissionDate" placeholder="Data Admissão" [max]="today" formErrorHandler>
+            <ejs-datepicker
+              formControlName="admissionDate"
+              placeholder="Data Admissão"
+              [max]="today"
+              formErrorHandler
+            >
             </ejs-datepicker>
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <ejs-numerictextbox formControlName="workingHours"
-                                placeholder="Qtd Horas Trabalho"
-                                format="0"
-                                formErrorHandler
-                                [showSpinButton]="false">
+            <ejs-numerictextbox
+              formControlName="workingHours"
+              placeholder="Qtd Horas Trabalho"
+              format="0"
+              formErrorHandler
+              [showSpinButton]="false"
+            >
             </ejs-numerictextbox>
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <ejs-numerictextbox formControlName="hourlyWork"
-                                placeholder="Valor Por Hora"
-                                format="C2"
-                                formErrorHandler
-                                [showSpinButton]="false">
+            <ejs-numerictextbox
+              formControlName="hourlyWork"
+              placeholder="Valor Por Hora"
+              format="C2"
+              formErrorHandler
+              [showSpinButton]="false"
+            >
             </ejs-numerictextbox>
           </div>
         </div>
       </div>
-
     </form>
   </ng-template>
 
   <ng-template #footerTemplate>
-    <button ejs-button buttonSave [disabled]="!this.form.dirty" (click)="onSaveClick()"></button>
+    <button
+      ejs-button
+      buttonSave
+      [disabled]="!this.form.dirty"
+      (click)="onSaveClick()"
+    ></button>
     <button ejs-button buttonCancel (click)="onModalClose()"></button>
   </ng-template>
 </app-modal>

@@ -1,8 +1,11 @@
-<ejs-formgrid [dataSource]="dataSource" [columns]="columns" (command)="onCommand($event)">
+<ejs-formgrid
+  [dataSource]="dataSource"
+  [columns]="columns"
+  (command)="onCommand($event)"
+>
 </ejs-formgrid>
 
 <app-modal #modal modalHeader="Cadastro de Marca">
-
   <ng-template #bodyTemplate>
     <form [formGroup]="form">
       <div class="row">
@@ -14,7 +17,11 @@
         </div>
         <div class="col-md-9">
           <div class="form-group">
-            <ejs-textbox formControlName="name" placeholder="Nome" formErrorHandler>
+            <ejs-textbox
+              formControlName="name"
+              placeholder="Nome"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
@@ -23,7 +30,12 @@
   </ng-template>
 
   <ng-template #footerTemplate>
-    <button ejs-button buttonSave [disabled]="!this.form.dirty" (click)="onSaveClick()"></button>
+    <button
+      ejs-button
+      buttonSave
+      [disabled]="!this.form.dirty"
+      (click)="onSaveClick()"
+    ></button>
     <button ejs-button buttonCancel (click)="onModalClose()"></button>
   </ng-template>
 </app-modal>

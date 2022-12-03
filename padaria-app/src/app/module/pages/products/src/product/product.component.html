@@ -1,8 +1,11 @@
-<ejs-formgrid [dataSource]="dataSource" [columns]="columns" (command)="onCommand($event)">
+<ejs-formgrid
+  [dataSource]="dataSource"
+  [columns]="columns"
+  (command)="onCommand($event)"
+>
 </ejs-formgrid>
 
 <app-modal #modal modalHeader="Cadastro de Produto" dialogClass="lg">
-
   <ng-template #bodyTemplate>
     <form [formGroup]="form">
       <div class="row">
@@ -14,7 +17,11 @@
         </div>
         <div class="col-md-10">
           <div class="form-group">
-            <ejs-textbox formControlName="name" placeholder="Nome" formErrorHandler>
+            <ejs-textbox
+              formControlName="name"
+              placeholder="Nome"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
@@ -23,13 +30,21 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-textbox formControlName="description" placeholder="Descrição" formErrorHandler>
+            <ejs-textbox
+              formControlName="description"
+              placeholder="Descrição"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-textbox formControlName="barCode" placeholder="Código de Barra" formErrorHandler>
+            <ejs-textbox
+              formControlName="barCode"
+              placeholder="Código de Barra"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
@@ -38,25 +53,33 @@
       <div class="row">
         <div class="col-md-4">
           <div class="form-group">
-            <ejs-textbox formControlName="groupedCodes" placeholder="Máscara" formErrorHandler>
+            <ejs-textbox
+              formControlName="groupedCodes"
+              placeholder="Máscara"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <ejs-numerictextbox formControlName="unitaryPrice"
-                                placeholder="Preço Unitário"
-                                formErrorHandler
-                                format="c2">
+            <ejs-numerictextbox
+              formControlName="unitaryPrice"
+              placeholder="Preço Unitário"
+              formErrorHandler
+              format="c2"
+            >
             </ejs-numerictextbox>
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <ejs-numerictextbox formControlName="amount"
-                                placeholder="Quantidade"
-                                formErrorHandler
-                                format="0">
+            <ejs-numerictextbox
+              formControlName="amount"
+              placeholder="Quantidade"
+              formErrorHandler
+              format="0"
+            >
             </ejs-numerictextbox>
           </div>
         </div>
@@ -65,41 +88,51 @@
       <div class="row">
         <div class="col md-4">
           <div class="form-group">
-            <ejs-dropdownlist formControlName="unitMeasureId"
-                              placeholder="Unidade de Medida"
-                              [dataSource]="unitMeasures"
-                              formErrorHandler
-                              [fields]="{value: 'id', text:'name'} ">
+            <ejs-dropdownlist
+              formControlName="unitMeasureId"
+              placeholder="Unidade de Medida"
+              [dataSource]="unitMeasures"
+              formErrorHandler
+              [fields]="{ value: 'id', text: 'name' }"
+            >
             </ejs-dropdownlist>
           </div>
         </div>
         <div class="col md-4">
           <div class="form-group">
-            <ejs-dropdownlist formControlName="brandId"
-                              placeholder="Marca"
-                              [dataSource]="brands"
-                              formErrorHandler
-                              [fields]=" {value: 'id', text:'name'} ">
+            <ejs-dropdownlist
+              formControlName="brandId"
+              placeholder="Marca"
+              [dataSource]="brands"
+              formErrorHandler
+              [fields]="{ value: 'id', text: 'name' }"
+            >
             </ejs-dropdownlist>
           </div>
         </div>
         <div class="col md-4">
           <div class="form-group">
-            <ejs-dropdownlist formControlName="manufacturerId"
-                              placeholder="Fabricante"
-                              [dataSource]="manufacturers"
-                              formErrorHandler
-                              [fields]=" {value: 'id', text:'name'} ">
+            <ejs-dropdownlist
+              formControlName="manufacturerId"
+              placeholder="Fabricante"
+              [dataSource]="manufacturers"
+              formErrorHandler
+              [fields]="{ value: 'id', text: 'name' }"
+            >
             </ejs-dropdownlist>
           </div>
         </div>
       </div>
-
     </form>
   </ng-template>
 
   <ng-template #footerTemplate>
-    <button ejs-button buttonSave [disabled]="!this.form.dirty" (click)="onSaveClick()"></button>
+    <button
+      ejs-button
+      buttonSave
+      [disabled]="!this.form.dirty"
+      (click)="onSaveClick()"
+    ></button>
     <button ejs-button buttonCancel (click)="onModalClose()"></button>
   </ng-template>
 </app-modal>

@@ -1,8 +1,11 @@
-<ejs-formgrid [dataSource]="dataSource" [columns]="columns" (command)="onCommand($event)">
+<ejs-formgrid
+  [dataSource]="dataSource"
+  [columns]="columns"
+  (command)="onCommand($event)"
+>
 </ejs-formgrid>
 
 <app-modal #modal modalHeader="Cadastro de Usuário">
-
   <ng-template #bodyTemplate>
     <form [formGroup]="form">
       <div class="row">
@@ -14,7 +17,11 @@
         </div>
         <div class="col-md-9">
           <div class="form-group">
-            <ejs-textbox formControlName="name" placeholder="Nome" formErrorHandler>
+            <ejs-textbox
+              formControlName="name"
+              placeholder="Nome"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
@@ -22,17 +29,23 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-textbox formControlName="userName" placeholder="Nome Usuário" formErrorHandler>
+            <ejs-textbox
+              formControlName="userName"
+              placeholder="Nome Usuário"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-dropdownlist formControlName="role"
-                              placeholder="Perfil"
-                              formErrorHandler
-                              [dataSource]="roles"
-                              [fields]="{value: 'value', text:'description'}">
+            <ejs-dropdownlist
+              formControlName="role"
+              placeholder="Perfil"
+              formErrorHandler
+              [dataSource]="roles"
+              [fields]="{ value: 'value', text: 'description' }"
+            >
             </ejs-dropdownlist>
           </div>
         </div>
@@ -40,28 +53,39 @@
       <div class="row">
         <div class="col-md-12">
           <div class="form-group">
-            <ejs-textbox  #password
-                          formControlName="password"
-                          placeholder="Senha"
-                          formErrorHandler
-                          type="password"
-                          (iconClick)="password.type = password.type === 'password' ? 'text' : 'password'">
+            <ejs-textbox
+              #password
+              formControlName="password"
+              placeholder="Senha"
+              formErrorHandler
+              type="password"
+              (iconClick)="
+                password.type =
+                  password.type === 'password' ? 'text' : 'password'
+              "
+            >
             </ejs-textbox>
-            <app-passwordstrengthbar [password]="form.controls.password.value"></app-passwordstrengthbar>
+            <app-passwordstrengthbar
+              [password]="form.controls.password.value"
+            ></app-passwordstrengthbar>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-10">
           <div class="form-group">
-            <ejs-textbox formControlName="email" placeholder="E-mail" formErrorHandler>
+            <ejs-textbox
+              formControlName="email"
+              placeholder="E-mail"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
         <div class="col-md-2">
           <div class="align-check-box">
-          <ejs-checkbox label="Ativo" formControlName="isActive">
-          </ejs-checkbox>
+            <ejs-checkbox label="Ativo" formControlName="isActive">
+            </ejs-checkbox>
           </div>
         </div>
       </div>
@@ -69,7 +93,12 @@
   </ng-template>
 
   <ng-template #footerTemplate>
-    <button ejs-button buttonSave [disabled]="!this.form.dirty" (click)="onSaveClick()"></button>
+    <button
+      ejs-button
+      buttonSave
+      [disabled]="!this.form.dirty"
+      (click)="onSaveClick()"
+    ></button>
     <button ejs-button buttonCancel (click)="onModalClose()"></button>
   </ng-template>
 </app-modal>

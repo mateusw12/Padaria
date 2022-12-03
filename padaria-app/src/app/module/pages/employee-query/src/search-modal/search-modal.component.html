@@ -1,5 +1,4 @@
 <app-modal #modal modalHeader="Consulta de Funcionários" dialogClass="lg">
-
   <ng-template #bodyTemplate>
     <form [formGroup]="form">
       <div class="row">
@@ -11,17 +10,22 @@
         </div>
         <div class="col-md-5">
           <div class="form-group">
-            <ejs-multiselect  formControlName="maritalStatus"
-                              placeholder="Estado Civil"
-                              [dataSource]="martialStatus"
-                              [fields]=" {value: 'value', text:'description' } "
-                              [allowFiltering]="true">
+            <ejs-multiselect
+              formControlName="maritalStatus"
+              placeholder="Estado Civil"
+              [dataSource]="martialStatus"
+              [fields]="{ value: 'value', text: 'description' }"
+              [allowFiltering]="true"
+            >
             </ejs-multiselect>
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
-            <ejs-datepicker formControlName="admissionDate" placeholder="Data Admissão">
+            <ejs-datepicker
+              formControlName="admissionDate"
+              placeholder="Data Admissão"
+            >
             </ejs-datepicker>
           </div>
         </div>
@@ -30,31 +34,37 @@
       <div class="row">
         <div class="col-md-5">
           <div class="form-group">
-            <ejs-multiselect  formControlName="chronicCondition"
-                              placeholder="Doenças Crônicas"
-                              [dataSource]="chronicConditions"
-                              [fields]=" {value: 'value', text:'description'} "
-                              [allowFiltering]="true">
+            <ejs-multiselect
+              formControlName="chronicCondition"
+              placeholder="Doenças Crônicas"
+              [dataSource]="chronicConditions"
+              [fields]="{ value: 'value', text: 'description' }"
+              [allowFiltering]="true"
+            >
             </ejs-multiselect>
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <ejs-multiselect  formControlName="levelSchooling"
-                              placeholder="Nível Escolaridade"
-                              [dataSource]="levelSchoolings"
-                              [fields]=" {value: 'value', text:'description'} "
-                              [allowFiltering]="true">
+            <ejs-multiselect
+              formControlName="levelSchooling"
+              placeholder="Nível Escolaridade"
+              [dataSource]="levelSchoolings"
+              [fields]="{ value: 'value', text: 'description' }"
+              [allowFiltering]="true"
+            >
             </ejs-multiselect>
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
-            <ejs-multiselect  formControlName="gender"
-                              placeholder="Gênero"
-                              [dataSource]="genders"
-                              [fields]=" {value: 'value', text:'description'} "
-                              [allowFiltering]="true">
+            <ejs-multiselect
+              formControlName="gender"
+              placeholder="Gênero"
+              [dataSource]="genders"
+              [fields]="{ value: 'value', text: 'description' }"
+              [allowFiltering]="true"
+            >
             </ejs-multiselect>
           </div>
         </div>
@@ -63,21 +73,25 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-multiselect  formControlName="jobIds"
-                              placeholder="Cargos"
-                              [fields]=" {value: 'id', text:'name'} "
-                              [dataSource]="jobs"
-                              [allowFiltering]="true">
+            <ejs-multiselect
+              formControlName="jobIds"
+              placeholder="Cargos"
+              [fields]="{ value: 'id', text: 'name' }"
+              [dataSource]="jobs"
+              [allowFiltering]="true"
+            >
             </ejs-multiselect>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-multiselect  formControlName="states"
-                              placeholder="Estados"
-                              [dataSource]="states"
-                              [allowFiltering]="true"
-                              [fields]=" {value: 'abbreviation', text:'name'} ">
+            <ejs-multiselect
+              formControlName="states"
+              placeholder="Estados"
+              [dataSource]="states"
+              [allowFiltering]="true"
+              [fields]="{ value: 'abbreviation', text: 'name' }"
+            >
             </ejs-multiselect>
           </div>
         </div>
@@ -85,11 +99,13 @@
       <div class="row">
         <div class="col-md-12">
           <div class="form-group">
-            <ejs-multiselect  formControlName="employeeIds"
-                              placeholder="Funcionários"
-                              [allowFiltering]="true"
-                              [dataSource]="employees"
-                              [fields]=" {value: 'id', text:'name'} ">
+            <ejs-multiselect
+              formControlName="employeeIds"
+              placeholder="Funcionários"
+              [allowFiltering]="true"
+              [dataSource]="employees"
+              [fields]="{ value: 'id', text: 'name' }"
+            >
             </ejs-multiselect>
           </div>
         </div>

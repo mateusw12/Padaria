@@ -1,17 +1,21 @@
-<ejs-formgrid [dataSource]="dataSource"
-              [columns]="columns"
-              [showAddButton]="false"
-              [showRemoveButton]="false"
-              [showEditButton]="false">
+<ejs-formgrid
+  [dataSource]="dataSource"
+  [columns]="columns"
+  [showAddButton]="false"
+  [showRemoveButton]="false"
+  [showEditButton]="false"
+>
   <ng-template #toolbarTemplate>
-      <button ejs-button buttonSearch (click)="onSearchClick()"></button>
+    <button ejs-button buttonSearch (click)="onSearchClick()"></button>
   </ng-template>
 </ejs-formgrid>
 
-<app-search-product-modal (filter)="onFiltered($event)"
-                          [manufacturers]="manufacturers"
-                          [brands]="brands"
-                          [classifications]="classifications"
-                          [products]="products"
-                          [unitMeasures]="unitMeasures">
+<app-search-product-modal
+  (filter)="onFiltered($event)"
+  [manufacturers]="manufacturers"
+  [brands]="brands"
+  [classifications]="classifications"
+  [products]="products"
+  [unitMeasures]="unitMeasures"
+>
 </app-search-product-modal>

@@ -1,11 +1,23 @@
-<ejs-formgrid [dataSource]="dataSource"
-              [columns]="columns"
-              [showAddButton]="false"
-              [showEditButton]="false"
-              (command)="onCommand($event)">
+<ejs-formgrid
+  [dataSource]="dataSource"
+  [columns]="columns"
+  [showAddButton]="false"
+  [showEditButton]="false"
+  (command)="onCommand($event)"
+>
   <ng-template #toolbarTemplate>
-    <button ejs-button content="Adicionar Pedido Compra" class="e-success align-button" (click)="onAddBuyRequest()"></button>
-    <button ejs-button content="Adicionar Pedido Venda" class="e-success" (click)="onAddSalesRequest()"></button>
+    <button
+      ejs-button
+      content="Adicionar Pedido Compra"
+      class="e-success align-button"
+      (click)="onAddBuyRequest()"
+    ></button>
+    <button
+      ejs-button
+      content="Adicionar Pedido Venda"
+      class="e-success"
+      (click)="onAddSalesRequest()"
+    ></button>
   </ng-template>
 </ejs-formgrid>
 

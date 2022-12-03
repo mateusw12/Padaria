@@ -1,8 +1,11 @@
-<ejs-formgrid [dataSource]="dataSource" [columns]="columns" (command)="onCommand($event)">
+<ejs-formgrid
+  [dataSource]="dataSource"
+  [columns]="columns"
+  (command)="onCommand($event)"
+>
 </ejs-formgrid>
 
 <app-modal #modal modalHeader="Cadastro de Tipos de Nota">
-
   <ng-template #bodyTemplate>
     <form [formGroup]="form">
       <div class="row">
@@ -13,12 +16,20 @@
           </div>
         </div>
         <div class="col-md-3">
-          <ejs-textbox formControlName="abbreviation" placeholder="Abreviação" formErrorHandler>
+          <ejs-textbox
+            formControlName="abbreviation"
+            placeholder="Abreviação"
+            formErrorHandler
+          >
           </ejs-textbox>
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-textbox formControlName="name" placeholder="Nome" formErrorHandler>
+            <ejs-textbox
+              formControlName="name"
+              placeholder="Nome"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
@@ -27,7 +38,12 @@
   </ng-template>
 
   <ng-template #footerTemplate>
-    <button ejs-button buttonSave [disabled]="!this.form.dirty" (click)="onSaveClick()"></button>
+    <button
+      ejs-button
+      buttonSave
+      [disabled]="!this.form.dirty"
+      (click)="onSaveClick()"
+    ></button>
     <button ejs-button buttonCancel (click)="onModalClose()"></button>
   </ng-template>
 </app-modal>

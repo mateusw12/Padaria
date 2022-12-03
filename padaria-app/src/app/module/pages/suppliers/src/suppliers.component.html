@@ -1,10 +1,11 @@
-<ejs-formgrid [dataSource]="dataSource"
-              [columns]="columns"
-              (command)="onCommand($event)">
+<ejs-formgrid
+  [dataSource]="dataSource"
+  [columns]="columns"
+  (command)="onCommand($event)"
+>
 </ejs-formgrid>
 
 <app-modal #modal modalHeader="Cadastro de Fornecedor" dialogClass="lg">
-
   <ng-template #bodyTemplate>
     <form [formGroup]="form">
       <div class="row">
@@ -16,13 +17,22 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-textbox formControlName="name" placeholder="Nome" formErrorHandler>
+            <ejs-textbox
+              formControlName="name"
+              placeholder="Nome"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-gruop">
-            <ejs-maskedtextbox formControlName="cnpj" placeholder="CNPJ" formErrorHandler mask="00.000.000/0000-00">
+            <ejs-maskedtextbox
+              formControlName="cnpj"
+              placeholder="CNPJ"
+              formErrorHandler
+              mask="00.000.000/0000-00"
+            >
             </ejs-maskedtextbox>
           </div>
         </div>
@@ -31,13 +41,21 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-textbox formControlName="comercialName" placeholder="Nome Fantasia" formErrorHandler>
+            <ejs-textbox
+              formControlName="comercialName"
+              placeholder="Nome Fantasia"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-textbox formControlName="email" placeholder="E-mail" formErrorHandler>
+            <ejs-textbox
+              formControlName="email"
+              placeholder="E-mail"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
@@ -46,13 +64,21 @@
       <div class="row">
         <div class="col-md-3">
           <div class="form-group">
-            <ejs-textbox formControlName="phone" placeholder="Telefone" formErrorHandler>
+            <ejs-textbox
+              formControlName="phone"
+              placeholder="Telefone"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
         <div class="col-md-2">
           <div class="form-group">
-            <ejs-textbox formControlName="zipCodeAddresses" placeholder="CEP" formErrorHandler>
+            <ejs-textbox
+              formControlName="zipCodeAddresses"
+              placeholder="CEP"
+              formErrorHandler
+            >
             </ejs-textbox>
           </div>
         </div>
@@ -88,7 +114,12 @@
   </ng-template>
 
   <ng-template #footerTemplate>
-    <button ejs-button buttonSave [disabled]="!this.form.dirty" (click)="onSaveClick()"></button>
+    <button
+      ejs-button
+      buttonSave
+      [disabled]="!this.form.dirty"
+      (click)="onSaveClick()"
+    ></button>
     <button ejs-button buttonCancel (click)="onModalClose()"></button>
   </ng-template>
 </app-modal>

@@ -1,21 +1,25 @@
 <app-modal #modal modalHeader="Consulta de Produtos" dialogClass="lg">
-
   <ng-template #bodyTemplate>
     <form [formGroup]="form">
       <div class="row">
         <div class="col-md-4">
           <div class="form-group">
-            <ejs-textbox formControlName="productName" placeholder="Nome Produto">
+            <ejs-textbox
+              formControlName="productName"
+              placeholder="Nome Produto"
+            >
             </ejs-textbox>
           </div>
         </div>
         <div class="col-md-8">
           <div class="form-group">
-            <ejs-multiselect  formControlName="productIds"
-                              placeholder="Produtos"
-                              [fields]=" {value: 'id', text:'displayName'} "
-                              [dataSource]="products"
-                              [allowFiltering]="true">
+            <ejs-multiselect
+              formControlName="productIds"
+              placeholder="Produtos"
+              [fields]="{ value: 'id', text: 'displayName' }"
+              [dataSource]="products"
+              [allowFiltering]="true"
+            >
             </ejs-multiselect>
           </div>
         </div>
@@ -24,21 +28,25 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-multiselect  formControlName="manufacturerIds"
-                              placeholder="Fabricantes"
-                              [fields]=" {value: 'id', text:'displayName'} "
-                              [dataSource]="manufacturers"
-                              [allowFiltering]="true">
+            <ejs-multiselect
+              formControlName="manufacturerIds"
+              placeholder="Fabricantes"
+              [fields]="{ value: 'id', text: 'displayName' }"
+              [dataSource]="manufacturers"
+              [allowFiltering]="true"
+            >
             </ejs-multiselect>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-multiselect  formControlName="unitMeasureIds"
-                              placeholder="Unidade de Medidas"
-                              [fields]=" {value: 'id', text:'displayName'} "
-                              [dataSource]="unitMeasures"
-                              [allowFiltering]="true">
+            <ejs-multiselect
+              formControlName="unitMeasureIds"
+              placeholder="Unidade de Medidas"
+              [fields]="{ value: 'id', text: 'displayName' }"
+              [dataSource]="unitMeasures"
+              [allowFiltering]="true"
+            >
             </ejs-multiselect>
           </div>
         </div>
@@ -47,21 +55,25 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-multiselect  formControlName="brandIds"
-                              placeholder="Marcas"
-                              [fields]=" {value: 'id', text:'displayName'} "
-                              [dataSource]="brands"
-                              [allowFiltering]="true">
+            <ejs-multiselect
+              formControlName="brandIds"
+              placeholder="Marcas"
+              [fields]="{ value: 'id', text: 'displayName' }"
+              [dataSource]="brands"
+              [allowFiltering]="true"
+            >
             </ejs-multiselect>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <ejs-multiselect  formControlName="classificationIds"
-                              placeholder="Classificações"
-                              [allowFiltering]="true"
-                              [fields]=" {value: 'id', text:'displayName'} "
-                              [dataSource]="classifications">
+            <ejs-multiselect
+              formControlName="classificationIds"
+              placeholder="Classificações"
+              [allowFiltering]="true"
+              [fields]="{ value: 'id', text: 'displayName' }"
+              [dataSource]="classifications"
+            >
             </ejs-multiselect>
           </div>
         </div>
