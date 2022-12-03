@@ -47,6 +47,7 @@ interface GridRow {
   street: string;
   phone: string;
   jobName: string;
+  monthlySalary: number;
 }
 
 interface FormModel {
@@ -275,12 +276,23 @@ export class EmployeesComponent implements OnInit, OnDestroy {
               phone: item.phone,
               street: item.street,
               jobName: job ? job.name : '',
+              monthlySalary: this.getMonthlySalary(
+                Number(item.workingHours),
+                Number(item.hourlyWork)
+              ),
             });
           }
           this.dataSource = dataSource;
         },
         (error) => this.handleError(error)
       );
+  }
+
+  private getMonthlySalary(workingHours: number, hourlyWork: number): number {
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth() + 1;
+    const totalDays = new Date(year, month, 0).getDate();
+    return workingHours * hourlyWork * totalDays;
   }
 
   private async findEmployee(id: number): Promise<void> {
@@ -381,7 +393,7 @@ export class EmployeesComponent implements OnInit, OnDestroy {
       district: new FormControl<string | null>({ value: null, disabled: true }),
       state: new FormControl<string | null>({ value: null, disabled: true }),
       email: new FormControl<string | null>(null, [
-        FormValidators.email,
+        Validators.email,
         Validators.maxLength(250),
       ]),
       gender: new FormControl<Gender | null>(null, [FormValidators.required]),
@@ -423,6 +435,10 @@ export class EmployeesComponent implements OnInit, OnDestroy {
       jobName: SfGridColumns.text('jobName', 'Cargo').minWidth(100),
       street: SfGridColumns.text('street', 'Endereço').minWidth(200),
       phone: SfGridColumns.text('phone', 'Telefone').minWidth(100),
+      monthlySalary: SfGridColumns.numeric(
+        'monthlySalary',
+        'Salário Mensal'
+      ).minWidth(100),
     });
   }
 }

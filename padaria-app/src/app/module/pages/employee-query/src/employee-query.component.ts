@@ -126,8 +126,10 @@ export class EmployeeQueryComponent implements OnInit, OnDestroy {
     workingHours: number,
     hourlyWork: number
   ): number {
-    const weeklyWage = workingHours * hourlyWork * 7;
-    return weeklyWage * 30;
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth() + 1;
+    const totalDays = new Date(year, month, 0).getDate();
+    return workingHours * hourlyWork * totalDays;
   }
 
   private handleError(error: unknown): void {
