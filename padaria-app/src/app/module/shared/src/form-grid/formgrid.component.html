@@ -9,6 +9,12 @@
     <div fxFlex="2 1 auto">
       <ng-container *ngTemplateOutlet="toolbarTemplate"></ng-container>
     </div>
+    <div fxFlex="220px">
+      <ejs-textbox  placeholder="Pesquisar"
+                    floatLabelType="Never"
+                    (blur)="onSearch($event)">
+    </ejs-textbox>
+    </div>
   </div>
 
   <div fxFlex="85">
