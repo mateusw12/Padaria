@@ -10,7 +10,6 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   Brand,
-  Classification,
   Manufacturer,
   Product,
   ProductQueryFilter,
@@ -23,7 +22,6 @@ interface FormModel {
   manufacturerIds: FormControl<number[] | null>;
   productIds: FormControl<number[] | null>;
   unitMeasureIds: FormControl<number[] | null>;
-  classificationIds: FormControl<number[] | null>;
   productName: FormControl<string | null>;
 }
 
@@ -46,9 +44,6 @@ export class SearchModalomponent implements OnInit, OnDestroy {
 
   @Input()
   unitMeasures: UnitMeasure[] = [];
-
-  @Input()
-  classifications: Classification[] = [];
 
   form = this.createForm();
 
@@ -88,7 +83,6 @@ export class SearchModalomponent implements OnInit, OnDestroy {
     model.productIds = formValue.productIds as number[];
     model.productName = formValue.productName as string;
     model.unitMeasureIds = formValue.unitMeasureIds as number[];
-    model.classificationIds = formValue.classificationIds as number[];
     return model;
   }
 
@@ -98,7 +92,6 @@ export class SearchModalomponent implements OnInit, OnDestroy {
       manufacturerIds: new FormControl<number[] | null>([]),
       productIds: new FormControl<number[] | null>([]),
       unitMeasureIds: new FormControl<number[] | null>([]),
-      classificationIds: new FormControl<number[] | null>([]),
       productName: new FormControl<string | null>(null),
     });
   }

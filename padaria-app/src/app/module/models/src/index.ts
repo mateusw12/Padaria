@@ -1,5 +1,4 @@
 export * from './brand/brand';
-export * from './classification/classification';
 export * from './departament/departament';
 export * from './employee-query/employee-filter';
 export * from './employee-query/employee-query';

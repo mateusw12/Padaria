@@ -4,5 +4,4 @@ export class ProductQueryFilter {
   unitMeasureIds: number[] = [];
   brandIds: number[] = [];
   manufacturerIds: number[] = [];
-  classificationIds: number[] = [];
 }

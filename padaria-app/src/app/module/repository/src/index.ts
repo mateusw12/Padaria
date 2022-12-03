@@ -1,5 +1,4 @@
 export * from './brand/brand.repository';
-export * from './classification/classification.repository';
 export * from './departament/departament.repository';
 export * from './employee-query/employee-query.repository';
 export * from './employee/employee.repository';

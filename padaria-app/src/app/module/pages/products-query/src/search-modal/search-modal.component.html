@@ -16,7 +16,7 @@
             <ejs-multiselect
               formControlName="productIds"
               placeholder="Produtos"
-              [fields]="{ value: 'id', text: 'displayName' }"
+              [fields]="{ value: 'id', text: 'name' }"
               [dataSource]="products"
               [allowFiltering]="true"
             >
@@ -31,7 +31,7 @@
             <ejs-multiselect
               formControlName="manufacturerIds"
               placeholder="Fabricantes"
-              [fields]="{ value: 'id', text: 'displayName' }"
+              [fields]="{ value: 'id', text: 'name' }"
               [dataSource]="manufacturers"
               [allowFiltering]="true"
             >
@@ -43,7 +43,7 @@
             <ejs-multiselect
               formControlName="unitMeasureIds"
               placeholder="Unidade de Medidas"
-              [fields]="{ value: 'id', text: 'displayName' }"
+              [fields]="{ value: 'id', text: 'name' }"
               [dataSource]="unitMeasures"
               [allowFiltering]="true"
             >
@@ -53,26 +53,14 @@
       </div>
 
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="form-group">
             <ejs-multiselect
               formControlName="brandIds"
               placeholder="Marcas"
-              [fields]="{ value: 'id', text: 'displayName' }"
+              [fields]="{ value: 'id', text: 'name' }"
               [dataSource]="brands"
               [allowFiltering]="true"
-            >
-            </ejs-multiselect>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <ejs-multiselect
-              formControlName="classificationIds"
-              placeholder="Classificações"
-              [allowFiltering]="true"
-              [fields]="{ value: 'id', text: 'displayName' }"
-              [dataSource]="classifications"
             >
             </ejs-multiselect>
           </div>

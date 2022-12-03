@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   Brand,
-  Classification,
   Manufacturer,
   Product,
   ProductQueryFilter,
@@ -9,7 +8,6 @@ import {
 } from '@module/models';
 import {
   BrandRepository,
-  ClassificationRepository,
   ManufacturerRepository,
   ProductQueryRepository,
   ProductRepository,
@@ -24,7 +22,6 @@ import { SearchModalomponent } from './search-modal/search-modal.component';
 interface GridRow {
   id: number;
   productName: string;
-  classificationName: string;
   unitMeasureName: string;
   brandName: string;
   manufacturerName: string;
@@ -41,7 +38,6 @@ export class ProductsQueryComponent implements OnInit, OnDestroy {
   manufacturers: Manufacturer[] = [];
   brands: Brand[] = [];
   unitMeasures: UnitMeasure[] = [];
-  classifications: Classification[] = [];
 
   dataSource: GridRow[] = [];
   columns: SfGridColumnModel[] = this.createColumns();
@@ -53,7 +49,6 @@ export class ProductsQueryComponent implements OnInit, OnDestroy {
     private errorHandler: ErrorHandler,
     private manufacturerRepository: ManufacturerRepository,
     private brandRepository: BrandRepository,
-    private classificationRepository: ClassificationRepository,
     private unitMeasureRepository: UnitMeasureRepository,
     private productQueryRepository: ProductQueryRepository,
     private productRepository: ProductRepository
@@ -79,7 +74,6 @@ export class ProductsQueryComponent implements OnInit, OnDestroy {
       this.productRepository.findAll(),
       this.manufacturerRepository.findAll(),
       this.brandRepository.findAll(),
-      this.classificationRepository.findAll(),
       this.unitMeasureRepository.findAll(),
     ])
       .pipe(untilDestroyed(this))
@@ -89,13 +83,11 @@ export class ProductsQueryComponent implements OnInit, OnDestroy {
           products,
           manufactures,
           brands,
-          classifications,
           unitMeasures,
         ]) => {
           this.products = products;
           this.manufacturers = manufactures;
           this.brands = brands;
-          this.classifications = classifications;
           this.unitMeasures = unitMeasures;
 
           const dataSource: GridRow[] = [];
@@ -105,9 +97,6 @@ export class ProductsQueryComponent implements OnInit, OnDestroy {
               (el) => el.id === item.manufacturerId
             );
             const brand = brands.find((el) => el.id === item.brandId);
-            const classification = classifications.find(
-              (el) => el.id === item.classificationId
-            );
             const unitMeasure = unitMeasures.find(
               (el) => el.id === item.unitMeasureId
             );
@@ -115,9 +104,6 @@ export class ProductsQueryComponent implements OnInit, OnDestroy {
             dataSource.push({
               amount: item.amount,
               brandName: brand ? brand.displayName : '',
-              classificationName: classification
-                ? classification.displayName
-                : '',
               id: item.productId,
               manufacturerName: manufacturer ? manufacturer.displayName : '',
               productName: item.productName,
@@ -143,10 +129,6 @@ export class ProductsQueryComponent implements OnInit, OnDestroy {
         .identity()
         .isPrimaryKey(true),
       productName: SfGridColumns.text('productName', 'Produto').minWidth(200),
-      classificationName: SfGridColumns.text(
-        'classificationName',
-        'Classificação'
-      ).minWidth(200),
       brandName: SfGridColumns.text('brandName', 'Marca').minWidth(200),
       manufacturerName: SfGridColumns.text(
         'manufacturerName',
