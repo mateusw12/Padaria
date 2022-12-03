@@ -107,7 +107,7 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe(
         () => {
-          this.toastService.showSuccess('Excluído com sucesso!');
+          this.toastService.showRemove();
           this.loadData();
         },
         (error) => this.handleError(error)
