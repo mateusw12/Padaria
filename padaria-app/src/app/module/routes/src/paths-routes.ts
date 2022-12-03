@@ -7,7 +7,7 @@ const PURCHASE_PATH = 'Compras';
 const SALES_PATH = 'Vendas';
 const ABOUT_PATH = 'Informações';
 const COPYRIGHT_PATH = 'Licenças';
-const SETTING_PATH = 'Configuração';
+const ADMINISTRATOR = 'Administração';
 
 export const REGISTRATION_ROUTES_PATHS: AppRoutes[] = [
   {
@@ -50,12 +50,6 @@ export const REGISTRATION_ROUTES_PATHS: AppRoutes[] = [
     path: '/menu/registrations/note-types',
     onlyPath: 'note-type',
     pageTitle: 'Tipos de Nota',
-    fatherTitle: REGISTRATION_PATH,
-  },
-  {
-    path: '/menu/registrations/users',
-    onlyPath: 'user',
-    pageTitle: 'Usuário',
     fatherTitle: REGISTRATION_PATH,
   },
 ];
@@ -130,3 +124,12 @@ export const SETTINGS_ROUTES_PATHS: AppRoutes = {
   pageTitle: 'Configuração',
   fatherTitle: '',
 };
+
+export const ADMINISTRATOR_ROUTES_PATHS: AppRoutes[] = [
+  {
+    path: '/menu/administrator/users',
+    onlyPath: 'user',
+    pageTitle: 'Usuário',
+    fatherTitle: 'Administração',
+  },
+];

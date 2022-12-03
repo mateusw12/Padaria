@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SettingRepository, UserRepository } from '@module/repository';
 import {
+  ADMINISTRATOR_ROUTES_PATHS,
   AppRoutes,
   INFORMATION_PATH,
   LICENSE_PATH,
@@ -46,6 +47,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   readonly license_route: AppRoutes = LICENSE_PATH;
   readonly login_route: AppRoutes = LOGIN_PATH;
   readonly settings_route: AppRoutes = SETTINGS_ROUTES_PATHS;
+  readonly administrator_routes: AppRoutes[] = ADMINISTRATOR_ROUTES_PATHS;
+
   companyTitle: string = '';
   themeColor: string = '';
   logo: string = '';

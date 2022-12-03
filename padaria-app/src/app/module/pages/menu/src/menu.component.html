@@ -23,6 +23,48 @@
       }"
     >
       <p>MW Web Developer</p>
+
+      <li
+        class="active"
+        [ngStyle]="{
+          background: themeColor
+        }"
+      >
+        <a
+          href="#admiSubmenu"
+          data-toggle="collapse"
+          aria-expanded="false"
+          class="dropdown-toggle"
+          [ngStyle]="{
+            background: themeColor
+          }"
+          >Administração</a
+        >
+        <ul
+          class="collapse list-unstyled"
+          id="admiSubmenu"
+          [ngStyle]="{
+            background: themeColor
+          }"
+        >
+          <li
+            *ngFor="let item of administrator_routes; index as i"
+            [ngStyle]="{
+              background: themeColor
+            }"
+          >
+            <a
+              [routerLink]="item.path"
+              (click)="onBreadCrumb(item)"
+              [ngStyle]="{
+                background: themeColor
+              }"
+              >{{ item.pageTitle }}</a
+            >
+          </li>
+        </ul>
+      </li>
+
       <li
         class="active"
         [ngStyle]="{

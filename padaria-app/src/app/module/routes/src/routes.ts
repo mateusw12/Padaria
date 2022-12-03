@@ -61,6 +61,12 @@ export const routes: Routes = [
             data: { pageTitle: 'Fabricantes', breadcrumb: 'Fabricantes' },
             loadChildren: pages.manufacturerRegistration,
           },
+        ],
+      },
+      {
+        path: 'administrator',
+        data: { pageTitle: 'Administração', breadcrumb: 'Administração' },
+        children: [
           {
             path: 'users',
             data: { pageTitle: 'Usuário', breadcrumb: 'Usuário' },
