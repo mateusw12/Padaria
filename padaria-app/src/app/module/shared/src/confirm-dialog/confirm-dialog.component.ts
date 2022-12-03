@@ -9,7 +9,6 @@ import { ButtonOptions } from './confirm-dialog-interface';
   selector: 'app-confirm-modal',
 })
 export class ConfirmDialogComponent implements OnInit {
-
   @Input()
   title: string = '';
 
@@ -18,10 +17,11 @@ export class ConfirmDialogComponent implements OnInit {
     closeContent: 'Não',
     confirmContent: 'Sim',
     closeCssClass: 'danger',
-    confirmCssClass: 'success'
+    confirmCssClass: 'success',
   };
 
   confirmResult!: Subject<boolean>;
+  confirmResult1!: Promise<boolean>;
 
   constructor(public bsModalRef: BsModalRef) {}
 
@@ -33,12 +33,11 @@ export class ConfirmDialogComponent implements OnInit {
     this.confirmAndClose(false);
   }
 
-  ngOnInit() {
-    this.confirmResult = new Subject();
-  }
+  ngOnInit() {}
 
   private confirmAndClose(confirm: boolean): void {
-    this.confirmResult.next(confirm);
+    console.log('confirmAndClose', confirm);
+    this.confirmResult1 = Promise.resolve(confirm);
     this.bsModalRef.hide();
   }
 }

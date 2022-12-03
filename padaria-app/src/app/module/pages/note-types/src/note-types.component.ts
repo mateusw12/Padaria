@@ -62,15 +62,6 @@ export class NoteTypesComponent implements OnInit {
     const model = this.getModel();
     const exists = model.id > 1;
 
-    if (exists) {
-      const confirmed$ = this.messageService.showConfirmSave();
-      const confirmed = await untilDestroyedAsync(
-        confirmed$.asObservable(),
-        this
-      );
-      if (!confirmed) return;
-    }
-
     if (
       (exists
         ? this.noteTypeRepository.updateById(model)
@@ -127,13 +118,6 @@ export class NoteTypesComponent implements OnInit {
   }
 
   private async onCommandRemove(model: GridRow): Promise<void> {
-    const confirmed$ = this.messageService.showConfirmSave();
-    const confirmed = await untilDestroyedAsync(
-      confirmed$.asObservable(),
-      this
-    );
-    if (!confirmed) return;
-
     this.noteTypeRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))

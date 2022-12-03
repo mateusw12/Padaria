@@ -6,10 +6,10 @@ import { MenuComponent } from '@module/pages/menu';
 import { BreadCrumbComponent } from '@module/shared';
 import { AuthGuardsService } from '@module/utils/http/auth-guards.service';
 import { HttpErrorHandlerInterceptor } from '@module/utils/http/http-error-handler.interceptor';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ConfirmDialogModule } from './module/shared/src/confirm-dialog/confirm-dialog.module';
 
 @NgModule({
   declarations: [AppComponent, MenuComponent, BreadCrumbComponent],
@@ -18,7 +18,7 @@ import { AppComponent } from './app.component';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    NgbModule,
+    ConfirmDialogModule,
   ],
   providers: [
     BsModalService,

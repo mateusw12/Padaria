@@ -60,15 +60,6 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
     const model = this.getModel();
     const exists = model.id > 1;
 
-    if (exists) {
-      const confirmed$ = this.messageService.showConfirmSave();
-      const confirmed = await untilDestroyedAsync(
-        confirmed$.asObservable(),
-        this
-      );
-      if (!confirmed) return;
-    }
-
     if (
       (exists
         ? this.manufacturerRepository.updateById(model)
@@ -127,13 +118,6 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
   }
 
   private async onCommandRemove(model: GridRow): Promise<void> {
-    const confirmed$ = this.messageService.showConfirmSave();
-    const confirmed = await untilDestroyedAsync(
-      confirmed$.asObservable(),
-      this
-    );
-    if (!confirmed) return;
-
     this.manufacturerRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))

@@ -101,15 +101,6 @@ export class SalesRequestRegistrationModalComponent
     const model = this.getModel();
     const exists = model.itemId > 0;
 
-    if (exists) {
-      const confirmed$ = this.messageService.showConfirmSave();
-      const confirmed = await untilDestroyedAsync(
-        confirmed$.asObservable(),
-        this
-      );
-      if (!confirmed) return;
-    }
-
     if (
       (exists
         ? this.salesRequestRepository.updateById(model)

@@ -40,6 +40,7 @@
     "@syncfusion/ej2-base": "^20.3.50",
     "@syncfusion/ej2-layouts": "^20.3.48",
     "@syncfusion/ej2-locale": "^20.3.47",
+    "angular-confirm-modal": "^2.0.1",
     "angular-font-awesome": "^3.1.2",
     "bootstrap": "^4.0.0",
     "bootstrap-icons": "^1.9.1",

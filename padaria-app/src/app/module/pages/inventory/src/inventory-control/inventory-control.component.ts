@@ -95,13 +95,6 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   private async onCommandRemove(model: GridRow): Promise<void> {
-    const confirmed$ = this.messageService.showConfirmSave();
-    const confirmed = await untilDestroyedAsync(
-      confirmed$.asObservable(),
-      this
-    );
-    if (!confirmed) return;
-
     this.inventoryRepository
       .deleteById(model.itemId)
       .pipe(untilDestroyed(this))

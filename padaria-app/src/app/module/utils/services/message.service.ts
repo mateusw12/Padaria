@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { untilDestroyed } from '@module/utils/common';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
   AlertContent,
   AlertDialogComponent,
@@ -7,6 +8,7 @@ import {
 import { ButtonOptions } from '@module/shared/src/confirm-dialog';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
+import { untilDestroyedAsync } from '../common/until-destroyed';
 import {
   ERROR_CSS_CLASS,
   ERROR_ICON,
@@ -23,15 +25,18 @@ import {
 } from '../constant/alert';
 
 @Injectable({ providedIn: 'root' })
-export class MessageService {
+export class MessageService implements OnDestroy {
   constructor(private modalService: BsModalService) {}
 
-  showConfirmDelete(): Subject<boolean> {
+  async showConfirmDelete(): Promise<boolean> {
     const bsModalRef: BsModalRef = this.modalService.show(
       ConfirmDialogComponent
     );
     bsModalRef.content.title = 'Você confirma a exclusão?';
-    return (<ConfirmDialogComponent>bsModalRef.content).confirmResult;
+    const response = await (<ConfirmDialogComponent>bsModalRef.content)
+      .confirmResult1;
+    console.log('response');
+    return response;
   }
 
   showConfirmSave(): Subject<boolean> {
@@ -90,6 +95,8 @@ export class MessageService {
     };
     this.showMessage(alertContent);
   }
+
+  ngOnDestroy(): void {}
 
   private showMessage(alertContent: AlertContent): void {
     const bsModalRef: BsModalRef = this.modalService.show(AlertDialogComponent);
