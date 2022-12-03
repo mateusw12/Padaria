@@ -8,4 +8,5 @@ export class User {
   email: string = '';
   isActive: boolean = false;
   role: UserRole = UserRole.None;
+  isDarkMode: boolean = false;
 }

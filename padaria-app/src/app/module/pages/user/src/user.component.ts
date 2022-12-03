@@ -29,6 +29,7 @@ interface FormModel {
   password: FormControl<string | null>;
   role: FormControl<UserRole | null>;
   isActive: FormControl<boolean | null>;
+  isDarkMode: FormControl<boolean | null>;
   email: FormControl<string | null>;
 }
 
@@ -104,9 +105,9 @@ export class UserComponent implements OnInit, OnDestroy {
         .subscribe(
           async () => {
             this.toastService.showSuccess();
-            this.loadData();
-            if (exists) this.modal.onCloseClick();
             this.reset();
+            if (exists) this.modal.onCloseClick();
+            if (!exists) this.reloadPage();
           },
           async (error) => this.handleError(error)
         )
@@ -115,6 +116,10 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
+
+  private reloadPage(): void {
+    window.location.reload();
+  }
 
   private async onOpen(id?: number): Promise<void> {
     this.reset();
@@ -149,7 +154,7 @@ export class UserComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe(
         () => {
-          this.toastService.showSuccess('Excluído com sucesso!');
+          this.toastService.showRemove();
           this.loadData();
         },
         (error) => this.handleError(error)
@@ -195,6 +200,7 @@ export class UserComponent implements OnInit, OnDestroy {
       userName: user.userName,
       email: user.email,
       isActive: user.isActive,
+      isDarkMode: user.isDarkMode,
     });
   }
 
@@ -208,6 +214,7 @@ export class UserComponent implements OnInit, OnDestroy {
     model.password = formValue.password as string;
     model.email = formValue.email as string;
     model.isActive = formValue.isActive as boolean;
+    model.isDarkMode = formValue.isDarkMode as boolean;
     return model;
   }
 
@@ -245,6 +252,7 @@ export class UserComponent implements OnInit, OnDestroy {
         Validators.maxLength(300),
       ]),
       isActive: new FormControl<boolean | null>(false),
+      isDarkMode: new FormControl<boolean | null>(false),
     });
   }
 

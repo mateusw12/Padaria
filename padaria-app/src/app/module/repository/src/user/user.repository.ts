@@ -19,7 +19,7 @@ export class UserRepository {
     return this.httpCliente.get<User>(`${API_URL}/${id}`);
   }
 
-    findMe(): Observable<User> {
+  findMe(): Observable<User> {
     return this.httpCliente.get<User>(`${API_URL}/me`);
   }
 
