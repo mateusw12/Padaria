@@ -56,7 +56,8 @@ export class EmployeeQueryComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.loadData();
+    const model = new EmployeeQueryFilter();
+    this.loadData(model);
   }
 
   async onSearchClick(): Promise<void> {

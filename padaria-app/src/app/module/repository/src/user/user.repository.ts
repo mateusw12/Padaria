@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '@module/models';
+import { AuthenticationService } from '@module/utils/services';
 import { Observable } from 'rxjs';
 
 const API_URL = '/api/cadastro/usuario';
@@ -9,7 +10,10 @@ const API_URL = '/api/cadastro/usuario';
   providedIn: 'root',
 })
 export class UserRepository {
-  constructor(private httpCliente: HttpClient) {}
+  constructor(
+    private httpCliente: HttpClient,
+    private authenticationService: AuthenticationService
+  ) {}
 
   add(user: User): Observable<void> {
     return this.httpCliente.post<void>(API_URL, user);
@@ -20,7 +24,8 @@ export class UserRepository {
   }
 
   findMe(): Observable<User> {
-    return this.httpCliente.get<User>(`${API_URL}/me`);
+    const user = this.authenticationService.getUser() as string;
+    return this.httpCliente.get<User>(`${API_URL}/me/${user}`);
   }
 
   findAll(): Observable<User[]> {

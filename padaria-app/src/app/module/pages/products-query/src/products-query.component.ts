@@ -4,14 +4,14 @@ import {
   Manufacturer,
   Product,
   ProductQueryFilter,
-  UnitMeasure,
+  UnitMeasure
 } from '@module/models';
 import {
   BrandRepository,
   ManufacturerRepository,
   ProductQueryRepository,
   ProductRepository,
-  UnitMeasureRepository,
+  UnitMeasureRepository
 } from '@module/repository';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed } from '@module/utils/common';
@@ -55,7 +55,8 @@ export class ProductsQueryComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.loadData();
+    const filter = new ProductQueryFilter();
+    this.loadData(filter);
   }
 
   async onSearchClick(): Promise<void> {
@@ -78,18 +79,11 @@ export class ProductsQueryComponent implements OnInit, OnDestroy {
     ])
       .pipe(untilDestroyed(this))
       .subscribe(
-        ([
-          productsFilter,
-          products,
-          manufactures,
-          brands,
-          unitMeasures,
-        ]) => {
+        ([productsFilter, products, manufactures, brands, unitMeasures]) => {
           this.products = products;
           this.manufacturers = manufactures;
           this.brands = brands;
           this.unitMeasures = unitMeasures;
-
           const dataSource: GridRow[] = [];
 
           for (const item of productsFilter) {
@@ -103,12 +97,12 @@ export class ProductsQueryComponent implements OnInit, OnDestroy {
 
             dataSource.push({
               amount: item.amount,
-              brandName: brand ? brand.displayName : '',
-              id: item.productId,
-              manufacturerName: manufacturer ? manufacturer.displayName : '',
-              productName: item.productName,
-              unitaryPrice: item.unitMeasureId,
-              unitMeasureName: unitMeasure ? unitMeasure.displayName : '',
+              brandName: brand ? brand.name : '',
+              id: item.id,
+              manufacturerName: manufacturer ? manufacturer.name : '',
+              productName: item.name,
+              unitaryPrice: item.unitaryPrice,
+              unitMeasureName: unitMeasure ? unitMeasure.name : '',
             });
           }
 

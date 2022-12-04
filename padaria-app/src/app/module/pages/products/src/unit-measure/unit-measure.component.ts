@@ -32,6 +32,8 @@ interface FormModel {
   templateUrl: './unit-measure.component.html',
 })
 export class UnitMeasureComponent implements OnInit, OnDestroy {
+
+  @ViewChild(ModalComponent, { static: true })
   modal!: ModalComponent;
 
   dataSource: GridRow[] = [];

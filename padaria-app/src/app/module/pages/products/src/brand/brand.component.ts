@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Brand } from '@module/models';
 import { BrandRepository } from '@module/repository';
@@ -30,6 +30,7 @@ interface FormModel {
   templateUrl: './brand.component.html',
 })
 export class BrandComponent implements OnInit, OnDestroy {
+  @ViewChild(ModalComponent, { static: true })
   modal!: ModalComponent;
 
   dataSource: GridRow[] = [];
