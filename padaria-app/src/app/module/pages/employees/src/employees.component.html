@@ -91,7 +91,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="form-group">
             <ejs-textbox
               formControlName="phone"
@@ -101,7 +101,7 @@
             </ejs-textbox>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-8">
           <div class="form-group">
             <ejs-textbox
               formControlName="email"
@@ -109,21 +109,6 @@
               formErrorHandler
             >
             </ejs-textbox>
-          </div>
-        </div>
-        <div class="col-md-5">
-          <div class="form-group">
-            <ejs-multiselect
-              formControlName="chronicCondition"
-              placeholder="Doenças Crônicas"
-              [allowFiltering]="true"
-              formErrorHandler
-              [fields]="{ value: 'value', text: 'description' }"
-              [dataSource]="chronicConditions"
-              [hideSelectedItem]="true"
-              [showSelectAll]="true"
-            >
-            </ejs-multiselect>
           </div>
         </div>
       </div>

@@ -1,4 +1,3 @@
-import { ChronicCondition } from './chronic-condition';
 import { Gender } from './gender';
 import { LevelSchooling } from './level-schooling';
 import { MaritalStatus } from './marital-status';
@@ -12,7 +11,6 @@ export class Employee {
   admissionDate: Date = new Date();
   gender: Gender = Gender.None;
   maritalStatus: MaritalStatus = MaritalStatus.None;
-  chronicCondition: ChronicCondition[] = [];
   levelSchooling: LevelSchooling = LevelSchooling.None;
   zipCodeAddresses: string = '';
   street: string = '';
@@ -27,4 +25,5 @@ export class Employee {
   get displayName(): string {
     return `${this.name} (${this.id})`;
   }
+  
 }

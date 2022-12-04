@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
-  ChronicCondition,
   Employee,
   Gender,
   Job,
@@ -57,7 +56,6 @@ interface FormModel {
   admissionDate: FormControl<Date | null>;
   gender: FormControl<Gender | null>;
   maritalStatus: FormControl<MaritalStatus | null>;
-  chronicCondition: FormControl<ChronicCondition[] | null>;
   levelSchooling: FormControl<LevelSchooling | null>;
   city: FormControl<string | null>;
   district: FormControl<string | null>;
@@ -89,9 +87,6 @@ export class EmployeesComponent implements OnInit, OnDestroy {
   );
   martialStatus = toArray(MaritalStatus).filter(
     (el) => el.value !== MaritalStatus.None
-  );
-  chronicConditions = toArray(ChronicCondition).filter(
-    (el) => el.value !== ChronicCondition.None
   );
   levelSchoolings = toArray(LevelSchooling).filter(
     (el) => el.value !== LevelSchooling.None
@@ -302,7 +297,6 @@ export class EmployeesComponent implements OnInit, OnDestroy {
       levelSchooling: employee.levelSchooling,
       maritalStatus: employee.maritalStatus,
       phone: employee.phone,
-      chronicCondition: employee.chronicCondition,
       state: employee.state,
       street: employee.street,
       city: employee.city,
@@ -321,9 +315,6 @@ export class EmployeesComponent implements OnInit, OnDestroy {
     model.name = formValue.name as string;
     model.admissionDate = formValue.admissionDate as Date;
     model.birthDate = formValue.birthDate as Date;
-    model.chronicCondition = formValue.chronicCondition
-      ? (formValue.chronicCondition as ChronicCondition[])
-      : [];
     model.city = formValue.city as string;
     model.district = formValue.district as string;
     model.email = formValue.email as string;
@@ -373,7 +364,6 @@ export class EmployeesComponent implements OnInit, OnDestroy {
       birthDate: new FormControl<Date | null>(null, [
         Validators.maxLength(200),
       ]),
-      chronicCondition: new FormControl<ChronicCondition[] | null>(null),
       city: new FormControl<string | null>({ value: null, disabled: true }),
       street: new FormControl<string | null>({ value: null, disabled: true }),
       district: new FormControl<string | null>({ value: null, disabled: true }),

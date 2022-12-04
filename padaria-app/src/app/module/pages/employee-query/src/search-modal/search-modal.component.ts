@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
-  ChronicCondition,
   Employee,
   EmployeeQueryFilter,
   Gender,
@@ -28,7 +27,6 @@ interface FormModel {
   employeeIds: FormControl<number[] | null>;
   gender: FormControl<Gender[] | null>;
   maritalStatus: FormControl<MaritalStatus[] | null>;
-  chronicCondition: FormControl<ChronicCondition[] | null>;
   levelSchooling: FormControl<LevelSchooling[] | null>;
   jobIds: FormControl<number[] | null>;
   states: FormControl<string[] | null>;
@@ -54,9 +52,6 @@ export class SearchEmployeeModalComponent implements OnInit, OnDestroy {
   genders = toArray(Gender).filter((el) => el.value !== Gender.None);
   martialStatus = toArray(MaritalStatus).filter(
     (el) => el.value !== MaritalStatus.None
-  );
-  chronicConditions = toArray(ChronicCondition).filter(
-    (el) => el.value !== ChronicCondition.None
   );
   levelSchoolings = toArray(LevelSchooling).filter(
     (el) => el.value !== LevelSchooling.None
@@ -95,7 +90,6 @@ export class SearchEmployeeModalComponent implements OnInit, OnDestroy {
     const model = new EmployeeQueryFilter();
     const formValue = this.form.getRawValue();
     model.admissionDate = formValue.admissionDate as Date | null;
-    model.chronicCondition = formValue.chronicCondition as ChronicCondition[];
     model.city = formValue.city as string;
     model.employeeIds = formValue.employeeIds as number[];
     model.jobIds = formValue.jobIds as number[];
@@ -111,7 +105,6 @@ export class SearchEmployeeModalComponent implements OnInit, OnDestroy {
       employeeIds: new FormControl<number[] | null>([]),
       gender: new FormControl<Gender[] | null>([]),
       maritalStatus: new FormControl<MaritalStatus[] | null>([]),
-      chronicCondition: new FormControl<ChronicCondition[] | null>([]),
       levelSchooling: new FormControl<LevelSchooling[] | null>([]),
       jobIds: new FormControl<number[] | null>([]),
       states: new FormControl<string[] | null>([]),

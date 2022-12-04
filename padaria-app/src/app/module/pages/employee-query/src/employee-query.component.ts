@@ -1,17 +1,16 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
-  ChronicCondition,
   Employee,
   EmployeeQueryFilter,
   Gender,
   Job,
   LevelSchooling,
-  MaritalStatus,
+  MaritalStatus
 } from '@module/models';
 import {
   EmployeeQueryRepository,
   EmployeeRepository,
-  JobRepository,
+  JobRepository
 } from '@module/repository';
 import { SfGridColumnModel, SfGridColumns } from '@module/shared/src/grid';
 import { untilDestroyed } from '@module/utils/common';
@@ -27,7 +26,6 @@ interface GridRow {
   cpf: string;
   gender: string;
   maritalStatus: string;
-  chronicCondition: string[];
   levelSchooling: string;
   phone: string;
   city: string;
@@ -86,22 +84,15 @@ export class EmployeeQueryComponent implements OnInit, OnDestroy {
 
           for (const item of employeeFilter) {
             const job = jobs.find((el) => el.id === item.jobId);
-
-            let chronicConditions: string[] = [];
-            for (const chornicCondition of item.chronicCondition) {
-              chronicConditions.push(
-                getDescription(ChronicCondition, chornicCondition)
-              );
-            }
+            const employee = employees.find((el) => el.id === item.id);
 
             dataSource.push({
-              chronicCondition: chronicConditions,
               city: item.city,
               cpf: item.cpf,
-              employeeName: item.employeeName,
+              employeeName: employee ? employee.name : '',
               gender: getDescription(Gender, item.gender),
-              id: item.employeeId,
-              jobName: job ? job.displayName : '',
+              id: item.id,
+              jobName: job ? job.name : '',
               levelSchooling: getDescription(
                 LevelSchooling,
                 item.levelSchooling
@@ -159,10 +150,6 @@ export class EmployeeQueryComponent implements OnInit, OnDestroy {
       monthlySalary: SfGridColumns.numeric('monthlySalary', 'Salário').minWidth(
         200
       ),
-      chronicCondition: SfGridColumns.text(
-        'chronicCondition',
-        'Doenças Crônicas'
-      ).minWidth(100),
       street: SfGridColumns.text('street', 'Endereço').minWidth(100),
       city: SfGridColumns.text('city', 'Cidade').minWidth(200),
       phone: SfGridColumns.text('phone', 'Telefone').minWidth(100),
