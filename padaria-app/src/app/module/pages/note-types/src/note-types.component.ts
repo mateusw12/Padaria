@@ -62,23 +62,25 @@ export class NoteTypesComponent implements OnInit {
     const model = this.getModel();
     const exists = model.id > 1;
 
-    if (
-      (exists
-        ? this.noteTypeRepository.updateById(model)
-        : this.noteTypeRepository.add(model)
-      )
-        .pipe(untilDestroyed(this))
-        .subscribe(
-          async () => {
-            this.toastService.showSuccess();
-            this.loadData();
-            this.reset();
-            if (exists) this.modal.onCloseClick();
-          },
-          async (error) => this.handleError(error)
-        )
+    if (exists) {
+      const confirmed = await this.messageService.showConfirmSave();
+      if (!confirmed) return;
+    }
+
+    (exists
+      ? this.noteTypeRepository.updateById(model)
+      : this.noteTypeRepository.add(model)
     )
-      return;
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        async () => {
+          this.toastService.showSuccess();
+          this.loadData();
+          this.reset();
+          if (exists) this.modal.onCloseClick();
+        },
+        async (error) => this.handleError(error)
+      );
   }
 
   onCommand(event: FormGridCommandEventArgs): void {
@@ -118,6 +120,8 @@ export class NoteTypesComponent implements OnInit {
   }
 
   private async onCommandRemove(model: GridRow): Promise<void> {
+    const confirmed = await this.messageService.showConfirmDelete();
+    if (!confirmed) return;
     this.noteTypeRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))

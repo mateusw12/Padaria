@@ -100,23 +100,25 @@ export class ProductComponent implements OnInit, OnDestroy {
     const model = this.getModel();
     const exists = model.id > 1;
 
-    if (
-      (exists
-        ? this.productRepository.updateById(model)
-        : this.productRepository.add(model)
-      )
-        .pipe(untilDestroyed(this))
-        .subscribe(
-          async () => {
-            this.toastService.showSuccess();
-            this.loadData();
-            this.reset();
-            if (exists) this.modal.onCloseClick();
-          },
-          async (error) => this.handleError(error)
-        )
+    if (exists) {
+      const confirmed = await this.messageService.showConfirmSave();
+      if (!confirmed) return;
+    }
+
+    (exists
+      ? this.productRepository.updateById(model)
+      : this.productRepository.add(model)
     )
-      return;
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        async () => {
+          this.toastService.showSuccess();
+          this.loadData();
+          this.reset();
+          if (exists) this.modal.onCloseClick();
+        },
+        async (error) => this.handleError(error)
+      );
   }
 
   onCommand(event: FormGridCommandEventArgs): void {
@@ -146,6 +148,8 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   private async onCommandRemove(model: GridRow): Promise<void> {
+    const confirmed = await this.messageService.showConfirmDelete();
+    if (!confirmed) return;
     this.productRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))

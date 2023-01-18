@@ -1,14 +1,11 @@
-import { untilDestroyed } from '@module/utils/common';
 import { Injectable, OnDestroy } from '@angular/core';
 import {
   AlertContent,
   AlertDialogComponent,
   ConfirmDialogComponent,
 } from '@module/shared/src';
-import { ButtonOptions } from '@module/shared/src/confirm-dialog';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Subject } from 'rxjs';
-import { untilDestroyedAsync } from '../common/until-destroyed';
 import {
   ERROR_CSS_CLASS,
   ERROR_ICON,
@@ -26,34 +23,30 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class MessageService implements OnDestroy {
-  constructor(private modalService: BsModalService) {}
+  constructor(
+    private modalService: BsModalService,
+    private nbgModal: NgbModal
+  ) {}
 
-  async showConfirmDelete(): Promise<boolean> {
-    const bsModalRef: BsModalRef = this.modalService.show(
-      ConfirmDialogComponent
-    );
-    bsModalRef.content.title = 'Você confirma a exclusão?';
-    const response = await (<ConfirmDialogComponent>bsModalRef.content)
-      .confirmResult1;
-    console.log('response');
-    return response;
+  showConfirmDelete(): Promise<boolean> {
+    const modalRef = this.nbgModal.open(ConfirmDialogComponent);
+    modalRef.componentInstance.title = 'Você confirma a exclusão?';
+    return modalRef.result;
   }
 
-  showConfirmSave(): Subject<boolean> {
-    const bsModalRef: BsModalRef = this.modalService.show(
-      ConfirmDialogComponent
-    );
-    bsModalRef.content.title = 'Você confirma a alteração?';
-    return (<ConfirmDialogComponent>bsModalRef.content).confirmResult;
+  showConfirmSave(): Promise<boolean> {
+    const modalRef = this.nbgModal.open(ConfirmDialogComponent);
+    modalRef.componentInstance.title = 'Você confirma a alteração?';
+    return modalRef.result;
   }
 
-  showConfirm(title: string, buttonOptions?: ButtonOptions): Subject<boolean> {
-    const bsModalRef: BsModalRef = this.modalService.show(
-      ConfirmDialogComponent
-    );
-    bsModalRef.content.title = title;
-    bsModalRef.content.buttonOptions = buttonOptions;
-    return (<ConfirmDialogComponent>bsModalRef.content).confirmResult;
+  showConfirm(title?: string, message?: string): Promise<boolean> {
+    const modalRef = this.nbgModal.open(ConfirmDialogComponent);
+    modalRef.componentInstance.title =
+      title || modalRef.componentInstance.title;
+    modalRef.componentInstance.message =
+      message || modalRef.componentInstance.message;
+    return modalRef.result;
   }
 
   showWarningMessage(message?: string): void {

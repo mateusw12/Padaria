@@ -24,6 +24,7 @@ export class NoteTypeRepository {
   }
 
   updateById(noteType: NoteType): Observable<void> {
+    console.log(noteType)
     return this.httpCliente.put<void>(`${API_URL}/${noteType.id}`, noteType);
   }
 

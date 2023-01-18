@@ -87,7 +87,7 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  load():void{
+  load(): void {
     this.columns = this.createColumns();
     this.loadData();
   }
@@ -95,6 +95,8 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   private async onCommandRemove(model: GridRow): Promise<void> {
+    const confirmed = await this.messageService.showConfirmDelete();
+    if (!confirmed) return;
     this.inventoryRepository
       .deleteById(model.itemId)
       .pipe(untilDestroyed(this))
@@ -116,12 +118,7 @@ export class InventoryControlComponent implements OnInit, OnDestroy {
     ])
       .pipe(untilDestroyed(this))
       .subscribe(
-        ([
-          products,
-          buyRequests,
-          salesRequests,
-          inventories,
-        ]) => {
+        ([products, buyRequests, salesRequests, inventories]) => {
           const dataSource: GridRow[] = [];
 
           for (const item of inventories) {

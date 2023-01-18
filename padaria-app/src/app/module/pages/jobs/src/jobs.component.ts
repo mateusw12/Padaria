@@ -56,25 +56,27 @@ export class JobsComponent implements OnInit, OnDestroy {
     const model = this.getModel();
     const exists = model.id > 1;
 
-    if (
-      (exists
-        ? this.jobRepository.updateById(model)
-        : this.jobRepository.add(model)
-      )
-        .pipe(untilDestroyed(this))
-        .subscribe(
-          async () => {
-            this.toastService.showSuccess();
-            this.loadData();
-            this.reset();
-            if (exists) this.modal.onCloseClick();
-          },
-          async (error) => {
-            this.toastService.showError(error);
-          }
-        )
+    if (exists) {
+      const confirmed = await this.messageService.showConfirmSave();
+      if (!confirmed) return;
+    }
+
+    (exists
+      ? this.jobRepository.updateById(model)
+      : this.jobRepository.add(model)
     )
-      return;
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        async () => {
+          this.toastService.showSuccess();
+          this.loadData();
+          this.reset();
+          if (exists) this.modal.onCloseClick();
+        },
+        async (error) => {
+          this.toastService.showError(error);
+        }
+      );
   }
 
   onCommand(event: FormGridCommandEventArgs): void {
@@ -120,9 +122,7 @@ export class JobsComponent implements OnInit, OnDestroy {
 
   private async onCommandRemove(model: GridRow): Promise<void> {
     const confirmed = await this.messageService.showConfirmDelete();
-    console.log('confirmed', confirmed)
     if (!confirmed) return;
-    console.log('passei');
     this.jobRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))

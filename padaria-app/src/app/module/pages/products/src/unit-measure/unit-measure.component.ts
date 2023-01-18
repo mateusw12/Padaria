@@ -32,7 +32,6 @@ interface FormModel {
   templateUrl: './unit-measure.component.html',
 })
 export class UnitMeasureComponent implements OnInit, OnDestroy {
-
   @ViewChild(ModalComponent, { static: true })
   modal!: ModalComponent;
 
@@ -75,25 +74,27 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
     const model = this.getModel();
     const exists = model.id > 1;
 
-    if (
-      (exists
-        ? this.unitMeasureRepository.updateById(model)
-        : this.unitMeasureRepository.add(model)
-      )
-        .pipe(untilDestroyed(this))
-        .subscribe(
-          async () => {
-            this.toastService.showSuccess();
-            this.loadData();
-            this.reset();
-            if (exists) this.modal.onCloseClick();
-          },
-          async (error) => {
-            this.handleError(error);
-          }
-        )
+    if (exists) {
+      const confirmed = await this.messageService.showConfirmSave();
+      if (!confirmed) return;
+    }
+
+    (exists
+      ? this.unitMeasureRepository.updateById(model)
+      : this.unitMeasureRepository.add(model)
     )
-      return;
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        async () => {
+          this.toastService.showSuccess();
+          this.loadData();
+          this.reset();
+          if (exists) this.modal.onCloseClick();
+        },
+        async (error) => {
+          this.handleError(error);
+        }
+      );
   }
 
   onCommand(event: FormGridCommandEventArgs): void {
@@ -123,6 +124,8 @@ export class UnitMeasureComponent implements OnInit, OnDestroy {
   }
 
   private async onCommandRemove(model: GridRow): Promise<void> {
+    const confirmed = await this.messageService.showConfirmDelete();
+    if (!confirmed) return;
     this.unitMeasureRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))

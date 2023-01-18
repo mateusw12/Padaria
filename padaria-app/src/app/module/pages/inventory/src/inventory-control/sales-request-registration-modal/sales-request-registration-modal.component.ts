@@ -101,24 +101,26 @@ export class SalesRequestRegistrationModalComponent
     const model = this.getModel();
     const exists = model.itemId > 0;
 
-    if (
-      (exists
-        ? this.salesRequestRepository.updateById(model)
-        : this.salesRequestRepository.add(model)
-      )
-        .pipe(untilDestroyed(this))
-        .subscribe(
-          async () => {
-            this.toastService.showSuccess();
-            await this.addInventory();
-            this.saved.emit();
-            this.reset();
-            if (exists) this.modal.onCloseClick();
-          },
-          async (error) => this.handleError(error)
-        )
+    if (exists) {
+      const confirmed = await this.messageService.showConfirmSave();
+      if (!confirmed) return;
+    }
+
+    (exists
+      ? this.salesRequestRepository.updateById(model)
+      : this.salesRequestRepository.add(model)
     )
-      return;
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        async () => {
+          this.toastService.showSuccess();
+          await this.addInventory();
+          this.saved.emit();
+          this.reset();
+          if (exists) this.modal.onCloseClick();
+        },
+        async (error) => this.handleError(error)
+      );
   }
 
   private async addInventory(): Promise<void> {

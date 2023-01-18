@@ -124,23 +124,25 @@ export class PurchaseControlComponent implements OnInit, OnDestroy {
     const model = this.getModel();
     const exists = model.id > 1;
 
-    if (
-      (exists
-        ? this.purchaseControlRepository.updateById(model)
-        : this.purchaseControlRepository.add(model)
-      )
-        .pipe(untilDestroyed(this))
-        .subscribe(
-          async () => {
-            this.toastService.showSuccess();
-            this.reset();
-            if (exists) this.onModalClose();
-            this.loadData();
-          },
-          (error) => this.handleError(error)
-        )
+    if (exists) {
+      const confirmed = await this.messageService.showConfirmSave();
+      if (!confirmed) return;
+    }
+
+    (exists
+      ? this.purchaseControlRepository.updateById(model)
+      : this.purchaseControlRepository.add(model)
     )
-      return;
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        async () => {
+          this.toastService.showSuccess();
+          this.reset();
+          if (exists) this.onModalClose();
+          this.loadData();
+        },
+        (error) => this.handleError(error)
+      );
   }
 
   async onModalClose(): Promise<void> {
@@ -207,6 +209,8 @@ export class PurchaseControlComponent implements OnInit, OnDestroy {
   }
 
   private async onCommandRemove(model: GridRow): Promise<void> {
+    const confirmed = await this.messageService.showConfirmDelete();
+    if (!confirmed) return;
     this.purchaseControlRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))
@@ -294,7 +298,8 @@ export class PurchaseControlComponent implements OnInit, OnDestroy {
   private getModel(): PurchaseControl {
     const model = new PurchaseControl();
     const formValue = this.form.getRawValue();
-    model.id = formValue.id === NEW_ID ? 0 : (formValue.id as unknown as number);
+    model.id =
+      formValue.id === NEW_ID ? 0 : (formValue.id as unknown as number);
     model.amount = formValue.amount as number;
     model.deliveryDate = formValue.deliveryDate as Date;
     model.description = formValue.description as string;

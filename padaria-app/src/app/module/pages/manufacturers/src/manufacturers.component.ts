@@ -60,23 +60,25 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
     const model = this.getModel();
     const exists = model.id > 1;
 
-    if (
-      (exists
-        ? this.manufacturerRepository.updateById(model)
-        : this.manufacturerRepository.add(model)
-      )
-        .pipe(untilDestroyed(this))
-        .subscribe(
-          async () => {
-            this.toastService.showSuccess();
-            this.loadData();
-            this.reset();
-            if (exists) this.modal.onCloseClick();
-          },
-          async (error) => this.handleError(error)
-        )
+    if (exists) {
+      const confirmed = await this.messageService.showConfirmSave();
+      if (!confirmed) return;
+    }
+
+    (exists
+      ? this.manufacturerRepository.updateById(model)
+      : this.manufacturerRepository.add(model)
     )
-      return;
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        async () => {
+          this.toastService.showSuccess();
+          this.loadData();
+          this.reset();
+          if (exists) this.modal.onCloseClick();
+        },
+        async (error) => this.handleError(error)
+      );
   }
 
   onCommand(event: FormGridCommandEventArgs): void {
@@ -118,6 +120,8 @@ export class ManufacturersComponent implements OnInit, OnDestroy {
   }
 
   private async onCommandRemove(model: GridRow): Promise<void> {
+    const confirmed = await this.messageService.showConfirmDelete();
+    if (!confirmed) return;
     this.manufacturerRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))

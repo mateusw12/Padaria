@@ -5,7 +5,7 @@ import { SettingRepository } from '@module/repository';
 import { untilDestroyed } from '@module/utils/common';
 import {
   FILE_EXTENSION_NOT_SUPPORTED,
-  FILE_NOT_FOUND
+  FILE_NOT_FOUND,
 } from '@module/utils/constant';
 import { ErrorData } from '@module/utils/core';
 import { markAllAsTouched } from '@module/utils/forms';
@@ -14,12 +14,13 @@ import { AppFile } from '@module/utils/interfaces';
 import {
   ErrorHandler,
   FileManagerService,
-  ToastService
+  MessageService,
+  ToastService,
 } from '@module/utils/services';
 import {
   ColorPickerComponent,
   SelectedEventArgs,
-  UploaderComponent
+  UploaderComponent,
 } from '@syncfusion/ej2-angular-inputs';
 import { L10n } from '@syncfusion/ej2-base';
 
@@ -68,7 +69,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
     private errorHandler: ErrorHandler,
     private toastService: ToastService,
     private settingRepository: SettingRepository,
-    private fileManangerService: FileManagerService
+    private fileManangerService: FileManagerService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -95,7 +97,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
       );
   }
 
-  onRemoveClick(): void {
+  async onRemoveClick(): Promise<void> {
+    const confirmed = await this.messageService.showConfirmDelete();
+    if (!confirmed) return;
     const id = this.form.controls.id.value as string;
     this.settingRepository
       .deleteById(Number(id))

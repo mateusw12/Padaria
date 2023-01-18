@@ -75,23 +75,25 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
     const model = this.getModel();
     const exists = model.id > 0;
 
-    if (
-      (exists
-        ? this.departametRepository.updateById(model)
-        : this.departametRepository.add(model)
-      )
-        .pipe(untilDestroyed(this))
-        .subscribe(
-          async () => {
-            this.toastService.showSuccess();
-            this.loadData();
-            this.reset();
-            if (exists) this.modal.onCloseClick();
-          },
-          async (error) => this.handleError(error)
-        )
+    if (exists) {
+      const confirmed = await this.messageService.showConfirmSave();
+      if (!confirmed) return;
+    }
+
+    (exists
+      ? this.departametRepository.updateById(model)
+      : this.departametRepository.add(model)
     )
-      return;
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        async () => {
+          this.toastService.showSuccess();
+          this.loadData();
+          this.reset();
+          if (exists) this.modal.onCloseClick();
+        },
+        async (error) => this.handleError(error)
+      );
   }
 
   ngOnDestroy(): void {}
@@ -117,6 +119,8 @@ export class DepartamentsComponent implements OnInit, OnDestroy {
   }
 
   private async onCommandRemove(model: GridRow): Promise<void> {
+    const confirmed = await this.messageService.showConfirmDelete();
+    if (!confirmed) return;
     this.departametRepository
       .deleteById(model.id)
       .pipe(untilDestroyed(this))

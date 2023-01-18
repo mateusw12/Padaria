@@ -1,14 +1,5 @@
-::ng-deep {
-  .position-confirm-modal {
-    backdrop-filter: brightness(0.5);
-    display: grid;
-    justify-content: center;
+:host::ng-deep {
+  .color-text {
+    color: black;
   }
-
-  .confirm-modal-size {
-    width: calc(100vw - 40vw);
-    display: grid;
-    height: calc(100vh - 70vh);
-  }
-
 }
