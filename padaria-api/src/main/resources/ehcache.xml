@@ -1,0 +1,27 @@
+<ehcache>
+    <diskStore path="java.io.tmpdir"/>
+    <cache name="users"
+           maxEntriesLocalHeap="1000"
+           maxEntriesLocalDisk="100"
+           eternal="false"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="120"
+           timeToLiveSeconds="120"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+        <persistence strategy="localTempSwap"/>
+    </cache>
+
+    <cache name="barCodes"
+           maxEntriesLocalHeap="100"
+           maxEntriesLocalDisk="50"
+           eternal="false"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="120"
+           timeToLiveSeconds="120"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+        <persistence strategy="localTempSwap"/>
+    </cache>
+
+</ehcache>
