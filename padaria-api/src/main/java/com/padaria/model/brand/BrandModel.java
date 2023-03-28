@@ -1,8 +1,6 @@
 package com.padaria.model.brand;
 
-import com.padaria.dto.brand.BrandDTO;
 import lombok.Data;
-import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,9 +15,5 @@ public class BrandModel implements Serializable {
 
     @Column(name="nome", nullable = false, length = 200)
     public String name;
-
-    public BrandDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, BrandDTO.class);
-    }
 
 }

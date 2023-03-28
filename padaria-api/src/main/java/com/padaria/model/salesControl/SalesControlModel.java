@@ -1,8 +1,6 @@
 package com.padaria.model.salesControl;
 
-import com.padaria.dto.salesControl.SalesControlDTO;
 import lombok.Data;
-import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -33,9 +31,5 @@ public class SalesControlModel implements Serializable {
 
     @Column(name="usuarioVenda", nullable = false)
     public String userSales;
-
-    public SalesControlDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, SalesControlDTO.class);
-    }
 
 }

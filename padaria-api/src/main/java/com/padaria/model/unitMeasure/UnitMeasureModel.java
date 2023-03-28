@@ -1,8 +1,6 @@
 package com.padaria.model.unitMeasure;
 
-import com.padaria.dto.unitMeasure.UnitMeasureDTO;
 import lombok.Data;
-import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,9 +18,5 @@ public class UnitMeasureModel implements Serializable {
 
     @Column(name="sigla", length = 10)
     public String abbreviation;
-
-    public UnitMeasureDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, UnitMeasureDTO.class);
-    }
 
 }

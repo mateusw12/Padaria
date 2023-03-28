@@ -1,8 +1,6 @@
 package com.padaria.model.inventory;
 
-import com.padaria.dto.inventory.InventoryDTO;
 import lombok.Data;
-import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,9 +24,5 @@ public class InventoryModel implements Serializable {
 
     @Column(name="codProduto", nullable = false)
     public Long productId;
-
-    public InventoryDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, InventoryDTO.class);
-    }
 
 }

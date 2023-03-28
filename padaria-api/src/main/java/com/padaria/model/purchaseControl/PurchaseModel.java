@@ -1,8 +1,6 @@
 package com.padaria.model.purchaseControl;
 
-import com.padaria.dto.purchaseControl.PurchaseDTO;
 import lombok.Data;
-import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -48,9 +46,5 @@ public class PurchaseModel implements Serializable {
 
     @Column(name="nomeArquivo", length = 200)
     public String fileName;
-
-    public PurchaseDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, PurchaseDTO.class);
-    }
 
 }
