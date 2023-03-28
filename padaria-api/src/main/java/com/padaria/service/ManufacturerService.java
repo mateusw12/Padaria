@@ -2,7 +2,7 @@ package com.padaria.service;
 
 import com.padaria.dto.ManufacturerDTO;
 import com.padaria.exceptions.EntityNotFountException;
-import com.padaria.model.ManufacturerModel;
+import com.padaria.model.manufacturer.ManufacturerModel;
 import com.padaria.repository.ManufacturerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
