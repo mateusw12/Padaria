@@ -1,5 +1,7 @@
 package com.padaria.security.authentication;
 
+import com.padaria.mapper.user.UserTokenMapper;
+import com.padaria.model.user.UserTokenModel;
 import com.padaria.validator.User.UserCustomValidation;
 import com.padaria.dto.login.LoginDTO;
 import com.padaria.dto.user.UserTokenDTO;
@@ -32,6 +34,9 @@ public class AuthenticationController {
     private UserRepository userRepository;
 
     @Autowired
+    private UserTokenMapper userTokenMapper;
+
+    @Autowired
     private JWTUtil serviceJWT;
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -44,29 +49,28 @@ public class AuthenticationController {
 
     @PostMapping()
     public ResponseEntity<UserTokenDTO> login(@RequestBody @Valid LoginDTO loginDTO) {
-
-        if (!this.userCustomValidation.validateActiveUser(loginDTO.getUserName())) {
+        if (!this.userCustomValidation.validateActiveUser(loginDTO.userName())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        UserDetails userDetails = serviceMyUserDetail.loadUserByUsername(loginDTO.getUserName());
+        UserDetails userDetails = serviceMyUserDetail.loadUserByUsername(loginDTO.userName());
 
-        if (!passwordEncoder.matches(loginDTO.getPassword(), userDetails.getPassword())) {
+        if (!passwordEncoder.matches(loginDTO.password(), userDetails.getPassword())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         String token = serviceJWT.generateToken(userDetails);
-        return ResponseEntity.ok(buildUserToken(loginDTO.getUserName(), token));
+        return ResponseEntity.ok(buildUserToken(loginDTO.userName(), token));
     }
 
     private UserTokenDTO buildUserToken(String userName, String token) {
         Date expirationDate = serviceJWT.getExpirationTokenDate();
 
-        UserTokenDTO userTokenDTO = new UserTokenDTO();
-        userTokenDTO.userName = userName;
-        userTokenDTO.token = token;
-        userTokenDTO.expirationDate = expirationDate;
-        return userTokenDTO;
+        UserTokenModel userTokenModel = new UserTokenModel();
+        userTokenModel.setUserName(userName);
+        userTokenModel.setToken(token);
+        userTokenModel.setExpirationDate(expirationDate);
+        return userTokenMapper.toDTO(userTokenModel);
     }
 
 }
