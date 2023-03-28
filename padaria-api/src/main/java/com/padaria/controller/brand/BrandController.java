@@ -51,7 +51,8 @@ public class BrandController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza marca")
-    public BrandDTO update(@PathVariable() @NotNull @Positive Long id, @RequestBody @Valid BrandDTO brandDTO) {
+    public BrandDTO update(@PathVariable() @NotNull @Positive Long id,
+                           @RequestBody @Valid BrandDTO brandDTO) {
         return brandService.update(id, brandDTO);
     }
 

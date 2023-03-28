@@ -45,8 +45,9 @@ SettingController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza configuração")
-    public ResponseEntity<SettingDTO> update(@PathVariable("id") @RequestBody @Valid SettingDTO settingDTO) {
-        return settingService.update(settingDTO);
+    public SettingDTO update(@PathVariable @NotNull @Positive Long id,
+                             @RequestBody @Valid SettingDTO settingDTO) {
+        return settingService.update(id, settingDTO);
     }
 
 }

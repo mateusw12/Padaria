@@ -25,7 +25,7 @@ public class BuyRequestController {
 
     @GetMapping()
     @Operation(summary = "Lista todas os pedidos de compra")
-    public ResponseEntity<List<BuyRequestDTO>> findAll() {
+    public List<BuyRequestDTO> findAll() {
         return buyRequestService.findALl();
     }
 
@@ -54,8 +54,9 @@ public class BuyRequestController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza pedido de compra")
-    public ResponseEntity<BuyRequestDTO> update(@PathVariable("id") @RequestBody @Valid BuyRequestDTO buyRequestDTO) {
-        return buyRequestService.update(buyRequestDTO);
+    public BuyRequestDTO update(@PathVariable @NotNull @Positive Long id,
+                                                @RequestBody @Valid BuyRequestDTO buyRequestDTO) {
+        return buyRequestService.update(id, buyRequestDTO);
     }
 
 }

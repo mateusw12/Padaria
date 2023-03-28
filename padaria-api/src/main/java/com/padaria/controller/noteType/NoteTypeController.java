@@ -25,7 +25,7 @@ public class NoteTypeController {
 
     @GetMapping()
     @Operation(summary = "Lista todos os tipos de nota")
-    public ResponseEntity<List<NoteTypeDTO>> findAll() {
+    public List<NoteTypeDTO> findAll() {
         return noteTypeService.findALl();
     }
 
@@ -51,11 +51,10 @@ public class NoteTypeController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza tipo de nota")
-    public ResponseEntity<NoteTypeDTO> update(@PathVariable Long id, @RequestBody @Valid NoteTypeDTO noteTypeDTO) {
-        if (id != noteTypeDTO.getId()) {
-            return ResponseEntity.notFound().build();
-        }
-        return noteTypeService.update(noteTypeDTO);
+    public NoteTypeDTO update(@PathVariable @NotNull @Positive Long id,
+                              @RequestBody @Valid NoteTypeDTO noteTypeDTO) {
+
+        return noteTypeService.update(id, noteTypeDTO);
     }
 
 }

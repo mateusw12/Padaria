@@ -26,7 +26,7 @@ public class JobController {
 
     @GetMapping()
     @Operation(summary = "Lista todos os cargos")
-    public ResponseEntity<List<JobDTO>> findAll() {
+    public List<JobDTO> findAll() {
         return jobService.findALl();
     }
 
@@ -52,8 +52,9 @@ public class JobController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza cargo")
-    public ResponseEntity<JobDTO> update(@PathVariable("id") @RequestBody @Valid JobDTO jobDTO) {
-        return jobService.update(jobDTO);
+    public JobDTO update(@PathVariable @NotNull @Positive Long id,
+                         @RequestBody @Valid JobDTO jobDTO) {
+        return jobService.update(id, jobDTO);
     }
 
 }

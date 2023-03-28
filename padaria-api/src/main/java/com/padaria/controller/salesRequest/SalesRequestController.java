@@ -25,7 +25,7 @@ public class SalesRequestController {
 
     @GetMapping()
     @Operation(summary = "Lista todas os pedidos de venda")
-    public ResponseEntity<List<SalesRequestDTO>> findAll() {
+    public List<SalesRequestDTO> findAll() {
         return salesRequestService.findALl();
     }
 
@@ -54,8 +54,9 @@ public class SalesRequestController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza pedido de venda")
-    public ResponseEntity<SalesRequestDTO> update(@PathVariable("id") @RequestBody @Valid SalesRequestDTO salesRequestDTO) {
-        return salesRequestService.update(salesRequestDTO);
+    public SalesRequestDTO update(@PathVariable @NotNull @Positive Long id,
+                                  @RequestBody @Valid SalesRequestDTO salesRequestDTO) {
+        return salesRequestService.update(id, salesRequestDTO);
     }
 
 }

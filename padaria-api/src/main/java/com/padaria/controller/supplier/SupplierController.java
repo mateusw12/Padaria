@@ -25,7 +25,7 @@ public class SupplierController {
 
     @GetMapping()
     @Operation(summary = "Lista todos os fornecedores")
-    public ResponseEntity<List<SupplierDTO>> findAll() {
+    public List<SupplierDTO> findAll() {
         return supplierService.findALl();
     }
 
@@ -51,8 +51,9 @@ public class SupplierController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza fornecedor")
-    public ResponseEntity<SupplierDTO> update(@PathVariable("id") @RequestBody @Valid SupplierDTO supplierDTO) {
-        return supplierService.update(supplierDTO);
+    public SupplierDTO update(@PathVariable @NotNull @Positive Long id,
+                              @RequestBody @Valid SupplierDTO supplierDTO) {
+        return supplierService.update(id, supplierDTO);
     }
 
 }

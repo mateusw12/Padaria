@@ -26,7 +26,7 @@ public class ProductController {
 
     @GetMapping()
     @Operation(summary = "Lista todos os produtos")
-    public ResponseEntity<List<ProductDTO>> findAll() {
+    public List<ProductDTO> findAll() {
         return productService.findALl();
     }
 
@@ -39,7 +39,7 @@ public class ProductController {
 
     @PostMapping(value = "/bar-code")
     @Operation(summary = "Lista todos os produto por código de barra")
-    public ResponseEntity<ProductDTO> findBYBarCode(@RequestBody @NotBlank String barCode) {
+    public ProductDTO findBYBarCode(@RequestBody @NotBlank String barCode) {
         return productService.findByBarCode(barCode);
     }
 
@@ -58,8 +58,9 @@ public class ProductController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza produto")
-    public ResponseEntity<ProductDTO> update(@PathVariable("id") @RequestBody @Valid ProductDTO productDTO) {
-        return productService.update(productDTO);
+    public ProductDTO update(@PathVariable @NotNull @Positive Long id,
+                             @RequestBody @Valid ProductDTO productDTO) {
+        return productService.update(id, productDTO);
     }
 
 }

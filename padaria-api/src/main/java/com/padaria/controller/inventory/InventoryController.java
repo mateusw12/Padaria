@@ -25,7 +25,7 @@ public class InventoryController {
 
     @GetMapping()
     @Operation(summary = "Lista todos os estoque")
-    public ResponseEntity<List<InventoryDTO>> findAll() {
+    public List<InventoryDTO> findAll() {
         return inventoryService.findALl();
     }
 
@@ -51,8 +51,9 @@ public class InventoryController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza estoque")
-    public ResponseEntity<InventoryDTO> update(@PathVariable("id") @RequestBody @Valid InventoryDTO inventoryDTO) {
-        return inventoryService.update(inventoryDTO);
+    public InventoryDTO update(@PathVariable @NotNull @Positive Long id,
+                               @RequestBody @Valid InventoryDTO inventoryDTO) {
+        return inventoryService.update(id, inventoryDTO);
     }
 
 }
