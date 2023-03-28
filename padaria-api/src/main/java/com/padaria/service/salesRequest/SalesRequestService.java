@@ -1,17 +1,15 @@
 package com.padaria.service.salesRequest;
 
 import com.padaria.dto.salesRequest.SalesRequestDTO;
-import com.padaria.exceptions.EntityNotFountException;
-import com.padaria.model.salesRequest.SalesRequestModel;
+import com.padaria.mapper.salesRequest.SalesRequestMapper;
 import com.padaria.repository.salesRequest.SalesRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SalesRequestService {
@@ -19,53 +17,50 @@ public class SalesRequestService {
     @Autowired
     private SalesRequestRepository salesRequestRepository;
 
+    @Autowired
+    private SalesRequestMapper salesRequestMapper;
+
     @Transactional
     public SalesRequestDTO findById(Long id) {
-        SalesRequestModel salesRequestModel = salesRequestRepository.findById(id).orElseThrow(
-                () -> new EntityNotFountException("Id not found" + id)
-        );
-        return salesRequestModel.convertEntityToDTO();
+        return salesRequestRepository.findById(id).map(salesRequestMapper::toDTO)
+                .orElseThrow(() -> new EntityNotFoundException("Sales request not found" + id));
     }
 
     @Transactional
-    public ResponseEntity<List<SalesRequestDTO>> findALl() {
-        List<SalesRequestModel> salesRequestModels = salesRequestRepository.findAll();
-        List<SalesRequestDTO> salesRequestDTOS = new ArrayList<>();
-        salesRequestModels.stream().forEach(t -> salesRequestDTOS.add(t.convertEntityToDTO()));
-        return new ResponseEntity<List<SalesRequestDTO>>(salesRequestDTOS, HttpStatus.OK);
+    public List<SalesRequestDTO> findALl() {
+        return salesRequestRepository.findAll()
+                .stream()
+                .map(salesRequestMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public SalesRequestDTO create(SalesRequestDTO salesRequestDTO) {
-        SalesRequestModel salesRequestModel = salesRequestRepository.save(salesRequestDTO.convertDTOToEntity());
-        return salesRequestModel.convertEntityToDTO();
+        return salesRequestMapper.toDTO(salesRequestRepository.save(salesRequestMapper.toEntity(salesRequestDTO)));
     }
 
     @Transactional
-    public ResponseEntity<SalesRequestDTO> delete(Long id) {
-        salesRequestRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+    public void delete(Long id) {
+        salesRequestRepository.delete(salesRequestRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Sales request not found" + id)));
     }
 
     @Transactional
-    public ResponseEntity<SalesRequestDTO> update(SalesRequestDTO salesRequestDTO) {
-        SalesRequestModel salesRequestModel = salesRequestRepository.findById(salesRequestDTO.getItemId().longValue()).orElseThrow(
-                () -> new EntityNotFountException("Id not found" + salesRequestDTO.getItemId())
-        );
-
-        SalesRequestDTO dto = salesRequestModel.convertEntityToDTO();
-        dto.setAmount(salesRequestDTO.getAmount());
-        dto.setObservation(salesRequestDTO.getObservation());
-        dto.setRequestId(salesRequestDTO.getRequestId());
-        dto.setItemId(salesRequestDTO.getItemId());
-        dto.setProductId(salesRequestDTO.getProductId());
-        dto.setNoteTypeId(salesRequestDTO.getNoteTypeId());
-        dto.setTotalValue(salesRequestDTO.getTotalValue());
-        dto.setPaymentCondition(salesRequestDTO.getPaymentCondition());
-        dto.setEmployeeId(salesRequestDTO.getEmployeeId());
-        dto.setSupplierId(salesRequestDTO.getSupplierId());
-        salesRequestRepository.save(salesRequestDTO.convertDTOToEntity());
-        return new ResponseEntity<SalesRequestDTO>(salesRequestDTO, HttpStatus.OK);
+    public SalesRequestDTO update(Long id, SalesRequestDTO salesRequestDTO) {
+        return salesRequestRepository.findById(id)
+                .map(recordFound -> {
+                    recordFound.setAmount(salesRequestDTO.amount());
+                    recordFound.setObservation(salesRequestDTO.observation());
+                    recordFound.setRequestId(salesRequestDTO.requestId());
+                    recordFound.setItemId(salesRequestDTO.itemId());
+                    recordFound.setProductId(salesRequestDTO.productId());
+                    recordFound.setNoteTypeId(salesRequestDTO.noteTypeId());
+                    recordFound.setTotalValue(salesRequestDTO.totalValue());
+                    recordFound.setPaymentCondition(salesRequestDTO.paymentCondition());
+                    recordFound.setEmployeeId(salesRequestDTO.employeeId());
+                    recordFound.setSupplierId(salesRequestDTO.supplierId());
+                    return salesRequestMapper.toDTO(salesRequestRepository.save(recordFound));
+                }).orElseThrow(() -> new EntityNotFoundException("Sales request not found" + id));
     }
 
 }

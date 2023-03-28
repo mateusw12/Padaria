@@ -1,8 +1,6 @@
 package com.padaria.model.settings;
 
-import com.padaria.dto.settings.SettingDTO;
 import lombok.Data;
-import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,9 +24,5 @@ public class SettingModel implements Serializable {
 
     @Column(name="nomeLogo", length = 200)
     public String fileName;
-
-    public SettingDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, SettingDTO.class);
-    }
 
 }

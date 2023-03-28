@@ -1,17 +1,15 @@
 package com.padaria.service.job;
 
 import com.padaria.dto.job.JobDTO;
-import com.padaria.exceptions.EntityNotFountException;
-import com.padaria.model.job.JobModel;
+import com.padaria.mapper.job.JobMapper;
 import com.padaria.repository.job.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class JobService {
@@ -19,44 +17,40 @@ public class JobService {
     @Autowired
     private JobRepository jobRepository;
 
+    @Autowired
+    private JobMapper jobMapper;
     @Transactional
     public JobDTO findById(Long id) {
-        JobModel jobModel = jobRepository.findById(id).orElseThrow(
-                () -> new EntityNotFountException("Id not found" + id)
-        );
-        return jobModel.convertEntityToDTO();
+        return jobRepository.findById(id).map(jobMapper::toDTO)
+                .orElseThrow(() -> new EntityNotFoundException("Job not found" + id));
     }
 
     @Transactional
-    public ResponseEntity<List<JobDTO>> findALl() {
-        List<JobModel> jobModels = jobRepository.findAll();
-        List<JobDTO> jobDTOS = new ArrayList<>();
-        jobModels.stream().forEach(t -> jobDTOS.add(t.convertEntityToDTO()));
-        return new ResponseEntity<List<JobDTO>>(jobDTOS, HttpStatus.OK);
+    public List<JobDTO> findALl() {
+        return jobRepository.findAll()
+                .stream()
+                .map(jobMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public JobDTO create(JobDTO jobDTO) {
-        JobModel jobModel = jobRepository.save(jobDTO.convertDTOToEntity());
-        return jobModel.convertEntityToDTO();
+        return jobMapper.toDTO(jobRepository.save(jobMapper.toEntity(jobDTO)));
     }
 
     @Transactional
-    public ResponseEntity<JobDTO> delete(Long id) {
-        jobRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+    public void delete(Long id) {
+        jobRepository.delete(jobRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Job not found" + id)));
     }
 
     @Transactional
-    public ResponseEntity<JobDTO> update(JobDTO jobDTO) {
-        JobModel jobModel = jobRepository.findById(jobDTO.getId().longValue()).orElseThrow(
-                () -> new EntityNotFountException("Id not found" + jobDTO.getId())
-        );
-
-        JobDTO dto = jobModel.convertEntityToDTO();
-        dto.setName(jobDTO.getName());
-        jobRepository.save(dto.convertDTOToEntity());
-        return new ResponseEntity<JobDTO>(dto, HttpStatus.OK);
+    public JobDTO update(Long id, JobDTO jobDTO) {
+        return jobRepository.findById(id)
+                .map(recordFound -> {
+                    recordFound.setName(jobDTO.name());
+                    return jobMapper.toDTO(jobRepository.save(recordFound));
+                }).orElseThrow(() -> new EntityNotFoundException("Job not found" + id));
     }
 
 }

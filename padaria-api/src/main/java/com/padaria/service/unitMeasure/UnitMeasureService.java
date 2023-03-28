@@ -1,17 +1,15 @@
 package com.padaria.service.unitMeasure;
 
 import com.padaria.dto.unitMeasure.UnitMeasureDTO;
-import com.padaria.exceptions.EntityNotFountException;
-import com.padaria.model.unitMeasure.UnitMeasureModel;
+import com.padaria.mapper.unitMeasure.UnitMeasureMapper;
 import com.padaria.repository.unitMeasure.UnitMeasureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UnitMeasureService {
@@ -19,45 +17,42 @@ public class UnitMeasureService {
     @Autowired
     private UnitMeasureRepository unitMeasureRepository;
 
+    @Autowired
+    private UnitMeasureMapper unitMeasureMapper;
+
     @Transactional
     public UnitMeasureDTO findById(Long id) {
-        UnitMeasureModel unitMeasureModel = unitMeasureRepository.findById(id).orElseThrow(
-                () -> new EntityNotFountException("Id not found" + id)
-        );
-        return unitMeasureModel.convertEntityToDTO();
+        return unitMeasureRepository.findById(id).map(unitMeasureMapper::toDTO)
+                .orElseThrow(() -> new EntityNotFoundException("Unit measure not found" + id));
     }
 
     @Transactional
-    public ResponseEntity<List<UnitMeasureDTO>> findALl() {
-        List<UnitMeasureModel> unitMeasureModels = unitMeasureRepository.findAll();
-        List<UnitMeasureDTO> unitMeasureDTOS = new ArrayList<>();
-        unitMeasureModels.stream().forEach(t -> unitMeasureDTOS.add(t.convertEntityToDTO()));
-        return new ResponseEntity<List<UnitMeasureDTO>>(unitMeasureDTOS, HttpStatus.OK);
+    public List<UnitMeasureDTO> findALl() {
+        return unitMeasureRepository.findAll()
+                .stream()
+                .map(unitMeasureMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public UnitMeasureDTO create(UnitMeasureDTO unitMeasureDTO) {
-        UnitMeasureModel unitMeasureModel = unitMeasureRepository.save(unitMeasureDTO.convertDTOToEntity());
-        return unitMeasureModel.convertEntityToDTO();
+        return unitMeasureMapper.toDTO(unitMeasureRepository.save(unitMeasureMapper.toEntity(unitMeasureDTO)));
     }
 
     @Transactional
-    public ResponseEntity<UnitMeasureDTO> delete(Long id) {
-        unitMeasureRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+    public void delete(Long id) {
+        unitMeasureRepository.delete(unitMeasureRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Unit measure not found" + id)));
     }
 
     @Transactional
-    public ResponseEntity<UnitMeasureDTO> update(UnitMeasureDTO unitMeasureDTO) {
-        UnitMeasureModel unitMeasureModel = unitMeasureRepository.findById(unitMeasureDTO.getId().longValue()).orElseThrow(
-                () -> new EntityNotFountException("Id not found" + unitMeasureDTO.getId())
-        );
-
-        UnitMeasureDTO dto = unitMeasureModel.convertEntityToDTO();
-        dto.setName(unitMeasureDTO.getName());
-        dto.setAbbreviation(unitMeasureDTO.getAbbreviation());
-        unitMeasureRepository.save(dto.convertDTOToEntity());
-        return new ResponseEntity<UnitMeasureDTO>(dto, HttpStatus.OK);
+    public UnitMeasureDTO update(Long id, UnitMeasureDTO unitMeasureDTO) {
+        return unitMeasureRepository.findById(id)
+                .map(recordFound -> {
+                    recordFound.setName(unitMeasureDTO.name());
+                    recordFound.setAbbreviation(unitMeasureDTO.abbreviation());
+                    return unitMeasureMapper.toDTO(unitMeasureRepository.save(recordFound));
+                }).orElseThrow(() -> new EntityNotFoundException("Unit measure not found" + id));
     }
 
 }

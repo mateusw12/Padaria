@@ -1,17 +1,15 @@
 package com.padaria.service.employee;
 
 import com.padaria.dto.employee.EmployeeDTO;
-import com.padaria.exceptions.EntityNotFountException;
-import com.padaria.model.employee.EmployeeModel;
+import com.padaria.mapper.employee.EmployeeMapper;
 import com.padaria.repository.employee.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
@@ -19,56 +17,53 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private EmployeeMapper employeeMapper;
+
     @Transactional
     public EmployeeDTO findById(Long id) {
-        EmployeeModel employeeModel = employeeRepository.findById(id).orElseThrow(
-                () -> new EntityNotFountException("Id not found" + id)
-        );
-        return employeeModel.convertEntityToDTO();
+        return employeeRepository.findById(id).map(employeeMapper::toDTO)
+                .orElseThrow(() -> new EntityNotFoundException("Employee not found" + id));
     }
 
     @Transactional
-    public ResponseEntity<List<EmployeeDTO>> findALl() {
-        List<EmployeeModel> employeeModels = employeeRepository.findAll();
-        List<EmployeeDTO> employeeDTOS = new ArrayList<>();
-        employeeModels.stream().forEach(t -> employeeDTOS.add(t.convertEntityToDTO()));
-        return new ResponseEntity<List<EmployeeDTO>>(employeeDTOS, HttpStatus.OK);
+    public List<EmployeeDTO> findALl() {
+        return employeeRepository.findAll()
+                .stream()
+                .map(employeeMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public EmployeeDTO create(EmployeeDTO employeeDTO) {
-        EmployeeModel employeeModel = employeeRepository.save(employeeDTO.convertDTOToEntity());
-        return employeeModel.convertEntityToDTO();
+        return employeeMapper.toDTO(employeeRepository.save(employeeMapper.toEntity(employeeDTO)));
     }
 
     @Transactional
-    public ResponseEntity<EmployeeDTO> delete(Long id) {
-        employeeRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+    public void delete(Long id) {
+        employeeRepository.delete(employeeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Employee not found" + id)));
     }
 
     @Transactional
-    public ResponseEntity<EmployeeDTO> update(EmployeeDTO employeeDTO) {
-        EmployeeModel employeeModel = employeeRepository.findById(employeeDTO.getId()).orElseThrow(
-                () -> new EntityNotFountException("Id not found" + employeeDTO.getId())
-        );
-
-        EmployeeDTO dto = employeeModel.convertEntityToDTO();
-        dto.setName(employeeDTO.getName());
-        dto.setAdmissionDate(employeeDTO.getAdmissionDate());
-        dto.setCity(employeeDTO.getCity());
-        dto.setBirthDate(employeeDTO.getBirthDate());
-        dto.setCpf(employeeDTO.getCpf());
-        dto.setDistrict(employeeDTO.getDistrict());
-        dto.setEmail(employeeDTO.getEmail());
-        dto.setHourlyWork(employeeDTO.getHourlyWork());
-        dto.setJobId(employeeDTO.getJobId());
-        dto.setState(employeeDTO.getState());
-        dto.setStreet(employeeDTO.getStreet());
-        dto.setWorkingHours(employeeDTO.getWorkingHours());
-        dto.setZipCodeAddresses(employeeDTO.getZipCodeAddresses());
-        employeeRepository.save(dto.convertDTOToEntity());
-        return new ResponseEntity<EmployeeDTO>(dto, HttpStatus.OK);
+    public EmployeeDTO update(Long id, EmployeeDTO employeeDTO) {
+        return employeeRepository.findById(id)
+                .map(recordFound -> {
+                    recordFound.setName(employeeDTO.name());
+                    recordFound.setAdmissionDate(employeeDTO.admissionDate());
+                    recordFound.setCity(employeeDTO.city());
+                    recordFound.setBirthDate(employeeDTO.birthDate());
+                    recordFound.setCpf(employeeDTO.cpf());
+                    recordFound.setDistrict(employeeDTO.district());
+                    recordFound.setEmail(employeeDTO.email());
+                    recordFound.setHourlyWork(employeeDTO.hourlyWork());
+                    recordFound.setJobId(employeeDTO.jobId());
+                    recordFound.setState(employeeDTO.state());
+                    recordFound.setStreet(employeeDTO.street());
+                    recordFound.setWorkingHours(employeeDTO.workingHours());
+                    recordFound.setZipCodeAddresses(employeeDTO.zipCodeAddresses());
+                    return employeeMapper.toDTO(employeeRepository.save(recordFound));
+                }).orElseThrow(() -> new EntityNotFoundException("Employee not found" + id));
     }
 
 }

@@ -18,8 +18,4 @@ public class JobModel implements Serializable {
     @Column(name="nome", nullable = false, length = 200)
     public String name;
 
-    public JobDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, JobDTO.class);
-    }
-
 }

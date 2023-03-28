@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public record EmployeeDTO(
-        @Id long id,
+        @Id Long id,
         @NotNull @Length(max = 200) String name,
         @NotNull Date admissionDate,
         @NotNull Date birthDate,

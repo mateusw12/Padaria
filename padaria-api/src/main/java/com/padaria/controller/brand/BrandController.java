@@ -25,7 +25,7 @@ public class BrandController {
 
     @GetMapping()
     @Operation(summary = "Lista todas as marcas")
-    public ResponseEntity<List<BrandDTO>> findAll() {
+    public List<BrandDTO> findAll() {
         return brandService.findALl();
     }
 
@@ -51,8 +51,8 @@ public class BrandController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza marca")
-    public ResponseEntity<BrandDTO> update(@PathVariable("id") @RequestBody @Valid BrandDTO brandDTO) {
-        return brandService.update(brandDTO);
+    public BrandDTO update(@PathVariable() @NotNull @Positive Long id, @RequestBody @Valid BrandDTO brandDTO) {
+        return brandService.update(id, brandDTO);
     }
 
 }

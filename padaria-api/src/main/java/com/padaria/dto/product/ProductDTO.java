@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 public record ProductDTO(
-        @Id long id,
+        @Id Long id,
         @NotNull() @Length(max = 200) String name,
         @Length(max = 200) String description,
         @Length(max = 200) String groupedCodes,

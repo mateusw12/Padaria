@@ -1,20 +1,18 @@
 package com.padaria.service.user;
 
 import com.padaria.dto.user.UserDTO;
-import com.padaria.exceptions.EntityNotFountException;
-import com.padaria.model.user.UserModel;
+import com.padaria.mapper.user.UserMapper;
 import com.padaria.repository.user.UserRepository;
 import com.padaria.security.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springfox.documentation.annotations.Cacheable;
 
-import java.util.ArrayList;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -23,66 +21,58 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
     private JWTUtil jwtUtil;
 
-    private final PasswordEncoder encoder;
-
-    public UserService(PasswordEncoder encoder) {
-        this.encoder = encoder;
-    }
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Transactional
     public UserDTO findById(Long id) {
-        UserModel userModel = userRepository.findById(id).orElseThrow(
-                () -> new EntityNotFountException("Id not found" + id)
-        );
-        return userModel.convertEntityToDTO();
+        return userRepository.findById(id).map(userMapper::toDTO)
+                .orElseThrow(() -> new EntityNotFoundException("User not found" + id));
     }
 
     @Cacheable(value = "users")
     @Transactional
     public UserDTO findMe(String userName) {
-        UserModel userModel = userRepository.findByUserName(userName);
-        return userModel.convertEntityToDTO();
+        return userMapper.toDTO(userRepository.findByUserName(userName));
     }
 
     @Transactional
-    public ResponseEntity<List<UserDTO>> findALl() {
-        List<UserModel> userModels = userRepository.findAll();
-        List<UserDTO> userDTOS = new ArrayList<>();
-        userModels.stream().forEach(t -> userDTOS.add(t.convertEntityToDTO()));
-        return new ResponseEntity<List<UserDTO>>(userDTOS, HttpStatus.OK);
+    public List<UserDTO> findALl() {
+        return userRepository.findAll()
+                .stream()
+                .map(userMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public UserDTO create(UserDTO userDTO) {
-        userDTO.setPassword(encoder.encode(userDTO.getPassword()));
-        UserModel userModel = userRepository.save(userDTO.convertDTOToEntity());
-        return userModel.convertEntityToDTO();
+        return userMapper.toDTO(userRepository.save(userMapper.toEntity(userDTO)));
     }
 
     @Transactional
-    public ResponseEntity<UserDTO> delete(Long id) {
-        userRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+    public void delete(Long id) {
+        userRepository.delete(userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found" + id)));
     }
 
     @Transactional
-    public ResponseEntity<UserDTO> update(UserDTO userDTO) {
-        UserModel userModel = userRepository.findById(userDTO.getId().longValue()).orElseThrow(
-                () -> new EntityNotFountException("Id not found" + userDTO.getId())
-        );
-
-        UserDTO dto = userModel.convertEntityToDTO();
-        dto.setName(userDTO.getName());
-        dto.setEmail(userDTO.getEmail());
-        dto.setUserName(userDTO.getUserName());
-        dto.setRole(userDTO.getRole());
-        dto.setIsActive(userDTO.getIsActive());
-        dto.setIsDarkMode(userDTO.getIsDarkMode());
-        dto.setPassword(encoder.encode(userDTO.getPassword()));
-        userRepository.save(dto.convertDTOToEntity());
-        return new ResponseEntity<UserDTO>(dto, HttpStatus.OK);
+    public UserDTO update(Long id, UserDTO userDTO) {
+        return userRepository.findById(id)
+                .map(recordFound -> {
+                    recordFound.setName(userDTO.name());
+                    recordFound.setEmail(userDTO.email());
+                    recordFound.setUserName(userDTO.userName());
+                    recordFound.setRole(userDTO.role());
+                    recordFound.setIsActive(userDTO.isActive());
+                    recordFound.setIsDarkMode(userDTO.isDarkMode());
+                    recordFound.setPassword(encoder.encode(userDTO.password()));
+                    return userMapper.toDTO(userRepository.save(recordFound));
+                }).orElseThrow(() -> new EntityNotFoundException("User not found" + id));
     }
 
 }
