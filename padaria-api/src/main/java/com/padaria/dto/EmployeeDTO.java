@@ -1,81 +1,31 @@
 package com.padaria.dto;
 
-import com.padaria.model.employee.EmployeeModel;
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
-import org.modelmapper.ModelMapper;
-import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@Setter
-@Getter
-public class EmployeeDTO extends RepresentationModel<EmployeeDTO> {
-
-    @Id
-    public long id;
-
-    @NotNull
-    @Length(max = 200)
-    public String name;
-
-    @NotNull
-    public Date admissionDate;
-
-    @NotNull
-    public Date birthDate;
-
-    @Length(max = 200)
-    public String city;
-
-    @Length(max = 200)
-    public String street;
-
-    @Length(max = 200)
-    public String district;
-
-    @Length(max = 200)
-    public String state;
-
-    @Length(max = 200)
-    public String email;
-
-    @NotNull
-    public Double hourlyWork;
-
-    @NotNull
-    public Long jobId;
-
-    @Length(max = 15)
-    public String phone;
-
-    @NotNull
-    public Long workingHours;
-
-    @NotNull
-    @Length(max = 14)
-    public String zipCodeAddresses;
-
-    @NotNull
-    @CPF
-    @Length(max = 11)
-    public String cpf;
-
-    @NotNull
-    public Long maritalStatus;
-
-    @NotNull
-    public Long gender;
-
-    @NotNull
-    public Long levelSchooling;
-
-    public EmployeeModel convertDTOToEntity() {
-        return new ModelMapper().map(this, EmployeeModel.class);
-    }
+public record EmployeeDTO(
+        @Id long id,
+        @NotNull @Length(max = 200) String name,
+        @NotNull Date admissionDate,
+        @NotNull Date birthDate,
+        @Length(max = 200) String city,
+        @Length(max = 200) String street,
+        @Length(max = 200) String district,
+        @Length(max = 200) String state,
+        @Length(max = 200) String email,
+        @NotNull Double hourlyWork,
+        @NotNull Long jobId,
+        @Length(max = 15) String phone,
+        @NotNull Long workingHours,
+        @NotNull @Length(max = 14) String zipCodeAddresses,
+        @NotNull @CPF @Length(max = 11) String cpf,
+        @NotNull Long maritalStatus,
+        @NotNull Long gender,
+        @NotNull Long levelSchooling
+) {
 
 }
