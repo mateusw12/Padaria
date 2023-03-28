@@ -1,6 +1,6 @@
 package com.padaria.service;
 
-import com.padaria.dto.JobDTO;
+import com.padaria.dto.job.JobDTO;
 import com.padaria.exceptions.EntityNotFountException;
 import com.padaria.model.job.JobModel;
 import com.padaria.repository.JobRepository;

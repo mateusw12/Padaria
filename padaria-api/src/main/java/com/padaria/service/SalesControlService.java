@@ -1,7 +1,7 @@
 package com.padaria.service;
 
-import com.padaria.dto.SalesControlDTO;
-import com.padaria.dto.SalesControlFilterDTO;
+import com.padaria.dto.salesControl.SalesControlDTO;
+import com.padaria.dto.salesControl.SalesControlFilterDTO;
 import com.padaria.exceptions.EntityNotFountException;
 import com.padaria.model.salesControl.SalesControlModel;
 import com.padaria.repository.SalesControlRepository;

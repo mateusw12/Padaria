@@ -1,10 +1,8 @@
 package com.padaria.model.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.padaria.dto.UserDTO;
+import com.padaria.dto.user.UserDTO;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;

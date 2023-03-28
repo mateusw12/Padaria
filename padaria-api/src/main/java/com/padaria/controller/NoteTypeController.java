@@ -1,6 +1,6 @@
 package com.padaria.controller;
 
-import com.padaria.dto.NoteTypeDTO;
+import com.padaria.dto.noteType.NoteTypeDTO;
 import com.padaria.service.NoteTypeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

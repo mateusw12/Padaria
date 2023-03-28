@@ -1,6 +1,6 @@
 package com.padaria.service;
 
-import com.padaria.dto.ManufacturerDTO;
+import com.padaria.dto.manufacturer.ManufacturerDTO;
 import com.padaria.exceptions.EntityNotFountException;
 import com.padaria.model.manufacturer.ManufacturerModel;
 import com.padaria.repository.ManufacturerRepository;

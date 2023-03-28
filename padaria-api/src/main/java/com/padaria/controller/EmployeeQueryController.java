@@ -1,6 +1,6 @@
 package com.padaria.controller;
 
-import com.padaria.dto.EmployeeQueryFilterDTO;
+import com.padaria.dto.employeeQuery.EmployeeQueryFilterDTO;
 import com.padaria.model.employee.EmployeeModel;
 import com.padaria.service.EmployeeQueryService;
 import io.swagger.v3.oas.annotations.Operation;

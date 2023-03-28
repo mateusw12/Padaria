@@ -1,9 +1,7 @@
 package com.padaria.model.settings;
 
-import com.padaria.dto.SettingDTO;
+import com.padaria.dto.settings.SettingDTO;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;

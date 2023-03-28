@@ -1,6 +1,6 @@
 package com.padaria.service;
 
-import com.padaria.dto.ProductQueryFilterDTO;
+import com.padaria.dto.productQuery.ProductQueryFilterDTO;
 import com.padaria.model.product.ProductModel;
 import com.padaria.repository.ProductQueryRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,7 @@
 package com.padaria.model.salesRequest;
 
-import com.padaria.dto.SalesRequestDTO;
+import com.padaria.dto.salesRequest.SalesRequestDTO;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;

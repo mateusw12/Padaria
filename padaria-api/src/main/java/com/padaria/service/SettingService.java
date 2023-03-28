@@ -1,6 +1,6 @@
 package com.padaria.service;
 
-import com.padaria.dto.SettingDTO;
+import com.padaria.dto.settings.SettingDTO;
 import com.padaria.model.settings.SettingModel;
 import com.padaria.repository.SettingRepository;
 import org.springframework.beans.factory.annotation.Autowired;

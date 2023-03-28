@@ -1,9 +1,7 @@
 package com.padaria.model.unitMeasure;
 
-import com.padaria.dto.UnitMeasureDTO;
+import com.padaria.dto.unitMeasure.UnitMeasureDTO;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;

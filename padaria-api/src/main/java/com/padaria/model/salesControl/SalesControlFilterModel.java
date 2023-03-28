@@ -1,9 +1,7 @@
 package com.padaria.model.salesControl;
 
-import com.padaria.dto.SalesControlFilterDTO;
+import com.padaria.dto.salesControl.SalesControlFilterDTO;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import java.io.Serializable;

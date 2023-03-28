@@ -1,6 +1,6 @@
 package com.padaria.repository;
 
-import com.padaria.dto.EmployeeQueryFilterDTO;
+import com.padaria.dto.employeeQuery.EmployeeQueryFilterDTO;
 import com.padaria.model.employee.EmployeeModel;
 import org.springframework.stereotype.Repository;
 

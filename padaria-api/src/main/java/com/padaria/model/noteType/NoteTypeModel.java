@@ -1,9 +1,7 @@
 package com.padaria.model.noteType;
 
-import com.padaria.dto.NoteTypeDTO;
+import com.padaria.dto.noteType.NoteTypeDTO;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;

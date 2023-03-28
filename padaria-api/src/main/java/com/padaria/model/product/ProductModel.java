@@ -1,9 +1,7 @@
 package com.padaria.model.product;
 
-import com.padaria.dto.ProductDTO;
+import com.padaria.dto.product.ProductDTO;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;

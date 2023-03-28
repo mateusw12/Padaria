@@ -1,6 +1,6 @@
 package com.padaria.controller;
 
-import com.padaria.dto.BrandDTO;
+import com.padaria.dto.brand.BrandDTO;
 import com.padaria.service.BrandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
