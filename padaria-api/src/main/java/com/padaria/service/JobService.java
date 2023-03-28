@@ -3,7 +3,7 @@ package com.padaria.service;
 import com.padaria.dto.job.JobDTO;
 import com.padaria.exceptions.EntityNotFountException;
 import com.padaria.model.job.JobModel;
-import com.padaria.repository.JobRepository;
+import com.padaria.repository.job.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

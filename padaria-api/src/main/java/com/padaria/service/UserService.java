@@ -3,7 +3,7 @@ package com.padaria.service;
 import com.padaria.dto.user.UserDTO;
 import com.padaria.exceptions.EntityNotFountException;
 import com.padaria.model.user.UserModel;
-import com.padaria.repository.UserRepository;
+import com.padaria.repository.user.UserRepository;
 import com.padaria.security.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

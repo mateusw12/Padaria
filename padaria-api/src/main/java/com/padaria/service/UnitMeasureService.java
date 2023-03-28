@@ -3,7 +3,7 @@ package com.padaria.service;
 import com.padaria.dto.unitMeasure.UnitMeasureDTO;
 import com.padaria.exceptions.EntityNotFountException;
 import com.padaria.model.unitMeasure.UnitMeasureModel;
-import com.padaria.repository.UnitMeasureRepository;
+import com.padaria.repository.unitMeasure.UnitMeasureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

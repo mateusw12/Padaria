@@ -1,4 +1,4 @@
-package com.padaria.repository;
+package com.padaria.repository.supplier;
 
 import com.padaria.model.supplier.SupplierModel;
 import org.springframework.data.jpa.repository.JpaRepository;

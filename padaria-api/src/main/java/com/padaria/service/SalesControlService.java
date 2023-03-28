@@ -4,7 +4,7 @@ import com.padaria.dto.salesControl.SalesControlDTO;
 import com.padaria.dto.salesControl.SalesControlFilterDTO;
 import com.padaria.exceptions.EntityNotFountException;
 import com.padaria.model.salesControl.SalesControlModel;
-import com.padaria.repository.SalesControlRepository;
+import com.padaria.repository.salesControl.SalesControlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

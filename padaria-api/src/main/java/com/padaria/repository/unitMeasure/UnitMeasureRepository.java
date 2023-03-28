@@ -1,4 +1,4 @@
-package com.padaria.repository;
+package com.padaria.repository.unitMeasure;
 
 import com.padaria.model.unitMeasure.UnitMeasureModel;
 import org.springframework.data.jpa.repository.JpaRepository;

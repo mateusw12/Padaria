@@ -1,4 +1,4 @@
-package com.padaria.repository;
+package com.padaria.repository.inventory;
 
 import com.padaria.model.inventory.InventoryModel;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package com.padaria.repository;
+package com.padaria.repository.noteType;
 
 import com.padaria.model.noteType.NoteTypeModel;
 import org.springframework.data.jpa.repository.JpaRepository;

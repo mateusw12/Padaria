@@ -1,4 +1,4 @@
-package com.padaria.repository;
+package com.padaria.repository.user;
 
 import com.padaria.model.user.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;

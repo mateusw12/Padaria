@@ -1,4 +1,4 @@
-package com.padaria.repository;
+package com.padaria.repository.buyRequest;
 
 import com.padaria.model.buyRequest.BuyRequestModel;
 import org.springframework.data.jpa.repository.JpaRepository;

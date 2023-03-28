@@ -1,4 +1,4 @@
-package com.padaria.repository;
+package com.padaria.repository.departament;
 
 import com.padaria.model.departament.DepartamentModel;
 import org.springframework.data.jpa.repository.JpaRepository;

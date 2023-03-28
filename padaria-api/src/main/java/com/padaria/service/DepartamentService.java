@@ -3,7 +3,7 @@ package com.padaria.service;
 import com.padaria.dto.departament.DepartamentDTO;
 import com.padaria.exceptions.EntityNotFountException;
 import com.padaria.model.departament.DepartamentModel;
-import com.padaria.repository.DepartamentRepository;
+import com.padaria.repository.departament.DepartamentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

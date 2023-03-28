@@ -1,7 +1,7 @@
 package com.padaria.configuration;
 
 import com.padaria.model.user.UserModel;
-import com.padaria.repository.UserRepository;
+import com.padaria.repository.user.UserRepository;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

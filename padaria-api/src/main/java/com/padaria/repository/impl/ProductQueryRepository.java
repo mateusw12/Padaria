@@ -1,4 +1,4 @@
-package com.padaria.repository;
+package com.padaria.repository.impl;
 
 import com.padaria.dto.productQuery.ProductQueryFilterDTO;
 import com.padaria.model.product.ProductModel;

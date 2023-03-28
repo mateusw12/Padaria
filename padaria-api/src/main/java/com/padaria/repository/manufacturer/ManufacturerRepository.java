@@ -1,4 +1,4 @@
-package com.padaria.repository;
+package com.padaria.repository.manufacturer;
 
 import com.padaria.model.manufacturer.ManufacturerModel;
 import org.springframework.data.jpa.repository.JpaRepository;

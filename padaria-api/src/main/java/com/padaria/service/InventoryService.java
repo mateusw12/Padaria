@@ -3,7 +3,7 @@ package com.padaria.service;
 import com.padaria.dto.inventory.InventoryDTO;
 import com.padaria.exceptions.EntityNotFountException;
 import com.padaria.model.inventory.InventoryModel;
-import com.padaria.repository.InventoryRepository;
+import com.padaria.repository.inventory.InventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -2,7 +2,7 @@ package com.padaria.service;
 
 import com.padaria.dto.employeeQuery.EmployeeQueryFilterDTO;
 import com.padaria.model.employee.EmployeeModel;
-import com.padaria.repository.EmployeeQueryRepository;
+import com.padaria.repository.impl.EmployeeQueryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

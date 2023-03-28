@@ -2,7 +2,7 @@ package com.padaria.service.Impl;
 
 import com.padaria.model.login.DetailUserLogin;
 import com.padaria.model.user.UserModel;
-import com.padaria.repository.UserRepository;
+import com.padaria.repository.user.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

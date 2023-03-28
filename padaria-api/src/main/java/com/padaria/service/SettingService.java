@@ -2,7 +2,7 @@ package com.padaria.service;
 
 import com.padaria.dto.settings.SettingDTO;
 import com.padaria.model.settings.SettingModel;
-import com.padaria.repository.SettingRepository;
+import com.padaria.repository.settings.SettingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

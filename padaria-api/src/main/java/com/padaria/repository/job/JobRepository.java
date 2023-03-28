@@ -1,4 +1,4 @@
-package com.padaria.repository;
+package com.padaria.repository.job;
 
 import com.padaria.model.job.JobModel;
 import org.springframework.data.jpa.repository.JpaRepository;

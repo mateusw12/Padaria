@@ -1,4 +1,4 @@
-package com.padaria.repository;
+package com.padaria.repository.settings;
 
 import com.padaria.model.settings.SettingModel;
 import org.springframework.data.jpa.repository.JpaRepository;

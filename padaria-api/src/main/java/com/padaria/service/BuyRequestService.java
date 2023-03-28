@@ -3,7 +3,7 @@ package com.padaria.service;
 import com.padaria.dto.buyRequest.BuyRequestDTO;
 import com.padaria.exceptions.EntityNotFountException;
 import com.padaria.model.buyRequest.BuyRequestModel;
-import com.padaria.repository.BuyRequestRepository;
+import com.padaria.repository.buyRequest.BuyRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

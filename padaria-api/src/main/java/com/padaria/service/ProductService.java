@@ -3,7 +3,7 @@ package com.padaria.service;
 import com.padaria.dto.product.ProductDTO;
 import com.padaria.exceptions.EntityNotFountException;
 import com.padaria.model.product.ProductModel;
-import com.padaria.repository.ProductRepository;
+import com.padaria.repository.product.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
