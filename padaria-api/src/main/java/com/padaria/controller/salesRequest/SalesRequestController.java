@@ -1,4 +1,4 @@
-package com.padaria.controller;
+package com.padaria.controller.salesRequest;
 
 import com.padaria.dto.salesRequest.SalesRequestDTO;
 import com.padaria.service.SalesRequestService;

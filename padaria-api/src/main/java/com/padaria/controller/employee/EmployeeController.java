@@ -1,4 +1,4 @@
-package com.padaria.controller;
+package com.padaria.controller.employee;
 
 import com.padaria.dto.employee.EmployeeDTO;
 import com.padaria.service.EmployeeService;

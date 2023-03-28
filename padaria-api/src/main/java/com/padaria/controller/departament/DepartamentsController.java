@@ -1,4 +1,4 @@
-package com.padaria.controller;
+package com.padaria.controller.departament;
 
 import com.padaria.dto.departament.DepartamentDTO;
 import com.padaria.service.DepartamentService;

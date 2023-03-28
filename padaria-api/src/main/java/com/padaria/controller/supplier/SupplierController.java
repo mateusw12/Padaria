@@ -1,4 +1,4 @@
-package com.padaria.controller;
+package com.padaria.controller.supplier;
 
 import com.padaria.dto.supplier.SupplierDTO;
 import com.padaria.service.SupplierService;

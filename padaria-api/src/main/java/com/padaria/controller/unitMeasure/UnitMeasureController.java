@@ -1,4 +1,4 @@
-package com.padaria.controller;
+package com.padaria.controller.unitMeasure;
 
 import com.padaria.dto.unitMeasure.UnitMeasureDTO;
 import com.padaria.service.UnitMeasureService;

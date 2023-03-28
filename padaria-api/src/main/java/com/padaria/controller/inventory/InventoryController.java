@@ -1,4 +1,4 @@
-package com.padaria.controller;
+package com.padaria.controller.inventory;
 
 import com.padaria.dto.inventory.InventoryDTO;
 import com.padaria.service.InventoryService;

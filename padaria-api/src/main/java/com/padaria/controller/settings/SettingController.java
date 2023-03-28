@@ -1,4 +1,4 @@
-package com.padaria.controller;
+package com.padaria.controller.settings;
 
 import com.padaria.dto.settings.SettingDTO;
 import com.padaria.service.SettingService;

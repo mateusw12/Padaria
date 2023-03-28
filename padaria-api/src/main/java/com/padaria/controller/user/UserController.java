@@ -1,4 +1,4 @@
-package com.padaria.controller;
+package com.padaria.controller.user;
 
 import com.padaria.dto.user.UserDTO;
 import com.padaria.service.UserService;

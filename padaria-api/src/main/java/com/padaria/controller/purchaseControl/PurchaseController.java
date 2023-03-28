@@ -1,4 +1,4 @@
-package com.padaria.controller;
+package com.padaria.controller.purchaseControl;
 
 import com.padaria.dto.purchaseControl.PurchaseDTO;
 import com.padaria.service.PurchaseService;

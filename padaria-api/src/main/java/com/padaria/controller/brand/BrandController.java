@@ -1,4 +1,4 @@
-package com.padaria.controller;
+package com.padaria.controller.brand;
 
 import com.padaria.dto.brand.BrandDTO;
 import com.padaria.service.BrandService;

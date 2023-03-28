@@ -1,4 +1,4 @@
-package com.padaria.controller;
+package com.padaria.controller.productQuery;
 
 import com.padaria.dto.productQuery.ProductQueryFilterDTO;
 import com.padaria.model.product.ProductModel;

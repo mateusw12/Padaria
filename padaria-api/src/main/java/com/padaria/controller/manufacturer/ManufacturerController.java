@@ -1,4 +1,4 @@
-package com.padaria.controller;
+package com.padaria.controller.manufacturer;
 
 import com.padaria.dto.manufacturer.ManufacturerDTO;
 import com.padaria.service.ManufacturerService;

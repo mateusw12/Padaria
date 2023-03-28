@@ -1,4 +1,4 @@
-package com.padaria.controller;
+package com.padaria.controller.buyRequest;
 
 import com.padaria.dto.buyRequest.BuyRequestDTO;
 import com.padaria.service.BuyRequestService;

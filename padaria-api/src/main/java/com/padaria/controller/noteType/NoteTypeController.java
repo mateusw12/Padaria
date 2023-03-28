@@ -1,4 +1,4 @@
-package com.padaria.controller;
+package com.padaria.controller.noteType;
 
 import com.padaria.dto.noteType.NoteTypeDTO;
 import com.padaria.service.NoteTypeService;

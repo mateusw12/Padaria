@@ -1,4 +1,4 @@
-package com.padaria.controller;
+package com.padaria.controller.job;
 
 import com.padaria.dto.brand.BrandDTO;
 import com.padaria.dto.job.JobDTO;
