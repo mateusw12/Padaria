@@ -26,7 +26,7 @@ public class UserController {
 
     @GetMapping()
     @Operation(summary = "Lista todas os usuários")
-    public ResponseEntity<List<UserDTO>> findAll() {
+    public List<UserDTO> findAll() {
         return userService.findALl();
     }
 
@@ -59,8 +59,9 @@ public class UserController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza usuário")
-    public ResponseEntity<UserDTO> update(@PathVariable("id") @RequestBody @Valid UserDTO userDTO) {
-        return userService.update(userDTO);
+    public UserDTO update(@PathVariable @NotNull @Positive Long id,
+                          @RequestBody @Valid UserDTO userDTO) {
+        return userService.update(id, userDTO);
     }
 
 }

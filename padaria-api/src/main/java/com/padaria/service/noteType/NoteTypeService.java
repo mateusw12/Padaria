@@ -1,17 +1,15 @@
 package com.padaria.service.noteType;
 
 import com.padaria.dto.noteType.NoteTypeDTO;
-import com.padaria.exceptions.EntityNotFountException;
-import com.padaria.model.noteType.NoteTypeModel;
+import com.padaria.mapper.noteType.NoteTypeMapper;
 import com.padaria.repository.noteType.NoteTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class NoteTypeService {
@@ -19,41 +17,42 @@ public class NoteTypeService {
     @Autowired
     private NoteTypeRepository noteTypeRepository;
 
+    @Autowired
+    private NoteTypeMapper noteTypeMapper;
+
     @Transactional
     public NoteTypeDTO findById(Long id) {
-        NoteTypeModel noteTypeModel = noteTypeRepository.findById(id).orElseThrow(() -> new EntityNotFountException("Id not found" + id));
-        return noteTypeModel.convertEntityToDTO();
+        return noteTypeRepository.findById(id).map(noteTypeMapper::toDTO)
+                .orElseThrow(() -> new EntityNotFoundException("Note type not found" + id));
     }
 
     @Transactional
-    public ResponseEntity<List<NoteTypeDTO>> findALl() {
-        List<NoteTypeModel> noteTypeModels = noteTypeRepository.findAll();
-        List<NoteTypeDTO> noteTypeDTOS = new ArrayList<>();
-        noteTypeModels.stream().forEach(t -> noteTypeDTOS.add(t.convertEntityToDTO()));
-        return new ResponseEntity<List<NoteTypeDTO>>(noteTypeDTOS, HttpStatus.OK);
+    public List<NoteTypeDTO> findALl() {
+        return noteTypeRepository.findAll()
+                .stream()
+                .map(noteTypeMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public NoteTypeDTO create(NoteTypeDTO noteTypeDTO) {
-        NoteTypeModel noteTypeModel = noteTypeRepository.save(noteTypeDTO.convertDTOToEntity());
-        return noteTypeModel.convertEntityToDTO();
+        return noteTypeMapper.toDTO(noteTypeRepository.save(noteTypeMapper.toEntity(noteTypeDTO)));
     }
 
     @Transactional
-    public ResponseEntity<NoteTypeDTO> delete(Long id) {
-        noteTypeRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+    public void delete(Long id) {
+        noteTypeRepository.delete(noteTypeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Note type not found" + id)));
     }
 
     @Transactional
-    public ResponseEntity<NoteTypeDTO> update(NoteTypeDTO noteTypeDTO) {
-        NoteTypeModel noteTypeModel = noteTypeRepository.findById(noteTypeDTO.getId().longValue()).orElseThrow(() -> new EntityNotFountException("Id not found" + noteTypeDTO.getId()));
-
-        NoteTypeDTO dto = noteTypeModel.convertEntityToDTO();
-        dto.setName(noteTypeDTO.getName());
-        dto.setAbbreviation(noteTypeDTO.getAbbreviation());
-        noteTypeRepository.save(dto.convertDTOToEntity());
-        return new ResponseEntity<NoteTypeDTO>(dto, HttpStatus.OK);
+    public NoteTypeDTO update(Long id, NoteTypeDTO noteTypeDTO) {
+        return noteTypeRepository.findById(id)
+                .map(recordFound -> {
+                    recordFound.setName(noteTypeDTO.name());
+                    recordFound.setAbbreviation(noteTypeDTO.abbreviation());
+                    return noteTypeMapper.toDTO(noteTypeRepository.save(recordFound));
+                }).orElseThrow(() -> new EntityNotFoundException("Note type not found" + id));
     }
 
 }

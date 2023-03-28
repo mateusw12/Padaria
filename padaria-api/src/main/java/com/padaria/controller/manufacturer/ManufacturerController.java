@@ -25,7 +25,7 @@ public class ManufacturerController {
 
     @GetMapping()
     @Operation(summary = "Lista todos os fabricantes")
-    public ResponseEntity<List<ManufacturerDTO>> findAll() {
+    public List<ManufacturerDTO> findAll() {
         return manufacturerService.findALl();
     }
 
@@ -51,8 +51,9 @@ public class ManufacturerController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza fabricante")
-    public ResponseEntity<ManufacturerDTO> update(@PathVariable("id") @RequestBody @Valid ManufacturerDTO manufacturerDTO) {
-        return manufacturerService.update(manufacturerDTO);
+    public ManufacturerDTO update(@PathVariable @NotNull @Positive Long id,
+                                                  @RequestBody @Valid ManufacturerDTO manufacturerDTO) {
+        return manufacturerService.update(id, manufacturerDTO);
     }
 
 }

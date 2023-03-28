@@ -25,7 +25,7 @@ public class UnitMeasureController {
 
     @GetMapping()
     @Operation(summary = "Lista todas as unidades de medida")
-    public ResponseEntity<List<UnitMeasureDTO>> findAll() {
+    public List<UnitMeasureDTO> findAll() {
         return unitMeasureService.findALl();
     }
 
@@ -51,8 +51,9 @@ public class UnitMeasureController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza unidade de medida")
-    public ResponseEntity<UnitMeasureDTO> update(@PathVariable("id") @RequestBody @Valid UnitMeasureDTO unitMeasureDTO) {
-        return unitMeasureService.update(unitMeasureDTO);
+    public UnitMeasureDTO update(@PathVariable @NotNull @Positive Long id,
+                                 @RequestBody @Valid UnitMeasureDTO unitMeasureDTO) {
+        return unitMeasureService.update(id, unitMeasureDTO);
     }
 
 }

@@ -26,7 +26,7 @@ public class SalesControlController {
 
     @PostMapping(value = "/filter")
     @Operation(summary = "Lista todas as vendas")
-    public ResponseEntity<List<SalesControlDTO>> find(SalesControlFilterDTO salesControlFilterDTO) {
+    public List<SalesControlDTO> find(SalesControlFilterDTO salesControlFilterDTO) {
         return salesControlService.find(salesControlFilterDTO);
     }
 

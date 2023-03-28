@@ -1,14 +1,14 @@
 package com.padaria.service.settings;
 
 import com.padaria.dto.settings.SettingDTO;
+import com.padaria.mapper.settings.SettingsMapper;
 import com.padaria.model.settings.SettingModel;
 import com.padaria.repository.settings.SettingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -17,37 +17,36 @@ public class SettingService {
     @Autowired
     private SettingRepository settingRepository;
 
+    @Autowired
+    private SettingsMapper settingsMapper;
+
     @Transactional
     public SettingDTO findAll() {
         List<SettingModel> settingModels = settingRepository.findAll();
-        SettingModel settingModel = settingModels.get(0);
-        return settingModel.convertEntityToDTO();
+        return settingsMapper.toDTO(settingModels.get(0));
     }
 
     @Transactional
     public SettingDTO create(SettingDTO settingDTO) {
         settingRepository.deleteAll();
-        SettingModel settingModel = settingRepository.save(settingDTO.convertDTOToEntity());
-        return settingModel.convertEntityToDTO();
+        return settingsMapper.toDTO(settingRepository.save(settingsMapper.toEntity(settingDTO)));
     }
 
     @Transactional
-    public ResponseEntity<SettingDTO> delete(Long id) {
-        settingRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+    public void delete(Long id) {
+        settingRepository.delete(settingRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Settings not found" + id)));
     }
 
     @Transactional
-    public ResponseEntity<SettingDTO> update(SettingDTO settingDTO) {
-        List<SettingModel> settingModels = settingRepository.findAll();
-        SettingModel settingModel = settingModels.get(0);
-
-        SettingDTO dto = settingModel.convertEntityToDTO();
-        dto.setName(settingDTO.getName());
-        dto.setThemeColor(settingDTO.getThemeColor());
-        dto.setLogo(settingDTO.getLogo());
-        settingRepository.save(dto.convertDTOToEntity());
-        return new ResponseEntity<SettingDTO>(dto, HttpStatus.OK);
+    public SettingDTO update(Long id, SettingDTO settingDTO) {
+        return settingRepository.findById(id)
+                .map(recordFound -> {
+                    recordFound.setName(settingDTO.name());
+                    recordFound.setThemeColor(settingDTO.themeColor());
+                    recordFound.setLogo(settingDTO.logo());
+                    return settingsMapper.toDTO(settingRepository.save(recordFound));
+                }).orElseThrow(() -> new EntityNotFoundException("Settings not found" + id));
     }
 
 }

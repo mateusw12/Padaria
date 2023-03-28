@@ -1,17 +1,15 @@
 package com.padaria.service.supplier;
 
 import com.padaria.dto.supplier.SupplierDTO;
-import com.padaria.exceptions.EntityNotFountException;
-import com.padaria.model.supplier.SupplierModel;
+import com.padaria.mapper.supplier.SupplierMapper;
 import com.padaria.repository.supplier.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SupplierService {
@@ -19,54 +17,50 @@ public class SupplierService {
     @Autowired
     private SupplierRepository supplierRepository;
 
+    @Autowired
+    private SupplierMapper supplierMapper;
+
     @Transactional
     public SupplierDTO findById(Long id) {
-        SupplierModel supplierModel = supplierRepository.findById(id).orElseThrow(
-                () -> new EntityNotFountException("Id not found" + id)
-        );
-        return supplierModel.convertEntityToDTO();
+        return supplierRepository.findById(id).map(supplierMapper::toDTO)
+                .orElseThrow(() -> new EntityNotFoundException("Supplier not found" + id));
     }
 
     @Transactional
-    public ResponseEntity<List<SupplierDTO>> findALl() {
-        List<SupplierModel> supplierModels = supplierRepository.findAll();
-        List<SupplierDTO> supplierDTOS = new ArrayList<>();
-        supplierModels.stream().forEach(t -> supplierDTOS.add(t.convertEntityToDTO()));
-        return new ResponseEntity<List<SupplierDTO>>(supplierDTOS, HttpStatus.OK);
+    public List<SupplierDTO> findALl() {
+        return supplierRepository.findAll()
+                .stream()
+                .map(supplierMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public SupplierDTO create(SupplierDTO supplierDTO) {
-        SupplierModel supplierModel = supplierRepository.save(supplierDTO.convertDTOToEntity());
-        return supplierModel.convertEntityToDTO();
+        return supplierMapper.toDTO(supplierRepository.save(supplierMapper.toEntity(supplierDTO)));
     }
 
     @Transactional
-    public ResponseEntity<SupplierDTO> delete(Long id) {
-        supplierRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+    public void delete(Long id) {
+        supplierRepository.delete(supplierRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Supplier not found" + id)));
     }
 
     @Transactional
-    public ResponseEntity<SupplierDTO> update(SupplierDTO supplierDTO) {
-        SupplierModel supplierModel = supplierRepository.findById(supplierDTO.getId()).orElseThrow(
-                () -> new EntityNotFountException("Id not found" + supplierDTO.getId())
-        );
-
-        SupplierDTO dto = supplierModel.convertEntityToDTO();
-        dto.setName(supplierDTO.getName());
-        dto.setCity(supplierDTO.getCity());
-        dto.setCnpj(supplierDTO.getCnpj());
-        dto.setDistrict(supplierDTO.getDistrict());
-        dto.setEmail(supplierDTO.getEmail());
-        dto.setComercialName(supplierDTO.getComercialName());
-        dto.setPhone(supplierDTO.getPhone());
-        dto.setEmail(supplierDTO.getEmail());
-        dto.setZipCodeAddresses(supplierDTO.getZipCodeAddresses());
-        dto.setState(supplierDTO.getState());
-        dto.setStreet(supplierDTO.getStreet());
-        supplierRepository.save(dto.convertDTOToEntity());
-        return new ResponseEntity<SupplierDTO>(dto, HttpStatus.OK);
+    public SupplierDTO update(Long id, SupplierDTO supplierDTO) {
+        return supplierRepository.findById(id)
+                .map(recordFound -> {
+                    recordFound.setName(supplierDTO.name());
+                    recordFound.setCity(supplierDTO.city());
+                    recordFound.setCnpj(supplierDTO.cnpj());
+                    recordFound.setDistrict(supplierDTO.district());
+                    recordFound.setEmail(supplierDTO.email());
+                    recordFound.setComercialName(supplierDTO.comercialName());
+                    recordFound.setPhone(supplierDTO.phone());
+                    recordFound.setZipCodeAddresses(supplierDTO.zipCodeAddresses());
+                    recordFound.setState(supplierDTO.state());
+                    recordFound.setStreet(supplierDTO.street());
+                    return supplierMapper.toDTO(supplierRepository.save(recordFound));
+                }).orElseThrow(() -> new EntityNotFoundException("Supplier not found" + id));
     }
 
 }

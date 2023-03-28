@@ -1,18 +1,16 @@
 package com.padaria.service.product;
 
 import com.padaria.dto.product.ProductDTO;
-import com.padaria.exceptions.EntityNotFountException;
-import com.padaria.model.product.ProductModel;
+import com.padaria.mapper.product.ProductMapper;
 import com.padaria.repository.product.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springfox.documentation.annotations.Cacheable;
 
-import java.util.ArrayList;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -20,58 +18,54 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ProductMapper productMapper;
+
     @Transactional
     public ProductDTO findById(Long id) {
-        ProductModel productModel = productRepository.findById(id).orElseThrow(
-                () -> new EntityNotFountException("Id not found" + id)
-        );
-        return productModel.convertEntityToDTO();
+        return productRepository.findById(id).map(productMapper::toDTO)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found" + id));
     }
 
     @Transactional
-    public ResponseEntity<List<ProductDTO>> findALl() {
-        List<ProductModel> productModels = productRepository.findAll();
-        List<ProductDTO> productDTOS = new ArrayList<>();
-        productModels.stream().forEach(t -> productDTOS.add(t.convertEntityToDTO()));
-        return new ResponseEntity<List<ProductDTO>>(productDTOS, HttpStatus.OK);
+    public List<ProductDTO> findALl() {
+        return productRepository.findAll()
+                .stream()
+                .map(productMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Cacheable(value = "barCodes")
     @Transactional
-    public ResponseEntity<ProductDTO> findByBarCode(String barCorde) {
-        ProductModel productModel = productRepository.findByBarCode(barCorde);
-        return new ResponseEntity<ProductDTO>(productModel.convertEntityToDTO(), HttpStatus.OK);
+    public ProductDTO findByBarCode(String barCorde) {
+        return productMapper.toDTO(productRepository.findByBarCode(barCorde));
     }
 
     @Transactional
     public ProductDTO create(ProductDTO productDTO){
-        ProductModel productModel=  productRepository.save(productDTO.convertDTOToEntity());
-        return productModel.convertEntityToDTO();
+        return productMapper.toDTO(productRepository.save(productMapper.toEntity(productDTO)));
     }
 
     @Transactional
-    public ResponseEntity<ProductDTO> delete(Long id){
-        productRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+    public void delete(Long id){
+        productRepository.delete(productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found" + id)));
     }
 
     @Transactional
-    public ResponseEntity<ProductDTO> update(ProductDTO productDTO) {
-        ProductModel productModel = productRepository.findById(productDTO.getId()).orElseThrow(
-                () -> new EntityNotFountException("Id not found" + productDTO.getId())
-        );
-
-        ProductDTO dto = productModel.convertEntityToDTO();
-        dto.setName(productDTO.getName());
-        dto.setDescription(productDTO.getDescription());
-        dto.setBrandId(productDTO.getBrandId());
-        dto.setGroupedCodes(productDTO.getGroupedCodes());
-        dto.setManufacturerId(productDTO.getManufacturerId());
-        dto.setUnitaryPrice(productDTO.getUnitaryPrice());
-        dto.setUnitMeasureId(productDTO.getUnitMeasureId());
-        dto.setBarCode(productDTO.getBarCode());
-        productRepository.save(dto.convertDTOToEntity());
-        return new ResponseEntity<ProductDTO>(dto, HttpStatus.OK);
+    public ProductDTO update(Long id, ProductDTO productDTO) {
+        return productRepository.findById(id)
+                .map(recordFound -> {
+                    recordFound.setName(productDTO.name());
+                    recordFound.setDescription(productDTO.description());
+                    recordFound.setBrandId(productDTO.brandId());
+                    recordFound.setGroupedCodes(productDTO.groupedCodes());
+                    recordFound.setManufacturerId(productDTO.manufacturerId());
+                    recordFound.setUnitaryPrice(productDTO.unitaryPrice());
+                    recordFound.setUnitMeasureId(productDTO.unitMeasureId());
+                    recordFound.setBarCode(productDTO.barCode());
+                    return productMapper.toDTO(productRepository.save(recordFound));
+                }).orElseThrow(() -> new EntityNotFoundException("Product not found" + id));
     }
 
 }

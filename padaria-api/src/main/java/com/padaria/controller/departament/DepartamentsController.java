@@ -25,7 +25,7 @@ public class DepartamentsController {
 
     @GetMapping()
     @Operation(summary = "Lista todas os departamentos")
-    public ResponseEntity<List<DepartamentDTO>> findAll() {
+    public List<DepartamentDTO> findAll() {
         return departamentService.findALl();
     }
 
@@ -51,8 +51,9 @@ public class DepartamentsController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza departamento")
-    public ResponseEntity<DepartamentDTO> update(@PathVariable("id") @RequestBody @Valid DepartamentDTO departamentDTO) {
-        return departamentService.update(departamentDTO);
+    public DepartamentDTO update(@PathVariable() @NotNull @Positive Long id,
+                                                 @RequestBody @Valid DepartamentDTO departamentDTO) {
+        return departamentService.update(id, departamentDTO);
     }
 
 }

@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 public record SupplierDTO(
-        @Id long id,
+        @Id Long id,
         @NotNull @Length(max = 200) String name,
         @NotNull @Length(max = 200) String comercialName,
         @CNPJ(message = "Cnpj invalid") @Length(max = 14) String cnpj,

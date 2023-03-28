@@ -28,36 +28,36 @@ public class EmployeeQueryRepository {
         Root<EmployeeModel> products = query.from(EmployeeModel.class);
         List<Predicate> predicates = new ArrayList<>();
 
-        if (filterDTO.getCity() != null) {
-            predicates.add(cb.like(products.get("cidade"), "%" + filterDTO.getCity() + "%"));
+        if (filterDTO.city() != null) {
+            predicates.add(cb.like(products.get("cidade"), "%" + filterDTO.city() + "%"));
         }
 
-        if (filterDTO.getAdmissionDate() != null) {
-            predicates.add(cb.equal(products.get("data_admissao"), filterDTO.getAdmissionDate()));
+        if (filterDTO.admissionDate() != null) {
+            predicates.add(cb.equal(products.get("data_admissao"), filterDTO.admissionDate()));
         }
 
-        if (!filterDTO.getEmployeeIds().isEmpty()) {
-            predicates.add(products.get("id").in(filterDTO.getEmployeeIds()));
+        if (!filterDTO.employeeIds().isEmpty()) {
+            predicates.add(products.get("id").in(filterDTO.employeeIds()));
         }
 
-        if (!filterDTO.getJobIds().isEmpty()) {
-            predicates.add(products.get("cod_cargo").in(filterDTO.getJobIds()));
+        if (!filterDTO.jobIds().isEmpty()) {
+            predicates.add(products.get("cod_cargo").in(filterDTO.jobIds()));
         }
 
-        if (!filterDTO.getMaritalStatus().isEmpty()) {
-            predicates.add(products.get("estado_civil").in(filterDTO.getMaritalStatus()));
+        if (!filterDTO.maritalStatus().isEmpty()) {
+            predicates.add(products.get("estado_civil").in(filterDTO.maritalStatus()));
         }
 
-        if (!filterDTO.getLevelSchooling().isEmpty()) {
-            predicates.add(products.get("nivel_escolaridade").in(filterDTO.getLevelSchooling()));
+        if (!filterDTO.levelSchooling().isEmpty()) {
+            predicates.add(products.get("nivel_escolaridade").in(filterDTO.levelSchooling()));
         }
 
-        if (!filterDTO.getGender().isEmpty()) {
-            predicates.add(products.get("genero").in(filterDTO.getGender()));
+        if (!filterDTO.gender().isEmpty()) {
+            predicates.add(products.get("genero").in(filterDTO.gender()));
         }
 
-        if (!filterDTO.getStates().isEmpty()) {
-            predicates.add(products.get("estado").in(filterDTO.getStates()));
+        if (!filterDTO.states().isEmpty()) {
+            predicates.add(products.get("estado").in(filterDTO.states()));
         }
 
         query.where(predicates.toArray(new Predicate[predicates.size()]));

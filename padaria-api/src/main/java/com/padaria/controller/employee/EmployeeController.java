@@ -25,7 +25,7 @@ public class EmployeeController {
 
     @GetMapping()
     @Operation(summary = "Lista todos os funcionários")
-    public ResponseEntity<List<EmployeeDTO>> findAll() {
+    public List<EmployeeDTO> findAll() {
         return employeeService.findALl();
     }
 
@@ -39,9 +39,7 @@ public class EmployeeController {
     @PostMapping
     @Operation(summary = "Cadastra funcionário")
     public EmployeeDTO create(@RequestBody @Valid EmployeeDTO employeeDTO) {
-        EmployeeDTO createEmployeeDTO = employeeService.create(employeeDTO);
-        employeeDTO.setId(createEmployeeDTO.getId());
-        return createEmployeeDTO;
+        return employeeService.create(employeeDTO);
     }
 
     @DeleteMapping("/{id}")
@@ -53,8 +51,9 @@ public class EmployeeController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza funcionário")
-    public ResponseEntity<EmployeeDTO> update(@PathVariable("id") @RequestBody @Valid EmployeeDTO employeeDTO) {
-        return employeeService.update(employeeDTO);
+    public EmployeeDTO update(@PathVariable @NotNull @Positive Long id,
+                              @RequestBody @Valid EmployeeDTO employeeDTO) {
+        return employeeService.update(id, employeeDTO);
     }
 
 }
