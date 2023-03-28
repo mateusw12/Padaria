@@ -1,9 +1,7 @@
 package com.padaria.model.departament;
 
-import com.padaria.dto.DepartamentDTO;
+import com.padaria.dto.departament.DepartamentDTO;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;

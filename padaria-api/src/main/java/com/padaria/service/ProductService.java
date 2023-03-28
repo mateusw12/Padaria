@@ -1,6 +1,6 @@
 package com.padaria.service;
 
-import com.padaria.dto.ProductDTO;
+import com.padaria.dto.product.ProductDTO;
 import com.padaria.exceptions.EntityNotFountException;
 import com.padaria.model.product.ProductModel;
 import com.padaria.repository.ProductRepository;

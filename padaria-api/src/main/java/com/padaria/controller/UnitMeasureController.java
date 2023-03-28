@@ -1,6 +1,6 @@
 package com.padaria.controller;
 
-import com.padaria.dto.UnitMeasureDTO;
+import com.padaria.dto.unitMeasure.UnitMeasureDTO;
 import com.padaria.service.UnitMeasureService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -1,6 +1,6 @@
 package com.padaria.service;
 
-import com.padaria.dto.SalesRequestDTO;
+import com.padaria.dto.salesRequest.SalesRequestDTO;
 import com.padaria.exceptions.EntityNotFountException;
 import com.padaria.model.salesRequest.SalesRequestModel;
 import com.padaria.repository.SalesRequestRepository;

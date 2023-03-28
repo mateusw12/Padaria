@@ -1,6 +1,6 @@
 package com.padaria.controller;
 
-import com.padaria.dto.ProductQueryFilterDTO;
+import com.padaria.dto.productQuery.ProductQueryFilterDTO;
 import com.padaria.model.product.ProductModel;
 import com.padaria.service.ProductQueryService;
 import io.swagger.v3.oas.annotations.Operation;

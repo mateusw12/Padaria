@@ -1,6 +1,6 @@
 package com.padaria.controller;
 
-import com.padaria.dto.DepartamentDTO;
+import com.padaria.dto.departament.DepartamentDTO;
 import com.padaria.service.DepartamentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

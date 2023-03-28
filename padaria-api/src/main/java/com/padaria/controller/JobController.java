@@ -1,7 +1,7 @@
 package com.padaria.controller;
 
-import com.padaria.dto.BrandDTO;
-import com.padaria.dto.JobDTO;
+import com.padaria.dto.brand.BrandDTO;
+import com.padaria.dto.job.JobDTO;
 import com.padaria.service.JobService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

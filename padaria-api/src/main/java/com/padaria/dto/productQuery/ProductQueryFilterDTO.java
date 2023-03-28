@@ -1,4 +1,4 @@
-package com.padaria.dto;
+package com.padaria.dto.productQuery;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.padaria.service;
 
-import com.padaria.dto.DepartamentDTO;
+import com.padaria.dto.departament.DepartamentDTO;
 import com.padaria.exceptions.EntityNotFountException;
 import com.padaria.model.departament.DepartamentModel;
 import com.padaria.repository.DepartamentRepository;

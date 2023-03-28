@@ -1,9 +1,7 @@
 package com.padaria.model.employee;
 
-import com.padaria.dto.EmployeeDTO;
+import com.padaria.dto.employee.EmployeeDTO;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;

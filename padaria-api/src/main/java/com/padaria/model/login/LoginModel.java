@@ -1,9 +1,7 @@
 package com.padaria.model.login;
 
-import com.padaria.dto.LoginDTO;
+import com.padaria.dto.login.LoginDTO;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import java.io.Serializable;

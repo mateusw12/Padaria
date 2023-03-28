@@ -1,4 +1,4 @@
-package com.padaria.dto;
+package com.padaria.dto.salesControl;
 
 
 import java.util.Date;

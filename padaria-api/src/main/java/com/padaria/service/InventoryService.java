@@ -1,6 +1,6 @@
 package com.padaria.service;
 
-import com.padaria.dto.InventoryDTO;
+import com.padaria.dto.inventory.InventoryDTO;
 import com.padaria.exceptions.EntityNotFountException;
 import com.padaria.model.inventory.InventoryModel;
 import com.padaria.repository.InventoryRepository;

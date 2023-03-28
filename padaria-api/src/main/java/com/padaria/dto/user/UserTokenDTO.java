@@ -1,4 +1,4 @@
-package com.padaria.dto;
+package com.padaria.dto.user;
 
 import org.hibernate.validator.constraints.Length;
 

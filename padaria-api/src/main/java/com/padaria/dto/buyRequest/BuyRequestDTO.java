@@ -1,4 +1,4 @@
-package com.padaria.dto;
+package com.padaria.dto.buyRequest;
 
 import org.hibernate.validator.constraints.Length;
 

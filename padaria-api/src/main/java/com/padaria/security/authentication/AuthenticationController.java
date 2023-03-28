@@ -1,8 +1,8 @@
 package com.padaria.security.authentication;
 
 import com.padaria.validator.User.UserCustomValidation;
-import com.padaria.dto.LoginDTO;
-import com.padaria.dto.UserTokenDTO;
+import com.padaria.dto.login.LoginDTO;
+import com.padaria.dto.user.UserTokenDTO;
 import com.padaria.repository.UserRepository;
 import com.padaria.security.utils.JWTUtil;
 import com.padaria.service.Impl.DetailUserServiceImpl;

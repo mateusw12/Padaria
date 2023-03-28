@@ -1,4 +1,4 @@
-package com.padaria.dto;
+package com.padaria.dto.employeeQuery;
 
 import java.util.Date;
 import java.util.List;

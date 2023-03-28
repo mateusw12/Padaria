@@ -1,4 +1,4 @@
-package com.padaria.dto;
+package com.padaria.dto.supplier;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CNPJ;
