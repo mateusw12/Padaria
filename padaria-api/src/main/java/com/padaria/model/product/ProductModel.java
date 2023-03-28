@@ -1,8 +1,6 @@
 package com.padaria.model.product;
 
-import com.padaria.dto.product.ProductDTO;
 import lombok.Data;
-import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -41,9 +39,5 @@ public class ProductModel implements Serializable {
 
     @Column(name="codigoBarra", nullable = false, length = 13, unique = true)
     public String barCode;
-
-    public ProductDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, ProductDTO.class);
-    }
 
 }

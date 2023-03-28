@@ -1,8 +1,6 @@
 package com.padaria.model.supplier;
 
-import com.padaria.dto.supplier.SupplierDTO;
 import lombok.Data;
-import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -44,9 +42,5 @@ public class SupplierModel implements Serializable {
 
     @Column(name="email", length = 200)
     public String email;
-
-    public SupplierDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, SupplierDTO.class);
-    }
 
 }

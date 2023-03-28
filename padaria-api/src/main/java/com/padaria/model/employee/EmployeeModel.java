@@ -3,13 +3,11 @@ package com.padaria.model.employee;
 import com.padaria.converter.gender.GenderConverter;
 import com.padaria.converter.levelSchooling.LevelSchoolingConverter;
 import com.padaria.converter.maritalStatus.MaritalStatusConverter;
-import com.padaria.dto.employee.EmployeeDTO;
 import com.padaria.model.gender.Gender;
 import com.padaria.model.levelSchooling.LevelSchooling;
 import com.padaria.model.maritalStatus.MaritalStatus;
 import lombok.Data;
 import org.hibernate.validator.constraints.br.CPF;
-import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -84,9 +82,5 @@ public class EmployeeModel implements Serializable {
     @Convert(converter = MaritalStatusConverter.class)
     @Column(name="estadoCivil", nullable = false, length = 200)
     public MaritalStatus maritalStatus;
-
-    public EmployeeDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, EmployeeDTO.class);
-    }
 
 }

@@ -1,8 +1,6 @@
 package com.padaria.model.buyRequest;
 
-import com.padaria.dto.buyRequest.BuyRequestDTO;
 import lombok.Data;
-import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -50,9 +48,5 @@ public class BuyRequestModel implements Serializable {
 
     @Column(name="condicaoPagamento", nullable = false, length = 200)
     public Long paymentCondition;
-
-    public BuyRequestDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, BuyRequestDTO.class);
-    }
 
 }

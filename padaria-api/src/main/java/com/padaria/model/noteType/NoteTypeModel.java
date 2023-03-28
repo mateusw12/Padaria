@@ -1,8 +1,6 @@
 package com.padaria.model.noteType;
 
-import com.padaria.dto.noteType.NoteTypeDTO;
 import lombok.Data;
-import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,9 +18,5 @@ public class NoteTypeModel implements Serializable {
 
     @Column(name="sigla", length = 10)
     public String abbreviation;
-
-    public NoteTypeDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, NoteTypeDTO.class);
-    }
 
 }
