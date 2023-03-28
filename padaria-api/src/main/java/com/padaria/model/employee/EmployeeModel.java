@@ -1,10 +1,18 @@
 package com.padaria.model.employee;
 
+import com.padaria.converter.gender.GenderConverter;
+import com.padaria.converter.levelSchooling.LevelSchoolingConverter;
+import com.padaria.converter.maritalStatus.MaritalStatusConverter;
 import com.padaria.dto.employee.EmployeeDTO;
+import com.padaria.model.gender.Gender;
+import com.padaria.model.levelSchooling.LevelSchooling;
+import com.padaria.model.maritalStatus.MaritalStatus;
 import lombok.Data;
+import org.hibernate.validator.constraints.br.CPF;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -57,17 +65,25 @@ public class EmployeeModel implements Serializable {
     @Column(name="cep", nullable = false, length = 14)
     public String zipCodeAddresses;
 
+    @NotNull
+    @CPF
     @Column(name="cpf", nullable = false, length = 11)
     public String cpf;
 
+    @NotNull
+    @Convert(converter = GenderConverter.class)
     @Column(name="genero", nullable = false, length = 200)
-    public Long gender;
+    public Gender gender;
 
+    @NotNull
+    @Convert(converter = LevelSchoolingConverter.class)
     @Column(name="nivelEscolaridade", nullable = false, length = 200)
-    public Long levelSchooling;
+    public LevelSchooling levelSchooling;
 
+    @NotNull
+    @Convert(converter = MaritalStatusConverter.class)
     @Column(name="estadoCivil", nullable = false, length = 200)
-    public Long maritalStatus;
+    public MaritalStatus maritalStatus;
 
     public EmployeeDTO convertEntityToDTO() {
         return new ModelMapper().map(this, EmployeeDTO.class);
