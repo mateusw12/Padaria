@@ -1,6 +1,6 @@
 package com.padaria.dto;
 
-import com.padaria.model.LoginModel;
+import com.padaria.model.login.LoginModel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;

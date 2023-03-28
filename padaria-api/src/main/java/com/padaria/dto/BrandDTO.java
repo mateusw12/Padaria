@@ -1,18 +1,17 @@
 package com.padaria.dto;
 
-import com.padaria.model.BrandModel;
+import com.padaria.model.brand.BrandModel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.modelmapper.ModelMapper;
-import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Setter
 @Getter
-public class BrandDTO extends RepresentationModel<BrandDTO> {
+public class BrandDTO {
 
     @Id()
     public Long id;

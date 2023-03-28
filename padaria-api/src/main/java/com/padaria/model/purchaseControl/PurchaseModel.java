@@ -1,6 +1,7 @@
-package com.padaria.model;
+package com.padaria.model.purchaseControl;
 
 import com.padaria.dto.PurchaseDTO;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
@@ -9,8 +10,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-@Getter
-@Setter
+@Data
 @Entity(name= "compras")
 public class PurchaseModel implements Serializable {
 

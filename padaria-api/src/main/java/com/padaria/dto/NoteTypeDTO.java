@@ -1,6 +1,6 @@
 package com.padaria.dto;
 
-import com.padaria.model.NoteTypeModel;
+import com.padaria.model.noteType.NoteTypeModel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;

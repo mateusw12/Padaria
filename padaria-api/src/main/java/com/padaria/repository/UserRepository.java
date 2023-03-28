@@ -1,6 +1,6 @@
 package com.padaria.repository;
 
-import com.padaria.model.UserModel;
+import com.padaria.model.user.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

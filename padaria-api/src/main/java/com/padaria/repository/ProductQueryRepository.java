@@ -1,7 +1,7 @@
 package com.padaria.repository;
 
 import com.padaria.dto.ProductQueryFilterDTO;
-import com.padaria.model.ProductModel;
+import com.padaria.model.product.ProductModel;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

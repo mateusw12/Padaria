@@ -1,6 +1,6 @@
 package com.padaria.dto;
 
-import com.padaria.model.BuyRequestModel;
+import com.padaria.model.buyRequest.BuyRequestModel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;

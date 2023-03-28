@@ -1,7 +1,8 @@
-package com.padaria.model;
+package com.padaria.model.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.padaria.dto.UserDTO;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
@@ -9,8 +10,7 @@ import org.modelmapper.ModelMapper;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Getter
-@Setter
+@Data
 @Entity(name= "usuario")
 public class UserModel implements Serializable {
 

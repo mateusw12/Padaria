@@ -1,6 +1,7 @@
-package com.padaria.model;
+package com.padaria.model.job;
 
-import com.padaria.dto.DepartamentDTO;
+import com.padaria.dto.JobDTO;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
@@ -8,10 +9,9 @@ import org.modelmapper.ModelMapper;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Getter
-@Setter
-@Entity(name= "departamento")
-public class DepartamentModel implements Serializable {
+@Data
+@Entity(name= "cargo")
+public class JobModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -20,8 +20,8 @@ public class DepartamentModel implements Serializable {
     @Column(name="nome", nullable = false, length = 200)
     public String name;
 
-    public DepartamentDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, DepartamentDTO.class);
+    public JobDTO convertEntityToDTO() {
+        return new ModelMapper().map(this, JobDTO.class);
     }
 
 }

@@ -1,6 +1,6 @@
 package com.padaria.dto;
 
-import com.padaria.model.EmployeeModel;
+import com.padaria.model.employee.EmployeeModel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -11,7 +11,6 @@ import org.springframework.hateoas.RepresentationModel;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
 
 @Setter
 @Getter

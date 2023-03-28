@@ -1,6 +1,6 @@
 package com.padaria.dto;
 
-import com.padaria.model.JobModel;
+import com.padaria.model.job.JobModel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;

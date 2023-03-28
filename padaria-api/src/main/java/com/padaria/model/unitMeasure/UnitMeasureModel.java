@@ -1,6 +1,7 @@
-package com.padaria.model;
+package com.padaria.model.unitMeasure;
 
-import com.padaria.dto.NoteTypeDTO;
+import com.padaria.dto.UnitMeasureDTO;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
@@ -8,10 +9,9 @@ import org.modelmapper.ModelMapper;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Getter
-@Setter
-@Entity(name= "tipoNota")
-public class NoteTypeModel implements Serializable {
+@Data
+@Entity(name= "unidadeMedida")
+public class UnitMeasureModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -23,8 +23,8 @@ public class NoteTypeModel implements Serializable {
     @Column(name="sigla", length = 10)
     public String abbreviation;
 
-    public NoteTypeDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, NoteTypeDTO.class);
+    public UnitMeasureDTO convertEntityToDTO() {
+        return new ModelMapper().map(this, UnitMeasureDTO.class);
     }
 
 }

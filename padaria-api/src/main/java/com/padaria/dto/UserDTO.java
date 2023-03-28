@@ -1,7 +1,7 @@
 package com.padaria.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.padaria.model.UserModel;
+import com.padaria.model.user.UserModel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;

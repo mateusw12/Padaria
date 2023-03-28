@@ -1,6 +1,7 @@
-package com.padaria.model;
+package com.padaria.model.product;
 
 import com.padaria.dto.ProductDTO;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
@@ -8,8 +9,7 @@ import org.modelmapper.ModelMapper;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Getter
-@Setter
+@Data
 @Entity(name= "produto")
 public class ProductModel implements Serializable {
 

@@ -1,5 +1,6 @@
-package com.padaria.model;
+package com.padaria.model.login;
 
+import com.padaria.model.user.UserModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

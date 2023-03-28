@@ -1,17 +1,18 @@
-package com.padaria.model;
+package com.padaria.model.buyRequest;
 
-import com.padaria.dto.SalesRequestDTO;
+import com.padaria.dto.BuyRequestDTO;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
-@Getter
-@Setter
-@Entity(name= "pedidoVenda")
-public class SalesRequestModel implements Serializable {
+@Data
+@Entity(name= "pedidoCompra")
+public class BuyRequestModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -29,23 +30,31 @@ public class SalesRequestModel implements Serializable {
     @Column(name="codTipoNota", nullable = false)
     public Long noteTypeId;
 
+    @Column(name="codProduto", nullable = false)
+    public Long productId;
+
     @Column(name="codFuncionario", nullable = false)
     public Long employeeId;
 
     @Column(name="codFornecedor", nullable = false)
     public Long supplierId;
 
-    @Column(name="codProduto", nullable = false)
-    public Long productId;
-
     @Column(name="vlrTotal", nullable = false)
     public Double totalValue;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name="dataEmissao", nullable = false)
+    public Date issueDate;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name="dataEntrega", nullable = false)
+    public Date deliveryDate;
 
     @Column(name="condicaoPagamento", nullable = false, length = 200)
     public Long paymentCondition;
 
-    public SalesRequestDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, SalesRequestDTO.class);
+    public BuyRequestDTO convertEntityToDTO() {
+        return new ModelMapper().map(this, BuyRequestDTO.class);
     }
 
 }
