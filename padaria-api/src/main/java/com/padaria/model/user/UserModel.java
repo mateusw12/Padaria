@@ -2,10 +2,8 @@ package com.padaria.model.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.padaria.converter.role.RoleConverter;
-import com.padaria.dto.user.UserDTO;
 import com.padaria.model.role.Role;
 import lombok.Data;
-import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

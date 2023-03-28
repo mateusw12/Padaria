@@ -1,7 +1,6 @@
 package com.padaria.service.inventory;
 
 import com.padaria.dto.inventory.InventoryDTO;
-import com.padaria.exceptions.EntityNotFountException;
 import com.padaria.mapper.inventory.InventoryMapper;
 import com.padaria.repository.inventory.InventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,7 @@ public class InventoryService {
     @Transactional
     public void delete(Long id) {
         inventoryRepository.delete(inventoryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFountException("Inventory not found" + id)));
+                .orElseThrow(() -> new EntityNotFoundException("Inventory not found" + id)));
     }
 
     @Transactional
