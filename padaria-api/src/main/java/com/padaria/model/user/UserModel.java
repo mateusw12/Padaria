@@ -1,11 +1,14 @@
 package com.padaria.model.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.padaria.converter.role.RoleConverter;
 import com.padaria.dto.user.UserDTO;
+import com.padaria.model.role.Role;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
@@ -32,14 +35,12 @@ public class UserModel implements Serializable {
     @Column(name="ativo")
     public Boolean isActive;
 
+    @NotNull
+    @Convert(converter = RoleConverter.class)
     @Column(name="perfil", nullable = false, length = 100)
-    public Long role;
+    public Role role;
 
     @Column(name="modoEscuro")
     public Boolean isDarkMode;
-
-    public UserDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, UserDTO.class);
-    }
 
 }
