@@ -1,4 +1,4 @@
-package com.padaria.model;
+package com.padaria.model.inventory;
 
 import com.padaria.dto.InventoryDTO;
 import lombok.Data;

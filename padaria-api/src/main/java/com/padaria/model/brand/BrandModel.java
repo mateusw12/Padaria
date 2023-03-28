@@ -1,6 +1,6 @@
-package com.padaria.model;
+package com.padaria.model.brand;
 
-import com.padaria.dto.NoteTypeDTO;
+import com.padaria.dto.BrandDTO;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,8 +10,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
-@Entity(name= "tipoNota")
-public class NoteTypeModel implements Serializable {
+@Entity(name= "marca")
+public class BrandModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -20,11 +20,8 @@ public class NoteTypeModel implements Serializable {
     @Column(name="nome", nullable = false, length = 200)
     public String name;
 
-    @Column(name="sigla", length = 10)
-    public String abbreviation;
-
-    public NoteTypeDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, NoteTypeDTO.class);
+    public BrandDTO convertEntityToDTO() {
+        return new ModelMapper().map(this, BrandDTO.class);
     }
 
 }

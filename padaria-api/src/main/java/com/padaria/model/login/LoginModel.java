@@ -1,4 +1,4 @@
-package com.padaria.model;
+package com.padaria.model.login;
 
 import com.padaria.dto.LoginDTO;
 import lombok.Data;

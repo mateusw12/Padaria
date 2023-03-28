@@ -1,6 +1,6 @@
 package com.padaria.validator.User;
 
-import com.padaria.model.UserModel;
+import com.padaria.model.user.UserModel;
 import com.padaria.repository.UserRepository;
 import org.springframework.stereotype.Component;
 

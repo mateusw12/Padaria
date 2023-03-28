@@ -1,6 +1,6 @@
 package com.padaria.dto;
 
-import com.padaria.model.ManufacturerModel;
+import com.padaria.model.manufacturer.ManufacturerModel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;

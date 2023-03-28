@@ -1,4 +1,4 @@
-package com.padaria.model;
+package com.padaria.model.settings;
 
 import com.padaria.dto.SettingDTO;
 import lombok.Data;

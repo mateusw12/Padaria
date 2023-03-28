@@ -1,6 +1,6 @@
-package com.padaria.model;
+package com.padaria.model.job;
 
-import com.padaria.dto.UnitMeasureDTO;
+import com.padaria.dto.JobDTO;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,8 +10,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
-@Entity(name= "unidadeMedida")
-public class UnitMeasureModel implements Serializable {
+@Entity(name= "cargo")
+public class JobModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -20,11 +20,8 @@ public class UnitMeasureModel implements Serializable {
     @Column(name="nome", nullable = false, length = 200)
     public String name;
 
-    @Column(name="sigla", length = 10)
-    public String abbreviation;
-
-    public UnitMeasureDTO convertEntityToDTO() {
-        return new ModelMapper().map(this, UnitMeasureDTO.class);
+    public JobDTO convertEntityToDTO() {
+        return new ModelMapper().map(this, JobDTO.class);
     }
 
 }

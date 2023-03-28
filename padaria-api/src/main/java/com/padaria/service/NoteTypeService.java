@@ -2,7 +2,7 @@ package com.padaria.service;
 
 import com.padaria.dto.NoteTypeDTO;
 import com.padaria.exceptions.EntityNotFountException;
-import com.padaria.model.NoteTypeModel;
+import com.padaria.model.noteType.NoteTypeModel;
 import com.padaria.repository.NoteTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

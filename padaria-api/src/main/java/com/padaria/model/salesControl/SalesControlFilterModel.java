@@ -1,4 +1,4 @@
-package com.padaria.model;
+package com.padaria.model.salesControl;
 
 import com.padaria.dto.SalesControlFilterDTO;
 import lombok.Data;

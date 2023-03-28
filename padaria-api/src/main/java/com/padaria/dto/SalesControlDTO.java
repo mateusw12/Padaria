@@ -1,6 +1,6 @@
 package com.padaria.dto;
 
-import com.padaria.model.SalesControlModel;
+import com.padaria.model.salesControl.SalesControlModel;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;

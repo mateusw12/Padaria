@@ -1,4 +1,4 @@
-package com.padaria.model;
+package com.padaria.model.supplier;
 
 import com.padaria.dto.SupplierDTO;
 import lombok.Data;

@@ -2,7 +2,7 @@ package com.padaria.service;
 
 import com.padaria.dto.SalesRequestDTO;
 import com.padaria.exceptions.EntityNotFountException;
-import com.padaria.model.SalesRequestModel;
+import com.padaria.model.salesRequest.SalesRequestModel;
 import com.padaria.repository.SalesRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

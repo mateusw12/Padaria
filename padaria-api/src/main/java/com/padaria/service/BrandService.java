@@ -2,7 +2,7 @@ package com.padaria.service;
 
 import com.padaria.dto.BrandDTO;
 import com.padaria.exceptions.EntityNotFountException;
-import com.padaria.model.BrandModel;
+import com.padaria.model.brand.BrandModel;
 import com.padaria.repository.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

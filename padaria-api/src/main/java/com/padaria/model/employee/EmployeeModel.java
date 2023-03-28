@@ -1,4 +1,4 @@
-package com.padaria.model;
+package com.padaria.model.employee;
 
 import com.padaria.dto.EmployeeDTO;
 import lombok.Data;
