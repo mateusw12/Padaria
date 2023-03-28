@@ -1,6 +1,7 @@
 package com.padaria.model;
 
 import com.padaria.dto.SupplierDTO;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
@@ -8,8 +9,7 @@ import org.modelmapper.ModelMapper;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Getter
-@Setter
+@Data
 @Entity(name= "fornecedor")
 public class SupplierModel implements Serializable {
 

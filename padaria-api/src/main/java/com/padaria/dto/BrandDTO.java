@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Setter
 @Getter
-public class BrandDTO extends RepresentationModel<BrandDTO> {
+public class BrandDTO {
 
     @Id()
     public Long id;
