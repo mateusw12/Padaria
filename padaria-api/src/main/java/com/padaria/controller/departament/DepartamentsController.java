@@ -1,7 +1,7 @@
 package com.padaria.controller.departament;
 
 import com.padaria.dto.departament.DepartamentDTO;
-import com.padaria.service.DepartamentService;
+import com.padaria.service.departament.DepartamentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

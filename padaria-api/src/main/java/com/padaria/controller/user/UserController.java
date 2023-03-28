@@ -1,7 +1,7 @@
 package com.padaria.controller.user;
 
 import com.padaria.dto.user.UserDTO;
-import com.padaria.service.UserService;
+import com.padaria.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

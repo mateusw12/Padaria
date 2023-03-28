@@ -1,7 +1,7 @@
 package com.padaria.controller.employee;
 
 import com.padaria.dto.employee.EmployeeDTO;
-import com.padaria.service.EmployeeService;
+import com.padaria.service.employee.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

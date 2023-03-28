@@ -1,4 +1,4 @@
-package com.padaria.service;
+package com.padaria.service.buyRequest;
 
 import com.padaria.dto.buyRequest.BuyRequestDTO;
 import com.padaria.exceptions.EntityNotFountException;

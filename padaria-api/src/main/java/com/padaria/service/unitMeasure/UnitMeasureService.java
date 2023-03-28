@@ -1,4 +1,4 @@
-package com.padaria.service;
+package com.padaria.service.unitMeasure;
 
 import com.padaria.dto.unitMeasure.UnitMeasureDTO;
 import com.padaria.exceptions.EntityNotFountException;

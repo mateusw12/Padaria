@@ -1,7 +1,7 @@
 package com.padaria.controller.salesRequest;
 
 import com.padaria.dto.salesRequest.SalesRequestDTO;
-import com.padaria.service.SalesRequestService;
+import com.padaria.service.salesRequest.SalesRequestService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.padaria.controller.supplier;
 
 import com.padaria.dto.supplier.SupplierDTO;
-import com.padaria.service.SupplierService;
+import com.padaria.service.supplier.SupplierService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,7 @@ package com.padaria.controller.salesControl;
 
 import com.padaria.dto.salesControl.SalesControlDTO;
 import com.padaria.dto.salesControl.SalesControlFilterDTO;
-import com.padaria.service.SalesControlService;
+import com.padaria.service.salesControl.SalesControlService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

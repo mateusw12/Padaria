@@ -1,7 +1,7 @@
 package com.padaria.controller.brand;
 
 import com.padaria.dto.brand.BrandDTO;
-import com.padaria.service.BrandService;
+import com.padaria.service.brand.BrandService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

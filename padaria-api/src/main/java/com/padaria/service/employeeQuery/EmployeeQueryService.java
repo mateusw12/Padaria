@@ -1,4 +1,4 @@
-package com.padaria.service;
+package com.padaria.service.employeeQuery;
 
 import com.padaria.dto.employeeQuery.EmployeeQueryFilterDTO;
 import com.padaria.model.employee.EmployeeModel;

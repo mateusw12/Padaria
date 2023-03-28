@@ -1,4 +1,4 @@
-package com.padaria.service;
+package com.padaria.service.supplier;
 
 import com.padaria.dto.supplier.SupplierDTO;
 import com.padaria.exceptions.EntityNotFountException;

@@ -1,4 +1,4 @@
-package com.padaria.service;
+package com.padaria.service.user;
 
 import com.padaria.dto.user.UserDTO;
 import com.padaria.exceptions.EntityNotFountException;

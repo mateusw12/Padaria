@@ -1,4 +1,4 @@
-package com.padaria.service;
+package com.padaria.service.departament;
 
 import com.padaria.dto.departament.DepartamentDTO;
 import com.padaria.exceptions.EntityNotFountException;

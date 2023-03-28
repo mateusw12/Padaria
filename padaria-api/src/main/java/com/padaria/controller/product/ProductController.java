@@ -1,7 +1,7 @@
 package com.padaria.controller.product;
 
 import com.padaria.dto.product.ProductDTO;
-import com.padaria.service.ProductService;
+import com.padaria.service.product.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

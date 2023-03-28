@@ -1,7 +1,7 @@
 package com.padaria.controller.inventory;
 
 import com.padaria.dto.inventory.InventoryDTO;
-import com.padaria.service.InventoryService;
+import com.padaria.service.inventory.InventoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

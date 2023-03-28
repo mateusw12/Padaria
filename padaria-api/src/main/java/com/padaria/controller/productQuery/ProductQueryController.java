@@ -2,7 +2,7 @@ package com.padaria.controller.productQuery;
 
 import com.padaria.dto.productQuery.ProductQueryFilterDTO;
 import com.padaria.model.product.ProductModel;
-import com.padaria.service.ProductQueryService;
+import com.padaria.service.productQuery.ProductQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

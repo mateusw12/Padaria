@@ -1,4 +1,4 @@
-package com.padaria.service;
+package com.padaria.service.noteType;
 
 import com.padaria.dto.noteType.NoteTypeDTO;
 import com.padaria.exceptions.EntityNotFountException;

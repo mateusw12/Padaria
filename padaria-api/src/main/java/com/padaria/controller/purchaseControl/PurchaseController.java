@@ -1,7 +1,7 @@
 package com.padaria.controller.purchaseControl;
 
 import com.padaria.dto.purchaseControl.PurchaseDTO;
-import com.padaria.service.PurchaseService;
+import com.padaria.service.purchaseControl.PurchaseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

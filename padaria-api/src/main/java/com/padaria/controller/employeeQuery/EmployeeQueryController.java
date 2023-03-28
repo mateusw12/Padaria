@@ -2,7 +2,7 @@ package com.padaria.controller.employeeQuery;
 
 import com.padaria.dto.employeeQuery.EmployeeQueryFilterDTO;
 import com.padaria.model.employee.EmployeeModel;
-import com.padaria.service.EmployeeQueryService;
+import com.padaria.service.employeeQuery.EmployeeQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.padaria.controller.noteType;
 
 import com.padaria.dto.noteType.NoteTypeDTO;
-import com.padaria.service.NoteTypeService;
+import com.padaria.service.noteType.NoteTypeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

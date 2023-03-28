@@ -1,4 +1,4 @@
-package com.padaria.service;
+package com.padaria.service.salesControl;
 
 import com.padaria.dto.salesControl.SalesControlDTO;
 import com.padaria.dto.salesControl.SalesControlFilterDTO;

@@ -1,7 +1,7 @@
 package com.padaria.controller.settings;
 
 import com.padaria.dto.settings.SettingDTO;
-import com.padaria.service.SettingService;
+import com.padaria.service.settings.SettingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

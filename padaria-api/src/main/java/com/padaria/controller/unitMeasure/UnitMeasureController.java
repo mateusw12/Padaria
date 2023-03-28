@@ -1,7 +1,7 @@
 package com.padaria.controller.unitMeasure;
 
 import com.padaria.dto.unitMeasure.UnitMeasureDTO;
-import com.padaria.service.UnitMeasureService;
+import com.padaria.service.unitMeasure.UnitMeasureService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
